@@ -13,9 +13,9 @@
 #include <cassert>
 
 //Local includes
-#include "Point.h"
-#include "Vector.h"
-#include "Ray.h"
+#include "Point.hpp"
+#include "Vector.hpp"
+#include "Ray.hpp"
 
 // Namespace
 namespace MatouMalin

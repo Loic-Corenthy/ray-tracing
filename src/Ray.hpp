@@ -6,8 +6,8 @@
 #include <cassert>
 
 // Local includes
-#include "Point.h"
-#include "Vector.h"
+#include "Point.hpp"
+#include "Vector.hpp"
 
 #ifndef MAXFLOAT
     #define MAXFLOAT std::numeric_limits<float>::max()

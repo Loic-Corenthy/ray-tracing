@@ -5,7 +5,7 @@
 #include <cassert>
 
 // Local includes
-#include "Vector.h"
+#include "Vector.hpp"
 
 namespace MatouMalin
 {

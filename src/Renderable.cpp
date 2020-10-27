@@ -1,7 +1,7 @@
-#include "Renderable.h"
+#include "Renderable.hpp"
 
 // Local includes
-#include "Ray.h"
+#include "Ray.hpp"
 
 using namespace MatouMalin;
 using namespace std;

@@ -1,17 +1,17 @@
-#include "Shader.h"
+#include "Shader.hpp"
 
 // Standard includes
 #include <list>
 #include <iostream>
-#include <math.h>
+#include <math.hpp>
 
 // Local includes
-#include "Scene.h"
-#include "Light.h"
-#include "Phong.h"
-#include "Renderable.h"
-#include "Noise.h"
-#include "CubeMap.h"
+#include "Scene.hpp"
+#include "Light.hpp"
+#include "Phong.hpp"
+#include "Renderable.hpp"
+#include "Noise.hpp"
+#include "CubeMap.hpp"
 
 using namespace std;
 using namespace MatouMalin;

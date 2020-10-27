@@ -5,10 +5,10 @@
 #include <cassert>
 
 // Local includes
-#include "Renderable.h"
-#include "Point.h"
-#include "Vector.h"
-#include "Shader.h"
+#include "Renderable.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
+#include "Shader.hpp"
 
 namespace MatouMalin 
 {

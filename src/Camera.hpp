@@ -7,10 +7,10 @@
 #include <iostream>
 
 // Local includes
-#include "Point.h"
-#include "Buffer.h"
-#include "Vector.h"
-#include "Plane.h"
+#include "Point.hpp"
+#include "Buffer.hpp"
+#include "Vector.hpp"
+#include "Plane.hpp"
 
 namespace MatouMalin 
 {

@@ -2,9 +2,9 @@
 #define RAYTRACING_DIRECTIONALLIGHT_H
 
 // Local includes
-#include "Vector.h"
-#include "Color.h"
-#include "Light.h"
+#include "Vector.hpp"
+#include "Color.hpp"
+#include "Light.hpp"
 
 namespace MatouMalin 
 {

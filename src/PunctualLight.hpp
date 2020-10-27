@@ -2,8 +2,8 @@
 #define RAYTRACING_PUNCTUALLIGHT_H
 
 // Local includes
-#include "Light.h"
-#include "Color.h"
+#include "Light.hpp"
+#include "Color.hpp"
 
 namespace MatouMalin 
 {

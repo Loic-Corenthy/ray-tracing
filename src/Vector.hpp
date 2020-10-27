@@ -2,7 +2,7 @@
 #define RAYTRACING_VECTOR_H
 
 // Standard includes
-#include <math.h>
+#include <math.hpp>
 #include <cassert>
 
 namespace MatouMalin

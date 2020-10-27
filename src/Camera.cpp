@@ -1,6 +1,6 @@
-#include "Camera.h"
+#include "Camera.hpp"
 
-#include <math.h>
+#include <math.hpp>
 
 using namespace MatouMalin;
 

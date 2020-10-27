@@ -6,7 +6,7 @@
 //
 //
 
-#include "OBJParameters.h"
+#include "OBJParameters.hpp"
 
 
 // Namespaces

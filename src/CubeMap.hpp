@@ -15,8 +15,8 @@
 #include <string>
 
 // Local includes
-#include "Point.h"
-#include "Image.h"
+#include "Point.hpp"
+#include "Image.hpp"
 
 namespace MatouMalin
 {

@@ -7,10 +7,10 @@
 #include <string>
 
 // Local includes
-#include "Color.h"
-#include "OBJParameters.h"
-#include "Ray.h"
-#include "CubeMap.h"
+#include "Color.hpp"
+#include "OBJParameters.hpp"
+#include "Ray.hpp"
+#include "CubeMap.hpp"
 
 namespace MatouMalin 
 {

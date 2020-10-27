@@ -6,7 +6,7 @@
 //
 //
 
-#include "BoundingBox.h"
+#include "BoundingBox.hpp"
 
 #define BIG_POS_VALUE 1000000.0
 #define BIG_NEG_VALUE -1000000.0

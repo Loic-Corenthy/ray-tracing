@@ -1,4 +1,4 @@
-#include "BRDF.h"
+#include "BRDF.hpp"
 
 using namespace MatouMalin;
 

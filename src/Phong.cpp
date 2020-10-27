@@ -1,11 +1,11 @@
-#include "Phong.h"
+#include "Phong.hpp"
 
 // Standard includes
-#include <math.h>
+#include <math.hpp>
 
 // Local includes
-#include "Vector.h"
-#include "Ray.h"
+#include "Vector.hpp"
+#include "Ray.hpp"
 
 // Namespaces
 using namespace MatouMalin;

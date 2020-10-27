@@ -2,8 +2,8 @@
 #define RAYTRACING_PHONG_H
 
 // Local includes
-#include "BRDF.h"
-#include "Color.h"
+#include "BRDF.hpp"
+#include "Color.hpp"
 
 namespace MatouMalin 
 {

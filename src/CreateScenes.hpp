@@ -12,27 +12,27 @@
 #include <vector>
 #include <string>
 
-#include <math.h>
+#include <math.hpp>
 
-#include "Buffer.h"
-#include "Camera.h"
-#include "Color.h"
-#include "Light.h"
-#include "DirectionalLight.h"
-#include "PunctualLight.h"
-#include "BRDF.h"
-#include "Shader.h"
-#include "Phong.h"
-#include "Ray.h"
-#include "Renderable.h"
-#include "Renderer.h"
-#include "Scene.h"
-#include "Point.h"
-#include "Vector.h"
-#include "Triangle.h"
-#include "Sphere.h"
-#include "Image.h"
-#include "CubeMap.h"
+#include "Buffer.hpp"
+#include "Camera.hpp"
+#include "Color.hpp"
+#include "Light.hpp"
+#include "DirectionalLight.hpp"
+#include "PunctualLight.hpp"
+#include "BRDF.hpp"
+#include "Shader.hpp"
+#include "Phong.hpp"
+#include "Ray.hpp"
+#include "Renderable.hpp"
+#include "Renderer.hpp"
+#include "Scene.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
+#include "Triangle.hpp"
+#include "Sphere.hpp"
+#include "Image.hpp"
+#include "CubeMap.hpp"
 
 struct FloorParameters
 {

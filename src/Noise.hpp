@@ -10,7 +10,7 @@
 #define RAYTRACING_NOISE_H
 
 #include <vector>
-#include <math.h>
+#include <math.hpp>
 
 namespace MatouMalin
 {

@@ -1,10 +1,10 @@
-#include "Triangle.h"
+#include "Triangle.hpp"
 
 // Local includes
-#include "Ray.h"
-#include "Color.h"
-#include "Scene.h"
-#include "Shader.h"
+#include "Ray.hpp"
+#include "Color.hpp"
+#include "Scene.hpp"
+#include "Shader.hpp"
 
 using namespace MatouMalin;
 

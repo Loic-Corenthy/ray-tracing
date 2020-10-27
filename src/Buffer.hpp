@@ -2,7 +2,7 @@
 #define RAYTRACING_BUFFER_H
 
 // Local includes
-#include "Color.h"
+#include "Color.hpp"
 
 namespace MatouMalin 
 {

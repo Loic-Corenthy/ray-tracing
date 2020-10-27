@@ -10,11 +10,11 @@
 #define RAYTRACING_IMAGE_H
 
 // Local includes
-#include "Color.h"
+#include "Color.hpp"
 
 // Standard includes
 #include <string>
-#include <ImageIO/ImageIO.h>
+#include <ImageIO/ImageIO.hpp>
 #include <cassert>
 
 namespace MatouMalin

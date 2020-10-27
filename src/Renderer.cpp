@@ -1,21 +1,21 @@
-#include "Renderer.h"
+#include "Renderer.hpp"
 
 // Standard includes
 #include <iostream>
-#include <math.h>
+#include <math.hpp>
 
 // Local includes
-#include "Scene.h"
-#include "Camera.h"
-#include "Vector.h"
-#include "Point.h"
-#include "Ray.h"
-#include "Renderable.h"
-#include "Shader.h"
-#include "Phong.h"
+#include "Scene.hpp"
+#include "Camera.hpp"
+#include "Vector.hpp"
+#include "Point.hpp"
+#include "Ray.hpp"
+#include "Renderable.hpp"
+#include "Shader.hpp"
+#include "Phong.hpp"
 
 
-#include "Noise.h"
+#include "Noise.hpp"
 
 using namespace MatouMalin;
 using namespace std;

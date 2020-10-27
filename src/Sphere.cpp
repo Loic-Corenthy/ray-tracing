@@ -1,6 +1,6 @@
-#include "Sphere.h"
-#include "math.h"
-#include "Shader.h"
+#include "Sphere.hpp"
+#include "math.hpp"
+#include "Shader.hpp"
 
 using namespace MatouMalin;
 

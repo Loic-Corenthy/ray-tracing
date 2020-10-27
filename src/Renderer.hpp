@@ -5,7 +5,7 @@
 #include <cassert>
 
 // Local includes
-#include "Buffer.h"
+#include "Buffer.hpp"
 
 namespace MatouMalin 
 {

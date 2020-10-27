@@ -6,7 +6,7 @@
 //
 //
 
-#include "Mesh.h"
+#include "Mesh.hpp"
 
 // Namespaces
 using namespace MatouMalin;

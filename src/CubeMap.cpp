@@ -6,11 +6,11 @@
 //
 //
 
-#include "CubeMap.h"
+#include "CubeMap.hpp"
 
 // Local includes
-#include "Color.h"
-#include "Ray.h"
+#include "Color.hpp"
+#include "Ray.hpp"
 
 using namespace MatouMalin;
 using namespace std;

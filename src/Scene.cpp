@@ -1,25 +1,25 @@
-#include "Scene.h"
+#include "Scene.hpp"
 
 // Standard includes
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <stdio.h>
+#include <stdio.hpp>
 #include <cassert>
 #include <vector>
 
 // Local includes
-#include "Renderable.h"
-#include "Camera.h"
-#include "Shader.h"
-#include "BRDF.h"
-#include "Ray.h"
-#include "Triangle.h"
-#include "Light.h"
-#include "Mesh.h"
-#include "Light.h"
-#include "CubeMap.h"
+#include "Renderable.hpp"
+#include "Camera.hpp"
+#include "Shader.hpp"
+#include "BRDF.hpp"
+#include "Ray.hpp"
+#include "Triangle.hpp"
+#include "Light.hpp"
+#include "Mesh.hpp"
+#include "Light.hpp"
+#include "CubeMap.hpp"
 
 using namespace std;
 using namespace MatouMalin;

@@ -14,12 +14,12 @@
 #include <vector>
 
 // Local includes
-#include "Renderable.h"
-#include "Point.h"
-#include "Vector.h"
-#include "Shader.h"
-#include "Triangle.h"
-#include "BoundingBox.h"
+#include "Renderable.hpp"
+#include "Point.hpp"
+#include "Vector.hpp"
+#include "Shader.hpp"
+#include "Triangle.hpp"
+#include "BoundingBox.hpp"
 
 namespace MatouMalin
 {

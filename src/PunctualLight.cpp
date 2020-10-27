@@ -1,10 +1,10 @@
-#include "PunctualLight.h"
-#include "Ray.h"
-#include "Scene.h"
-#include "Renderable.h"
+#include "PunctualLight.hpp"
+#include "Ray.hpp"
+#include "Scene.hpp"
+#include "Renderable.hpp"
 
 #include <cassert>
-#include <math.h>
+#include <math.hpp>
 
 using namespace MatouMalin;
 

@@ -2,10 +2,10 @@
 #define RAYTRACING_LIGHT_H
 
 // Local includes
-#include "Point.h"
-#include "Vector.h"
-#include "Color.h"
-#include "Scene.h"
+#include "Point.hpp"
+#include "Vector.hpp"
+#include "Color.hpp"
+#include "Scene.hpp"
 
 namespace MatouMalin 
 {

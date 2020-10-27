@@ -1,7 +1,7 @@
-#include "DirectionalLight.h"
-#include "Renderable.h"
-#include "Ray.h"
-#include "Scene.h"
+#include "DirectionalLight.hpp"
+#include "Renderable.hpp"
+#include "Ray.hpp"
+#include "Scene.hpp"
 
 using namespace MatouMalin;
 

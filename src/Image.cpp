@@ -6,10 +6,10 @@
 //
 //
 
-#include "Image.h"
+#include "Image.hpp"
 
 // Local includes
-#include "Color.h"
+#include "Color.hpp"
 
 using namespace MatouMalin;
 using namespace std;

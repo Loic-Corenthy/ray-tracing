@@ -2,8 +2,8 @@
 #define RAYTRACING_BRDF_H
 
 // Local includes
-#include "Color.h"
-#include "CubeMap.h"
+#include "Color.hpp"
+#include "CubeMap.hpp"
 
 namespace MatouMalin 
 {

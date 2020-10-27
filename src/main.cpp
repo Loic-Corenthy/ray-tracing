@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
+#include <OpenGL/gl.hpp>
+#include <OpenGL/glu.hpp>
+#include <GLUT/glut.hpp>
 
-#include "CreateScenes.h"
+#include "CreateScenes.hpp"
 
 #define WIDTH  600
 #define HEIGHT 600

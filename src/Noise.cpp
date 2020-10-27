@@ -6,10 +6,10 @@
 //
 //
 
-#include "Noise.h"
+#include "Noise.hpp"
 
 // Standard includes
-#include <math.h>
+#include <math.hpp>
 
 using namespace MatouMalin;
 using namespace std;

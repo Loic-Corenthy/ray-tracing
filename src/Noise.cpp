@@ -9,7 +9,7 @@
 #include "Noise.hpp"
 
 // Standard includes
-#include <math.hpp>
+#include <cmath>
 
 using namespace MatouMalin;
 using namespace std;

@@ -12,7 +12,7 @@
 #include <vector>
 #include <string>
 
-#include <math.hpp>
+#include <cmath>
 
 #include "Buffer.hpp"
 #include "Camera.hpp"

@@ -14,7 +14,7 @@
 
 // Standard includes
 #include <string>
-#include <ImageIO/ImageIO.h>
+#include <OpenImageIO/imageio.h>
 #include <cassert>
 
 namespace MatouMalin

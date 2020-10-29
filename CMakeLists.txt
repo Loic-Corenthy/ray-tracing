@@ -1,14 +1,70 @@
-cmake_minimum_required( VERSION 3.15 )
+cmake_minimum_required(VERSION 3.15)
 
-# set the project name, version and language
-project( ray-tracing VERSION 1.1 LANGUAGES CXX )
-
-set( CMAKE_CXX_STANDARD 17 )
-set( CMAKE_CXX_STANDARD_REQUIRED ON )
-set( CMAKE_CXX_EXTENSIONS OFF )
+# ==================================
+# Project name, version and language
+# ==================================
+project(ray-tracing VERSION 1.1 LANGUAGES CXX)
 
 
-file( GLOB LOCAL_HEADER_FILES ${CMAKE_SOURCE_DIR}/src/*.hpp )
-file( GLOB LOCAL_SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp )
+# ===========
+# C++ version
+# ===========
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable( ray-tracing ${LOCAL_SOURCE_FILES} )
+
+# ======================
+# Project extra settings
+# ======================
+include(cmake/StandardProjectSettings.cmake)
+
+
+# ==========================
+# Configure project warnings
+# ==========================
+include(cmake/CompilerWarnings.cmake)
+add_library(project_warnings INTERFACE)
+set_project_warnings(project_warnings)
+
+
+# =======
+# Doxygen
+# =======
+include(cmake/Doxygen.cmake)
+enable_doxygen()
+
+
+# ================================
+# Third party libraries with Conan
+# ================================
+include(cmake/Conan.cmake)
+run_conan("fmt/6.1.2")
+
+
+# ===========================
+# Other third party libraries
+# ===========================
+find_package(OpenImageIO REQUIRED)
+
+
+# =======================
+# Header and source files
+# =======================
+file(GLOB LOCAL_HEADER_FILES ${CMAKE_SOURCE_DIR}/src/*.hpp)
+file(GLOB LOCAL_SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+
+
+# ====================
+# Configuration per OS
+# ====================
+if(UNIX AND NOT APPLE)
+    add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
+
+    # Set include directories for source code and external libraries
+    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR})
+    conan_basic_setup(${CMAKE_PROJECT_NAME})
+
+    # Specify external libraries needed for this project
+    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_options project_warnings CONAN_PKG::fmt ${OpenImageIO_LIBRARY})
+endif()

@@ -20,7 +20,7 @@ Buffer::Buffer(unsigned int pHeight,unsigned int pWidth)
 	mPixels = new unsigned char[3*pHeight*pWidth];
 	for (unsigned int i=0, lEnd=3*pHeight*pWidth; i<lEnd; i++)
 		mPixels[i] = 0;
-	
+
 }
 
 Buffer::Buffer(const Buffer & pBuffer)
@@ -35,14 +35,14 @@ Buffer::Buffer(const Buffer & pBuffer)
     {
         mHeight = pBuffer.mHeight;
         mWidth = pBuffer.mWidth;
-        
+
         // delete the existing pixels
         if (mPixels)
         {
             delete [] mPixels;
             mPixels = nullptr;
         }
-        
+
         // Create a new array of pixels
         mPixels = new unsigned char[3*mHeight*mWidth];
         for (unsigned int i=0, lEnd = 3*mHeight*mWidth; i<lEnd; i++)
@@ -50,14 +50,14 @@ Buffer::Buffer(const Buffer & pBuffer)
             mPixels[i] = (pBuffer.mPixels)[i];
         }
     }
-	
+
 }
 
 Buffer Buffer::operator=(const Buffer & pBuffer)
 {
     if(this == & pBuffer)
         return *this;
-    
+
     if (mHeight == pBuffer.mHeight && mWidth == pBuffer.mWidth)
     {
         // No need to re allocate memory, just overwrite the values
@@ -68,14 +68,14 @@ Buffer Buffer::operator=(const Buffer & pBuffer)
     {
         mHeight = pBuffer.mHeight;
         mWidth = pBuffer.mWidth;
-        
+
         // delete the existing pixels
         if (mPixels)
         {
             delete [] mPixels;
             mPixels = nullptr;
         }
-        
+
         // Create a new array of pixels
         mPixels = new unsigned char[3*mHeight*mWidth];
         for (unsigned int i=0, lEnd = 3*mHeight*mWidth; i<lEnd; i++)
@@ -84,7 +84,7 @@ Buffer Buffer::operator=(const Buffer & pBuffer)
         }
     }
 
-    
+
     return *this;
 }
 
@@ -99,7 +99,7 @@ void Buffer::setPixel(unsigned int pI,unsigned int pJ,const Color & pColor)
 {
 	assert(0 <= pI && pI<=mWidth && 0 <= pJ && pJ<=mHeight);
 	unsigned int lIndex = 3*(mWidth*pJ + pI);
-	
+
 	Color lColor(pColor);
 
 	if(lColor[0] < 0)

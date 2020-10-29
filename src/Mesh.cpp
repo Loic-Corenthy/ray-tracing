@@ -16,7 +16,7 @@ Mesh::Mesh(void)
  mBB(),
  mIntersectedTriangle(-1)
 {
-    
+
 }
 
 Mesh::Mesh(unsigned int pTriangleCount)
@@ -34,25 +34,25 @@ Mesh::Mesh(const Mesh & pMesh)
  mBB(pMesh.mBB),
  mIntersectedTriangle(pMesh.mIntersectedTriangle)
 {
-    
+
 }
 
 Mesh::~Mesh(void)
 {
-    
+
 }
 
 Mesh Mesh::operator=(const Mesh &pMesh)
 {
     if (this == &pMesh)
         return *this;
-    
+
     Renderable::operator=(pMesh);
-    
+
     mTriangles = pMesh.mTriangles;
     mBB = pMesh.mBB;
     mIntersectedTriangle = pMesh.mIntersectedTriangle;
-    
+
     return *this;
 }
 
@@ -64,14 +64,14 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
         float lClosestDist = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
         Renderable* lObjectFromRay = pRay.intersected();
-        
+
         int lI = 0;
         bool lHasIntersection(false);
-        
+
         // Look for the closest intersection point among the triangles
         auto lIterator = mTriangles.begin();
         auto lEnd = mTriangles.end();
-        
+
         while( lIterator != lEnd )
         {
             lHasIntersection = lIterator->intersect(pRay);
@@ -81,10 +81,10 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
                 rClosestObject = pRay.intersected();
                 mIntersectedTriangle = lI++;
             }
-            
+
             lIterator++;
         }
-        
+
         // return the result
         if(lI > 0)
         {
@@ -105,7 +105,7 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
         pRay.setIntersected(nullptr);
         return false;
     }
-        
+
 }
 
 Color Mesh::color(Ray & pRay, unsigned int pReflectionCount)
@@ -126,10 +126,10 @@ Vector Mesh::interpolatedNormal(const Point &pPosition) const
 void Mesh::setShader(Shader *pShader)
 {
     assert(pShader != nullptr && "Shader not defined!!");
-    
+
     auto lIt  = mTriangles.begin();
     auto lEnd = mTriangles.end();
-    
+
     while (lIt != lEnd)
     {
         lIt->setShader(pShader);

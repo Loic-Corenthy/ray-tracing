@@ -30,12 +30,12 @@ Ray Ray::operator=(const Ray & pRay)
 {
     if(this == & pRay)
         return *this;
-    
+
     mOrigin = pRay.mOrigin;
 	mDirection = pRay.mDirection;
 	mLength = pRay.mLength;
 	mIntersected = pRay.mIntersected;
-    
+
     return *this;
 }
 
@@ -43,4 +43,4 @@ Ray::~Ray(void)
 {
 }
 
-	
+

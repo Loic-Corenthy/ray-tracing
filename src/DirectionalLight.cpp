@@ -9,14 +9,14 @@ DirectionalLight::DirectionalLight(void)
 :Light(),
  mDirection(Vector(0.0))
 {
-    
+
 }
 
 DirectionalLight::DirectionalLight(const Vector & pDirection,const Color & pIntensity)
 :Light(pIntensity),
  mDirection(pDirection)
 {
-    
+
 }
 
 DirectionalLight::DirectionalLight(const DirectionalLight & pDirectionalLight)
@@ -29,11 +29,11 @@ DirectionalLight DirectionalLight::operator=(const MatouMalin::DirectionalLight 
 {
     if(this == & pDirectionalLight)
         return *this;
-    
+
     Light::operator=(pDirectionalLight);
-    
+
     mDirection = pDirectionalLight.mDirection;
-    
+
     return *this;
 }
 
@@ -49,9 +49,9 @@ Color DirectionalLight::intensityAt(const Point & pPoint,const Scene & pScene, M
     lMyRay.setOrigin(pPoint);
     lMyRay.setDirection(mDirection*(-1));
     lMyRay.setIntersected(pCurrentObject);
-    
+
 	bool lHasIntersection = pScene.intersect(lMyRay);
-    
+
 	if(lHasIntersection)
 		return	Color(0.0f);
 	else

@@ -46,7 +46,7 @@ void CubeMap::addImage(unsigned short pFace, const std::string & pPath)
 {
     Image* rImage = new Image(pPath);
     mImages.push_back(rImage);
-    
+
     setLink(pFace, static_cast<unsigned int>(mImages.size()-1));
 }
 
@@ -60,16 +60,16 @@ Color CubeMap::colorAt(const Ray & pRay)
     unsigned short lFace(UNASSIGNED);
     double lI(0.0);
     double lJ(0.0);
-    
+
     _intersect(pRay, lFace, lI, lJ);
-    
+
     unsigned int lImageIdx = mFaceImageIDs[lFace];
-    
+
     return mImages[lImageIdx]->pixelColor(lI,lJ);
 }
 
 void CubeMap::setInterpolationMethod(unsigned short pMethod)
-{    
+{
     for (auto lIt = mImages.begin(), lEnd = mImages.end(); lIt != lEnd; lIt++)
         (*lIt)->setInterpolation(pMethod);
 }
@@ -80,22 +80,22 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
     double lInvSize(1.0/mSize);
     Vector lMax(mCenter.x()+lRadius, mCenter.y()+lRadius, mCenter.z()+lRadius);
     Vector lMin(mCenter.x()-lRadius, mCenter.y()-lRadius, mCenter.z()-lRadius);
-    
+
     // Need to add/substract an epsilon value to min and max because of numerical error when comparing them with lP coordinate values.
     static Vector lEpsilon(0.00001);
-    
+
     lMin -= lEpsilon;
     lMax += lEpsilon;
-    
+
     // Check if ray is not parallel to the XY plane
     if (pRay.direction().z() > 0.0)
     {
         // Front plane: Calculate the lenght the ray when intersecting the plane
         double lLength = (lMax.z() - pRay.origin().z())/pRay.direction().z();
-        
+
         // Front plane: Calculate the coordinates of the intersection point
         Point lP = pRay.origin() + pRay.direction()*lLength;
-        
+
         // Front plane: Check if the point in the plane is really inside the rectangle
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.y() >= lMin.y() && lP.y() <= lMax.y())
         {
@@ -105,7 +105,7 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
             return;
         }
     }
-    
+
     if (pRay.direction().z() < 0.0)
     {
         // Same for back plane:
@@ -118,15 +118,15 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
             pJ = (lP.y() - lMin.y())*lInvSize;
             return;
         }
-        
+
     }
-    
+
     if (pRay.direction().y() > 0.0) // Check if the ray is not parallel to the XZ plane
     {
         // Same for up plane:
         double lLength = (lMax.y() - pRay.origin().y())/pRay.direction().y();
         Point lP = pRay.origin() + pRay.direction()*lLength;
-        
+
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() &&  lP.z() >= lMin.z() && lP.z() <= lMax.z())
         {
             pFace = UP;
@@ -135,7 +135,7 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
             return;
         }
     }
-    
+
     if (pRay.direction().y() < 0.0)
     {
         // Same for down plane:
@@ -163,7 +163,7 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
             return;
         }
     }
-    
+
     if (pRay.direction().x() < 0.0)
     {
         // Same for left plane:
@@ -176,12 +176,12 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
             pJ = (lP.y() - lMin.y())*lInvSize;
             return;
         }
-        
+
     }
 
     int STOP = 42;
     STOP++;
-    
+
     assert(false && "There must be an intersection, impossible to arrive here!!");
 }
 

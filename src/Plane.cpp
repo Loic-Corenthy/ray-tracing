@@ -15,7 +15,7 @@ Plane::Plane(void)
  mPosition(0.0,0.0,0.0),
  mNormal(0.0,0.0,0.0)
 {
-    
+
 }
 
 Plane::Plane(double pA, double pB, double pC, double pD)
@@ -46,36 +46,36 @@ Plane Plane::operator=(const Plane & pPlane)
 {
     if (this == &pPlane)
         return *this;
-    
+
     mNormal = pPlane.mNormal;
     mPosition = pPlane.mPosition;
-    
+
     mEquationCoeffs[0] = pPlane.mEquationCoeffs[0];
     mEquationCoeffs[1] = pPlane.mEquationCoeffs[1];
     mEquationCoeffs[2] = pPlane.mEquationCoeffs[2];
     mEquationCoeffs[3] = pPlane.mEquationCoeffs[3];
-    
+
     return *this;
-    
+
 }
 
 Plane::~Plane(void)
 {
-    
+
 }
 
 bool Plane::intersect(Ray & pRay)
 {
     double lScalarProd = pRay.direction()*mNormal;
-    
+
     // Check if ray is not parallel to triangle
     if (lScalarProd != 0.0)
     {
         Vector lOrigin(pRay.origin().x(),pRay.origin().y(),pRay.origin().z());
-        
+
         // Calculate the lenght the ray when intersecting the plane
         double lLength = (-1.0)*(lOrigin*mNormal + mEquationCoeffs[3])/(lScalarProd);
-        
+
         pRay.setLength(lLength);
         pRay.setIntersected(nullptr); // (c++11)
         return true;
@@ -88,7 +88,7 @@ void Plane::setCoefficient(unsigned int pIndex, double pValue)
 {
     assert(0 <= pIndex && pIndex <4 && "index out of boundaries for the coefficients");
     mEquationCoeffs[pIndex] = pValue;
-    
+
     _updatePosition();
     _updateNormal();
 }
@@ -110,7 +110,7 @@ void Plane::_updateEquation(void)
     mEquationCoeffs[0] = mNormal.x();
     mEquationCoeffs[1] = mNormal.y();
     mEquationCoeffs[2] = mNormal.z();
-    
+
     Vector lPosition(mPosition.x(),mPosition.y(),mPosition.z());
     mEquationCoeffs[3] = (mNormal*lPosition)*(-1.0);
 }

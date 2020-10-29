@@ -29,7 +29,7 @@ void BRDF::operator=(const BRDF & pBRDF)
 {
     if (this == &pBRDF)
         return;
-    
+
     mAmbientColor = pBRDF.mAmbientColor;
     mCubeMap = pBRDF.mCubeMap;
 }

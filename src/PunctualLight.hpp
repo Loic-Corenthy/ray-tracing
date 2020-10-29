@@ -5,58 +5,58 @@
 #include "Light.hpp"
 #include "Color.hpp"
 
-namespace MatouMalin 
+namespace MatouMalin
 {
     class PunctualLight : public Light
     {
     public:
         /// Default constructor
         PunctualLight(void);
-        
+
         /// Constructor with parameters
         PunctualLight(const Point & pPosition,const Color & pIntensity);
-        
+
         /// Copy constructor
         PunctualLight(const PunctualLight & pPunctualLight);
-        
+
         /// Copy operator
         PunctualLight operator=(const PunctualLight & pPunctualLight);
-        
+
         /// Destructor
         ~PunctualLight(void);
-        
+
         /// Set the light position
         void setPosition(const Point & pPosition);
-        
+
         /// Get the light position
         const Point & position(void) const;
-                
+
         /// Implementation of virtual function from Light
         Color intensityAt(const Point & pPoint,const Scene & pScene, Renderable* pCurrentObject) const;
-     
-        /// Implementation of virtual function from Light        
+
+        /// Implementation of virtual function from Light
         Vector directionFrom(const Point & pPoint) const;
-        
+
     private:
         Point mPosition;
-        
+
     }; // class PunctualLight
-    
+
     inline void PunctualLight::setPosition(const Point & pPosition)
     {
         mPosition = pPosition;
     }
-    
+
     inline const Point & PunctualLight::position(void) const
     {
         return mPosition;
     }
-    
+
     inline MatouMalin::Vector PunctualLight::directionFrom(const MatouMalin::Point & pPoint) const
     {
         return (mPosition - pPoint);
     }
-    
-} // namespace MatouMalin 
+
+} // namespace MatouMalin
 
 #endif

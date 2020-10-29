@@ -38,11 +38,11 @@ Vector Vector::operator=(const Vector & pVector)
 {
     if(this == &pVector)
         return *this;
-    
+
     mCoords[0] = pVector.mCoords[0];
 	mCoords[1] = pVector.mCoords[1];
 	mCoords[2] = pVector.mCoords[2];
-    
+
     return *this;
 }
 
@@ -68,21 +68,21 @@ Vector Vector::operator-(const Vector & pVector) const
 	return lMyVector;
 }
 
-Vector Vector::operator+=(const Vector & pVector) 
+Vector Vector::operator+=(const Vector & pVector)
 {
 	mCoords[0] = mCoords[0] + pVector.mCoords[0];
 	mCoords[1] = mCoords[1] + pVector.mCoords[1];
 	mCoords[2] = mCoords[2] + pVector.mCoords[2];
-	
+
 	return *this;
 }
 
-Vector Vector::operator-=(const Vector & pVector) 
+Vector Vector::operator-=(const Vector & pVector)
 {
 	mCoords[0] = mCoords[0] - pVector.mCoords[0];
 	mCoords[1] = mCoords[1] - pVector.mCoords[1];
 	mCoords[2] = mCoords[2] - pVector.mCoords[2];
-	
+
 	return *this;
 }
 

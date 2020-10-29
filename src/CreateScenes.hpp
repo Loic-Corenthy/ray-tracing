@@ -104,7 +104,7 @@ void createScene11(MatouMalin::Scene* pScene);
 /// Create a scene with: a room and 3 spheres
 void createScene12(MatouMalin::Scene* pScene);
 
-/// Create a scene with: a table in a room, mirrors and a sphere with a texture 
+/// Create a scene with: a table in a room, mirrors and a sphere with a texture
 void createScene13(MatouMalin::Scene* pScene);
 
 /// Create a scene with: a table with a refractive sphere on top of it, use a cubemap as the background

@@ -38,13 +38,13 @@ Phong Phong::operator=(const Phong & pPhong)
 {
     if(this == & pPhong)
         return *this;
-    
+
     BRDF::operator=(pPhong);
-    
+
     mDiffusionColor = pPhong.mDiffusionColor;
 	mSpecularColor = pPhong.mSpecularColor;
 	mExponent = pPhong.mExponent;
-    
+
     return *this;
 }
 
@@ -58,19 +58,19 @@ Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer
 	Vector lVecToLight(pVecToLight);
 	Vector lVecToViewer(pVecToViewer);
     Vector lVecNormal(pNormal);
-    
+
     // Normalize vectors
     lVecToLight.normalize();
     lVecToViewer.normalize();
 
     // Calculate diffusion coefficient
 	double lCosAlpha = lVecToLight*pNormal;
-    
+
     // Calculate specular coefficient
     double lCosBeta = (lVecToLight*pNormal)*2.0;
     Vector lReflexion = lVecNormal*lCosBeta - lVecToLight;
 	lCosBeta = lReflexion*lVecToViewer;
-    
+
     // Set negative coefficents to zero
     lCosAlpha = (lCosAlpha < 0.0)?0.0:lCosAlpha;
     lCosBeta = (lCosBeta < 0.0)?0.0:lCosBeta;
@@ -81,7 +81,7 @@ Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer
         Ray lNormalRay(pIntersection,pNormal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
         return lDiffColor*lCosAlpha + mSpecularColor*pow(lCosBeta,mExponent);
-        
+
     }
     else
      return mDiffusionColor*lCosAlpha + mSpecularColor*pow(lCosBeta,mExponent);
@@ -94,20 +94,20 @@ Color Phong::diffuse(const Vector & pVecToLight, const Vector & pNormal,const Po
     // Make local copy to normalize
 	Vector lVecToLight(pVecToLight);
     lVecToLight.normalize();
-    
+
     // Calculate diffusion coefficient
 	double lCosAlpha = lVecToLight*pNormal;
-    
+
     // Set negative coefficents to zero
     lCosAlpha = (lCosAlpha < 0.0)?0.0:lCosAlpha;
-	
+
     const CubeMap* lCubeMap = cubeMap();
     if (lCubeMap)
     {
         Ray lNormalRay(pIntersection,pNormal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
         return lDiffColor*lCosAlpha;
-        
+
     }
     else
         return (mDiffusionColor*lCosAlpha);
@@ -119,19 +119,19 @@ Color Phong::specular(const Vector & pVecToLight, const Vector & pVecToViewer,co
 	Vector lVecToLight(pVecToLight);
 	Vector lVecToViewer(pVecToViewer);
     Vector lVecNormal(pNormal);
-    
+
     // Normalize vectors
     lVecToLight.normalize();
     lVecToViewer.normalize();
-    
+
     // Calculate specular coefficient
     double lCosBeta = (lVecToLight*pNormal)*2.0;
     Vector lReflexion = lVecNormal*lCosBeta - lVecToLight;
 	lCosBeta = lReflexion*lVecToViewer;
-    
+
     // Set negative coefficents to zero
     lCosBeta = (lCosBeta < 0.0)?0.0:lCosBeta;
-	
+
 	return (mSpecularColor*pow(lCosBeta, mExponent));
 }
 

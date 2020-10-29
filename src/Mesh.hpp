@@ -28,64 +28,64 @@ namespace MatouMalin
     public:
         /// Default constructor
         Mesh(void);
-        
+
         /// Constructor with parameters
         Mesh(unsigned int pTriangleCount);
-        
+
         /// Copy constructor
         Mesh(const Mesh & pMesh);
-        
+
         /// Copy operator
         Mesh operator=(const Mesh & pMesh);
-        
+
         /// Destructor
         ~Mesh(void);
-        
+
         /// Add a triangle to the mesh
         void addTriangle(const Triangle & pTriangle);
-        
+
         /// Set min and max point in bounding box
         void setBBLimits(const Point & pMin, const Point & pMax);
-        
+
         /// Get bounding box (read only)
         const BoundingBox & boundingBox(void) const;
-        
+
         /// Virtual function from Renderable
         bool intersect(Ray & pRay);
-        
+
         /// Virtual function from Renderable
         Color color(Ray & pRay, unsigned int pReflectionCount = 0);
-        
+
         /// Virtual function from Renderable
         Vector normal(const Point & pPosition) const;
-        
+
         /// Virtual function from Renderable
         Vector interpolatedNormal(const Point & pPosition) const;
-        
+
         /// Redefine function in Renderable
         void setShader(Shader* pShader);
-        
+
         /// Virtual function from Renderable
         bool refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay);
-        
+
     private:
         std::vector<Triangle> mTriangles;
         BoundingBox mBB;
         int mIntersectedTriangle;
-        
+
     }; // class Mesh
-    
+
     inline void Mesh::addTriangle(const Triangle & pTriangle)
     {
         mTriangles.push_back(pTriangle);
     }
-    
+
     inline void Mesh::setBBLimits(const Point &pMin, const Point &pMax)
     {
         mBB.setMin(pMin);
         mBB.setMax(pMax);
     }
-    
+
     inline const BoundingBox & Mesh::boundingBox(void) const
     {
         return mBB;

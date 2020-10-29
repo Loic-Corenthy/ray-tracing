@@ -38,10 +38,10 @@ Point Point::operator=(const Point & pPoint)
 {
     if (this == &pPoint)
         return *this;
-    
+
      mCoords[0] = pPoint.mCoords[0];
 	 mCoords[1] = pPoint.mCoords[1];
 	 mCoords[2] = pPoint.mCoords[2];
-    
+
     return *this;
 }

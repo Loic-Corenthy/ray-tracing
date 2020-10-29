@@ -60,7 +60,7 @@ Noise::Noise(void)
         251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,
         49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127,4,150,254,
         138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180};
-    
+
 }
 
 Noise::Noise(const Noise & pNoise)
@@ -72,9 +72,9 @@ Noise Noise::operator=(const Noise & pNoise)
 {
     if (this == & pNoise)
         return *this;
-    
+
     mPermutations = pNoise.mPermutations;
-    
+
     return *this;
 }
 
@@ -86,7 +86,7 @@ void Noise::_init(void)
 {
     for (unsigned int i=0; i < 256; i++)
         mPermutations.push_back(smPermutations[i]);
-    
+
     for (unsigned int i=0; i < 256; i++)
             mPermutations.push_back(smPermutations[i]);
 }
@@ -97,7 +97,7 @@ double Noise::_grad(int pHash, double pX, double pY, double pZ) const
     // CONVERT LO 4 BITS OF HASH CODE
     double lU = lH < 8 || lH == 12 || lH == 13 ? pX : pY; // INTO 12 GRADIENT DIRECTIONS.
     double lV = lH < 4 || lH == 12 || lH == 13 ? pY : pZ;
-    
+
     return (((lH & 1) == 0 ? lU : -lU) + ((lH&2) == 0 ? lV : -lV));
 }
 
@@ -106,27 +106,27 @@ double Noise::perlinNoise(double pX, double pY, double pZ) const
     int lX = static_cast<int>(floor(pX)) & 255;
     int lY = static_cast<int>(floor(pY)) & 255;
     int lZ = static_cast<int>(floor(pZ)) & 255;
-    
+
     pX -= floor(pX);
     pY -= floor(pY);
     pZ -= floor(pZ);
-    
+
     double lU = _fade(pX);
     double lV = _fade(pY);
     double lW = _fade(pZ);
-    
+
     int lA  = mPermutations[lX]+lY;
     int lAA = mPermutations[lA]+lZ;
     int lAB = mPermutations[lA+1]+lZ;
     int lB  = mPermutations[lX+1]+lY;
     int lBA = mPermutations[lB]+lZ;
     int lBB = mPermutations[lB+1]+lZ;
-    
+
     double lTmp1 = _lerp(lV, _lerp(lU, _grad(mPermutations[lAA], pX, pY, pZ),     _grad(mPermutations[lBA], pX-1.0, pY, pZ)),
                              _lerp(lU, _grad(mPermutations[lAB], pX, pY-1.0, pZ), _grad(mPermutations[lBB], pX-1.0, pY-1.0, pZ)));
-    
+
     double lTmp2 = _lerp(lV, _lerp(lU, _grad(mPermutations[lAA+1], pX, pY, pZ-1.0), _grad(mPermutations[lBA+1], pX-1.0, pY, pZ-1.0)),
                              _lerp(lU, _grad(mPermutations[lAB+1], pX, pY-1.0, pZ-1.0), _grad(mPermutations[lBB+1], pX-1.0, pY-1.0, pZ-1.0)));
-    
+
     return _lerp(lW, lTmp1, lTmp2);
 }

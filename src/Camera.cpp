@@ -49,7 +49,7 @@ Camera Camera::operator=(const Camera & pCamera)
 {
     if(this == & pCamera)
         return *this;
-    
+
     mFocalPlane = pCamera.mFocalPlane;
     mPosition = pCamera.mPosition;
 	mDirection = pCamera.mDirection;
@@ -59,7 +59,7 @@ Camera Camera::operator=(const Camera & pCamera)
     mAperture = pCamera.mAperture;
     mFocalLength = pCamera.mFocalLength;
     mApertureStepMultiplier = pCamera.mApertureStepMultiplier;
-    
+
     return *this;
 }
 
@@ -92,20 +92,20 @@ void Camera::setAperture(unsigned short pMode, unsigned short pPrecision, double
     mAperture = pMode;
     mFocalLength = pFocalLength;
     mApertureStepMultiplier = static_cast<double>(pPrecision);
-    
+
     // Update the focal plane position
     //mFocalPlane.setPosition(mPosition + mDirection*mFocalLength);
-    
+
     // Calculate the coefficients for the color sampling
     unsigned short lTotalCoeffCount(static_cast<unsigned short>(2.0*mApertureStepMultiplier+1.0));
     lTotalCoeffCount *= lTotalCoeffCount;
-    
+
     mApertureColorCoeffs.reserve(lTotalCoeffCount);
     float lTmpTotal(0.0f);
-    
+
     // Call the rand function once first to avoid a big disparity between the returned values
     rand();
-    
+
     for (unsigned short i=0; i<lTotalCoeffCount; ++i)
     {
         mApertureColorCoeffs.push_back(static_cast<float>(rand()));
@@ -115,27 +115,27 @@ void Camera::setAperture(unsigned short pMode, unsigned short pPrecision, double
     // Divide all the coefficients by the their sum
     float lInvSumCoeffs = 1.0f/lTmpTotal;
     for_each(mApertureColorCoeffs.begin(), mApertureColorCoeffs.end(), [lInvSumCoeffs](float & lIt){lIt *= lInvSumCoeffs;}); // (c++11)
-    
+
     switch (pMode)
     {
         case F_SMALL:
             mApertureRadius = (mPosition - mFocalPlane.position()).length()/64.0;
             break;
-            
+
         case F_MEDIUM:
             mApertureRadius = (mPosition - mFocalPlane.position()).length()/128.0;
             break;
-            
+
         case F_BIG:
             mApertureRadius = (mPosition - mFocalPlane.position()).length()/256.0;
             break;
-            
+
         case ALL_SHARP:
         default:
             mApertureRadius = 0.0;
             break;
     }
-    
+
     mApertureStep = mApertureRadius/mApertureStepMultiplier;
-    
+
 }

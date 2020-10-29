@@ -43,7 +43,7 @@ Color Color::operator=(const Color & pColor)
 {
     if (this == & pColor)
         return *this;
-    
+
 	mComponents[0] = pColor.mComponents[0];
 	mComponents[1] = pColor.mComponents[1];
 	mComponents[2] = pColor.mComponents[2];

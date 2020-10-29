@@ -19,64 +19,64 @@ namespace MatouMalin
     public:
         /// Default construtor
         OBJParameters(void);
-        
+
         /// Copy constructor
         OBJParameters(const OBJParameters & pOBJParameters);
-        
+
         /// Copy operator
         OBJParameters operator=(const OBJParameters & pOBJParameters);
-        
+
         /// Destructor
         ~OBJParameters(void);
-        
+
         /// Get the number of vertices
         unsigned int vertexCount(void) const;
-        
+
         /// Get the number of texture coordinates
         unsigned int textureCoordinatesCount(void) const;
-        
+
         /// Get the number of normals
         unsigned int normalCount(void) const;
-        
+
         /// Get the number of faces of each object
         unsigned int faceCount(unsigned int pObjectIdx) const;
-        
+
         /// Get the number of objects
         unsigned int objectCount(void) const;
-        
+
         /// Get the current face count
         unsigned int currentFaceCount(void) const;
-        
+
         /// Set the number of vertices
         void setVertexCount(unsigned int pValue);
-        
+
         /// Set the number of texture coordinates
         void setTextureCoordinatesCount(unsigned int pValue);
-        
+
         /// Set the number of normals
         void setNormalCount(unsigned int pValue);
-        
+
         /// Set the number of faces of an object
         void setFaceCount(unsigned int pObjectIdx, unsigned int pValue);
-        
+
         /// Set current face count
         void setCurrentFaceCount(unsigned int pValue);
-        
+
         /// Increase the number of vertices by one
         void vpp(void);
-        
+
         /// Increase the number of texture coordinates by one
         void vtpp(void);
-        
+
         /// Increase the number of normals by one
         void npp(void);
-        
+
         /// Increase the number of faces by one
         void fpp(void);
-        
+
         /// Increase the number of objects by one
         void opp(void);
-        
+
     private:
         unsigned int                mVertexCount;
         unsigned int                mTextureCount;
@@ -85,22 +85,22 @@ namespace MatouMalin
         unsigned int                mCurrentFaceCount;
 
     }; // class OBJParameters
-    
+
     inline unsigned int OBJParameters::vertexCount(void) const
     {
         return mVertexCount;
     }
-    
+
     inline unsigned int OBJParameters::textureCoordinatesCount(void) const
     {
         return mTextureCount;
     }
-    
+
     inline unsigned int OBJParameters::normalCount(void) const
     {
         return mNormalCount;
     }
-    
+
     inline unsigned int OBJParameters::faceCount(unsigned int pObjectIdx) const
     {
         return mFaceCount.at(pObjectIdx);
@@ -110,7 +110,7 @@ namespace MatouMalin
     {
         return static_cast<unsigned int>(mFaceCount.size());
     }
-    
+
     inline unsigned int OBJParameters::currentFaceCount(void) const
     {
         return mCurrentFaceCount;
@@ -144,7 +144,7 @@ namespace MatouMalin
     {
         mCurrentFaceCount = pValue;
     }
-    
+
     inline void OBJParameters::vpp(void)
     {
         ++mVertexCount;

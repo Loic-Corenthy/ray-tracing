@@ -34,15 +34,15 @@ OBJParameters OBJParameters::operator=(const OBJParameters & pOBJParameters)
 {
     if (this == &pOBJParameters)
         return *this;
-    
+
     mVertexCount = pOBJParameters.mVertexCount;
     mTextureCount = pOBJParameters.mTextureCount;
     mNormalCount = pOBJParameters.mNormalCount;
     mFaceCount = pOBJParameters.mFaceCount;
     mCurrentFaceCount = pOBJParameters.mCurrentFaceCount;
-    
+
     return *this;
-    
+
 }
 
 OBJParameters::~OBJParameters(void)

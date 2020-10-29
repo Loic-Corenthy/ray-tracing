@@ -42,19 +42,19 @@ mBuffer(pRenderer.mBuffer),
 mReflectionCount(pRenderer.mReflectionCount),
 mSuperSampling(pRenderer.mSuperSampling)
 {
-    
+
 }
 
 Renderer Renderer::operator=(const Renderer & pRenderer)
 {
     if(this == &pRenderer)
         return *this;
-    
+
     mScene = pRenderer.mScene;
 	mBuffer = pRenderer.mBuffer;
 	mReflectionCount = pRenderer.mReflectionCount;
     mSuperSampling = pRenderer.mSuperSampling;
-    
+
     return *this;
 }
 
@@ -66,11 +66,11 @@ Renderer::~Renderer(void)
 void Renderer::render(void)
 {
     Camera* lCamera = mScene->cameraList().front();
-    
+
     if (lCamera->aperture() == Camera::F_SMALL || lCamera->aperture() == Camera::F_MEDIUM || lCamera->aperture() == Camera::F_BIG )
     {
         Color lMeanLight = mScene->meanAmbiantLight();
-        
+
         for(unsigned int i=0, lBufferWidth = mBuffer.width(); i<lBufferWidth; i++)
         {
             for(unsigned int j=0, lBufferHeight = mBuffer.height(); j<lBufferHeight; j++)
@@ -78,12 +78,12 @@ void Renderer::render(void)
                 // It's possible to use only one camera (front())
                 Vector lRayDirection = lCamera->pixelDirection(i,j,&mBuffer);
                 Point lRayOrigin = lCamera->position();
-                
+
                 // Calculate current focal point
                 Ray lFirstRay(lRayOrigin,lRayDirection);
                 lCamera->focalPlane().intersect(lFirstRay);
                 Point lFocalPt = lFirstRay.intersection();
-                
+
                 // Accumulation of the secondary buffer color
                 Color lApertureColor(0.0f);
                 double lApertureRadius = lCamera->apertureRadius();
@@ -95,28 +95,28 @@ void Renderer::render(void)
                         Point lApertureOrigin(lFirstRay.origin());
                         lApertureOrigin.setX(lApertureOrigin.x()+lApertureI);
                         lApertureOrigin.setY(lApertureOrigin.y()+lApertureJ);
-                        
+
                         Ray lRay(lApertureOrigin,(lFocalPt - lApertureOrigin));
-                        
+
                         if(mScene->intersect(lRay))
                         {
                             // Max reflection for the current object
                             unsigned short lObjectMaxReflection = lRay.intersected()->shader()->reflectionCountMax();
-                            
+
                             // Ambient color
                             Ray lAmbiantRay(lRay.intersection(),lRay.intersected()->normal(lRay.intersection()));
                             Color lAmbientColor = lMeanLight*lRay.intersected()->shader()->ambientColor(lAmbiantRay)*0.1f;
-                            
+
                             // Diffusion color
                             Color lDiffusionColor = lRay.intersected()->color(lRay,0);
-                            
+
                             // Refraction color
                             Color lRefractionColor(0.0);
                             if (lRay.intersected()->shader()->refractionCoeff() > 1.0)
                             {
                                 Ray lRefractionRay;
                                 bool lHasRefraction = lRay.intersected()->refractedRay(lRay, lRefractionRay);
-                                
+
                                 if (lHasRefraction)
                                 {
                                     if (mScene->intersect(lRefractionRay))
@@ -125,7 +125,7 @@ void Renderer::render(void)
                                         lRefractionColor = mScene->backgroundColor(lRefractionRay);
                                 }
                             }
-                            
+
                             // Reflections color
                             Color lReflectionColor(0.0f);
                             while (mReflectionCount < lObjectMaxReflection && lRay.intersected() != nullptr) //(c++11)
@@ -133,32 +133,32 @@ void Renderer::render(void)
                                 // Calculate reflected ray
                                 Ray lReflection;
                                 lReflection.setOrigin(lRay.intersection());
-                                
+
                                 Vector lIncidentDirection(lRay.direction());
                                 Vector lNormal(lRay.intersected()->normal(lRay.intersection()));
                                 double lReflet = (lIncidentDirection*lNormal)*(2.0);
                                 Vector lReflectionDirection = lIncidentDirection - lNormal*lReflet;
-                                
+
                                 lReflection.setDirection(lReflectionDirection);
                                 lReflection.setIntersected(lRay.intersected());
-                                
-                                
+
+
                                 if (mScene->intersect(lReflection))
                                     lReflectionColor += lReflection.intersected()->color(lReflection,mReflectionCount);//*lSpecular;
                                 else
                                     lReflectionColor += mScene->backgroundColor(lReflection)*(1.0/static_cast<double>((mReflectionCount+1)*(mReflectionCount+1)));
-                                
+
                                 lRay = lReflection;
                                 mReflectionCount++;
-                                
+
                             }
-                            
-                            
+
+
                             // Final color equals the sum of all the components
                             Color lFinalColor(lAmbientColor + lDiffusionColor + lReflectionColor + lRefractionColor);
-                            
+
                             lApertureColor += lFinalColor*lCamera->apertureColorCoeff(lApertureI, lApertureJ);
-                            
+
                         }
                         else
                         {
@@ -168,16 +168,16 @@ void Renderer::render(void)
                         mReflectionCount = 1;
                     }
                 }
-                
+
                 // Tone mapping
                 Color lColorAfterToneMapping;
                 lColorAfterToneMapping.setRed(1.0f - exp2f(lApertureColor.red()*(-1.0f)));
                 lColorAfterToneMapping.setGreen(1.0f - exp2f(lApertureColor.green()*(-1.0f)));
                 lColorAfterToneMapping.setBlue(1.0f - exp2f(lApertureColor.blue()*(-1.0f)));
-                
+
                 mBuffer.setPixel(i,j,lColorAfterToneMapping) ;
-                
-                
+
+
             }
             // Display progress in the console
             cout << "Progress: " << static_cast<float>(i)/static_cast<float>(lBufferWidth)*100.0f << " %" << endl;
@@ -188,17 +188,17 @@ void Renderer::render(void)
     else if (mSuperSampling)
     {
         Color lMeanLight = mScene->meanAmbiantLight();
-        
+
         for(unsigned int i=0, lBufferWidth = mBuffer.width(); i<lBufferWidth; i++)
         {
             for(unsigned int j=0, lBufferHeight = mBuffer.height(); j<lBufferHeight; j++)
             {
                 float lI = static_cast<float>(i);
                 float lJ = static_cast<float>(j);
-                
+
                 Color lSuperSampling(0.0f);
                 double lContribution = 0.25;
-                
+
                 for (float lFragmentX = lI; lFragmentX < lI + 1.0f; lFragmentX += 0.5f)
                 {
                     for (float lFragmentY = lJ; lFragmentY < lJ + 1.0f; lFragmentY += 0.5f)
@@ -207,26 +207,26 @@ void Renderer::render(void)
                         Vector lRayDirection = lCamera->pixelDirection(lFragmentX,lFragmentY,&mBuffer);
                         Point lRayOrigin = lCamera->position();
                         Ray lRay(lRayOrigin,lRayDirection);
-                        
+
                         if(mScene->intersect(lRay))
                         {
                             // Max reflection for the current object
                             unsigned short lObjectMaxReflection = lRay.intersected()->shader()->reflectionCountMax();
-                            
+
                             // Ambient color
                             Ray lAmbiantRay(lRay.intersection(),lRay.intersected()->normal(lRay.intersection()));
                             Color lAmbientColor = lMeanLight*lRay.intersected()->shader()->ambientColor(lAmbiantRay)*0.1f;
-                            
+
                             // Diffusion color
                             Color lDiffusionColor = lRay.intersected()->color(lRay,0);
-                            
+
                             // Refraction color
                             Color lRefractionColor(0.0);
                             if (lRay.intersected()->shader()->refractionCoeff() > 1.0)
                             {
                                 Ray lRefractionRay;
                                 bool lHasRefraction = lRay.intersected()->refractedRay(lRay, lRefractionRay);
-                                
+
                                 if (lHasRefraction)
                                 {
                                     if (mScene->intersect(lRefractionRay))
@@ -234,9 +234,9 @@ void Renderer::render(void)
                                     else
                                         lRefractionColor = mScene->backgroundColor(lRefractionRay);
                                 }
-                                
+
                             }
-                            
+
                             // Reflections Color
                             Color lReflectionColor(0.0f);
                             while (mReflectionCount < lObjectMaxReflection && lRay.intersected() != nullptr) //(c++11)
@@ -244,46 +244,46 @@ void Renderer::render(void)
                                 // Calculate reflected ray
                                 Ray lReflection;
                                 lReflection.setOrigin(lRay.intersection());
-                                
+
                                 Vector lIncidentDirection(lRay.direction());
                                 Vector lNormal(lRay.intersected()->normal(lRay.intersection()));
                                 double lReflet = (lIncidentDirection*lNormal)*(2.0);
                                 Vector lReflectionDirection = lIncidentDirection - lNormal*lReflet;
-                                
+
                                 lReflection.setDirection(lReflectionDirection);
                                 lReflection.setIntersected(lRay.intersected());
-                                
+
                                 if (mScene->intersect(lReflection))
                                     lReflectionColor += lReflection.intersected()->color(lReflection,mReflectionCount);//*lSpecular;
                                 else
                                     lReflectionColor += mScene->backgroundColor(lReflection)*(1.0/static_cast<double>((mReflectionCount+1)*(mReflectionCount+1)));
-                                
+
                                 lRay = lReflection;
                                 mReflectionCount++;
-                                
+
                             }
-                            
-                            
+
+
                             // Final color equals the sum of all the components
                             Color lFinalColor(lAmbientColor+lDiffusionColor+lReflectionColor+lRefractionColor);
-                            
+
                             // Tone mapping
                             Color lColorAfterToneMapping;
                             lColorAfterToneMapping.setRed(1.0f - exp2f(lFinalColor.red()*(-1.0f)));
                             lColorAfterToneMapping.setGreen(1.0f - exp2f(lFinalColor.green()*(-1.0f)));
                             lColorAfterToneMapping.setBlue(1.0f - exp2f(lFinalColor.blue()*(-1.0f)));
-                            
+
                             lSuperSampling += lColorAfterToneMapping*lContribution;
                         }
                         else
                             lSuperSampling += mScene->backgroundColor(lRay)*lContribution;
-                        
+
                         mReflectionCount = 1;
                     }
                 }
-                
+
                 mBuffer.setPixel(i, j, lSuperSampling);
-                
+
             }
             // Display progress in the console
             cout << "Progress: " << static_cast<float>(i)/static_cast<float>(lBufferWidth)*100.0f << " %" << endl;
@@ -294,7 +294,7 @@ void Renderer::render(void)
     else
     {
         Color lMeanLight = mScene->meanAmbiantLight();
-        
+
         for(unsigned int j=0, lBufferHeight = mBuffer.height(); j<lBufferHeight; ++j)
         {
             for(unsigned int i=0, lBufferWidth = mBuffer.width(); i<lBufferWidth; ++i)
@@ -303,26 +303,26 @@ void Renderer::render(void)
                 Vector lRayDirection = lCamera->pixelDirection(i,j,&mBuffer);
                 Point lRayOrigin = lCamera->position();
                 Ray lRay(lRayOrigin,lRayDirection);
-                
+
                 if(mScene->intersect(lRay))
                 {
                     // Max reflection for the current object
                     unsigned short lObjectMaxReflection = lRay.intersected()->shader()->reflectionCountMax();
-                    
+
                     // Ambient color
                     Ray lAmbiantRay(lRay.intersection(),lRay.intersected()->normal(lRay.intersection()));
                     Color lAmbientColor = lMeanLight*lRay.intersected()->shader()->ambientColor(lAmbiantRay)*0.1f;
-                    
+
                     // Diffusion color
                     Color lDiffusionColor = lRay.intersected()->color(lRay,0);
-                    
+
                     // Refraction color
                     Color lRefractionColor(0.0);
                     if (lRay.intersected()->shader()->refractionCoeff() > 1.0)
                     {
                         Ray lRefractionRay;
                         bool lHasRefraction = lRay.intersected()->refractedRay(lRay, lRefractionRay);
-                        
+
                         if (lHasRefraction)
                         {
                             if (mScene->intersect(lRefractionRay))
@@ -330,9 +330,9 @@ void Renderer::render(void)
                             else
                                 lRefractionColor = mScene->backgroundColor(lRefractionRay);
                         }
-                        
+
                     }
-                    
+
                     // Reflections color
                     Color lReflectionColor(0.0f);
                     while (mReflectionCount < lObjectMaxReflection && lRay.intersected() != nullptr) //(c++11)
@@ -340,36 +340,36 @@ void Renderer::render(void)
                         // Calculate reflected ray
                         Ray lReflection;
                         lReflection.setOrigin(lRay.intersection());
-                        
+
                         Vector lIncidentDirection(lRay.direction());
                         Vector lNormal(lRay.intersected()->normal(lRay.intersection()));
                         double lReflet = (lIncidentDirection*lNormal)*(2.0);
                         Vector lReflectionDirection = lIncidentDirection - lNormal*lReflet;
-                        
+
                         lReflection.setDirection(lReflectionDirection);
                         lReflection.setIntersected(lRay.intersected());
-                        
+
                         if (mScene->intersect(lReflection))
                             lReflectionColor += lReflection.intersected()->color(lReflection,mReflectionCount);//*lSpecular;
                         else
                             lReflectionColor += mScene->backgroundColor(lReflection)*(1.0/static_cast<double>((mReflectionCount+1)*(mReflectionCount+1)));
-                        
+
                         lRay = lReflection;
                         mReflectionCount++;
                     }
-                    
-                    
+
+
                     // Final color equals the sum of all the components
                     Color lFinalColor(lAmbientColor+lDiffusionColor+lReflectionColor+lRefractionColor);
-                    
+
                     // Tone mapping
                     Color lColorAfterToneMapping;
                     lColorAfterToneMapping.setRed(1.0f - exp2f(lFinalColor.red()*(-1.0f)));
                     lColorAfterToneMapping.setGreen(1.0f - exp2f(lFinalColor.green()*(-1.0f)));
                     lColorAfterToneMapping.setBlue(1.0f - exp2f(lFinalColor.blue()*(-1.0f)));
-                    
+
                     mBuffer.setPixel(i,j,lColorAfterToneMapping) ;
-                    
+
                 }
                 else
                 {
@@ -382,7 +382,7 @@ void Renderer::render(void)
         }
         // Display a message when the render is finished
         cout << "Done =)" << endl;
-        
+
     }
-    
+
 }

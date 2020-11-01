@@ -28,7 +28,7 @@ namespace MatouMalin
         {
             delete pObject;
             pObject = nullptr;
-        };
+        }
     }; // struct DeleteObject
 
 

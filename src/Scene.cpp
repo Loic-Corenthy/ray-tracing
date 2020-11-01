@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <stdio.hpp>
 #include <cassert>
 #include <vector>
 

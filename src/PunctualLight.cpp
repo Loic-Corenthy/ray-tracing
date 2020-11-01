@@ -4,7 +4,7 @@
 #include "Renderable.hpp"
 
 #include <cassert>
-#include <math.hpp>
+#include <cmath>
 
 using namespace MatouMalin;
 

@@ -1,5 +1,7 @@
 #include "Sphere.hpp"
-#include "math.hpp"
+
+#include <cmath>
+
 #include "Shader.hpp"
 
 using namespace MatouMalin;

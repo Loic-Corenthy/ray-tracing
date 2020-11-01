@@ -3,7 +3,7 @@
 // Standard includes
 #include <list>
 #include <iostream>
-#include <math.hpp>
+#include <cmath>
 
 // Local includes
 #include "Scene.hpp"

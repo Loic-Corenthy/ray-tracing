@@ -1,7 +1,7 @@
 #include "Phong.hpp"
 
 // Standard includes
-#include <math.hpp>
+#include <cmath>
 
 // Local includes
 #include "Vector.hpp"

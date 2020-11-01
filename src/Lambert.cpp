@@ -9,7 +9,7 @@
 #include "Lambert.hpp"
 
 // Standard includes
-#include <math.hpp>
+#include <cmath>
 
 // Local includes
 #include "Vector.hpp"

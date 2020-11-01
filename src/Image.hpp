@@ -1,21 +1,21 @@
-//
-//  Image.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 10/14/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Image.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.1
+ *  \date      10/14/2012
+ *  \copyright (c) 2019 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #ifndef RAYTRACING_IMAGE_H
 #define RAYTRACING_IMAGE_H
 
-// Local includes
-#include "Color.hpp"
-
-// Standard includes
 #include <string>
 #include <OpenImageIO/imageio.h>
 #include <cassert>
+
+#include "Color.hpp"
 
 namespace MatouMalin
 {
@@ -62,11 +62,18 @@ namespace MatouMalin
         /// Copy operator
         Image operator=(const Image & pImage);
 
-        /// Function using the funcionnalities of the ImageIO framework
-        bool _createCGImageFromFile(const std::string & pPath);
+        /// Implementation of the method loading an image from the file system
+        bool _createImageFromFile(const std::string & pPath);
 
     private:
+
+#ifdef __linux__
+        std::unique_ptr<OIIO::ImageInput> mImage;
+#elif __APPLE__
         CGImageRef     mImage;
+#elif _WIN32
+
+#endif
         unsigned char* mRawData;
         unsigned int   mWidth;
         unsigned int   mHeight;

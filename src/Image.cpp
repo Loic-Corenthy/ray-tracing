@@ -6,13 +6,22 @@
 //
 //
 
+#include <OpenImageIO/imageio.h>
+#include <OpenImageIO/typedesc.h>
+
 #include "Image.hpp"
 
 // Local includes
 #include "Color.hpp"
 
-using namespace MatouMalin;
-using namespace std;
+using std::string;
+
+using MatouMalin::Image;
+using MatouMalin::Color;
+
+using OIIO::ImageInput;
+using OIIO::ImageSpec;
+using OIIO::TypeDesc;
 
 Image::Image(void)
 :mImage(nullptr),
@@ -39,7 +48,7 @@ Image::Image(const string & pPath)
  mInterpolation(NEAREST),
  mImageLoaded(false)
 {
-    _createCGImageFromFile(pPath);
+    _createImageFromFile(pPath);
 }
 
 Image::Image(const Image & pImage)
@@ -53,9 +62,14 @@ Image::Image(const Image & pImage)
     // If an image has already been loaded
     if (pImage.mImageLoaded)
     {
+#ifdef __linux__
+
+#elif __APPLE__
         // Copy the image
         mImage = CGImageCreateCopy(mImage);
+#elif _WIN32
 
+#endif
         // Copy the raw data
         unsigned int lDataSize = pImage.mWidth*pImage.mHeight*pImage.mBytesPerPixel;
         mRawData = new unsigned char[lDataSize];
@@ -79,9 +93,14 @@ Image Image::operator=(const Image & pImage)
     // If an image has already been loaded
     if (mImageLoaded)
     {
+#ifdef __linux__
+
+#elif __APPLE__
         // Copy the image
         mImage = CGImageCreateCopy(mImage);
+#elif _WIN32
 
+#endif
         // Copy the raw data
         unsigned int lDataSize = pImage.mWidth*pImage.mHeight*pImage.mBytesPerPixel;
         mRawData = new unsigned char[lDataSize];
@@ -97,7 +116,7 @@ Image::~Image(void)
 
 bool Image::loadFromFile(const string & pPath)
 {
-    return _createCGImageFromFile(pPath);
+    return _createImageFromFile(pPath);
 }
 
 Color Image::pixelColor(double pI, double pJ) const
@@ -154,72 +173,97 @@ Color Image::pixelColor(double pI, double pJ) const
     }
 }
 
-bool Image::_createCGImageFromFile(const string & pPath)
-{
-    // Set up options. The options here are for caching the image in a decoded form and for using floating-point values if the image format supports them.
-    CFStringRef lKeys[2]   = {kCGImageSourceShouldCache, kCGImageSourceShouldAllowFloat};
-    CFTypeRef   lValues[2] = {(CFTypeRef)kCFBooleanTrue, (CFTypeRef)kCFBooleanTrue};
 
-    // Create the dictionary
-    CFDictionaryRef lOptions = CFDictionaryCreate(NULL, (const void **) lKeys, (const void **) lValues, 2, & kCFTypeDictionaryKeyCallBacks, & kCFTypeDictionaryValueCallBacks);
+#ifdef __linux__
+    bool Image::_createImageFromFile(const string & pPath)
+    {
+        mImage = ImageInput::open(pPath);
 
-    // Create an URL from the path
-    string lFilePath("file://");
-    lFilePath.append(pPath);
+        if (!mImage)
+            return false;
 
-    CFStringRef lBaseStr = CFStringCreateWithCString ( kCFAllocatorDefault, lFilePath.c_str(), kCFStringEncodingASCII);
-    CFURLRef lBaseURL = CFURLCreateWithString(NULL, lBaseStr, NULL);
+        const ImageSpec & spec = mImage->spec();
+        mWidth = spec.width;
+        mHeight = spec.height;
+        mBytesPerPixel = spec.nchannels;
 
-    // Create an image source from the URL
-    CGImageSourceRef mImageSource = CGImageSourceCreateWithURL(lBaseURL, lOptions);
+        mRawData = new unsigned char[mWidth * mHeight * mBytesPerPixel];
+        mBytesPerRow = mBytesPerPixel * mWidth;
 
-    // Release memory
-    CFRelease(lOptions);
-    CFRelease(lBaseStr);
-    CFRelease(lBaseURL);
+        mImage->read_image(TypeDesc::UINT8, mRawData);
+        mImage->close();
 
-    // Make sure the image source exists before continuing
-    if (mImageSource == NULL)
+        mImageLoaded = true;
+        return true;
+    }
+#elif __APPLE__
+    bool Image::_createImageFromFile(const string & pPath)
+    {
+        // Set up options. The options here are for caching the image in a decoded form and for using floating-point values if the image format supports them.
+        CFStringRef lKeys[2]   = {kCGImageSourceShouldCache, kCGImageSourceShouldAllowFloat};
+        CFTypeRef   lValues[2] = {(CFTypeRef)kCFBooleanTrue, (CFTypeRef)kCFBooleanTrue};
+
+        // Create the dictionary
+        CFDictionaryRef lOptions = CFDictionaryCreate(NULL, (const void **) lKeys, (const void **) lValues, 2, & kCFTypeDictionaryKeyCallBacks, & kCFTypeDictionaryValueCallBacks);
+
+        // Create an URL from the path
+        string lFilePath("file://");
+        lFilePath.append(pPath);
+
+        CFStringRef lBaseStr = CFStringCreateWithCString ( kCFAllocatorDefault, lFilePath.c_str(), kCFStringEncodingASCII);
+        CFURLRef lBaseURL = CFURLCreateWithString(NULL, lBaseStr, NULL);
+
+        // Create an image source from the URL
+        CGImageSourceRef mImageSource = CGImageSourceCreateWithURL(lBaseURL, lOptions);
+
+        // Release memory
+        CFRelease(lOptions);
+        CFRelease(lBaseStr);
+        CFRelease(lBaseURL);
+
+        // Make sure the image source exists before continuing
+        if (mImageSource == NULL)
+            return false;
+
+        // Create an image from the first item in the image source.
+        mImage = CGImageSourceCreateImageAtIndex(mImageSource,0,NULL);
+
+        // Release the source image
+        CFRelease(mImageSource);
+
+        // Make sure the image exists before continuing
+        if (mImage == NULL)
+            return false;
+
+        // Save image parameters
+        mHeight             = static_cast<unsigned int>(CGImageGetHeight(mImage));
+        mWidth              = static_cast<unsigned int>(CGImageGetWidth(mImage));
+        mBitsPerComponent   = static_cast<unsigned int>(CGImageGetBitsPerComponent(mImage));
+        mBytesPerPixel      = static_cast<unsigned int>(CGImageGetBitsPerPixel(mImage)/8);
+        mBytesPerRow        = static_cast<unsigned int>(CGImageGetBytesPerRow(mImage));
+
+        // Create a context to have acces to the raw data
+        CGColorSpaceRef lColorSpace = CGColorSpaceCreateDeviceRGB();
+
+        mRawData = new unsigned char[mHeight*mWidth*mBytesPerPixel];
+        mBytesPerRow = mBytesPerPixel * mWidth;
+
+        CGContextRef context = CGBitmapContextCreate(mRawData, mWidth, mHeight, mBitsPerComponent, mBytesPerRow, lColorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+
+        CGColorSpaceRelease(lColorSpace);
+
+        CGContextDrawImage(context, CGRectMake(0, 0, mWidth, mHeight), mImage);
+
+        CGContextRelease(context);
+
+        mImageLoaded = true;
+
+        return true;
+    }
+#elif _WIN32
+    bool Image::_createImageFromFile(const string & pPath)
+    {
+        static_assert(false && "method not implemented");
         return false;
-
-    // Create an image from the first item in the image source.
-    mImage = CGImageSourceCreateImageAtIndex(mImageSource,0,NULL);
-
-    // Release the source image
-    CFRelease(mImageSource);
-
-    // Make sure the image exists before continuing
-    if (mImage == NULL)
-        return false;
-
-    // Save image parameters
-    mHeight             = static_cast<unsigned int>(CGImageGetHeight(mImage));
-    mWidth              = static_cast<unsigned int>(CGImageGetWidth(mImage));
-    mBitsPerComponent   = static_cast<unsigned int>(CGImageGetBitsPerComponent(mImage));
-    mBytesPerPixel      = static_cast<unsigned int>(CGImageGetBitsPerPixel(mImage)/8);
-    mBytesPerRow        = static_cast<unsigned int>(CGImageGetBytesPerRow(mImage));
-
-    // Create a context to have acces to the raw data
-    CGColorSpaceRef lColorSpace = CGColorSpaceCreateDeviceRGB();
-
-    mRawData = new unsigned char[mHeight*mWidth*mBytesPerPixel];
-    mBytesPerRow = mBytesPerPixel * mWidth;
-
-    CGContextRef context = CGBitmapContextCreate(mRawData, mWidth, mHeight, mBitsPerComponent, mBytesPerRow, lColorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
-
-    CGColorSpaceRelease(lColorSpace);
-
-    CGContextDrawImage(context, CGRectMake(0, 0, mWidth, mHeight), mImage);
-
-    CGContextRelease(context);
-
-    mImageLoaded = true;
-
-    return true;
-
-}
-
-
-
-
-
+    }
+#endif

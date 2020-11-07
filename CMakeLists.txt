@@ -46,7 +46,7 @@ run_conan("fmt/6.1.2")
 # Other third party libraries
 # ===========================
 find_package(OpenImageIO REQUIRED)
-
+find_package(OpenGL REQUIRED)
 
 # =======================
 # Header and source files
@@ -62,9 +62,9 @@ if(UNIX AND NOT APPLE)
     add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
 
     # Set include directories for source code and external libraries
-    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR})
+    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     conan_basic_setup(${CMAKE_PROJECT_NAME})
 
     # Specify external libraries needed for this project
-    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_options project_warnings CONAN_PKG::fmt ${OpenImageIO_LIBRARY})
+    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_warnings CONAN_PKG::fmt ${OpenImageIO_LIBRARY} ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY})
 endif()

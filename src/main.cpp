@@ -6,9 +6,17 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#include <OpenGL/gl.hpp>
-#include <OpenGL/glu.hpp>
-#include <GLUT/glut.hpp>
+#ifdef __linux__
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+    #include <GL/glut.h>
+#elif __APPLE__
+    #include <OpenGL/gl.hpp>
+    #include <OpenGL/glu.hpp>
+    #include <GLUT/glut.hpp>
+#elif _WIN32
+/boost/compute/interop/opengl.hpp
+#endif
 
 #include "CreateScenes.hpp"
 

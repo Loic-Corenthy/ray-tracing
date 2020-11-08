@@ -14,6 +14,9 @@
 using namespace MatouMalin;
 using namespace std;
 
+
+
+
 void createTestScene(MatouMalin::Scene* pScene)
 {
 
@@ -250,7 +253,7 @@ void createScene02(Scene* pScene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = {Color(1.0), Color(0.8), 2.0,1.0, 2, 400.0, 80.0, string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/damierBlueYellow.png")};
+    FloorParameters lFloorParameters = {Color(1.0), Color(0.8), 2.0,1.0, 2, 400.0, 80.0, string("./resources/damierBlueYellow.png")};
     createFloor(pScene, lFloorParameters);
 
 
@@ -348,7 +351,7 @@ void createScene03(Scene* pScene)
     ///////////
     // TORUS //
     ///////////
-    string lPath = "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/torus.obj";
+    string lPath = "./resources/torus.obj";
     pScene->createFromFile(lPath);
 
     // Create a BRDF model for the torus
@@ -394,12 +397,12 @@ void createScene03(Scene* pScene)
 
 	// Create a BRDF model for the sphere
     CubeMap* rCubeMapSphere = new CubeMap(lCenter, 104);
-    rCubeMapSphere->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_back.png");
-    rCubeMapSphere->addImage(CubeMap::FRONT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_front.png");
-    rCubeMapSphere->addImage(CubeMap::UP, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_up.png");
-    rCubeMapSphere->addImage(CubeMap::DOWN,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_down.png");
-    rCubeMapSphere->addImage(CubeMap::LEFT, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_left.png");
-    rCubeMapSphere->addImage(CubeMap::RIGHT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/earth_right.png");
+    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/earth_back.png");
+    rCubeMapSphere->addImage(CubeMap::FRONT,"./resources/earth_front.png");
+    rCubeMapSphere->addImage(CubeMap::UP, "./resources/earth_up.png");
+    rCubeMapSphere->addImage(CubeMap::DOWN,"./resources/earth_down.png");
+    rCubeMapSphere->addImage(CubeMap::LEFT, "./resources/earth_left.png");
+    rCubeMapSphere->addImage(CubeMap::RIGHT,"./resources/earth_right.png");
     rCubeMapSphere->setInterpolationMethod(Image::Interpolation::LINEAR);
 
     pScene->add(rCubeMapSphere);
@@ -558,7 +561,7 @@ void createScene04(Scene* pScene)
     pScene->add(rCamera);
 
     // FLOOR
-    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0f,1.0f,2,2000.0,100.0, string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/rect5130.png")};
+    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0f,1.0f,2,2000.0,100.0, string("./resources/rect5130.png")};
 
     createFloor(pScene, lFloorParameters);
 
@@ -663,7 +666,7 @@ void createScene04bis(MatouMalin::Scene* pScene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/small_damier.png")};
+    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("./resources/small_damier.png")};
     createFloor(pScene, lFloorParameters);
 
     ////////////////
@@ -677,7 +680,7 @@ void createScene04bis(MatouMalin::Scene* pScene)
 void createScene05(Scene* pScene)
 {
     // TORUS
-    string lPath = "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/torus.obj";
+    string lPath = "./resources/torus.obj";
     pScene->createFromFile(lPath);
 
     // Create a BRDF model for the torus
@@ -885,12 +888,12 @@ void createScene06(Scene* pScene)
 //    Color lDiffusionSphere2(1.0f);
 //	Color lSpecularSphere2(0.1);
 //    CubeMap* rCubeMapSphere = new CubeMap(lCenterSphere2, 520);
-//    rCubeMapSphere->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_back.png");
-//    rCubeMapSphere->addImage(CubeMap::FRONT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_front.png");
-//    rCubeMapSphere->addImage(CubeMap::UP, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_up.png");
-//    rCubeMapSphere->addImage(CubeMap::DOWN,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_down.png");
-//    rCubeMapSphere->addImage(CubeMap::LEFT, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_left.png");
-//    rCubeMapSphere->addImage(CubeMap::RIGHT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_right.png");
+//    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/Desert_back.png");
+//    rCubeMapSphere->addImage(CubeMap::FRONT,"./resources/Desert_front.png");
+//    rCubeMapSphere->addImage(CubeMap::UP, "./resources/Desert_up.png");
+//    rCubeMapSphere->addImage(CubeMap::DOWN,"./resources/Desert_down.png");
+//    rCubeMapSphere->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
+//    rCubeMapSphere->addImage(CubeMap::RIGHT,"./resources/Desert_right.png");
 //
 //    pScene->add(rCubeMapSphere);
 //
@@ -933,12 +936,12 @@ void createScene06(Scene* pScene)
     // BACKGROUND
     CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260); // 260
 
-    rCubeMapBckGrd->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_back.png");
-    rCubeMapBckGrd->addImage(CubeMap::FRONT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_front.png");
-    rCubeMapBckGrd->addImage(CubeMap::UP, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_up.png");
-    rCubeMapBckGrd->addImage(CubeMap::DOWN,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_down.png");
-    rCubeMapBckGrd->addImage(CubeMap::LEFT, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_left.png");
-    rCubeMapBckGrd->addImage(CubeMap::RIGHT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/River_right.png");
+    rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/River_back.png");
+    rCubeMapBckGrd->addImage(CubeMap::FRONT,"./resources/River_front.png");
+    rCubeMapBckGrd->addImage(CubeMap::UP, "./resources/River_up.png");
+    rCubeMapBckGrd->addImage(CubeMap::DOWN,"./resources/River_down.png");
+    rCubeMapBckGrd->addImage(CubeMap::LEFT, "./resources/River_left.png");
+    rCubeMapBckGrd->addImage(CubeMap::RIGHT,"./resources/River_right.png");
 
     rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
 
@@ -1038,7 +1041,7 @@ void createScene07(Scene* pScene)
     pScene->add(rCamera);
 
     // ROOM
-    RoomParameters lRoomParameters = {Color(1.0f,0.18f,0.17f), Color(0.0f), 1.0,1.0, 2,50.0, 20.0,string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureLeaves_750x750.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400_Right.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400.png")};
+    RoomParameters lRoomParameters = {Color(1.0f,0.18f,0.17f), Color(0.0f), 1.0,1.0, 2,50.0, 20.0,string("./resources/textureLeaves_750x750.png"),string("./resources/textureWall_400x400.png"),string("./resources/textureWall_400x400_Right.png"),string("./resources/textureWall_400x400.png")};
 
 //    RoomParameters lRoomParameters = {Color(1.0f,0.78f,0.17f), Color(0.0f,0.0f,0.79), 50.0, 20.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
 
@@ -1125,7 +1128,7 @@ void createScene08(MatouMalin::Scene* pScene)
 void createScene09(MatouMalin::Scene* pScene)
 {
     // Load the "torus"
-    string lPath = "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/head_4.obj";
+    string lPath = "./resources/head_4.obj";
     pScene->createFromFile(lPath);
 
     // Create a BRDF model for the sphere
@@ -1325,7 +1328,7 @@ void createScene10(MatouMalin::Scene* pScene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0,1.0, 2, 2000.0,100.0, string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/rect5130.png")};
+    FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0,1.0, 2, 2000.0,100.0, string("./resources/rect5130.png")};
     createFloor(pScene, lFloorParameters);
 
 
@@ -1459,7 +1462,7 @@ void createScene12(MatouMalin::Scene* pScene)
 
     // Create a BRDF model for the sphere
     //    CubeMap* rCubeMapSphere = new CubeMap(lCenterSphere1, 720);
-    //    rCubeMapSphere->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/nightSky2.png");
+    //    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/nightSky2.png");
     //    rCubeMapSphere->setLink(CubeMap::FRONT, 0);
     //    rCubeMapSphere->setLink(CubeMap::UP, 0);
     //    rCubeMapSphere->setLink(CubeMap::DOWN, 0);
@@ -1555,7 +1558,7 @@ void createScene12(MatouMalin::Scene* pScene)
     ////////////////
     //    CubeMap* rCubeMap = new CubeMap(lCenterSphere1, 750);
     //
-    //    rCubeMap->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/nightSky2.png");
+    //    rCubeMap->addImage(CubeMap::BACK, "./resources/nightSky2.png");
     //    rCubeMap->setLink(CubeMap::FRONT, 0);
     //    rCubeMap->setLink(CubeMap::UP, 0);
     //    rCubeMap->setLink(CubeMap::DOWN, 0);
@@ -1571,7 +1574,7 @@ void createScene12(MatouMalin::Scene* pScene)
 
 void createScene13(MatouMalin::Scene* pScene)
 {
-    pScene->createFromFile("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/tableAndStatue3_bis.obj");
+    pScene->createFromFile("./resources/tableAndStatue3_bis.obj");
 
     // Create BRDF model for the cones
     Color lDiffusion(255, 105, 0);
@@ -1682,12 +1685,12 @@ void createScene13(MatouMalin::Scene* pScene)
 
     CubeMap* rCubeMapDesert = new CubeMap(MatouMalin::Point(0.0), 260); // 260
 
-    rCubeMapDesert->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_back.png");
-    rCubeMapDesert->addImage(CubeMap::FRONT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_front.png");
-    rCubeMapDesert->addImage(CubeMap::UP, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_up.png");
-    rCubeMapDesert->addImage(CubeMap::DOWN,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_down.png");
-    rCubeMapDesert->addImage(CubeMap::LEFT, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_left.png");
-    rCubeMapDesert->addImage(CubeMap::RIGHT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_right.png");
+    rCubeMapDesert->addImage(CubeMap::BACK, "./resources/Desert_back.png");
+    rCubeMapDesert->addImage(CubeMap::FRONT,"./resources/Desert_front.png");
+    rCubeMapDesert->addImage(CubeMap::UP, "./resources/Desert_up.png");
+    rCubeMapDesert->addImage(CubeMap::DOWN,"./resources/Desert_down.png");
+    rCubeMapDesert->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
+    rCubeMapDesert->addImage(CubeMap::RIGHT,"./resources/Desert_right.png");
 
     rCubeMapDesert->setInterpolationMethod(Image::Interpolation::LINEAR);
 
@@ -1766,7 +1769,7 @@ void createScene13(MatouMalin::Scene* pScene)
     rCamera->setAperture(Camera::Aperture::F_SMALL,Camera::Precision::SUPER_AWESOME);
     pScene->add(rCamera);
 
-    RoomParameters lParameters = {Color(0.8f),Color(0.8f), 0.0,1.0, 1, MatouMalin::Point(-28.0,0.0,-20.0),Vector(40.0,15.0,40.0),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/floor.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400_Right.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/textureWall_400x400.png"),string("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/ceiling.png")};
+    RoomParameters lParameters = {Color(0.8f),Color(0.8f), 0.0,1.0, 1, MatouMalin::Point(-28.0,0.0,-20.0),Vector(40.0,15.0,40.0),string("./resources/floor.png"),string("./resources/textureWall_400x400.png"),string("./resources/textureWall_400x400_Right.png"),string("./resources/textureWall_400x400.png"),string("./resources/ceiling.png")};
 
     createRoom(pScene, lParameters);
 
@@ -1779,7 +1782,7 @@ void createScene13(MatouMalin::Scene* pScene)
 
 void createScene14(MatouMalin::Scene* pScene)
 {
-    pScene->createFromFile("/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/tableAndStatueAndPyramid3.obj");
+    pScene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
 
     // Create BRDF model for the cones
     Color lDiffusion(255, 105, 0);
@@ -1943,12 +1946,12 @@ void createScene14(MatouMalin::Scene* pScene)
 
     CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260); // 260
 
-    rCubeMapBckGrd->addImage(CubeMap::BACK, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_back.png");
-    rCubeMapBckGrd->addImage(CubeMap::FRONT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_front.png");
-    rCubeMapBckGrd->addImage(CubeMap::UP, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_up.png");
-    rCubeMapBckGrd->addImage(CubeMap::DOWN,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_down.png");
-    rCubeMapBckGrd->addImage(CubeMap::LEFT, "/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_left.png");
-    rCubeMapBckGrd->addImage(CubeMap::RIGHT,"/Users/loiccorenthy/Xcode/Projects/RayTracing/RayTracing/Desert_right.png");
+    rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/Desert_back.png");
+    rCubeMapBckGrd->addImage(CubeMap::FRONT,"./resources/Desert_front.png");
+    rCubeMapBckGrd->addImage(CubeMap::UP, "./resources/Desert_up.png");
+    rCubeMapBckGrd->addImage(CubeMap::DOWN,"./resources/Desert_down.png");
+    rCubeMapBckGrd->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
+    rCubeMapBckGrd->addImage(CubeMap::RIGHT,"./resources/Desert_right.png");
 
     rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
 

@@ -46,7 +46,21 @@ run_conan("fmt/6.1.2")
 # Other third party libraries
 # ===========================
 find_package(OpenImageIO REQUIRED)
+if(OpenImageIO_FOUND)
+    message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
+    # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
+    # You have to use OpenImageIO::OpenImageIO to link
+endif()
+
 find_package(OpenGL REQUIRED)
+if(OpenGL_FOUND)
+    message(STATUS "Found OpenGL: " ${OPENGL_opengl_LIBRARY})
+endif()
+
+find_package(GLUT REQUIRED)
+if(GLUT_FOUND)
+    message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
+endif()
 
 # =======================
 # Header and source files
@@ -62,9 +76,9 @@ if(UNIX AND NOT APPLE)
     add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
 
     # Set include directories for source code and external libraries
-    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
     conan_basic_setup(${CMAKE_PROJECT_NAME})
 
     # Specify external libraries needed for this project
-    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_warnings CONAN_PKG::fmt ${OpenImageIO_LIBRARY} ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY})
+    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_warnings CONAN_PKG::fmt OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} ${GLUT_LIBRARY})
 endif()

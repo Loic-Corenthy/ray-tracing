@@ -54,31 +54,31 @@ namespace MatouMalin
         void setMax(const Point & pMax);
 
     private:
-        Point mMin;
-        Point mMax;
+        Point _min;
+        Point _max;
 
     }; // class BoundingBox
 
     inline Point BoundingBox::min(void) const
     {
-        return mMin;
+        return _min;
     }
 
     inline Point BoundingBox::max(void) const
     {
-        return mMax;
+        return _max;
     }
 
     inline void BoundingBox::setMin(const Point & pMin)
     {
-        assert(pMin.x() <= mMin.x() && pMin.y() <= mMin.y() && pMin.z() <= mMin.z() && "The point has at least one coordinate which is not minimum");
-        mMin = pMin;
+        assert(pMin.x() <= _min.x() && pMin.y() <= _min.y() && pMin.z() <= _min.z() && "The point has at least one coordinate which is not minimum");
+        _min = pMin;
     }
 
     inline void BoundingBox::setMax(const Point & pMax)
     {
-        assert(pMax.x() >= mMax.x() && pMax.y() >= mMax.y() && pMax.z() >= mMax.z() && "The point has at least one coordinate which is not maximum");
-        mMax = pMax;
+        assert(pMax.x() >= _max.x() && pMax.y() >= _max.y() && pMax.z() >= _max.z() && "The point has at least one coordinate which is not maximum");
+        _max = pMax;
     }
 
 } // namespace MatouMalin

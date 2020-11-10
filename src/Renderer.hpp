@@ -47,32 +47,32 @@ namespace MatouMalin
         Renderer operator=(const Renderer & pRenderer);
 
     private:
-        Scene* mScene;
-        Buffer mBuffer;
-        unsigned short mReflectionCount;
-        bool mSuperSampling;
+        Scene* _scene;
+        Buffer _buffer;
+        unsigned short _reflectionCount;
+        bool _superSampling;
 
     }; // class Renderer
 
     inline void Renderer::setScene(Scene *pScene)
     {
         assert(pScene != nullptr && "The scene assigned to the Renderer is not valid");
-        mScene = pScene;
+        _scene = pScene;
     }
 
     inline const Buffer & Renderer::getBuffer(void) const
     {
-        return mBuffer;
+        return _buffer;
     }
 
     inline bool Renderer::superSampling(void) const
     {
-        return mSuperSampling;
+        return _superSampling;
     }
 
     inline void Renderer::setSuperSampling(bool pActivate)
     {
-        mSuperSampling = pActivate;
+        _superSampling = pActivate;
     }
 
 } // namespace MatouMalin

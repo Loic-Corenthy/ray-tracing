@@ -103,52 +103,52 @@ namespace MatouMalin
         void _countVerticesAndFaces(const std::string & pObjFilePath, OBJParameters & pParameters) const;
 
     private:
-        std::list<Camera*>      mCameraList;
-        std::list<Light*>       mLightList;
-        std::list<Renderable*>  mRenderableList;
-        std::list<CubeMap*>     mCubeMapList;
-        std::map<std::string, Shader*>  mShaderMap;
-        std::map<std::string, BRDF*>    mBRDFMap;
-        short       mBackgroundType;
-        Color       mBackgroundColor;
-        CubeMap*    mBackgroundCubeMap;
+        std::list<Camera*>      _cameraList;
+        std::list<Light*>       _lightList;
+        std::list<Renderable*>  _renderableList;
+        std::list<CubeMap*>     _cubeMapList;
+        std::map<std::string, Shader*>  _shaderMap;
+        std::map<std::string, BRDF*>    _bRDFMap;
+        short       _backgroundType;
+        Color       _backgroundColor;
+        CubeMap*    _backgroundCubeMap;
 
 
     }; // class Scene
 
     inline std::list<Camera*> & Scene::cameraList(void)
     {
-        return mCameraList;
+        return _cameraList;
     }
 
     inline std::list<Light*> & Scene::lightList(void)
     {
-        return mLightList;
+        return _lightList;
     }
 
     inline std::list<Renderable*> & Scene::renderableList(void)
     {
-        return mRenderableList;
+        return _renderableList;
     }
 
     inline void Scene::setBackgroundColor(const Color & pColor)
     {
-        mBackgroundType = BACKGRD_COLOR;
-        mBackgroundColor = pColor;
+        _backgroundType = BACKGRD_COLOR;
+        _backgroundColor = pColor;
     }
 
     inline void Scene::setBackgroundCubeMap(CubeMap* pCubeMap)
     {
-        mBackgroundType = BACKGRD_CUBEMAP;
-        mBackgroundCubeMap = pCubeMap;
+        _backgroundType = BACKGRD_CUBEMAP;
+        _backgroundCubeMap = pCubeMap;
     }
 
     inline Color Scene::backgroundColor(const Ray & pRay) const
     {
-        if(mBackgroundType == BACKGRD_COLOR)
-            return mBackgroundColor;
+        if(_backgroundType == BACKGRD_COLOR)
+            return _backgroundColor;
         else
-            return mBackgroundCubeMap->colorAt(pRay);
+            return _backgroundCubeMap->colorAt(pRay);
     }
 
 } // namespace MatouMalin

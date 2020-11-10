@@ -89,62 +89,62 @@ namespace MatouMalin
         Vector _barycentricNormal(const Point & pPositionInTriangle) const;
 
     private:
-        Point  mVertice[3];
-        Vector mVertexNormal[3];
-        Vector mNormal;
+        Point  _vertice[3];
+        Vector _vertexNormal[3];
+        Vector _normal;
 
     }; // class Triangle
 
     inline Point Triangle::operator[](unsigned int pIndex) const
     {
-        return mVertice[pIndex];
+        return _vertice[pIndex];
     }
 
     inline Point & Triangle::operator[](unsigned int pIndex)
     {
-        return mVertice[pIndex];
+        return _vertice[pIndex];
     }
 
     inline const Point & Triangle::v0(void) const
     {
-        return mVertice[0];
+        return _vertice[0];
     }
 
     inline const Point & Triangle::v1(void) const
     {
-        return mVertice[1];
+        return _vertice[1];
     }
 
     inline const Point & Triangle::v2(void) const
     {
-        return mVertice[2];
+        return _vertice[2];
     }
 
     inline void Triangle::setV0(const Point & pPoint)
     {
-        mVertice[0] = pPoint;
+        _vertice[0] = pPoint;
     }
 
     inline void Triangle::setV1(const Point & pPoint)
     {
-        mVertice[1] = pPoint;
+        _vertice[1] = pPoint;
     }
 
     inline void Triangle::setV2(const Point & pPoint)
     {
-        mVertice[2] = pPoint;
+        _vertice[2] = pPoint;
     }
 
     inline void Triangle::setVI(unsigned int pIndex, const MatouMalin::Point &pPoint)
     {
         assert(pIndex == 0 || pIndex == 1 || pIndex == 2 && "Index must be 0,1 or 2");
-        mVertice[pIndex] = pPoint;
+        _vertice[pIndex] = pPoint;
     }
 
     inline void Triangle::setVertexNormal(unsigned int pIndex, const MatouMalin::Vector & pVertexNormal)
     {
         assert(pIndex == 0 || pIndex == 1 || pIndex == 2 && "Index must be 0,1 or 2");
-        mVertexNormal[pIndex] = pVertexNormal;
+        _vertexNormal[pIndex] = pVertexNormal;
     }
 
     inline float Triangle::_det(float pA1,float pA2,float pB1,float pB2)
@@ -155,12 +155,12 @@ namespace MatouMalin
     inline Vector Triangle::normal(const Point & pPosition) const
     {
         return _barycentricNormal(pPosition);
-        return mNormal;
+        return _normal;
     }
 
     inline void Triangle::setNormal(const Vector & pNormal)
     {
-        mNormal = pNormal;
+        _normal = pNormal;
     }
 
 } // namespace MatouMalin

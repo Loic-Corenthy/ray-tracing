@@ -29,12 +29,12 @@ const int Noise::smPermutations[] = { 151,160,137,91,90,15,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
-const double Noise::mPi = 3.14159265359f;
+const double Noise::_pi = 3.14159265359f;
 
 Noise::Noise(void)
 {
 
-    mPermutations = {151,160,137,91,90,15,
+    _permutations = {151,160,137,91,90,15,
         131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
         190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
         88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,
@@ -64,7 +64,7 @@ Noise::Noise(void)
 }
 
 Noise::Noise(const Noise & pNoise)
-:mPermutations(pNoise.mPermutations)
+:_permutations(pNoise._permutations)
 {
 }
 
@@ -73,7 +73,7 @@ Noise Noise::operator=(const Noise & pNoise)
     if (this == & pNoise)
         return *this;
 
-    mPermutations = pNoise.mPermutations;
+    _permutations = pNoise._permutations;
 
     return *this;
 }
@@ -85,10 +85,10 @@ Noise::~Noise(void)
 void Noise::_init(void)
 {
     for (unsigned int i=0; i < 256; i++)
-        mPermutations.push_back(smPermutations[i]);
+        _permutations.push_back(smPermutations[i]);
 
     for (unsigned int i=0; i < 256; i++)
-            mPermutations.push_back(smPermutations[i]);
+            _permutations.push_back(smPermutations[i]);
 }
 
 double Noise::_grad(int pHash, double pX, double pY, double pZ) const
@@ -115,18 +115,18 @@ double Noise::perlinNoise(double pX, double pY, double pZ) const
     double lV = _fade(pY);
     double lW = _fade(pZ);
 
-    int lA  = mPermutations[lX]+lY;
-    int lAA = mPermutations[lA]+lZ;
-    int lAB = mPermutations[lA+1]+lZ;
-    int lB  = mPermutations[lX+1]+lY;
-    int lBA = mPermutations[lB]+lZ;
-    int lBB = mPermutations[lB+1]+lZ;
+    int lA  = _permutations[lX]+lY;
+    int lAA = _permutations[lA]+lZ;
+    int lAB = _permutations[lA+1]+lZ;
+    int lB  = _permutations[lX+1]+lY;
+    int lBA = _permutations[lB]+lZ;
+    int lBB = _permutations[lB+1]+lZ;
 
-    double lTmp1 = _lerp(lV, _lerp(lU, _grad(mPermutations[lAA], pX, pY, pZ),     _grad(mPermutations[lBA], pX-1.0, pY, pZ)),
-                             _lerp(lU, _grad(mPermutations[lAB], pX, pY-1.0, pZ), _grad(mPermutations[lBB], pX-1.0, pY-1.0, pZ)));
+    double lTmp1 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA], pX, pY, pZ),     _grad(_permutations[lBA], pX-1.0, pY, pZ)),
+                             _lerp(lU, _grad(_permutations[lAB], pX, pY-1.0, pZ), _grad(_permutations[lBB], pX-1.0, pY-1.0, pZ)));
 
-    double lTmp2 = _lerp(lV, _lerp(lU, _grad(mPermutations[lAA+1], pX, pY, pZ-1.0), _grad(mPermutations[lBA+1], pX-1.0, pY, pZ-1.0)),
-                             _lerp(lU, _grad(mPermutations[lAB+1], pX, pY-1.0, pZ-1.0), _grad(mPermutations[lBB+1], pX-1.0, pY-1.0, pZ-1.0)));
+    double lTmp2 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA+1], pX, pY, pZ-1.0), _grad(_permutations[lBA+1], pX-1.0, pY, pZ-1.0)),
+                             _lerp(lU, _grad(_permutations[lAB+1], pX, pY-1.0, pZ-1.0), _grad(_permutations[lBB+1], pX-1.0, pY-1.0, pZ-1.0)));
 
     return _lerp(lW, lTmp1, lTmp2);
 }

@@ -68,47 +68,47 @@ namespace MatouMalin
     private:
 
 #ifdef __linux__
-        std::unique_ptr<OIIO::ImageInput> mImage;
+        std::unique_ptr<OIIO::ImageInput> _image;
 #elif __APPLE__
-        CGImageRef     mImage;
+        CGImageRef     _image;
 #elif _WIN32
 
 #endif
-        unsigned char* mRawData;
-        unsigned int   mWidth;
-        unsigned int   mHeight;
-        unsigned int   mBytesPerPixel;
-        unsigned int   mBytesPerRow;
-        unsigned int   mBitsPerComponent;
-        unsigned short mInterpolation;
-        bool           mImageLoaded;
+        unsigned char* _rawData;
+        unsigned int   _width;
+        unsigned int   _height;
+        unsigned int   _bytesPerPixel;
+        unsigned int   _bytesPerRow;
+        unsigned int   _bitsPerComponent;
+        unsigned short _interpolation;
+        bool           _imageLoaded;
 
     }; // Class Image
 
 
     inline void Image::setInterpolation(unsigned short pMethod)
     {
-        mInterpolation = pMethod;
+        _interpolation = pMethod;
     }
 
     inline unsigned short Image::interpolation(void) const
     {
-        return mInterpolation;
+        return _interpolation;
     }
 
     inline unsigned int Image::width(void) const
     {
-        return mWidth;
+        return _width;
     }
 
     inline unsigned int Image::height(void) const
     {
-        return mHeight;
+        return _height;
     }
 
     inline bool Image::imageLoaded(void) const
     {
-        return mImageLoaded;
+        return _imageLoaded;
     }
 
 } // namespace MatouMalin

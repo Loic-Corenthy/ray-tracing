@@ -49,18 +49,18 @@ namespace MatouMalin
         Color specular(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection) const final;//(c++11)
 
     private:
-        Color mDiffusionColor;
+        Color _diffusionColor;
 
     }; // class Lambert
 
     inline void Lambert::setDiffusionColor(Color pDiffusionColor)
     {
-        mDiffusionColor = pDiffusionColor;
+        _diffusionColor = pDiffusionColor;
     }
 
     inline Color Lambert::diffusionColor(void) const
     {
-        return mDiffusionColor;
+        return _diffusionColor;
     }
 
 } // namespace MatouMalin

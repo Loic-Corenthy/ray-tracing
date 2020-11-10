@@ -43,18 +43,18 @@ namespace MatouMalin
         Color intensity(void) const;
 
     protected:
-        Color mIntensity;
+        Color _intensity;
 
     }; // class Light
 
     inline void Light::setIntensity(const MatouMalin::Color &pColor)
     {
-        mIntensity = pColor;
+        _intensity = pColor;
     }
 
     inline Color Light::intensity(void) const
     {
-        return mIntensity;
+        return _intensity;
     }
 
 } // namespace MatouMalin

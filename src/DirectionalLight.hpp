@@ -45,23 +45,23 @@ namespace MatouMalin
         Vector directionFrom(const Point & pPoint) const;
 
     private:
-        Vector mDirection;
+        Vector _direction;
 
     }; // class DirectionalLight
 
     inline void DirectionalLight::setDirection(const Vector & pDirection)
     {
-        mDirection = pDirection;
+        _direction = pDirection;
     }
 
     inline const Vector & DirectionalLight::direction(void) const
     {
-        return mDirection;
+        return _direction;
     }
 
     inline Vector DirectionalLight::directionFrom(const Point & pPoint) const
     {
-        return mDirection*(-1);
+        return _direction*(-1);
     }
 
 } // namespace MatouMalin

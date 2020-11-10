@@ -3,26 +3,26 @@
 using namespace MatouMalin;
 
 Ray::Ray(void)
-:mOrigin(Point(0.0f,0.0f,0.0f)),
- mDirection(Vector(0.0f,0.0f,0.0f)),
- mIntersected(nullptr)
+:_origin(Point(0.0f,0.0f,0.0f)),
+ _direction(Vector(0.0f,0.0f,0.0f)),
+ _intersected(nullptr)
 {
-    mLength = (float)MAXFLOAT;
+    _length = (float)MAXFLOAT;
 }
 
 Ray::Ray(const Point & pOrigin, const Vector & pDirection)
-:mOrigin(pOrigin),
- mDirection(pDirection),
- mIntersected(nullptr)
+:_origin(pOrigin),
+ _direction(pDirection),
+ _intersected(nullptr)
 {
-	mLength = (float)MAXFLOAT;
+	_length = (float)MAXFLOAT;
 }
 
 Ray::Ray(const Ray & pRay)
-:mOrigin(pRay.mOrigin),
- mDirection(pRay.mDirection),
- mLength(pRay.mLength),
- mIntersected(pRay.mIntersected)
+:_origin(pRay._origin),
+ _direction(pRay._direction),
+ _length(pRay._length),
+ _intersected(pRay._intersected)
 {
 }
 
@@ -31,10 +31,10 @@ Ray Ray::operator=(const Ray & pRay)
     if(this == & pRay)
         return *this;
 
-    mOrigin = pRay.mOrigin;
-	mDirection = pRay.mDirection;
-	mLength = pRay.mLength;
-	mIntersected = pRay.mIntersected;
+    _origin = pRay._origin;
+	_direction = pRay._direction;
+	_length = pRay._length;
+	_intersected = pRay._intersected;
 
     return *this;
 }

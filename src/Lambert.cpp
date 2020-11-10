@@ -20,19 +20,19 @@ using namespace MatouMalin;
 
 Lambert::Lambert(void)
 :BRDF(),
- mDiffusionColor(0.0)
+ _diffusionColor(0.0)
 {
 }
 
 Lambert::Lambert(const Color & pDiffusionColor)
 :BRDF(pDiffusionColor*0.1),
- mDiffusionColor(pDiffusionColor)
+ _diffusionColor(pDiffusionColor)
 {
 }
 
 Lambert::Lambert(const Lambert & pLambert)
 :BRDF(pLambert),
- mDiffusionColor(pLambert.mDiffusionColor)
+ _diffusionColor(pLambert._diffusionColor)
 {
 
 }
@@ -44,7 +44,7 @@ Lambert Lambert::operator=(const Lambert & pLambert)
 
     BRDF::operator=(pLambert);
 
-    mDiffusionColor = pLambert.mDiffusionColor;
+    _diffusionColor = pLambert._diffusionColor;
 
     return *this;
 }
@@ -79,7 +79,7 @@ Color Lambert::diffuse(const Vector & pVecToLight, const Vector & pNormal, const
 
     }
     else
-        return (mDiffusionColor*lCosAlpha);
+        return (_diffusionColor*lCosAlpha);
 }
 
 Color Lambert::specular(const MatouMalin::Vector &pVecToLight, const MatouMalin::Vector &pVecToViewer, const MatouMalin::Vector &pNormal, const MatouMalin::Point &pIntersection) const

@@ -68,56 +68,56 @@ namespace MatouMalin
         void setRefractionCoeff(double pCoeff);
 
     private:
-        BRDF* mBRDF;
-        unsigned short mReflectionCountMax;
-        double mReflectionCoeff;
-        double mCurrentReflectionCoeff;
-        double mRefractionCoeff;
-        unsigned short mMaterial;
-        Scene* mScene;
+        BRDF* _bRDF;
+        unsigned short _reflectionCountMax;
+        double _reflectionCoeff;
+        double _currentReflectionCoeff;
+        double _refractionCoeff;
+        unsigned short _material;
+        Scene* _scene;
 
     }; // class Shader
 
     inline Scene* Shader::ptrOnScene(void)
     {
-        return mScene;
+        return _scene;
     }
 
     inline unsigned short Shader::reflectionCountMax(void) const
     {
-        return mReflectionCountMax;
+        return _reflectionCountMax;
     }
 
     inline double Shader::reflectionCoeff(void) const
     {
-        return mReflectionCoeff;
+        return _reflectionCoeff;
     }
 
     inline double Shader::refractionCoeff(void) const
     {
-        return mRefractionCoeff;
+        return _refractionCoeff;
     }
 
     inline BRDF* Shader::reflectionModel(void)
     {
-        return mBRDF;
+        return _bRDF;
     }
 
     inline void Shader::setReflectionCountMax(unsigned short pValue)
     {
         assert(0 < pValue && pValue < 11 && "reflection count max out of range");
-        mReflectionCountMax = pValue;
+        _reflectionCountMax = pValue;
     }
 
     inline void Shader::setReflectionCoeff(double pCoeff)
     {
-        mReflectionCoeff = pCoeff;
+        _reflectionCoeff = pCoeff;
     }
 
     inline void Shader::setRefractionCoeff(double pCoeff)
     {
         assert(pCoeff >= 1 && "Refraction coefficient must be bigger than 1");
-        mRefractionCoeff = pCoeff;
+        _refractionCoeff = pCoeff;
     }
 
 } // namespace MatouMalin

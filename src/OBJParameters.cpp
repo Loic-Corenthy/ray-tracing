@@ -13,19 +13,19 @@
 using namespace MatouMalin;
 
 OBJParameters::OBJParameters(void)
-:mVertexCount(0),
- mTextureCount(0),
- mNormalCount(0),
- mCurrentFaceCount(0)
+:_vertexCount(0),
+ _textureCount(0),
+ _normalCount(0),
+ _currentFaceCount(0)
 {
 }
 
 OBJParameters::OBJParameters(const OBJParameters & pOBJParameters)
-:mVertexCount(pOBJParameters.mVertexCount),
- mTextureCount(pOBJParameters.mTextureCount),
- mNormalCount(pOBJParameters.mNormalCount),
- mFaceCount(pOBJParameters.mFaceCount),
- mCurrentFaceCount(pOBJParameters.mCurrentFaceCount)
+:_vertexCount(pOBJParameters._vertexCount),
+ _textureCount(pOBJParameters._textureCount),
+ _normalCount(pOBJParameters._normalCount),
+ _faceCount(pOBJParameters._faceCount),
+ _currentFaceCount(pOBJParameters._currentFaceCount)
 {
 
 }
@@ -35,11 +35,11 @@ OBJParameters OBJParameters::operator=(const OBJParameters & pOBJParameters)
     if (this == &pOBJParameters)
         return *this;
 
-    mVertexCount = pOBJParameters.mVertexCount;
-    mTextureCount = pOBJParameters.mTextureCount;
-    mNormalCount = pOBJParameters.mNormalCount;
-    mFaceCount = pOBJParameters.mFaceCount;
-    mCurrentFaceCount = pOBJParameters.mCurrentFaceCount;
+    _vertexCount = pOBJParameters._vertexCount;
+    _textureCount = pOBJParameters._textureCount;
+    _normalCount = pOBJParameters._normalCount;
+    _faceCount = pOBJParameters._faceCount;
+    _currentFaceCount = pOBJParameters._currentFaceCount;
 
     return *this;
 

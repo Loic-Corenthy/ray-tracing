@@ -64,67 +64,67 @@ namespace MatouMalin
         Point operator=(const Point & pPoint);
 
     private:
-        double mCoords[3];
+        double _coords[3];
 
     }; // class Point
 
     inline double Point::operator[](unsigned int pIndex) const
     {
         assert(0 <= pIndex && pIndex < 3 && "Point: index out of bounds");
-        return mCoords[pIndex];
+        return _coords[pIndex];
     }
 
     inline double & Point::operator[](unsigned int pIndex)
     {
         assert(0 <= pIndex && pIndex < 3 && "Point: index out of bounds");
-        return mCoords[pIndex];
+        return _coords[pIndex];
     }
 
     inline Vector Point::operator-(const Point pPoint) const
     {
-        return Vector(mCoords[0] - pPoint.mCoords[0], mCoords[1] - pPoint.mCoords[1], mCoords[2] - pPoint.mCoords[2]);
+        return Vector(_coords[0] - pPoint._coords[0], _coords[1] - pPoint._coords[1], _coords[2] - pPoint._coords[2]);
     }
 
     inline Point Point::operator+(const Vector pVector) const
     {
-        return Point(mCoords[0] + pVector[0], mCoords[1] + pVector[1], mCoords[2] + pVector[2]);
+        return Point(_coords[0] + pVector[0], _coords[1] + pVector[1], _coords[2] + pVector[2]);
     }
 
     inline void Point::setPoint(double pX,double pY,double pZ)
     {
-        mCoords[0] = pX;
-        mCoords[1] = pY;
-        mCoords[2] = pZ;
+        _coords[0] = pX;
+        _coords[1] = pY;
+        _coords[2] = pZ;
     }
 
     inline void Point::setX(double pX)
     {
-        mCoords[0] = pX;
+        _coords[0] = pX;
     }
 
     inline void Point::setY(double pY)
     {
-        mCoords[1] = pY;
+        _coords[1] = pY;
     }
 
     inline void Point::setZ(double pZ)
     {
-        mCoords[2] = pZ;
+        _coords[2] = pZ;
     }
 
     inline double Point::x(void) const
     {
-        return mCoords[0];
+        return _coords[0];
     }
 
     inline double Point::y(void) const
     {
-        return mCoords[1];
+        return _coords[1];
     }
 
     inline double Point::z(void) const
     {
-        return mCoords[2];
+        return _coords[2];
     }
 
 } // namespace MatouMalin

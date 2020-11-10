@@ -76,36 +76,36 @@ namespace MatouMalin
         void _intersect(const Ray & pRay, unsigned short & pFace, double & pI, double & pJ) const;
 
     private:
-        std::vector<Image*> mImages;
-        std::map<unsigned short, unsigned int> mFaceImageIDs;
-        Point mCenter;
-        double mSize;
+        std::vector<Image*> _images;
+        std::map<unsigned short, unsigned int> _faceImageIDs;
+        Point _center;
+        double _size;
 
     }; // class CubeMap
 
     inline void CubeMap::setCenter(const Point & pCenter)
     {
-        mCenter = pCenter;
+        _center = pCenter;
     }
 
     inline void CubeMap::setSize(double pSize)
     {
-        mSize = pSize;
+        _size = pSize;
     }
 
     inline unsigned short CubeMap::interpolationMethod(void) const
     {
-        return mImages[0]->interpolation();
+        return _images[0]->interpolation();
     }
 
     inline Point CubeMap::center(void) const
     {
-        return mCenter;
+        return _center;
     }
 
     inline double CubeMap::size(void) const
     {
-        return mSize;
+        return _size;
     }
 
 } // namespace MatouMalin

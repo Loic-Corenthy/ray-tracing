@@ -4,30 +4,30 @@ using namespace MatouMalin;
 
 Vector::Vector(void)
 {
-	mCoords[0] = 0.0;
-	mCoords[1] = 0.0;
-	mCoords[2] = 0.0;
+	_coords[0] = 0.0;
+	_coords[1] = 0.0;
+	_coords[2] = 0.0;
 }
 
 Vector::Vector(double pCommonValue)
 {
-	mCoords[0] = pCommonValue;
-	mCoords[1] = pCommonValue;
-	mCoords[2] = pCommonValue;
+	_coords[0] = pCommonValue;
+	_coords[1] = pCommonValue;
+	_coords[2] = pCommonValue;
 }
 
 Vector::Vector(double pX,double pY,double pZ)
 {
-	mCoords[0] = pX;
-	mCoords[1] = pY;
-	mCoords[2] = pZ;
+	_coords[0] = pX;
+	_coords[1] = pY;
+	_coords[2] = pZ;
 }
 
 Vector::Vector(const Vector & pVector)
 {
-	mCoords[0] = pVector.mCoords[0];
-	mCoords[1] = pVector.mCoords[1];
-	mCoords[2] = pVector.mCoords[2];
+	_coords[0] = pVector._coords[0];
+	_coords[1] = pVector._coords[1];
+	_coords[2] = pVector._coords[2];
 }
 
 Vector::~Vector(void)
@@ -39,9 +39,9 @@ Vector Vector::operator=(const Vector & pVector)
     if(this == &pVector)
         return *this;
 
-    mCoords[0] = pVector.mCoords[0];
-	mCoords[1] = pVector.mCoords[1];
-	mCoords[2] = pVector.mCoords[2];
+    _coords[0] = pVector._coords[0];
+	_coords[1] = pVector._coords[1];
+	_coords[2] = pVector._coords[2];
 
     return *this;
 }
@@ -50,9 +50,9 @@ Vector Vector::operator+(const Vector & pVector) const
 {
 	Vector lMyVector(0.0);
 
-	lMyVector[0] = mCoords[0] + pVector.mCoords[0];
-	lMyVector[1] = mCoords[1] + pVector.mCoords[1];
-	lMyVector[2] = mCoords[2] + pVector.mCoords[2];
+	lMyVector[0] = _coords[0] + pVector._coords[0];
+	lMyVector[1] = _coords[1] + pVector._coords[1];
+	lMyVector[2] = _coords[2] + pVector._coords[2];
 
 	return lMyVector;
 }
@@ -61,27 +61,27 @@ Vector Vector::operator-(const Vector & pVector) const
 {
 	Vector lMyVector(0.0);
 
-	lMyVector[0] = mCoords[0] - pVector.mCoords[0];
-	lMyVector[1] = mCoords[1] - pVector.mCoords[1];
-	lMyVector[2] = mCoords[2] - pVector.mCoords[2];
+	lMyVector[0] = _coords[0] - pVector._coords[0];
+	lMyVector[1] = _coords[1] - pVector._coords[1];
+	lMyVector[2] = _coords[2] - pVector._coords[2];
 
 	return lMyVector;
 }
 
 Vector Vector::operator+=(const Vector & pVector)
 {
-	mCoords[0] = mCoords[0] + pVector.mCoords[0];
-	mCoords[1] = mCoords[1] + pVector.mCoords[1];
-	mCoords[2] = mCoords[2] + pVector.mCoords[2];
+	_coords[0] = _coords[0] + pVector._coords[0];
+	_coords[1] = _coords[1] + pVector._coords[1];
+	_coords[2] = _coords[2] + pVector._coords[2];
 
 	return *this;
 }
 
 Vector Vector::operator-=(const Vector & pVector)
 {
-	mCoords[0] = mCoords[0] - pVector.mCoords[0];
-	mCoords[1] = mCoords[1] - pVector.mCoords[1];
-	mCoords[2] = mCoords[2] - pVector.mCoords[2];
+	_coords[0] = _coords[0] - pVector._coords[0];
+	_coords[1] = _coords[1] - pVector._coords[1];
+	_coords[2] = _coords[2] - pVector._coords[2];
 
 	return *this;
 }
@@ -90,9 +90,9 @@ Vector Vector::operator*(double pScalar) const
 {
 	Vector lMyVector(0.0);
 
-	lMyVector[0] = pScalar*mCoords[0];
-	lMyVector[1] = pScalar*mCoords[1];
-	lMyVector[2] = pScalar*mCoords[2];
+	lMyVector[0] = pScalar*_coords[0];
+	lMyVector[1] = pScalar*_coords[1];
+	lMyVector[2] = pScalar*_coords[2];
 
 	return lMyVector;
 }
@@ -101,9 +101,9 @@ Vector Vector::operator^(const Vector & pVector) const
 {
 	Vector lMyVector(0.0);
 
-	lMyVector[0] = mCoords[1]*pVector.mCoords[2] - mCoords[2]*pVector.mCoords[1];
-	lMyVector[1] = mCoords[2]*pVector.mCoords[0] - mCoords[0]*pVector.mCoords[2];
-	lMyVector[2] = mCoords[0]*pVector.mCoords[1] - mCoords[1]*pVector.mCoords[0];
+	lMyVector[0] = _coords[1]*pVector._coords[2] - _coords[2]*pVector._coords[1];
+	lMyVector[1] = _coords[2]*pVector._coords[0] - _coords[0]*pVector._coords[2];
+	lMyVector[2] = _coords[0]*pVector._coords[1] - _coords[1]*pVector._coords[0];
 
 	return lMyVector;
 }
@@ -113,9 +113,9 @@ Vector Vector::normalize(void)
 {
 	double lInvLengthVector = 1.0/(this->length());
 
-	mCoords[0] *= lInvLengthVector;
-	mCoords[1] *= lInvLengthVector;
-	mCoords[2] *= lInvLengthVector;
+	_coords[0] *= lInvLengthVector;
+	_coords[1] *= lInvLengthVector;
+	_coords[2] *= lInvLengthVector;
 
 	return *this;
 }

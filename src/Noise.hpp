@@ -53,8 +53,8 @@ namespace MatouMalin
 
     private:
         static const int smPermutations[256];
-        std::vector<int> mPermutations;
-        static const double mPi;
+        std::vector<int> _permutations;
+        static const double _pi;
     }; // class Noise
 
     inline double Noise::_fade(double pT) const
@@ -75,7 +75,7 @@ namespace MatouMalin
 
     inline double Noise::_cerp(double pA, double pB, double pT) const
     {
-        double lF = (1.0f - cosf(pT*mPi))*0.5f;
+        double lF = (1.0f - cosf(pT*_pi))*0.5f;
         return (pA*(1.0-lF)+pB*lF);
     }
 

@@ -53,40 +53,40 @@ namespace MatouMalin
         Color specular(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection) const final;
 
     private:
-        Color mDiffusionColor;
-        Color mSpecularColor;
-        int mExponent;
+        Color _diffusionColor;
+        Color _specularColor;
+        int _exponent;
 
     }; // class Phong
 
     inline void Phong::setDiffusionColor(const Color & pDiffusionColor)
     {
-        mDiffusionColor = pDiffusionColor;
+        _diffusionColor = pDiffusionColor;
     }
 
     inline void Phong::setSpecularColor(const Color &  pSpecularColor)
     {
-        mSpecularColor = pSpecularColor;
+        _specularColor = pSpecularColor;
     }
 
     inline void Phong::setExponent(int pExponent)
     {
-        mExponent = pExponent;
+        _exponent = pExponent;
     }
 
     inline Color Phong::diffusionColor(void) const
     {
-        return mDiffusionColor;
+        return _diffusionColor;
     }
 
     inline Color Phong::specularColor(void) const
     {
-        return mSpecularColor;
+        return _specularColor;
     }
 
     inline int Phong::exponent(void) const
     {
-        return mExponent;
+        return _exponent;
     }
 
 } // namespace MatouMalin

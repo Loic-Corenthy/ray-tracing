@@ -64,30 +64,30 @@ namespace MatouMalin
         bool _refraction(const Vector & pIncomingDirection, const Vector & pNormal, double pN1, double pN2, Vector & pRefractedDirection) const;
 
     protected:
-        Shader* mShader;
-        std::string mName;
+        Shader* _shader;
+        std::string _name;
 
 
     }; // class Renderable
 
     inline void Renderable::setShader(Shader* pShader)
     {
-        mShader = pShader;
+        _shader = pShader;
     }
 
     inline void Renderable::setName(const std::string & pName)
     {
-        mName = pName;
+        _name = pName;
     }
 
     inline Shader* Renderable::shader(void) const
     {
-        return mShader;
+        return _shader;
     }
 
     inline std::string Renderable::name(void) const
     {
-        return mName;
+        return _name;
     }
 
 } // namespace MatouMalin

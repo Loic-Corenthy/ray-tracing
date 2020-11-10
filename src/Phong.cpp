@@ -11,25 +11,25 @@
 using namespace MatouMalin;
 
 Phong::Phong(void)
-:mDiffusionColor(Color(0.0)),
- mSpecularColor(Color(0.0)),
- mExponent(0)
+:_diffusionColor(Color(0.0)),
+ _specularColor(Color(0.0)),
+ _exponent(0)
 {
 }
 
 Phong::Phong(const Color & pDiffusionColor, const Color &  pSpecularColor, int pExponent)
 :BRDF(pDiffusionColor*0.2),
- mDiffusionColor(pDiffusionColor),
- mSpecularColor(pSpecularColor),
- mExponent(pExponent)
+ _diffusionColor(pDiffusionColor),
+ _specularColor(pSpecularColor),
+ _exponent(pExponent)
 {
 }
 
 Phong::Phong(const Phong & pPhong)
 :BRDF(pPhong),
- mDiffusionColor(pPhong.mDiffusionColor),
- mSpecularColor(pPhong.mSpecularColor),
- mExponent(pPhong.mExponent)
+ _diffusionColor(pPhong._diffusionColor),
+ _specularColor(pPhong._specularColor),
+ _exponent(pPhong._exponent)
 {
 
 }
@@ -41,9 +41,9 @@ Phong Phong::operator=(const Phong & pPhong)
 
     BRDF::operator=(pPhong);
 
-    mDiffusionColor = pPhong.mDiffusionColor;
-	mSpecularColor = pPhong.mSpecularColor;
-	mExponent = pPhong.mExponent;
+    _diffusionColor = pPhong._diffusionColor;
+	_specularColor = pPhong._specularColor;
+	_exponent = pPhong._exponent;
 
     return *this;
 }
@@ -80,11 +80,11 @@ Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer
     {
         Ray lNormalRay(pIntersection,pNormal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
-        return lDiffColor*lCosAlpha + mSpecularColor*pow(lCosBeta,mExponent);
+        return lDiffColor*lCosAlpha + _specularColor*pow(lCosBeta,_exponent);
 
     }
     else
-     return mDiffusionColor*lCosAlpha + mSpecularColor*pow(lCosBeta,mExponent);
+     return _diffusionColor*lCosAlpha + _specularColor*pow(lCosBeta,_exponent);
 
 }
 
@@ -110,7 +110,7 @@ Color Phong::diffuse(const Vector & pVecToLight, const Vector & pNormal,const Po
 
     }
     else
-        return (mDiffusionColor*lCosAlpha);
+        return (_diffusionColor*lCosAlpha);
 }
 
 
@@ -132,7 +132,7 @@ Color Phong::specular(const Vector & pVecToLight, const Vector & pVecToViewer,co
     // Set negative coefficents to zero
     lCosBeta = (lCosBeta < 0.0)?0.0:lCosBeta;
 
-	return (mSpecularColor*pow(lCosBeta, mExponent));
+	return (_specularColor*pow(lCosBeta, _exponent));
 }
 
 

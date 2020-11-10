@@ -92,18 +92,18 @@ namespace MatouMalin
         Plane & focalPlane(void);
 
     private:
-        Plane               mFocalPlane;
-        std::vector<float>  mApertureColorCoeffs;
-        double              mApertureRadius;
-        double              mApertureStep;
-        Point               mPosition;
-        Vector              mDirection;
-        Vector              mUp;
-        Vector              mRight;
-        float               mFOV;
-        unsigned short      mAperture;
-        double              mFocalLength;
-        double              mApertureStepMultiplier;
+        Plane               _focalPlane;
+        std::vector<float>  _apertureColorCoeffs;
+        double              _apertureRadius;
+        double              _apertureStep;
+        Point               _position;
+        Vector              _direction;
+        Vector              _up;
+        Vector              _right;
+        float               _fOV;
+        unsigned short      _aperture;
+        double              _focalLength;
+        double              _apertureStepMultiplier;
 
     }; // class Camera
 
@@ -112,83 +112,83 @@ namespace MatouMalin
     {
         Vector lPixelDirection(0.0,0.0,0.0);
 
-        float lRightValue = (2*tan(mFOV/2)/(pBuffer->width()))*(pBuffer->width()/2.f - pX);
-        float lUpValue= (2*tan(mFOV/2)/(pBuffer->width()))*(pY - pBuffer->height()/2.f);
+        float lRightValue = (2*tan(_fOV/2)/(pBuffer->width()))*(pBuffer->width()/2.f - pX);
+        float lUpValue= (2*tan(_fOV/2)/(pBuffer->width()))*(pY - pBuffer->height()/2.f);
 
-        lPixelDirection = mRight*lRightValue + mUp*lUpValue + mDirection;
+        lPixelDirection = _right*lRightValue + _up*lUpValue + _direction;
 
         return lPixelDirection;
     }
 
     inline void Camera::setPosition(const Point & pPosition)
     {
-        mPosition = pPosition;
+        _position = pPosition;
     }
 
     inline void Camera::setFOV(float pFOV)
     {
-        mFOV = pFOV;
+        _fOV = pFOV;
     }
 
     inline void Camera::setFocalLength(double pFocalLength)
     {
-        mFocalLength = pFocalLength;
+        _focalLength = pFocalLength;
     }
 
     inline void Camera::setFocalPoint(const Point &pFocalPoint)
     {
-        mFocalPlane.setPosition(pFocalPoint);
+        _focalPlane.setPosition(pFocalPoint);
     }
 
     inline const Point & Camera::position(void) const
     {
-        return mPosition;
+        return _position;
     }
 
     inline const Vector & Camera::direction(void) const
     {
-        return mDirection;
+        return _direction;
     }
 
     inline const Vector & Camera::up(void) const
     {
-        return mUp;
+        return _up;
     }
 
     inline float Camera::FOV(void) const
     {
-        return mFOV;
+        return _fOV;
     }
 
     inline unsigned short Camera::aperture(void) const
     {
-        return mAperture;
+        return _aperture;
     }
 
     inline double Camera::apertureRadius(void) const
     {
-        return mApertureRadius;
+        return _apertureRadius;
     }
 
     inline double Camera::apertureStep(void) const
     {
-        return mApertureStep;
+        return _apertureStep;
     }
 
     inline float Camera::apertureColorCoeff(double pI, double pJ) const
     {
-        static double slCoeffCount = mApertureStepMultiplier*2.0+1.0;
-        return mApertureColorCoeffs[static_cast<unsigned int>((pI/mApertureStep + mApertureStepMultiplier)*slCoeffCount + pJ/mApertureStep + mApertureStepMultiplier)];
+        static double slCoeffCount = _apertureStepMultiplier*2.0+1.0;
+        return _apertureColorCoeffs[static_cast<unsigned int>((pI/_apertureStep + _apertureStepMultiplier)*slCoeffCount + pJ/_apertureStep + _apertureStepMultiplier)];
     }
 
     inline double Camera::focalLength(void) const
     {
-        return mFocalLength;
+        return _focalLength;
     }
 
     inline Plane & Camera::focalPlane(void)
     {
-        return mFocalPlane;
+        return _focalPlane;
     }
 } // namespace MatouMalin
 

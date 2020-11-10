@@ -69,26 +69,26 @@ namespace MatouMalin
         bool refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay);
 
     private:
-        std::vector<Triangle> mTriangles;
-        BoundingBox mBB;
-        int mIntersectedTriangle;
+        std::vector<Triangle> _triangles;
+        BoundingBox _bB;
+        int _intersectedTriangle;
 
     }; // class Mesh
 
     inline void Mesh::addTriangle(const Triangle & pTriangle)
     {
-        mTriangles.push_back(pTriangle);
+        _triangles.push_back(pTriangle);
     }
 
     inline void Mesh::setBBLimits(const Point &pMin, const Point &pMax)
     {
-        mBB.setMin(pMin);
-        mBB.setMax(pMax);
+        _bB.setMin(pMin);
+        _bB.setMax(pMax);
     }
 
     inline const BoundingBox & Mesh::boundingBox(void) const
     {
-        return mBB;
+        return _bB;
     }
 } // namespace MatouMalin
 

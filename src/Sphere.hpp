@@ -63,39 +63,39 @@ namespace MatouMalin
         bool _solveSecDeg(float a,float b,float c,float & root1,float & root2);
 
     private:
-        Point mCenter;
-        float mRadius;
+        Point _center;
+        float _radius;
 
     }; // class Sphere
 
     inline const MatouMalin::Point & Sphere::center(void) const
     {
-        return mCenter;
+        return _center;
     }
 
     inline void Sphere::setCenter(const MatouMalin::Point & pPoint)
     {
-        mCenter = pPoint;
+        _center = pPoint;
     }
 
     inline float Sphere::radius(void) const
     {
-        return mRadius;
+        return _radius;
     }
 
     inline void Sphere::setRadius(float pRadius)
     {
-        mRadius = pRadius;
+        _radius = pRadius;
     }
 
     inline Vector Sphere::normal(const Point & pPosition) const
     {
-        return ((pPosition - mCenter).normalize());
+        return ((pPosition - _center).normalize());
     }
 
     inline Vector Sphere::interpolatedNormal(const Point & pPosition) const
     {
-        return ((pPosition - mCenter).normalize());
+        return ((pPosition - _center).normalize());
     }
 
 } // namespace MatouMalin

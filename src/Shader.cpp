@@ -17,36 +17,36 @@ using namespace std;
 using namespace MatouMalin;
 
 Shader::Shader(void)
-:mBRDF(nullptr), //(c++11)
- mReflectionCountMax(1),
- mReflectionCoeff(0.0f),
- mCurrentReflectionCoeff(0.0f),
- mRefractionCoeff(0.0f),
- mMaterial(0),
- mScene(nullptr) //(c++11)
+:_bRDF(nullptr), //(c++11)
+ _reflectionCountMax(1),
+ _reflectionCoeff(0.0f),
+ _currentReflectionCoeff(0.0f),
+ _refractionCoeff(0.0f),
+ _material(0),
+ _scene(nullptr) //(c++11)
 {
 }
 
 Shader::Shader(BRDF* pBRDF, double pReflectionCoeff, double pRefractionCoeff, Scene* pScene, unsigned short pMaterial)
-:mBRDF(pBRDF),
- mReflectionCountMax(1),
- mReflectionCoeff(pReflectionCoeff),
- mCurrentReflectionCoeff(pReflectionCoeff),
- mRefractionCoeff(pRefractionCoeff),
- mMaterial(pMaterial),
- mScene(pScene)
+:_bRDF(pBRDF),
+ _reflectionCountMax(1),
+ _reflectionCoeff(pReflectionCoeff),
+ _currentReflectionCoeff(pReflectionCoeff),
+ _refractionCoeff(pRefractionCoeff),
+ _material(pMaterial),
+ _scene(pScene)
 {
     assert(pRefractionCoeff >= 1 && "Refraction coefficient must be bigger than 1");
 }
 
 Shader::Shader(const Shader & pShader)
 {
-	mBRDF = pShader.mBRDF;
-    mReflectionCoeff = pShader.mReflectionCoeff;
-    mCurrentReflectionCoeff = pShader.mCurrentReflectionCoeff;
-	mRefractionCoeff = pShader.mRefractionCoeff;
-	mMaterial = pShader.mMaterial;
-	mScene = pShader.mScene;
+	_bRDF = pShader._bRDF;
+    _reflectionCoeff = pShader._reflectionCoeff;
+    _currentReflectionCoeff = pShader._currentReflectionCoeff;
+	_refractionCoeff = pShader._refractionCoeff;
+	_material = pShader._material;
+	_scene = pShader._scene;
 }
 
 Shader Shader::operator=(const Shader & pShader)
@@ -54,13 +54,13 @@ Shader Shader::operator=(const Shader & pShader)
     if(this == &pShader)
         return *this;
 
-    mBRDF = pShader.mBRDF;
-    mReflectionCountMax = pShader.mReflectionCountMax;
-	mReflectionCoeff = pShader.mReflectionCoeff;
-    mCurrentReflectionCoeff = pShader.mCurrentReflectionCoeff;
-	mRefractionCoeff = pShader.mRefractionCoeff;
-	mMaterial = pShader.mMaterial;
-	mScene = pShader.mScene;
+    _bRDF = pShader._bRDF;
+    _reflectionCountMax = pShader._reflectionCountMax;
+	_reflectionCoeff = pShader._reflectionCoeff;
+    _currentReflectionCoeff = pShader._currentReflectionCoeff;
+	_refractionCoeff = pShader._refractionCoeff;
+	_material = pShader._material;
+	_scene = pShader._scene;
 
     return *this;
 }
@@ -75,31 +75,31 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
 
     if (pReflectionCount>0)
     {
-//        mCurrentReflectionCoeff = pow(mReflectionCoeff,pReflectionCount);
-        mCurrentReflectionCoeff = mReflectionCoeff/static_cast<double>(pReflectionCount*pReflectionCount);
-//        mCurrentReflectionCoeff = mReflectionCoeff/static_cast<double>(pReflectionCount);
+//        _currentReflectionCoeff = pow(_reflectionCoeff,pReflectionCount);
+        _currentReflectionCoeff = _reflectionCoeff/static_cast<double>(pReflectionCount*pReflectionCount);
+//        _currentReflectionCoeff = _reflectionCoeff/static_cast<double>(pReflectionCount);
     }
     else
-        mCurrentReflectionCoeff = 1.0;
+        _currentReflectionCoeff = 1.0;
 
-    auto lIt = mScene->lightList().begin(); //(c++11)
-    auto lEnd = mScene->lightList().end();
+    auto lIt = _scene->lightList().begin(); //(c++11)
+    auto lEnd = _scene->lightList().end();
 
     Color lLightIntensity(0.0);
     double lNoiseCoeff(0.0f);
     Noise lNoise;
 
-    switch (mMaterial)
+    switch (_material)
     {
         case MARBLE:
             while( lIt != lEnd )
             {
-                lLightIntensity = (*lIt)->intensityAt(pPoint,*mScene,pThis);
+                lLightIntensity = (*lIt)->intensityAt(pPoint,*_scene,pThis);
 
                 if (!(lLightIntensity == Color(0.0f)))
                 {
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity*mBRDF->diffuse((*lIt)->directionFrom(pPoint),pNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->diffuse((*lIt)->directionFrom(pPoint),pNormal,pPoint);//*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
                     for (double lLevel=1.0f; lLevel<10.0f; lLevel += 1.0f)
@@ -108,7 +108,7 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
                     lMyColor *= lNoiseCoeff;
 
                     // Add specular compoment
-                    lMyColor += lLightIntensity*mBRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*_currentReflectionCoeff;
                 }
 
                 lIt++;
@@ -118,12 +118,12 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
         case TURBULANCE:
             while( lIt != lEnd )
             {
-                lLightIntensity = (*lIt)->intensityAt(pPoint,*mScene,pThis);
+                lLightIntensity = (*lIt)->intensityAt(pPoint,*_scene,pThis);
 
                 if (!(lLightIntensity == Color(0.0f)))
                 {
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity*mBRDF->diffuse((*lIt)->directionFrom(pPoint),pNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->diffuse((*lIt)->directionFrom(pPoint),pNormal,pPoint);//*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
                     for (double lLevel=1.0f; lLevel<10.0f; lLevel += 1.0f)
@@ -134,7 +134,7 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
                     lMyColor *= lNoiseCoeff;
 
                     // Add specular compoment
-                    lMyColor += lLightIntensity*mBRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*_currentReflectionCoeff;
                 }
 
                 lIt++;
@@ -144,7 +144,7 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
         case BUMP:
             while( lIt != lEnd )
             {
-                lLightIntensity = (*lIt)->intensityAt(pPoint,*mScene,pThis);
+                lLightIntensity = (*lIt)->intensityAt(pPoint,*_scene,pThis);
 
                 if (!(lLightIntensity == Color(0.0f)))
                 {
@@ -157,14 +157,14 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
                     lBumpNormal.normalize();
 
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity*mBRDF->diffuse((*lIt)->directionFrom(pPoint),lBumpNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->diffuse((*lIt)->directionFrom(pPoint),lBumpNormal,pPoint);//*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
                     for (double lLevel=1.0f; lLevel<10.0f; lLevel += 1.0f)
                         lNoiseCoeff += (1.0f/lLevel)*fabs(lNoise.perlinNoise(lLevel*pPoint.x(), lLevel*pPoint.y(), lLevel*pPoint.z()));
 
                     // Add specular compoment
-                    lMyColor += lLightIntensity*mBRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,lBumpNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->specular((*lIt)->directionFrom(pPoint),pVecToViewer,lBumpNormal,pPoint);//*_currentReflectionCoeff;
                 }
 
                 lIt++;
@@ -174,27 +174,27 @@ Color Shader::color(const Vector & pVecToViewer, const Vector & pNormal, const P
         default:
             while( lIt != lEnd )
             {
-                lLightIntensity = (*lIt)->intensityAt(pPoint,*mScene,pThis);
+                lLightIntensity = (*lIt)->intensityAt(pPoint,*_scene,pThis);
 
                 if (!(lLightIntensity == Color(0.0f)))
-                    lMyColor += lLightIntensity*mBRDF->reflectance((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*mCurrentReflectionCoeff;
+                    lMyColor += lLightIntensity*_bRDF->reflectance((*lIt)->directionFrom(pPoint),pVecToViewer,pNormal,pPoint);//*_currentReflectionCoeff;
 
                 lIt++;
             }
             break;
     }
 
-    return (lMyColor*mCurrentReflectionCoeff);
+    return (lMyColor*_currentReflectionCoeff);
 
 }
 
 Color Shader::ambientColor(const Ray & pRay) const
 {
-    if(mBRDF->ambient() == Color(0.0))
+    if(_bRDF->ambient() == Color(0.0))
         return Color(0.0f);
-    else if (mBRDF->cubeMap())
-        return const_cast<CubeMap*>(mBRDF->cubeMap())->colorAt(pRay);
+    else if (_bRDF->cubeMap())
+        return const_cast<CubeMap*>(_bRDF->cubeMap())->colorAt(pRay);
     else
-        return mBRDF->ambient();
+        return _bRDF->ambient();
 }
 

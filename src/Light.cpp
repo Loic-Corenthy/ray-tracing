@@ -3,20 +3,20 @@
 using namespace MatouMalin;
 
 Light::Light(void)
-:mIntensity(Color(0.0f))
+:_intensity(Color(0.0f))
 {
 
 }
 
 Light::Light(const Color & pColor)
-:mIntensity(pColor)
+:_intensity(pColor)
 {
 
 }
 
 Light::Light(const Light & pLight)
 {
-    mIntensity = pLight.mIntensity;
+    _intensity = pLight._intensity;
 }
 
 void Light::operator=(const Light & pLight)
@@ -24,7 +24,7 @@ void Light::operator=(const Light & pLight)
     if(this == & pLight)
         return;
 
-    mIntensity = pLight.mIntensity;
+    _intensity = pLight._intensity;
 }
 
 Light::~Light(void)

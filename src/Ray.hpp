@@ -65,56 +65,56 @@ namespace MatouMalin
 
 
     private:
-        Point mOrigin;
-        Vector mDirection;
-        float mLength;
-        Renderable* mIntersected;
+        Point _origin;
+        Vector _direction;
+        float _length;
+        Renderable* _intersected;
 
     }; // Class Ray
 
     inline void Ray::setOrigin(const Point & pPoint)
     {
-        mOrigin = pPoint;
+        _origin = pPoint;
     }
 
     inline void Ray::setDirection(const Vector & pVector)
     {
-        mDirection = pVector;
+        _direction = pVector;
     }
 
     inline void Ray::setLength(float pLength)
     {
-        mLength = pLength;
+        _length = pLength;
     }
 
     inline void Ray::setIntersected(Renderable* pIntersected)
     {
-         mIntersected = pIntersected;
+         _intersected = pIntersected;
     }
 
     inline const Point & Ray::origin(void) const
     {
-        return mOrigin;
+        return _origin;
     }
 
     inline const Vector & Ray::direction(void) const
     {
-        return mDirection;
+        return _direction;
     }
 
     inline float Ray::length(void) const
     {
-        return mLength;
+        return _length;
     }
 
     inline Renderable* Ray::intersected(void) const
     {
-        return mIntersected;
+        return _intersected;
     }
 
     inline Point Ray::intersection(void) const
     {
-        return (mOrigin + mDirection*mLength);
+        return (_origin + _direction*_length);
     }
 
 } // namespace MatouMalin

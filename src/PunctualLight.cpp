@@ -11,21 +11,21 @@ using namespace MatouMalin;
 
 PunctualLight::PunctualLight(void)
 :Light(),
- mPosition(Point(0.0, 0.0, 0.0))
+ _position(Point(0.0, 0.0, 0.0))
 {
 }
 
 PunctualLight::PunctualLight(const MatouMalin::Point & pPosition,const Color & pIntensity)
 :Light(pIntensity),
- mPosition(pPosition)
+ _position(pPosition)
 {
 }
 
 PunctualLight::PunctualLight(const PunctualLight & pPunctualLight)
 :Light(pPunctualLight),
- mPosition(pPunctualLight.mPosition)
+ _position(pPunctualLight._position)
 {
-	mPosition = pPunctualLight.mPosition;
+	_position = pPunctualLight._position;
 }
 
 PunctualLight PunctualLight::operator=(const PunctualLight & pPunctualLight)
@@ -35,7 +35,7 @@ PunctualLight PunctualLight::operator=(const PunctualLight & pPunctualLight)
 
     Light::operator=(pPunctualLight);
 
-    mPosition = pPunctualLight.mPosition;
+    _position = pPunctualLight._position;
 
     return *this;
 }
@@ -47,7 +47,7 @@ PunctualLight::~PunctualLight(void)
 Color PunctualLight::intensityAt(const MatouMalin::Point & pPoint,const Scene & pScene, Renderable* pCurrentObject) const
 {
     // Direction between point on object and current light
-    Vector lDirection(mPosition - pPoint);
+    Vector lDirection(_position - pPoint);
 
     // Create the corresponding ray
 	Ray lMyRay(pPoint,lDirection);
@@ -61,6 +61,6 @@ Color PunctualLight::intensityAt(const MatouMalin::Point & pPoint,const Scene & 
 	if(lHasIntersection || (lDirection*pCurrentObject->normal(pPoint) <= 0.0))
         return Color(0.0f);
 	else
-        return mIntensity*(1.0f/(1.0f+lDirection.length()));
+        return _intensity*(1.0f/(1.0f+lDirection.length()));
 
 }

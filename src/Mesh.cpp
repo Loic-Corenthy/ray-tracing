@@ -13,26 +13,26 @@ using namespace MatouMalin;
 
 Mesh::Mesh(void)
 :Renderable(),
- mBB(),
- mIntersectedTriangle(-1)
+ _bB(),
+ _intersectedTriangle(-1)
 {
 
 }
 
 Mesh::Mesh(unsigned int pTriangleCount)
 :Renderable(),
- mBB(),
- mIntersectedTriangle(-1)
+ _bB(),
+ _intersectedTriangle(-1)
 {
     // Allocate memory in vector for the triangles
-    mTriangles.reserve(pTriangleCount);
+    _triangles.reserve(pTriangleCount);
 }
 
 Mesh::Mesh(const Mesh & pMesh)
 :Renderable(pMesh),
- mTriangles(pMesh.mTriangles),
- mBB(pMesh.mBB),
- mIntersectedTriangle(pMesh.mIntersectedTriangle)
+ _triangles(pMesh._triangles),
+ _bB(pMesh._bB),
+ _intersectedTriangle(pMesh._intersectedTriangle)
 {
 
 }
@@ -49,9 +49,9 @@ Mesh Mesh::operator=(const Mesh &pMesh)
 
     Renderable::operator=(pMesh);
 
-    mTriangles = pMesh.mTriangles;
-    mBB = pMesh.mBB;
-    mIntersectedTriangle = pMesh.mIntersectedTriangle;
+    _triangles = pMesh._triangles;
+    _bB = pMesh._bB;
+    _intersectedTriangle = pMesh._intersectedTriangle;
 
     return *this;
 }
@@ -59,7 +59,7 @@ Mesh Mesh::operator=(const Mesh &pMesh)
 bool Mesh::intersect(MatouMalin::Ray & pRay)
 {
     // Check if the ray intersect the bounding box
-    if (mBB.intersect(pRay))
+    if (_bB.intersect(pRay))
     {
         float lClosestDist = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
@@ -69,8 +69,8 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
         bool lHasIntersection(false);
 
         // Look for the closest intersection point among the triangles
-        auto lIterator = mTriangles.begin();
-        auto lEnd = mTriangles.end();
+        auto lIterator = _triangles.begin();
+        auto lEnd = _triangles.end();
 
         while( lIterator != lEnd )
         {
@@ -79,7 +79,7 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
             {
                 lClosestDist = pRay.length();
                 rClosestObject = pRay.intersected();
-                mIntersectedTriangle = lI++;
+                _intersectedTriangle = lI++;
             }
 
             lIterator++;
@@ -110,25 +110,25 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
 
 Color Mesh::color(Ray & pRay, unsigned int pReflectionCount)
 {
-    return mTriangles[mIntersectedTriangle].color(pRay, pReflectionCount);
+    return _triangles[_intersectedTriangle].color(pRay, pReflectionCount);
 }
 
 Vector Mesh::normal(const Point &pPosition) const
 {
-    return mTriangles[mIntersectedTriangle].normal(pPosition);
+    return _triangles[_intersectedTriangle].normal(pPosition);
 }
 
 Vector Mesh::interpolatedNormal(const Point &pPosition) const
 {
-    return mTriangles[mIntersectedTriangle].interpolatedNormal(pPosition);
+    return _triangles[_intersectedTriangle].interpolatedNormal(pPosition);
 }
 
 void Mesh::setShader(Shader *pShader)
 {
     assert(pShader != nullptr && "Shader not defined!!");
 
-    auto lIt  = mTriangles.begin();
-    auto lEnd = mTriangles.end();
+    auto lIt  = _triangles.begin();
+    auto lEnd = _triangles.end();
 
     while (lIt != lEnd)
     {

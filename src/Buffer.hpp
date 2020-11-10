@@ -49,35 +49,35 @@ namespace MatouMalin
         void reset(void);
 
     private:
-        unsigned int mHeight;
-        unsigned int mWidth;
-        unsigned char* mPixels;
+        unsigned int _height;
+        unsigned int _width;
+        unsigned char* _pixels;
 
     }; // class Buffer
 
     inline unsigned int Buffer::height(void) const
     {
-        return mHeight;
+        return _height;
     }
 
     inline unsigned int Buffer::width(void) const
     {
-        return mWidth;
+        return _width;
     }
 
     inline void Buffer::setHeight(unsigned int pHeight)
     {
-        mHeight = pHeight;
+        _height = pHeight;
     }
 
     inline void Buffer::setWidth(unsigned int pWidth)
     {
-        mWidth = pWidth;
+        _width = pWidth;
     }
 
     inline const unsigned char* Buffer::allPixels(void) const
     {
-        return mPixels;
+        return _pixels;
     }
 
 } // namespace MatouMalin

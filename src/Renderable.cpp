@@ -7,15 +7,15 @@ using namespace MatouMalin;
 using namespace std;
 
 Renderable::Renderable(void)
-:mShader(nullptr),
- mName(" ")
+:_shader(nullptr),
+ _name(" ")
 {
 
 }
 
 Renderable::Renderable(const Renderable & pRenderable)
-:mShader(pRenderable.mShader),
- mName(pRenderable.mName)
+:_shader(pRenderable._shader),
+ _name(pRenderable._name)
 {
 
 }
@@ -25,8 +25,8 @@ void Renderable::operator=(const Renderable &pRenderable)
     if(this == & pRenderable)
         return;
 
-    mShader = pRenderable.mShader;
-    mName = pRenderable.mName;
+    _shader = pRenderable._shader;
+    _name = pRenderable._name;
 
 }
 

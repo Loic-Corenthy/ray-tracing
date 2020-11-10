@@ -94,130 +94,130 @@ namespace MatouMalin
         bool operator==(const Color & pColor) const;
 
     private:
-        float               mComponents[3];
-        static const float  mInv255;
+        float               _components[3];
+        static const float  _inv255;
 
     }; // Class Color
 
     inline float & Color::operator[](unsigned int pIndex)
     {
         assert(0 <= pIndex && pIndex <= 2 && "error index out of bounds");
-        return mComponents[pIndex];
+        return _components[pIndex];
     }
 
     inline float Color::operator[](unsigned int pIndex) const
     {
         assert(0 <= pIndex && pIndex <= 2 && "error index out of bounds");
-        return mComponents[pIndex];
+        return _components[pIndex];
     }
 
     inline bool Color::isZero(void) const
     {
-        return (mComponents[0] == 0.0f && mComponents[1] == 0.0f && mComponents[2] == 0.0f);
+        return (_components[0] == 0.0f && _components[1] == 0.0f && _components[2] == 0.0f);
     }
 
     inline void Color::setColor(float pRed, float pGreen, float pBlue)
     {
-        mComponents[0] = pRed;
-        mComponents[1] = pGreen;
-        mComponents[2] = pBlue;
+        _components[0] = pRed;
+        _components[1] = pGreen;
+        _components[2] = pBlue;
     }
 
     inline void Color::setColor(int pRed, int pGreen, int pBlue)
     {
-        mComponents[0] = static_cast<float>(pRed)*mInv255;
-        mComponents[1] = static_cast<float>(pGreen)*mInv255;
-        mComponents[2] = static_cast<float>(pBlue)*mInv255;
+        _components[0] = static_cast<float>(pRed)*_inv255;
+        _components[1] = static_cast<float>(pGreen)*_inv255;
+        _components[2] = static_cast<float>(pBlue)*_inv255;
     }
 
     inline void Color::setRed(float pValue)
     {
-        mComponents[0] = pValue;
+        _components[0] = pValue;
     }
 
     inline void Color::setGreen(float pValue)
     {
-        mComponents[1] = pValue;
+        _components[1] = pValue;
     }
 
     inline void Color::setBlue(float pValue)
     {
-        mComponents[2] = pValue;
+        _components[2] = pValue;
     }
 
     inline void Color::setRed(int pValue)
     {
-        mComponents[0] = static_cast<float>(pValue)*mInv255;
+        _components[0] = static_cast<float>(pValue)*_inv255;
     }
 
     inline void Color::setGreen(int pValue)
     {
-        mComponents[1] = static_cast<float>(pValue)*mInv255;
+        _components[1] = static_cast<float>(pValue)*_inv255;
     }
 
     inline void Color::setBlue(int pValue)
     {
-        mComponents[2] = static_cast<float>(pValue)*mInv255;
+        _components[2] = static_cast<float>(pValue)*_inv255;
     }
 
     inline float Color::blue(void)
     {
-        return mComponents[2];
+        return _components[2];
     }
 
     inline float Color::red(void)
     {
-        return mComponents[0];
+        return _components[0];
     }
 
     inline float Color::green(void)
     {
-        return mComponents[1];
+        return _components[1];
     }
 
     inline Color Color::operator+(const Color & pColor) const
     {
-        return Color(mComponents[0] + pColor.mComponents[0], mComponents[1] + pColor.mComponents[1], mComponents[2] + pColor.mComponents[2]);
+        return Color(_components[0] + pColor._components[0], _components[1] + pColor._components[1], _components[2] + pColor._components[2]);
     }
 
     inline Color Color::operator+=(const Color & pColor)
     {
-        mComponents[0] += pColor.mComponents[0];
-        mComponents[1] += pColor.mComponents[1];
-        mComponents[2] += pColor.mComponents[2];
+        _components[0] += pColor._components[0];
+        _components[1] += pColor._components[1];
+        _components[2] += pColor._components[2];
 
         return *this;
     }
 
     inline Color Color::operator*(const Color & pColor) const
     {
-        return Color(mComponents[0]*pColor.mComponents[0], mComponents[1]*pColor.mComponents[1], mComponents[2]*pColor.mComponents[2]);
+        return Color(_components[0]*pColor._components[0], _components[1]*pColor._components[1], _components[2]*pColor._components[2]);
     }
 
     inline Color Color::operator*=(const MatouMalin::Color & pColor)
     {
-        mComponents[0] *= pColor.mComponents[0];
-        mComponents[1] *= pColor.mComponents[1];
-        mComponents[2] *= pColor.mComponents[2];
+        _components[0] *= pColor._components[0];
+        _components[1] *= pColor._components[1];
+        _components[2] *= pColor._components[2];
 
         return *this;
     }
 
     inline Color Color::operator*(float pScale) const
     {
-        return Color(mComponents[0]*pScale,mComponents[1]*pScale,mComponents[2]*pScale);
+        return Color(_components[0]*pScale,_components[1]*pScale,_components[2]*pScale);
     }
 
     inline void Color::operator*=(float pScale)
     {
-        mComponents[0] *= pScale;
-        mComponents[1] *= pScale;
-        mComponents[2] *= pScale;
+        _components[0] *= pScale;
+        _components[1] *= pScale;
+        _components[2] *= pScale;
     }
 
     inline bool Color::operator==(const Color & pColor) const
     {
-        return (mComponents[0] == pColor.mComponents[0] && mComponents[1] == pColor.mComponents[1] && mComponents[2] == pColor.mComponents[2]);
+        return (_components[0] == pColor._components[0] && _components[1] == pColor._components[1] && _components[2] == pColor._components[2]);
     }
 
 } // namespace MatouMalin

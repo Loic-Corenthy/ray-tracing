@@ -52,29 +52,29 @@ namespace MatouMalin
         void operator=(const BRDF & pBRDF);
 
     private:
-        Color mAmbientColor;
-        CubeMap* mCubeMap;
+        Color _ambientColor;
+        CubeMap* _cubeMap;
 
     }; // class BRDF
 
     inline void BRDF::setAmbient(const Color & pAmbient)
     {
-        mAmbientColor = pAmbient;
+        _ambientColor = pAmbient;
     }
 
     inline Color BRDF::ambient(void) const
     {
-        return mAmbientColor;
+        return _ambientColor;
     }
 
     inline void BRDF::setCubeMap(CubeMap* pCubeMap)
     {
-        mCubeMap = pCubeMap;
+        _cubeMap = pCubeMap;
     }
 
     inline const CubeMap* BRDF::cubeMap(void) const
     {
-        return mCubeMap;
+        return _cubeMap;
     }
 
 

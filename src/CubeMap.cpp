@@ -17,27 +17,27 @@ using namespace std;
 
 
 CubeMap::CubeMap(void)
-:mCenter(0.0),
- mSize(0.0),
- mFaceImageIDs{{UP,0},{DOWN,1},{LEFT,2},{RIGHT,3},{BACK,4},{FRONT,5}} // (c++11)
+:_center(0.0),
+ _size(0.0),
+ _faceImageIDs{{UP,0},{DOWN,1},{LEFT,2},{RIGHT,3},{BACK,4},{FRONT,5}} // (c++11)
 {
     // At most 6 images per cube
-    mImages.reserve(6);
+    _images.reserve(6);
 }
 
 CubeMap::CubeMap(const Point & pCenter, double pSize)
-:mCenter(pCenter),
- mSize(pSize),
- mFaceImageIDs{{UP,0},{DOWN,1},{LEFT,2},{RIGHT,3},{BACK,4},{FRONT,5}} // (c++11)
+:_center(pCenter),
+ _size(pSize),
+ _faceImageIDs{{UP,0},{DOWN,1},{LEFT,2},{RIGHT,3},{BACK,4},{FRONT,5}} // (c++11)
 {
     // At most 6 images per cube
-    mImages.reserve(6);
+    _images.reserve(6);
 }
 
 CubeMap::~CubeMap(void)
 {
-//    for_each(mImages.begin(), mImages.end(), [](vector<Image*>::iterator pImage){delete *pImage;});
-    for (auto lIt = mImages.begin(), lEnd = mImages.end(); lIt != lEnd; lIt++)
+//    for_each(_images.begin(), _images.end(), [](vector<Image*>::iterator pImage){delete *pImage;});
+    for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
         delete *lIt;
 
 }
@@ -45,14 +45,14 @@ CubeMap::~CubeMap(void)
 void CubeMap::addImage(unsigned short pFace, const std::string & pPath)
 {
     Image* rImage = new Image(pPath);
-    mImages.push_back(rImage);
+    _images.push_back(rImage);
 
-    setLink(pFace, static_cast<unsigned int>(mImages.size()-1));
+    setLink(pFace, static_cast<unsigned int>(_images.size()-1));
 }
 
 void CubeMap::setLink(unsigned short pFace, unsigned int pImageIdx)
 {
-    mFaceImageIDs[pFace] = pImageIdx;
+    _faceImageIDs[pFace] = pImageIdx;
 }
 
 Color CubeMap::colorAt(const Ray & pRay)
@@ -63,23 +63,23 @@ Color CubeMap::colorAt(const Ray & pRay)
 
     _intersect(pRay, lFace, lI, lJ);
 
-    unsigned int lImageIdx = mFaceImageIDs[lFace];
+    unsigned int lImageIdx = _faceImageIDs[lFace];
 
-    return mImages[lImageIdx]->pixelColor(lI,lJ);
+    return _images[lImageIdx]->pixelColor(lI,lJ);
 }
 
 void CubeMap::setInterpolationMethod(unsigned short pMethod)
 {
-    for (auto lIt = mImages.begin(), lEnd = mImages.end(); lIt != lEnd; lIt++)
+    for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
         (*lIt)->setInterpolation(pMethod);
 }
 
 void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, double & pJ) const
 {
-    double lRadius(mSize*0.5);
-    double lInvSize(1.0/mSize);
-    Vector lMax(mCenter.x()+lRadius, mCenter.y()+lRadius, mCenter.z()+lRadius);
-    Vector lMin(mCenter.x()-lRadius, mCenter.y()-lRadius, mCenter.z()-lRadius);
+    double lRadius(_size*0.5);
+    double lInvSize(1.0/_size);
+    Vector lMax(_center.x()+lRadius, _center.y()+lRadius, _center.z()+lRadius);
+    Vector lMin(_center.x()-lRadius, _center.y()-lRadius, _center.z()-lRadius);
 
     // Need to add/substract an epsilon value to min and max because of numerical error when comparing them with lP coordinate values.
     static Vector lEpsilon(0.00001);

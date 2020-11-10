@@ -24,21 +24,21 @@ using namespace std;
 using namespace MatouMalin;
 
 Scene::Scene(void)
-:mBackgroundType(BACKGRD_UNDEFINED),
- mBackgroundColor(Color(0.0)),
- mBackgroundCubeMap(nullptr)
+:_backgroundType(BACKGRD_UNDEFINED),
+ _backgroundColor(Color(0.0)),
+ _backgroundCubeMap(nullptr)
 {
 }
 
 Scene::Scene(const Scene & pScene)
-:mCameraList(pScene.mCameraList),
- mLightList(pScene.mLightList),
- mRenderableList(pScene.mRenderableList),
- mShaderMap(pScene.mShaderMap),
- mBRDFMap(pScene.mBRDFMap),
- mBackgroundType(pScene.mBackgroundType),
- mBackgroundColor(pScene.mBackgroundColor),
- mBackgroundCubeMap(pScene.mBackgroundCubeMap)
+:_cameraList(pScene._cameraList),
+ _lightList(pScene._lightList),
+ _renderableList(pScene._renderableList),
+ _shaderMap(pScene._shaderMap),
+ _bRDFMap(pScene._bRDFMap),
+ _backgroundType(pScene._backgroundType),
+ _backgroundColor(pScene._backgroundColor),
+ _backgroundCubeMap(pScene._backgroundCubeMap)
 {
 }
 
@@ -47,39 +47,39 @@ Scene Scene::operator=(const Scene & pScene)
     if(this == &pScene)
         return *this;
 
-    mCameraList = pScene.mCameraList;
-	mLightList = pScene.mLightList;
-	mRenderableList = pScene.mRenderableList;
-    mShaderMap = pScene.mShaderMap;
-    mBRDFMap = pScene.mBRDFMap;
-    mBackgroundType = pScene.mBackgroundType;
-    mBackgroundColor = pScene.mBackgroundColor;
-    mBackgroundCubeMap = pScene.mBackgroundCubeMap;
+    _cameraList = pScene._cameraList;
+	_lightList = pScene._lightList;
+	_renderableList = pScene._renderableList;
+    _shaderMap = pScene._shaderMap;
+    _bRDFMap = pScene._bRDFMap;
+    _backgroundType = pScene._backgroundType;
+    _backgroundColor = pScene._backgroundColor;
+    _backgroundCubeMap = pScene._backgroundCubeMap;
 
     return *this;
 }
 
 Scene::~Scene(void)
 {
-    for_each(mCameraList.begin(), mCameraList.end(), DeleteObject());
-    for_each(mLightList.begin(), mLightList.end(), DeleteObject());
-    for_each(mRenderableList.begin(), mRenderableList.end(), DeleteObject());
-    for_each(mCubeMapList.begin(), mCubeMapList.end(), DeleteObject());
+    for_each(_cameraList.begin(), _cameraList.end(), DeleteObject());
+    for_each(_lightList.begin(), _lightList.end(), DeleteObject());
+    for_each(_renderableList.begin(), _renderableList.end(), DeleteObject());
+    for_each(_cubeMapList.begin(), _cubeMapList.end(), DeleteObject());
 
-    for(auto lIt = mShaderMap.begin(),lEnd = mShaderMap.end(); lIt != lEnd; lIt++)
+    for(auto lIt = _shaderMap.begin(),lEnd = _shaderMap.end(); lIt != lEnd; lIt++)
         delete lIt->second;
 
-    for(auto lIt = mBRDFMap.begin(),lEnd = mBRDFMap.end(); lIt != lEnd; lIt++)
+    for(auto lIt = _bRDFMap.begin(),lEnd = _bRDFMap.end(); lIt != lEnd; lIt++)
         delete lIt->second;
 
-    if (mBackgroundCubeMap)
-        delete mBackgroundCubeMap;
+    if (_backgroundCubeMap)
+        delete _backgroundCubeMap;
 
 }
 
 Renderable* Scene::objectNamed(const std::string & pName)
 {
-    for (auto lIt = mRenderableList.begin(), lEnd = mRenderableList.end(); lIt != lEnd; lIt++)
+    for (auto lIt = _renderableList.begin(), lEnd = _renderableList.end(); lIt != lEnd; lIt++)
     {
         if ((*lIt)->name() == pName) {
             return (*lIt);
@@ -92,37 +92,37 @@ Renderable* Scene::objectNamed(const std::string & pName)
 void Scene::add(Camera* pCamera)
 {
     assert(pCamera && "camera added to the scene is not valid");
-	mCameraList.push_back(pCamera);
+	_cameraList.push_back(pCamera);
 }
 
 void Scene::add(Light* pLight)
 {
     assert(pLight && "light added to the scene is not valid");
-	mLightList.push_back(pLight);
+	_lightList.push_back(pLight);
 }
 
 void Scene::add(Renderable* pRenderable)
 {
     assert(pRenderable && "object added to the scene is not valid");
-	mRenderableList.push_back(pRenderable);
+	_renderableList.push_back(pRenderable);
 }
 
 void Scene::add(Shader* pShader, const std::string &pName)
 {
     assert(pShader && "shader added to the scene is not valid");
-    mShaderMap.insert(std::pair<std::string, Shader*> (pName,pShader) );
+    _shaderMap.insert(std::pair<std::string, Shader*> (pName,pShader) );
 }
 
 void Scene::add(BRDF* pBRDF, const std::string &pName)
 {
     assert(pBRDF && "brdf added to the scene is not valid");
-    mBRDFMap.insert(std::pair<std::string, BRDF*> (pName,pBRDF) );
+    _bRDFMap.insert(std::pair<std::string, BRDF*> (pName,pBRDF) );
 }
 
 void Scene::add(CubeMap* pCubeMap)
 {
     assert(pCubeMap && "cubeMap added to the scene is not valid");
-    mCubeMapList.push_back(pCubeMap);
+    _cubeMapList.push_back(pCubeMap);
 }
 
 bool Scene::intersect(Ray & pRay) const
@@ -135,10 +135,10 @@ bool Scene::intersect(Ray & pRay) const
 
 	bool lHasIntersection(false);
 
-	if(!(mRenderableList.empty()))
+	if(!(_renderableList.empty()))
 	{
-        auto lIterator = mRenderableList.begin(); //(c++11)
-        auto lEnd = mRenderableList.end();
+        auto lIterator = _renderableList.begin(); //(c++11)
+        auto lEnd = _renderableList.end();
 
 		while( lIterator != lEnd )
 		{
@@ -242,7 +242,7 @@ void Scene::createFromFile(const string & pObjFilePath)
 
                         rCurrentObject->setName(lWord);
 
-                        mRenderableList.push_back(rCurrentObject);
+                        _renderableList.push_back(rCurrentObject);
                     }
                     break;
 
@@ -324,7 +324,7 @@ void Scene::createFromFile(const string & pObjFilePath)
                             else
                                 lTriangle->updateNormal();
 
-                            mRenderableList.push_back(lTriangle);
+                            _renderableList.push_back(lTriangle);
 
                             lLineNotProcessed = false;
                         }
@@ -417,11 +417,11 @@ Color Scene::meanAmbiantLight(void) const
     Color lMeanLight(0.0f);
 
     // Calculate mean light value: sum all the light sources intensities
-	for(list<Light*>::const_iterator lIterator = mLightList.begin(), lEnd = mLightList.end(); lIterator != lEnd; lIterator++)
+	for(list<Light*>::const_iterator lIterator = _lightList.begin(), lEnd = _lightList.end(); lIterator != lEnd; lIterator++)
         lMeanLight += (*lIterator)->intensity();
 
     // Divide by the number of light sources
-    lMeanLight *= 1.0f/static_cast<float>(mLightList.size());
+    lMeanLight *= 1.0f/static_cast<float>(_lightList.size());
 
     return lMeanLight;
 }

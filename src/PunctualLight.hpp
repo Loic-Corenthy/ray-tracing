@@ -38,23 +38,23 @@ namespace MatouMalin
         Vector directionFrom(const Point & pPoint) const;
 
     private:
-        Point mPosition;
+        Point _position;
 
     }; // class PunctualLight
 
     inline void PunctualLight::setPosition(const Point & pPosition)
     {
-        mPosition = pPosition;
+        _position = pPosition;
     }
 
     inline const Point & PunctualLight::position(void) const
     {
-        return mPosition;
+        return _position;
     }
 
     inline MatouMalin::Vector PunctualLight::directionFrom(const MatouMalin::Point & pPoint) const
     {
-        return (mPosition - pPoint);
+        return (_position - pPoint);
     }
 
 } // namespace MatouMalin

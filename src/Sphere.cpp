@@ -7,19 +7,19 @@
 using namespace MatouMalin;
 
 Sphere::Sphere(void)
-:mCenter(Point(0,0,0)),mRadius(0)
+:_center(Point(0,0,0)),_radius(0)
 {
 }
 
 Sphere::Sphere(const Point & pPoint,float pRadius)
-:mCenter(pPoint),mRadius(pRadius)
+:_center(pPoint),_radius(pRadius)
 {
 }
 
 Sphere::Sphere(const Sphere & pSphere)
 :Renderable(pSphere),
- mCenter(pSphere.mCenter),
- mRadius(pSphere.mRadius)
+ _center(pSphere._center),
+ _radius(pSphere._radius)
 {
 
 }
@@ -31,8 +31,8 @@ Sphere Sphere::operator=(const Sphere &pSphere)
 
     Renderable::operator=(pSphere);
 
-    mCenter = pSphere.mCenter;
-	mRadius = pSphere.mRadius;
+    _center = pSphere._center;
+	_radius = pSphere._radius;
 
     return *this;
 }
@@ -45,8 +45,8 @@ bool Sphere::intersect(Ray & pRay)
 {
 
 	float a = pRay.direction()[0]*pRay.direction()[0] + pRay.direction()[1]*pRay.direction()[1] + pRay.direction()[2]*pRay.direction()[2];
-	float b = 2*(pRay.direction()[0]*(pRay.origin()[0] - mCenter[0]) + pRay.direction()[1]*(pRay.origin()[1] - mCenter[1]) + pRay.direction()[2]*(pRay.origin()[2] - mCenter[2]));
-	float c = (pRay.origin()[0] - mCenter[0])*(pRay.origin()[0] - mCenter[0]) + (pRay.origin()[1] - mCenter[1])*(pRay.origin()[1] - mCenter[1]) + (pRay.origin()[2] - mCenter[2])*(pRay.origin()[2] - mCenter[2]) - mRadius*mRadius;
+	float b = 2*(pRay.direction()[0]*(pRay.origin()[0] - _center[0]) + pRay.direction()[1]*(pRay.origin()[1] - _center[1]) + pRay.direction()[2]*(pRay.origin()[2] - _center[2]));
+	float c = (pRay.origin()[0] - _center[0])*(pRay.origin()[0] - _center[0]) + (pRay.origin()[1] - _center[1])*(pRay.origin()[1] - _center[1]) + (pRay.origin()[2] - _center[2])*(pRay.origin()[2] - _center[2]) - _radius*_radius;
 
     float lRoot1(0.0f);
 	float lRoot2(0.0f);
@@ -77,10 +77,10 @@ bool Sphere::intersect(Ray & pRay)
 Color Sphere::color(Ray & pRay, unsigned int pReflectionCount)
 {
     // Calculate normal from vertex normals
-    Vector lNormalAtPt = (pRay.intersection() - mCenter);
+    Vector lNormalAtPt = (pRay.intersection() - _center);
     lNormalAtPt.normalize();
 
-	return (mShader->color(pRay.direction()*(-1),lNormalAtPt,pRay.intersection(),this,pReflectionCount));
+	return (_shader->color(pRay.direction()*(-1),lNormalAtPt,pRay.intersection(),this,pReflectionCount));
 
 }
 
@@ -90,7 +90,7 @@ bool Sphere::refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay)
     lIncomingDirection.normalize();
     Vector lNormal = normal(pIncomingRay.intersection());
     double lAirIndex = 1.0;
-    double lCurrentObjectIndex = mShader->refractionCoeff();
+    double lCurrentObjectIndex = _shader->refractionCoeff();
 
     Vector lRefractedDirection;
 

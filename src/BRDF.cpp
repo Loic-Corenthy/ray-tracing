@@ -4,22 +4,22 @@ using namespace MatouMalin;
 
 
 BRDF::BRDF(void)
-:mAmbientColor(Color(0.0f)),
- mCubeMap(nullptr)
+:_ambientColor(Color(0.0f)),
+ _cubeMap(nullptr)
 {
 }
 
 
 BRDF::BRDF(const Color & pAmbient)
-:mAmbientColor(pAmbient),
- mCubeMap(nullptr)
+:_ambientColor(pAmbient),
+ _cubeMap(nullptr)
 {
 }
 
 
 BRDF::BRDF(const BRDF & pBRDF)
-:mAmbientColor(pBRDF.mAmbientColor),
- mCubeMap(pBRDF.mCubeMap)
+:_ambientColor(pBRDF._ambientColor),
+ _cubeMap(pBRDF._cubeMap)
 {
 
 }
@@ -30,8 +30,8 @@ void BRDF::operator=(const BRDF & pBRDF)
     if (this == &pBRDF)
         return;
 
-    mAmbientColor = pBRDF.mAmbientColor;
-    mCubeMap = pBRDF.mCubeMap;
+    _ambientColor = pBRDF._ambientColor;
+    _cubeMap = pBRDF._cubeMap;
 }
 
 BRDF::~BRDF(void)

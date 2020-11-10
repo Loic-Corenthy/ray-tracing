@@ -87,72 +87,72 @@ namespace MatouMalin
 
 
     private:
-        double mCoords[3];
+        double _coords[3];
 
     }; // class Vector
 
     inline double Vector::operator[](unsigned int pIndex) const
     {
         assert(0 <= pIndex && pIndex <= 2 && "Vector: index out of bounds");
-        return mCoords[pIndex];
+        return _coords[pIndex];
     }
 
     inline double & Vector::operator[](unsigned int pIndex)
     {
         assert(0 <= pIndex && pIndex <= 2 && "Vector: index out of bounds");
-        return mCoords[pIndex];
+        return _coords[pIndex];
     }
 
     inline void Vector::setVector(double pX,double pY,double pZ)
     {
-        mCoords[0] = pX;
-        mCoords[1] = pY;
-        mCoords[2] = pZ;
+        _coords[0] = pX;
+        _coords[1] = pY;
+        _coords[2] = pZ;
     }
 
     inline void Vector::setX(double pX)
     {
-        mCoords[0] = pX;
+        _coords[0] = pX;
     }
 
     inline void Vector::setY(double pY)
     {
-        mCoords[1] = pY;
+        _coords[1] = pY;
     }
 
     inline void Vector::setZ(double pZ)
     {
-        mCoords[2] = pZ;
+        _coords[2] = pZ;
     }
 
     inline double Vector::x(void) const
     {
-        return mCoords[0];
+        return _coords[0];
     }
 
     inline double Vector::y(void) const
     {
-        return mCoords[1];
+        return _coords[1];
     }
 
     inline double Vector::z(void) const
     {
-        return mCoords[2];
+        return _coords[2];
     }
 
     inline double Vector::operator*(const Vector & pVector) const
     {
-        return (mCoords[0]*pVector.mCoords[0] + mCoords[1]*pVector.mCoords[1]  + mCoords[2]*pVector.mCoords[2]);
+        return (_coords[0]*pVector._coords[0] + _coords[1]*pVector._coords[1]  + _coords[2]*pVector._coords[2]);
     }
 
     inline double Vector::length(void)const
     {
-        return sqrt(mCoords[0]*mCoords[0] + mCoords[1]*mCoords[1] + mCoords[2]*mCoords[2]);
+        return sqrt(_coords[0]*_coords[0] + _coords[1]*_coords[1] + _coords[2]*_coords[2]);
     }
 
     inline double Vector::lengthSqr(void)const
     {
-        return (mCoords[0]*mCoords[0] + mCoords[1]*mCoords[1] + mCoords[2]*mCoords[2]);
+        return (_coords[0]*_coords[0] + _coords[1]*_coords[1] + _coords[2]*_coords[2]);
     }
 
 } // namespace MatouMalin

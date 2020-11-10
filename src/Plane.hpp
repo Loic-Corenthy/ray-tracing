@@ -72,26 +72,26 @@ namespace MatouMalin
         void _updatePosition(void);
 
     private:
-        double mEquationCoeffs[4];
-        Point  mPosition;
-        Vector mNormal;
+        double _equationCoeffs[4];
+        Point  _position;
+        Vector _normal;
 
     }; // class Plane
 
     inline double Plane::coefficient(unsigned int pIndex) const
     {
         assert(0 <= pIndex && pIndex <4 && "index out of boundaries for the coefficients");
-        return mEquationCoeffs[pIndex];
+        return _equationCoeffs[pIndex];
     }
 
     inline Vector Plane::normal(void) const
     {
-        return mNormal;
+        return _normal;
     }
 
     inline Point Plane::position(void) const
     {
-        return mPosition;
+        return _position;
     }
 
 

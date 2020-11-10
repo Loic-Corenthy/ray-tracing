@@ -19,7 +19,7 @@ Plane::Plane(void)
 }
 
 Plane::Plane(double a, double b, double c, double d)
-:_equationCoeffs{pA,b,c,d},
+:_equationCoeffs{a,b,c,d},
  _normal(a,b,c)
 {
     _updatePosition();

@@ -16,34 +16,34 @@ namespace MatouMalin
         Point(void);
 
         /// Constructor with position parameters
-        Point(double pX,double pY,double pZ);
+        Point(double x,double y,double z);
 
         /// Constructor with position parameters
-        Point(double pCommonValue);
+        Point(double commonValue);
 
         /// Copy constructor
-        Point(const Point & pPoint);
+        Point(const Point & point);
 
         /// Destructor
         ~Point(void);
 
         /// Coordinate operator (read only)
-        double operator[](unsigned int pIndex) const;
+        double operator[](unsigned int index) const;
 
         /// Coordinate operator (read,write)
-        double & operator[](unsigned int pIndex);
+        double & operator[](unsigned int index);
 
         /// Set 3 coordinates
-        void setPoint(double pX,double pY,double pZ);
+        void setPoint(double x,double y,double z);
 
         /// Set X coordinate
-        void setX(double pX);
+        void setX(double x);
 
         /// Set Y coordinate
-        void setY(double pY);
+        void setY(double y);
 
         /// Set Z coordinate
-        void setZ(double pZ);
+        void setZ(double z);
 
         /// Get X coordinate
         double x(void) const;
@@ -55,61 +55,61 @@ namespace MatouMalin
         double z(void) const;
 
         /// Create a vector by substracting 2 points
-        Vector operator-(const Point pPoint) const;
+        Vector operator-(const Point point) const;
 
         /// Translate a point by a vector
-        Point operator+(const Vector pVector) const;
+        Point operator+(const Vector vector) const;
 
         /// Copy operator
-        Point operator=(const Point & pPoint);
+        Point operator=(const Point & point);
 
     private:
         double _coords[3];
 
     }; // class Point
 
-    inline double Point::operator[](unsigned int pIndex) const
+    inline double Point::operator[](unsigned int index) const
     {
-        assert(0 <= pIndex && pIndex < 3 && "Point: index out of bounds");
-        return _coords[pIndex];
+        assert(0 <= index && index < 3 && "Point: index out of bounds");
+        return _coords[index];
     }
 
-    inline double & Point::operator[](unsigned int pIndex)
+    inline double & Point::operator[](unsigned int index)
     {
-        assert(0 <= pIndex && pIndex < 3 && "Point: index out of bounds");
-        return _coords[pIndex];
+        assert(0 <= index && index < 3 && "Point: index out of bounds");
+        return _coords[index];
     }
 
-    inline Vector Point::operator-(const Point pPoint) const
+    inline Vector Point::operator-(const Point point) const
     {
-        return Vector(_coords[0] - pPoint._coords[0], _coords[1] - pPoint._coords[1], _coords[2] - pPoint._coords[2]);
+        return Vector(_coords[0] - point._coords[0], _coords[1] - point._coords[1], _coords[2] - point._coords[2]);
     }
 
-    inline Point Point::operator+(const Vector pVector) const
+    inline Point Point::operator+(const Vector vector) const
     {
-        return Point(_coords[0] + pVector[0], _coords[1] + pVector[1], _coords[2] + pVector[2]);
+        return Point(_coords[0] + vector[0], _coords[1] + vector[1], _coords[2] + vector[2]);
     }
 
-    inline void Point::setPoint(double pX,double pY,double pZ)
+    inline void Point::setPoint(double x,double y,double z)
     {
-        _coords[0] = pX;
-        _coords[1] = pY;
-        _coords[2] = pZ;
+        _coords[0] = x;
+        _coords[1] = y;
+        _coords[2] = z;
     }
 
-    inline void Point::setX(double pX)
+    inline void Point::setX(double x)
     {
-        _coords[0] = pX;
+        _coords[0] = x;
     }
 
-    inline void Point::setY(double pY)
+    inline void Point::setY(double y)
     {
-        _coords[1] = pY;
+        _coords[1] = y;
     }
 
-    inline void Point::setZ(double pZ)
+    inline void Point::setZ(double z)
     {
-        _coords[2] = pZ;
+        _coords[2] = z;
     }
 
     inline double Point::x(void) const

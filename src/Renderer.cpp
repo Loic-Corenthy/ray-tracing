@@ -28,32 +28,32 @@ _superSampling(false)
 {
 }
 
-Renderer::Renderer(Scene* pScene,int pWidth, int pHeight)
-:_scene(pScene),
+Renderer::Renderer(Scene* scene,int width, int height)
+:_scene(scene),
 _reflectionCount(1),
-_buffer(pHeight,pWidth),
+_buffer(height,width),
 _superSampling(false)
 {
 }
 
-Renderer::Renderer(const Renderer & pRenderer)
-:_scene(pRenderer._scene),
-_buffer(pRenderer._buffer),
-_reflectionCount(pRenderer._reflectionCount),
-_superSampling(pRenderer._superSampling)
+Renderer::Renderer(const Renderer & renderer)
+:_scene(renderer._scene),
+_buffer(renderer._buffer),
+_reflectionCount(renderer._reflectionCount),
+_superSampling(renderer._superSampling)
 {
 
 }
 
-Renderer Renderer::operator=(const Renderer & pRenderer)
+Renderer Renderer::operator=(const Renderer & renderer)
 {
-    if(this == &pRenderer)
+    if(this == &renderer)
         return *this;
 
-    _scene = pRenderer._scene;
-	_buffer = pRenderer._buffer;
-	_reflectionCount = pRenderer._reflectionCount;
-    _superSampling = pRenderer._superSampling;
+    _scene = renderer._scene;
+	_buffer = renderer._buffer;
+	_reflectionCount = renderer._reflectionCount;
+    _superSampling = renderer._superSampling;
 
     return *this;
 }

@@ -21,10 +21,10 @@ namespace MatouMalin
         OBJParameters(void);
 
         /// Copy constructor
-        OBJParameters(const OBJParameters & pOBJParameters);
+        OBJParameters(const OBJParameters & oBJParameters);
 
         /// Copy operator
-        OBJParameters operator=(const OBJParameters & pOBJParameters);
+        OBJParameters operator=(const OBJParameters & oBJParameters);
 
         /// Destructor
         ~OBJParameters(void);
@@ -39,7 +39,7 @@ namespace MatouMalin
         unsigned int normalCount(void) const;
 
         /// Get the number of faces of each object
-        unsigned int faceCount(unsigned int pObjectIdx) const;
+        unsigned int faceCount(unsigned int objectIdx) const;
 
         /// Get the number of objects
         unsigned int objectCount(void) const;
@@ -48,19 +48,19 @@ namespace MatouMalin
         unsigned int currentFaceCount(void) const;
 
         /// Set the number of vertices
-        void setVertexCount(unsigned int pValue);
+        void setVertexCount(unsigned int value);
 
         /// Set the number of texture coordinates
-        void setTextureCoordinatesCount(unsigned int pValue);
+        void setTextureCoordinatesCount(unsigned int value);
 
         /// Set the number of normals
-        void setNormalCount(unsigned int pValue);
+        void setNormalCount(unsigned int value);
 
         /// Set the number of faces of an object
-        void setFaceCount(unsigned int pObjectIdx, unsigned int pValue);
+        void setFaceCount(unsigned int objectIdx, unsigned int value);
 
         /// Set current face count
-        void setCurrentFaceCount(unsigned int pValue);
+        void setCurrentFaceCount(unsigned int value);
 
         /// Increase the number of vertices by one
         void vpp(void);
@@ -101,9 +101,9 @@ namespace MatouMalin
         return _normalCount;
     }
 
-    inline unsigned int OBJParameters::faceCount(unsigned int pObjectIdx) const
+    inline unsigned int OBJParameters::faceCount(unsigned int objectIdx) const
     {
-        return _faceCount.at(pObjectIdx);
+        return _faceCount.at(objectIdx);
     }
 
     inline unsigned int OBJParameters::objectCount(void) const
@@ -116,33 +116,33 @@ namespace MatouMalin
         return _currentFaceCount;
     }
 
-    inline void OBJParameters::setVertexCount(unsigned int pValue)
+    inline void OBJParameters::setVertexCount(unsigned int value)
     {
-        assert(pValue >= 0 && "Value must be positive");
-        _vertexCount = pValue;
+        assert(value >= 0 && "Value must be positive");
+        _vertexCount = value;
     }
 
-    inline void OBJParameters::setTextureCoordinatesCount(unsigned int pValue)
+    inline void OBJParameters::setTextureCoordinatesCount(unsigned int value)
     {
-        assert(pValue >= 0 && "Value must be positive");
-        _textureCount = pValue;
+        assert(value >= 0 && "Value must be positive");
+        _textureCount = value;
     }
 
-    inline void OBJParameters::setNormalCount(unsigned int pValue)
+    inline void OBJParameters::setNormalCount(unsigned int value)
     {
-        assert(pValue >= 0 && "Value must be positive");
-        _normalCount = pValue;
+        assert(value >= 0 && "Value must be positive");
+        _normalCount = value;
     }
 
-    inline void OBJParameters::setFaceCount(unsigned int pObjectIdx, unsigned int pValue)
+    inline void OBJParameters::setFaceCount(unsigned int objectIdx, unsigned int value)
     {
-        assert(pValue >= 0 && "Value must be positive");
-        _faceCount[pObjectIdx] = pValue;
+        assert(value >= 0 && "Value must be positive");
+        _faceCount[objectIdx] = value;
     }
 
-    inline void OBJParameters::setCurrentFaceCount(unsigned int pValue)
+    inline void OBJParameters::setCurrentFaceCount(unsigned int value)
     {
-        _currentFaceCount = pValue;
+        _currentFaceCount = value;
     }
 
     inline void OBJParameters::vpp(void)

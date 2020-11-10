@@ -29,22 +29,22 @@ namespace MatouMalin
         Image(void);
 
         /// Constructor with parameters
-        Image(const std::string & pPath);
+        Image(const std::string & path);
 
         /// Destructor
         ~Image(void);
 
         /// Load an image from a file
-        bool loadFromFile(const std::string & pPath);
+        bool loadFromFile(const std::string & path);
 
         /// Set the interpolation method used to return the pixel value
-        void setInterpolation(unsigned short pMethod);
+        void setInterpolation(unsigned short method);
 
         /// Set the interpolation method used to return the pixel value
         unsigned short interpolation(void) const;
 
         /// Get the color of a pixel
-        Color pixelColor(double pI, double pJ) const;
+        Color pixelColor(double i, double j) const;
 
         /// Get the width of the image
         unsigned int width(void) const;
@@ -57,13 +57,13 @@ namespace MatouMalin
 
     private:
         /// Copy constructor (prevent copy)
-        Image(const Image & pImage);
+        Image(const Image & image);
 
         /// Copy operator
-        Image operator=(const Image & pImage);
+        Image operator=(const Image & image);
 
         /// Implementation of the method loading an image from the file system
-        bool _createImageFromFile(const std::string & pPath);
+        bool _createImageFromFile(const std::string & path);
 
     private:
 
@@ -86,9 +86,9 @@ namespace MatouMalin
     }; // Class Image
 
 
-    inline void Image::setInterpolation(unsigned short pMethod)
+    inline void Image::setInterpolation(unsigned short method)
     {
-        _interpolation = pMethod;
+        _interpolation = method;
     }
 
     inline unsigned short Image::interpolation(void) const

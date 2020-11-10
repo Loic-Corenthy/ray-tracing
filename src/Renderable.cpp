@@ -13,20 +13,20 @@ Renderable::Renderable(void)
 
 }
 
-Renderable::Renderable(const Renderable & pRenderable)
-:_shader(pRenderable._shader),
- _name(pRenderable._name)
+Renderable::Renderable(const Renderable & renderable)
+:_shader(renderable._shader),
+ _name(renderable._name)
 {
 
 }
 
-void Renderable::operator=(const Renderable &pRenderable)
+void Renderable::operator=(const Renderable &renderable)
 {
-    if(this == & pRenderable)
+    if(this == & renderable)
         return;
 
-    _shader = pRenderable._shader;
-    _name = pRenderable._name;
+    _shader = renderable._shader;
+    _name = renderable._name;
 
 }
 
@@ -35,10 +35,10 @@ Renderable::~Renderable(void)
 
 }
 
-bool Renderable::_refraction(const Vector & pIncomingDirection, const Vector & pNormal, double pN1, double pN2, Vector & pRefractedDirection) const
+bool Renderable::_refraction(const Vector & incomingDirection, const Vector & normal, double n1, double n2, Vector & refractedDirection) const
 {
-    double lMinusCosTheta1 = pIncomingDirection*pNormal;
-    double lN = pN1/pN2;
+    double lMinusCosTheta1 = incomingDirection*normal;
+    double lN = n1/n2;
 
     // Test for total reflection
     double lSqrSinTheta2 = lN*lN*(1.0 - lMinusCosTheta1*lMinusCosTheta1);
@@ -50,7 +50,7 @@ bool Renderable::_refraction(const Vector & pIncomingDirection, const Vector & p
     else
     {
         double lCosTheta2 = sqrt(1.0 - lSqrSinTheta2);
-        pRefractedDirection = (pIncomingDirection - pNormal*lMinusCosTheta1)*lN - pNormal*lCosTheta2;
+        refractedDirection = (incomingDirection - normal*lMinusCosTheta1)*lN - normal*lCosTheta2;
         return true;
     }
 }

@@ -30,31 +30,31 @@ Scene::Scene(void)
 {
 }
 
-Scene::Scene(const Scene & pScene)
-:_cameraList(pScene._cameraList),
- _lightList(pScene._lightList),
- _renderableList(pScene._renderableList),
- _shaderMap(pScene._shaderMap),
- _bRDFMap(pScene._bRDFMap),
- _backgroundType(pScene._backgroundType),
- _backgroundColor(pScene._backgroundColor),
- _backgroundCubeMap(pScene._backgroundCubeMap)
+Scene::Scene(const Scene & scene)
+:_cameraList(scene._cameraList),
+ _lightList(scene._lightList),
+ _renderableList(scene._renderableList),
+ _shaderMap(scene._shaderMap),
+ _bRDFMap(scene._bRDFMap),
+ _backgroundType(scene._backgroundType),
+ _backgroundColor(scene._backgroundColor),
+ _backgroundCubeMap(scene._backgroundCubeMap)
 {
 }
 
-Scene Scene::operator=(const Scene & pScene)
+Scene Scene::operator=(const Scene & scene)
 {
-    if(this == &pScene)
+    if(this == &scene)
         return *this;
 
-    _cameraList = pScene._cameraList;
-	_lightList = pScene._lightList;
-	_renderableList = pScene._renderableList;
-    _shaderMap = pScene._shaderMap;
-    _bRDFMap = pScene._bRDFMap;
-    _backgroundType = pScene._backgroundType;
-    _backgroundColor = pScene._backgroundColor;
-    _backgroundCubeMap = pScene._backgroundCubeMap;
+    _cameraList = scene._cameraList;
+	_lightList = scene._lightList;
+	_renderableList = scene._renderableList;
+    _shaderMap = scene._shaderMap;
+    _bRDFMap = scene._bRDFMap;
+    _backgroundType = scene._backgroundType;
+    _backgroundColor = scene._backgroundColor;
+    _backgroundCubeMap = scene._backgroundCubeMap;
 
     return *this;
 }
@@ -77,11 +77,11 @@ Scene::~Scene(void)
 
 }
 
-Renderable* Scene::objectNamed(const std::string & pName)
+Renderable* Scene::objectNamed(const std::string & name)
 {
     for (auto lIt = _renderableList.begin(), lEnd = _renderableList.end(); lIt != lEnd; lIt++)
     {
-        if ((*lIt)->name() == pName) {
+        if ((*lIt)->name() == name) {
             return (*lIt);
         }
     }
@@ -89,47 +89,47 @@ Renderable* Scene::objectNamed(const std::string & pName)
     return nullptr;
 }
 
-void Scene::add(Camera* pCamera)
+void Scene::add(Camera* camera)
 {
-    assert(pCamera && "camera added to the scene is not valid");
-	_cameraList.push_back(pCamera);
+    assert(camera && "camera added to the scene is not valid");
+	_cameraList.push_back(camera);
 }
 
-void Scene::add(Light* pLight)
+void Scene::add(Light* light)
 {
-    assert(pLight && "light added to the scene is not valid");
-	_lightList.push_back(pLight);
+    assert(light && "light added to the scene is not valid");
+	_lightList.push_back(light);
 }
 
-void Scene::add(Renderable* pRenderable)
+void Scene::add(Renderable* renderable)
 {
-    assert(pRenderable && "object added to the scene is not valid");
-	_renderableList.push_back(pRenderable);
+    assert(renderable && "object added to the scene is not valid");
+	_renderableList.push_back(renderable);
 }
 
-void Scene::add(Shader* pShader, const std::string &pName)
+void Scene::add(Shader* shader, const std::string &name)
 {
-    assert(pShader && "shader added to the scene is not valid");
-    _shaderMap.insert(std::pair<std::string, Shader*> (pName,pShader) );
+    assert(shader && "shader added to the scene is not valid");
+    _shaderMap.insert(std::pair<std::string, Shader*> (name,shader) );
 }
 
-void Scene::add(BRDF* pBRDF, const std::string &pName)
+void Scene::add(BRDF* bRDF, const std::string &name)
 {
-    assert(pBRDF && "brdf added to the scene is not valid");
-    _bRDFMap.insert(std::pair<std::string, BRDF*> (pName,pBRDF) );
+    assert(bRDF && "brdf added to the scene is not valid");
+    _bRDFMap.insert(std::pair<std::string, BRDF*> (name,bRDF) );
 }
 
-void Scene::add(CubeMap* pCubeMap)
+void Scene::add(CubeMap* cubeMap)
 {
-    assert(pCubeMap && "cubeMap added to the scene is not valid");
-    _cubeMapList.push_back(pCubeMap);
+    assert(cubeMap && "cubeMap added to the scene is not valid");
+    _cubeMapList.push_back(cubeMap);
 }
 
-bool Scene::intersect(Ray & pRay) const
+bool Scene::intersect(Ray & ray) const
 {
 	float lClosestDist = std::numeric_limits<float>::max();
     Renderable* rClosestObject = nullptr;
-    Renderable* lObjectFromRay = pRay.intersected();
+    Renderable* lObjectFromRay = ray.intersected();
 
     int lI = 0;
 
@@ -142,11 +142,11 @@ bool Scene::intersect(Ray & pRay) const
 
 		while( lIterator != lEnd )
 		{
-            lHasIntersection = (*lIterator)->intersect(pRay);
-            if(lHasIntersection && pRay.length()<lClosestDist && lObjectFromRay != pRay.intersected())
+            lHasIntersection = (*lIterator)->intersect(ray);
+            if(lHasIntersection && ray.length()<lClosestDist && lObjectFromRay != ray.intersected())
             {
-                lClosestDist = pRay.length();
-                rClosestObject = pRay.intersected();
+                lClosestDist = ray.length();
+                rClosestObject = ray.intersected();
                 lI++;
             }
 
@@ -156,23 +156,23 @@ bool Scene::intersect(Ray & pRay) const
 
 	if(lI > 0)
 	{
-        pRay.setLength(lClosestDist);
-        pRay.setIntersected(rClosestObject);
+        ray.setLength(lClosestDist);
+        ray.setIntersected(rClosestObject);
 		return true;
 	}
 	else
 	{
-        pRay.setLength(std::numeric_limits<float>::max());
-        pRay.setIntersected(nullptr);
+        ray.setLength(std::numeric_limits<float>::max());
+        ray.setIntersected(nullptr);
 		return false;
 	}
 }
 
-void Scene::createFromFile(const string & pObjFilePath)
+void Scene::createFromFile(const string & objFilePath)
 {
     // Count the different parameters (vertices, normals, faces, ...) in the file
     OBJParameters lParameters;
-    _countVerticesAndFaces(pObjFilePath, lParameters);
+    _countVerticesAndFaces(objFilePath, lParameters);
 
     // Create containers for the vertices and normals
     vector<Point> lVertices;
@@ -201,7 +201,7 @@ void Scene::createFromFile(const string & pObjFilePath)
     bool lFirstGDefault(true);
 
     // Create the triangles
-    ifstream lObjFile(pObjFilePath.c_str(), ifstream::in);
+    ifstream lObjFile(objFilePath.c_str(), ifstream::in);
 
     if(lObjFile)
     {
@@ -426,10 +426,10 @@ Color Scene::meanAmbiantLight(void) const
     return lMeanLight;
 }
 
-void Scene::_countVerticesAndFaces(const std::string & pObjFilePath, OBJParameters & pParameters) const
+void Scene::_countVerticesAndFaces(const std::string & objFilePath, OBJParameters & parameters) const
 {
     // Open file
-    ifstream lObjFile(pObjFilePath.c_str(), ifstream::in);
+    ifstream lObjFile(objFilePath.c_str(), ifstream::in);
 
     if(lObjFile)
     {
@@ -444,21 +444,21 @@ void Scene::_countVerticesAndFaces(const std::string & pObjFilePath, OBJParamete
                 // If it's a "v", increase the vertex count
                 case 'v':
                     if (lLine[1] == ' ')
-                        pParameters.vpp();
+                        parameters.vpp();
                     else if (lLine[1] == 't')
-                        pParameters.vtpp();
+                        parameters.vtpp();
                     else if(lLine[1] == 'n')
-                        pParameters.npp();
+                        parameters.npp();
                     break;
 
                 // If it's a "f", increase the face count
                 case 'f':
-                    pParameters.fpp();
+                    parameters.fpp();
                     break;
 
                 case 'g':
-                    if(lLine == "g default" && pParameters.currentFaceCount() != 0)
-                        pParameters.opp();
+                    if(lLine == "g default" && parameters.currentFaceCount() != 0)
+                        parameters.opp();
 
                 default:
                     break;
@@ -466,7 +466,7 @@ void Scene::_countVerticesAndFaces(const std::string & pObjFilePath, OBJParamete
         }
 
         // Save the number of faces of the last object
-        pParameters.opp();
+        parameters.opp();
 
         // Close file
         lObjFile.close();

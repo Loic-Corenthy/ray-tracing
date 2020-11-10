@@ -19,7 +19,7 @@ namespace MatouMalin
         Renderer(void);
 
         /// Constructor with parameters
-        Renderer(Scene* pScene,int pWidth, int pHeight);
+        Renderer(Scene* scene,int width, int height);
 
         /// Destructor
         ~Renderer(void);
@@ -28,7 +28,7 @@ namespace MatouMalin
         const Buffer & getBuffer(void) const;
 
         /// Copy a pointer to the scene to render
-        void setScene(Scene* pScene);
+        void setScene(Scene* scene);
 
         /// Render the specified scene
         void render(void);
@@ -37,14 +37,14 @@ namespace MatouMalin
         bool superSampling(void) const;
 
         /// Activate of not the super sampling as an antialiazing method
-        void setSuperSampling(bool pActivate);
+        void setSuperSampling(bool activate);
 
     private:
         /// Copy constructor (copy not allowed)
-        Renderer(const Renderer & pRenderer);
+        Renderer(const Renderer & renderer);
 
         /// Copy operator (copy not allowed)
-        Renderer operator=(const Renderer & pRenderer);
+        Renderer operator=(const Renderer & renderer);
 
     private:
         Scene* _scene;
@@ -54,10 +54,10 @@ namespace MatouMalin
 
     }; // class Renderer
 
-    inline void Renderer::setScene(Scene *pScene)
+    inline void Renderer::setScene(Scene *scene)
     {
-        assert(pScene != nullptr && "The scene assigned to the Renderer is not valid");
-        _scene = pScene;
+        assert(scene != nullptr && "The scene assigned to the Renderer is not valid");
+        _scene = scene;
     }
 
     inline const Buffer & Renderer::getBuffer(void) const
@@ -70,9 +70,9 @@ namespace MatouMalin
         return _superSampling;
     }
 
-    inline void Renderer::setSuperSampling(bool pActivate)
+    inline void Renderer::setSuperSampling(bool activate)
     {
-        _superSampling = pActivate;
+        _superSampling = activate;
     }
 
 } // namespace MatouMalin

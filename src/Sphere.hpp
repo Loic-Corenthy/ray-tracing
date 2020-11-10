@@ -20,13 +20,13 @@ namespace MatouMalin
         Sphere(void);
 
         /// Constructor with parameters
-        Sphere(const MatouMalin::Point & pPoint,float pRadius);
+        Sphere(const MatouMalin::Point & point,float radius);
 
         /// Copy constructor
-        Sphere(const Sphere & pSphere);
+        Sphere(const Sphere & sphere);
 
         /// Copy operator
-        Sphere operator=(const Sphere & pSphere);
+        Sphere operator=(const Sphere & sphere);
 
         /// Destructor
         ~Sphere(void);
@@ -35,28 +35,28 @@ namespace MatouMalin
         const MatouMalin::Point & center(void) const;
 
         /// Set the center of the sphere
-        void setCenter(const MatouMalin::Point & pPoint);
+        void setCenter(const MatouMalin::Point & point);
 
         /// Get the radius of the sphere (read only)
         float radius(void) const;
 
         /// Set the radius of the sphere
-        void setRadius(float pRadius);
+        void setRadius(float radius);
 
         /// Virtual function, determine if a ray intersect the sphere
-        bool intersect(Ray & pRay);
+        bool intersect(Ray & ray);
 
         /// Virtual function, get the color at the intersection point
-        Color color(Ray & pRay, unsigned int pType = 0);
+        Color color(Ray & ray, unsigned int type = 0);
 
         /// Virtual function, get the normal at the intersection point
-        Vector normal(const Point & pPosition) const;
+        Vector normal(const Point & position) const;
 
         /// Virtual function, get the normal at the intersection point (interpolating from other vectors)
-        Vector interpolatedNormal(const Point & pPosition) const;
+        Vector interpolatedNormal(const Point & position) const;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay);
+        bool refractedRay(const Ray & incomingRay, Ray & refractedRay);
 
     private:
         /// Calculate roots of a second order polynom.
@@ -73,9 +73,9 @@ namespace MatouMalin
         return _center;
     }
 
-    inline void Sphere::setCenter(const MatouMalin::Point & pPoint)
+    inline void Sphere::setCenter(const MatouMalin::Point & point)
     {
-        _center = pPoint;
+        _center = point;
     }
 
     inline float Sphere::radius(void) const
@@ -83,19 +83,19 @@ namespace MatouMalin
         return _radius;
     }
 
-    inline void Sphere::setRadius(float pRadius)
+    inline void Sphere::setRadius(float radius)
     {
-        _radius = pRadius;
+        _radius = radius;
     }
 
-    inline Vector Sphere::normal(const Point & pPosition) const
+    inline Vector Sphere::normal(const Point & position) const
     {
-        return ((pPosition - _center).normalize());
+        return ((position - _center).normalize());
     }
 
-    inline Vector Sphere::interpolatedNormal(const Point & pPosition) const
+    inline Vector Sphere::interpolatedNormal(const Point & position) const
     {
-        return ((pPosition - _center).normalize());
+        return ((position - _center).normalize());
     }
 
 } // namespace MatouMalin

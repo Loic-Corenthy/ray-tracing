@@ -24,10 +24,10 @@ namespace MatouMalin
     struct DeleteObject
     {
         template<typename T>
-        void operator()(const T* pObject) const
+        void operator()(const T* object) const
         {
-            delete pObject;
-            pObject = nullptr;
+            delete object;
+            object = nullptr;
         }
     }; // struct DeleteObject
 
@@ -54,53 +54,53 @@ namespace MatouMalin
         std::list<Renderable*> & renderableList(void);
 
         /// Get an object of the list of renderables with its name
-        Renderable* objectNamed(const std::string & pName);
+        Renderable* objectNamed(const std::string & name);
 
         /// Add a pointer on a camera to the scene
-        void add(Camera*  pCamera);
+        void add(Camera*  camera);
 
         /// Add a pointer on a light to the scene
-        void add(Light*  pLight);
+        void add(Light*  light);
 
         /// Add a pointer on an object to render to the scene
-        void add(Renderable*  pRenderable);
+        void add(Renderable*  renderable);
 
         /// Add a pointer on a shader, must also provide a name for the shader
-        void add(Shader* pShader, const std::string & pName);
+        void add(Shader* shader, const std::string & name);
 
         /// Add a pointer on a BRDF, must also provide a name for the shader
-        void add(BRDF* pBRDF, const std::string & pName);
+        void add(BRDF* bRDF, const std::string & name);
 
         /// Add a pointer on a CubeMap used as texture for an object
-        void add(CubeMap* pCubeMap);
+        void add(CubeMap* cubeMap);
 
         /// Check if a ray intersect one of the object of the scene
-        bool intersect(Ray & pRay) const;
+        bool intersect(Ray & ray) const;
 
         /// Create a scene from a .obj file
-        void createFromFile(const std::string & pObjFilePath);
+        void createFromFile(const std::string & objFilePath);
 
         /// Set the color of the background in the scene
-        void setBackgroundColor(const Color & pColor);
+        void setBackgroundColor(const Color & color);
 
         /// Set a cubemap all around the scene
-        void setBackgroundCubeMap(CubeMap* pCubeMap);
+        void setBackgroundCubeMap(CubeMap* cubeMap);
 
         /// Get the color of the background
-        Color backgroundColor(const Ray & pRay) const;
+        Color backgroundColor(const Ray & ray) const;
 
         /// Calculate the mean of the light intensity in the entire scene
         Color meanAmbiantLight(void) const;
 
     private:
         /// Copy constructor (copy is not allowed)
-        Scene(const Scene & pScene);
+        Scene(const Scene & scene);
 
         /// Copy constructor (copy is not allowed)
-        Scene operator=(const Scene & pScene);
+        Scene operator=(const Scene & scene);
 
         /// Utility function to count the number of vertices and faces in a .obj file
-        void _countVerticesAndFaces(const std::string & pObjFilePath, OBJParameters & pParameters) const;
+        void _countVerticesAndFaces(const std::string & objFilePath, OBJParameters & parameters) const;
 
     private:
         std::list<Camera*>      _cameraList;
@@ -131,24 +131,24 @@ namespace MatouMalin
         return _renderableList;
     }
 
-    inline void Scene::setBackgroundColor(const Color & pColor)
+    inline void Scene::setBackgroundColor(const Color & color)
     {
         _backgroundType = BACKGRD_COLOR;
-        _backgroundColor = pColor;
+        _backgroundColor = color;
     }
 
-    inline void Scene::setBackgroundCubeMap(CubeMap* pCubeMap)
+    inline void Scene::setBackgroundCubeMap(CubeMap* cubeMap)
     {
         _backgroundType = BACKGRD_CUBEMAP;
-        _backgroundCubeMap = pCubeMap;
+        _backgroundCubeMap = cubeMap;
     }
 
-    inline Color Scene::backgroundColor(const Ray & pRay) const
+    inline Color Scene::backgroundColor(const Ray & ray) const
     {
         if(_backgroundType == BACKGRD_COLOR)
             return _backgroundColor;
         else
-            return _backgroundCubeMap->colorAt(pRay);
+            return _backgroundCubeMap->colorAt(ray);
     }
 
 } // namespace MatouMalin

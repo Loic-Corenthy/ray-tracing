@@ -19,20 +19,20 @@ Mesh::Mesh(void)
 
 }
 
-Mesh::Mesh(unsigned int pTriangleCount)
+Mesh::Mesh(unsigned int triangleCount)
 :Renderable(),
  _bB(),
  _intersectedTriangle(-1)
 {
     // Allocate memory in vector for the triangles
-    _triangles.reserve(pTriangleCount);
+    _triangles.reserve(triangleCount);
 }
 
-Mesh::Mesh(const Mesh & pMesh)
-:Renderable(pMesh),
- _triangles(pMesh._triangles),
- _bB(pMesh._bB),
- _intersectedTriangle(pMesh._intersectedTriangle)
+Mesh::Mesh(const Mesh & mesh)
+:Renderable(mesh),
+ _triangles(mesh._triangles),
+ _bB(mesh._bB),
+ _intersectedTriangle(mesh._intersectedTriangle)
 {
 
 }
@@ -42,28 +42,28 @@ Mesh::~Mesh(void)
 
 }
 
-Mesh Mesh::operator=(const Mesh &pMesh)
+Mesh Mesh::operator=(const Mesh & mesh)
 {
-    if (this == &pMesh)
+    if (this == & mesh)
         return *this;
 
-    Renderable::operator=(pMesh);
+    Renderable::operator=(mesh);
 
-    _triangles = pMesh._triangles;
-    _bB = pMesh._bB;
-    _intersectedTriangle = pMesh._intersectedTriangle;
+    _triangles = mesh._triangles;
+    _bB = mesh._bB;
+    _intersectedTriangle = mesh._intersectedTriangle;
 
     return *this;
 }
 
-bool Mesh::intersect(MatouMalin::Ray & pRay)
+bool Mesh::intersect(MatouMalin::Ray & ray)
 {
     // Check if the ray intersect the bounding box
-    if (_bB.intersect(pRay))
+    if (_bB.intersect(ray))
     {
         float lClosestDist = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
-        Renderable* lObjectFromRay = pRay.intersected();
+        Renderable* lObjectFromRay = ray.intersected();
 
         int lI = 0;
         bool lHasIntersection(false);
@@ -74,11 +74,11 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
 
         while( lIterator != lEnd )
         {
-            lHasIntersection = lIterator->intersect(pRay);
-            if(lHasIntersection && pRay.length()<lClosestDist && lObjectFromRay != pRay.intersected())
+            lHasIntersection = lIterator->intersect(ray);
+            if(lHasIntersection && ray.length()<lClosestDist && lObjectFromRay != ray.intersected())
             {
-                lClosestDist = pRay.length();
-                rClosestObject = pRay.intersected();
+                lClosestDist = ray.length();
+                rClosestObject = ray.intersected();
                 _intersectedTriangle = lI++;
             }
 
@@ -88,56 +88,56 @@ bool Mesh::intersect(MatouMalin::Ray & pRay)
         // return the result
         if(lI > 0)
         {
-            pRay.setLength(lClosestDist);
-            pRay.setIntersected(rClosestObject);
+            ray.setLength(lClosestDist);
+            ray.setIntersected(rClosestObject);
             return true;
         }
         else
         {
-            pRay.setLength(std::numeric_limits<float>::max());
-            pRay.setIntersected(nullptr);
+            ray.setLength(std::numeric_limits<float>::max());
+            ray.setIntersected(nullptr);
             return false;
         }
     }
     else
     {
-        pRay.setLength(std::numeric_limits<float>::max());
-        pRay.setIntersected(nullptr);
+        ray.setLength(std::numeric_limits<float>::max());
+        ray.setIntersected(nullptr);
         return false;
     }
 
 }
 
-Color Mesh::color(Ray & pRay, unsigned int pReflectionCount)
+Color Mesh::color(Ray & ray, unsigned int reflectionCount)
 {
-    return _triangles[_intersectedTriangle].color(pRay, pReflectionCount);
+    return _triangles[_intersectedTriangle].color(ray, reflectionCount);
 }
 
-Vector Mesh::normal(const Point &pPosition) const
+Vector Mesh::normal(const Point & position) const
 {
-    return _triangles[_intersectedTriangle].normal(pPosition);
+    return _triangles[_intersectedTriangle].normal(position);
 }
 
-Vector Mesh::interpolatedNormal(const Point &pPosition) const
+Vector Mesh::interpolatedNormal(const Point & position) const
 {
-    return _triangles[_intersectedTriangle].interpolatedNormal(pPosition);
+    return _triangles[_intersectedTriangle].interpolatedNormal(position);
 }
 
-void Mesh::setShader(Shader *pShader)
+void Mesh::setShader(Shader *shader)
 {
-    assert(pShader != nullptr && "Shader not defined!!");
+    assert(shader != nullptr && "Shader not defined!!");
 
     auto lIt  = _triangles.begin();
     auto lEnd = _triangles.end();
 
     while (lIt != lEnd)
     {
-        lIt->setShader(pShader);
+        lIt->setShader(shader);
         lIt++;
     }
 }
 
-bool Mesh::refractedRay(const Ray &pIncomingRay, Ray &pRefractedRay)
+bool Mesh::refractedRay(const Ray &incomingRay, Ray &refractedRay)
 {
     assert(false && "Not implemented yet :)");
     return false;

@@ -17,33 +17,33 @@ Phong::Phong(void)
 {
 }
 
-Phong::Phong(const Color & pDiffusionColor, const Color &  pSpecularColor, int pExponent)
-:BRDF(pDiffusionColor*0.2),
- _diffusionColor(pDiffusionColor),
- _specularColor(pSpecularColor),
- _exponent(pExponent)
+Phong::Phong(const Color & diffusionColor, const Color &  specularColor, int exponent)
+:BRDF(diffusionColor*0.2),
+ _diffusionColor(diffusionColor),
+ _specularColor(specularColor),
+ _exponent(exponent)
 {
 }
 
-Phong::Phong(const Phong & pPhong)
-:BRDF(pPhong),
- _diffusionColor(pPhong._diffusionColor),
- _specularColor(pPhong._specularColor),
- _exponent(pPhong._exponent)
+Phong::Phong(const Phong & phong)
+:BRDF(phong),
+ _diffusionColor(phong._diffusionColor),
+ _specularColor(phong._specularColor),
+ _exponent(phong._exponent)
 {
 
 }
 
-Phong Phong::operator=(const Phong & pPhong)
+Phong Phong::operator=(const Phong & phong)
 {
-    if(this == & pPhong)
+    if(this == & phong)
         return *this;
 
-    BRDF::operator=(pPhong);
+    BRDF::operator=(phong);
 
-    _diffusionColor = pPhong._diffusionColor;
-	_specularColor = pPhong._specularColor;
-	_exponent = pPhong._exponent;
+    _diffusionColor = phong._diffusionColor;
+	_specularColor = phong._specularColor;
+	_exponent = phong._exponent;
 
     return *this;
 }
@@ -52,22 +52,22 @@ Phong::~Phong(void)
 {
 }
 
-Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection)
+Color Phong::reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection)
 {
     // Make local copy for modification
-	Vector lVecToLight(pVecToLight);
-	Vector lVecToViewer(pVecToViewer);
-    Vector lVecNormal(pNormal);
+	Vector lVecToLight(vecToLight);
+	Vector lVecToViewer(vecToViewer);
+    Vector lVecNormal(normal);
 
     // Normalize vectors
     lVecToLight.normalize();
     lVecToViewer.normalize();
 
     // Calculate diffusion coefficient
-	double lCosAlpha = lVecToLight*pNormal;
+	double lCosAlpha = lVecToLight*normal;
 
     // Calculate specular coefficient
-    double lCosBeta = (lVecToLight*pNormal)*2.0;
+    double lCosBeta = (lVecToLight*normal)*2.0;
     Vector lReflexion = lVecNormal*lCosBeta - lVecToLight;
 	lCosBeta = lReflexion*lVecToViewer;
 
@@ -78,7 +78,7 @@ Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer
     const CubeMap* lCubeMap = cubeMap();
     if (lCubeMap)
     {
-        Ray lNormalRay(pIntersection,pNormal);
+        Ray lNormalRay(intersection,normal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
         return lDiffColor*lCosAlpha + _specularColor*pow(lCosBeta,_exponent);
 
@@ -89,14 +89,14 @@ Color Phong::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer
 }
 
 
-Color Phong::diffuse(const Vector & pVecToLight, const Vector & pNormal,const Point & pIntersection) const
+Color Phong::diffuse(const Vector & vecToLight, const Vector & normal,const Point & intersection) const
 {
     // Make local copy to normalize
-	Vector lVecToLight(pVecToLight);
+	Vector lVecToLight(vecToLight);
     lVecToLight.normalize();
 
     // Calculate diffusion coefficient
-	double lCosAlpha = lVecToLight*pNormal;
+	double lCosAlpha = lVecToLight*normal;
 
     // Set negative coefficents to zero
     lCosAlpha = (lCosAlpha < 0.0)?0.0:lCosAlpha;
@@ -104,7 +104,7 @@ Color Phong::diffuse(const Vector & pVecToLight, const Vector & pNormal,const Po
     const CubeMap* lCubeMap = cubeMap();
     if (lCubeMap)
     {
-        Ray lNormalRay(pIntersection,pNormal);
+        Ray lNormalRay(intersection,normal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
         return lDiffColor*lCosAlpha;
 
@@ -114,18 +114,18 @@ Color Phong::diffuse(const Vector & pVecToLight, const Vector & pNormal,const Po
 }
 
 
-Color Phong::specular(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection) const
+Color Phong::specular(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) const
 {
-	Vector lVecToLight(pVecToLight);
-	Vector lVecToViewer(pVecToViewer);
-    Vector lVecNormal(pNormal);
+	Vector lVecToLight(vecToLight);
+	Vector lVecToViewer(vecToViewer);
+    Vector lVecNormal(normal);
 
     // Normalize vectors
     lVecToLight.normalize();
     lVecToViewer.normalize();
 
     // Calculate specular coefficient
-    double lCosBeta = (lVecToLight*pNormal)*2.0;
+    double lCosBeta = (lVecToLight*normal)*2.0;
     Vector lReflexion = lVecNormal*lCosBeta - lVecToLight;
 	lCosBeta = lReflexion*lVecToViewer;
 

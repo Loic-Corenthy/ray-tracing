@@ -17,7 +17,7 @@ using namespace std;
 
 
 
-void createTestScene(MatouMalin::Scene* pScene)
+void createTestScene(MatouMalin::Scene* scene)
 {
 
     MatouMalin::Point lCenterSphere1(0.0,0.0,0.0);
@@ -29,25 +29,25 @@ void createTestScene(MatouMalin::Scene* pScene)
 	BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,5);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,1.0,pScene,Shader::NONE);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,1.0,scene,Shader::NONE);
     rShaderSphere1->setReflectionCountMax(2);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     ////////////
     // LIGHTS //
     ////////////
 	Light* rLight1 = new DirectionalLight(Vector(0.0, 0.0, -1.0), Color(22.0));
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
 
 //    MatouMalin::Point lLight2Position(0.f,1.0f,0.0f);
 //	Light* rLight2 = new PunctualLight(lLight2Position,lLight1Color);
-//    pScene->add(rLight2);
+//    scene->add(rLight2);
 
     ////////////
     // CAMERA //
@@ -58,17 +58,17 @@ void createTestScene(MatouMalin::Scene* pScene)
 	float FOV = 60.f*3.141592/180.f;
 
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.3f));
+    scene->setBackgroundColor(Color(0.3f));
 
 }
 
-void createScene01(Scene* pScene)
+void createScene01(Scene* scene)
 {
     // Same reflection coefficient for all the spheres
     double lReflectionCoeff(2.0);
@@ -86,13 +86,13 @@ void createScene01(Scene* pScene)
 	BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,5);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene,Shader::MARBLE);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene,Shader::MARBLE);
     rShaderSphere1->setReflectionCountMax(2);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     //////////////////
     // GREEN SPHERE //
@@ -106,13 +106,13 @@ void createScene01(Scene* pScene)
 	BRDF* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,15);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene,Shader::MARBLE);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene,Shader::MARBLE);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     /////////////////
     // BLUE SPHERE //
@@ -126,13 +126,13 @@ void createScene01(Scene* pScene)
     BRDF* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,25);
 
     // Create a shader for the third sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,pScene,Shader::MARBLE);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,scene,Shader::MARBLE);
     rShaderSphere3->setReflectionCountMax(2);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
     ////////////
     // LIGHTS //
@@ -140,7 +140,7 @@ void createScene01(Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,0.0f,5.0f);
 	Color lLight1Color(9.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     ////////////
     // CAMERA //
@@ -151,17 +151,17 @@ void createScene01(Scene* pScene)
 	float FOV = 60.f*3.141592/180.f;
 
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0));
+    scene->setBackgroundColor(Color(0));
 
 }
 
 
-void createScene02(Scene* pScene)
+void createScene02(Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(5.8);
@@ -179,13 +179,13 @@ void createScene02(Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1*2.0,lSpecularSphere1,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere1->setReflectionCountMax(3);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     //////////////////
@@ -200,13 +200,13 @@ void createScene02(Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2*2.0,lSpecularSphere2,3);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere2->setReflectionCountMax(3);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
 
     /////////////////
@@ -221,13 +221,13 @@ void createScene02(Scene* pScene)
     Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3*2.0,lSpecularSphere3,3);
 
     // Create a shader for the third sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,1.0,pScene);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,1.0,scene);
     rShaderSphere3->setReflectionCountMax(3);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
 
     ///////////////////////////////
@@ -242,19 +242,19 @@ void createScene02(Scene* pScene)
     Phong* rBRDFSphere4 = new Phong(lDiffusionSphere4*6,lSpecularSphere4,3);
 
     // Create a shader for the fourth sphere
-	Shader* rShaderSphere4 = new Shader(rBRDFSphere4,0.0,1.0,pScene);
+	Shader* rShaderSphere4 = new Shader(rBRDFSphere4,0.0,1.0,scene);
     rSphere4->setShader(rShaderSphere4);
 
-    pScene->add(rSphere4);
-    pScene->add(rBRDFSphere4, string("brdf of sphere 4"));
-    pScene->add(rShaderSphere4, string("shader of sphere 4"));
+    scene->add(rSphere4);
+    scene->add(rBRDFSphere4, string("brdf of sphere 4"));
+    scene->add(rShaderSphere4, string("shader of sphere 4"));
 
 
     ///////////
     // FLOOR //
     ///////////
     FloorParameters lFloorParameters = {Color(1.0), Color(0.8), 2.0,1.0, 2, 400.0, 80.0, string("./resources/damierBlueYellow.png")};
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
 
     ////////////
@@ -263,22 +263,22 @@ void createScene02(Scene* pScene)
     MatouMalin::Point lLight1Position(50.f,130.f,150.0f);
 	Color lLight1Color(18.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     MatouMalin::Point lLight2Position(20.f,150.f,150.0f);
 	Color lLight2Color(18.0f);
 	Light* rLight2 = new PunctualLight(lLight2Position,lLight2Color);
-    pScene->add(rLight2);
+    scene->add(rLight2);
 
     MatouMalin::Point lLight3Position(-70.f,50.f,110.0f);
 	Color lLight3Color(15.0f);
 	Light* rLight3 = new PunctualLight(lLight3Position,lLight3Color);
-    pScene->add(rLight3);
+    scene->add(rLight3);
 
     MatouMalin::Point lLight4Position(-20.f,50.f,160.0f);
 	Color lLight4Color(15.0f);
 	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
 
     ////////////
@@ -293,17 +293,17 @@ void createScene02(Scene* pScene)
     rCamera->setFocalPoint(lCenterSphere3);
     rCamera->setAperture(Camera::F_SMALL,Camera::SUPER_AWESOME);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(2,6,13));
+    scene->setBackgroundColor(Color(2,6,13));
 
 }
 
-void createScene03(Scene* pScene)
+void createScene03(Scene* scene)
 {
     // Same reflection coefficient for the spheres
     double lReflection(1.0);
@@ -320,14 +320,14 @@ void createScene03(Scene* pScene)
     Phong* rBRDF1 = new Phong(lDiffusion*2.0,lSpecular,15);
 
 	// Create a shader for the turbulance sphere
-	Shader* rShader1 = new Shader(rBRDF1,lReflection,lRefraction,pScene,Shader::Material::TURBULANCE);
+	Shader* rShader1 = new Shader(rBRDF1,lReflection,lRefraction,scene,Shader::Material::TURBULANCE);
     rShader1->setReflectionCountMax(2);
 
 	rSphere1->setShader(rShader1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDF1, string("brdf of sphere 1"));
-    pScene->add(rShader1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDF1, string("brdf of sphere 1"));
+    scene->add(rShader1, string("shader of sphere 1"));
 
     //////////////////////////////////
     // SPHERE WITH A MARBLE TEXTURE //
@@ -339,36 +339,36 @@ void createScene03(Scene* pScene)
     Phong* rBRDF2 = new Phong(lDiffusion,lSpecular,15);
 
     // Create a shader for the marble sphere
-	Shader* rShader2 = new Shader(rBRDF2,lReflection,lRefraction,pScene,Shader::Material::MARBLE);
+	Shader* rShader2 = new Shader(rBRDF2,lReflection,lRefraction,scene,Shader::Material::MARBLE);
     rShader2->setReflectionCountMax(2);
 
 	rSphere2->setShader(rShader2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDF2, string("brdf of sphere 2"));
-    pScene->add(rShader2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDF2, string("brdf of sphere 2"));
+    scene->add(rShader2, string("shader of sphere 2"));
 
     ///////////
     // TORUS //
     ///////////
     string lPath = "./resources/torus.obj";
-    pScene->createFromFile(lPath);
+    scene->createFromFile(lPath);
 
     // Create a BRDF model for the torus
     lDiffusion.setColor(255, 105, 0);
 	Phong* rBRDFTorus = new Phong(lDiffusion,lSpecular,3);
 
 	// Create a shader for the torus
-	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,pScene,Shader::NONE);
+	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,scene,Shader::NONE);
 
     // Get an iterator on the object of the scene and displace it until refers to the torus
-    auto lIt = pScene->renderableList().begin();
+    auto lIt = scene->renderableList().begin();
     lIt++;lIt++;
 
     (*lIt)->setShader(rShaderTorus);
 
-    pScene->add(rBRDFTorus, string("brdf of the torus"));
-    pScene->add(rShaderTorus, string("shader of the torus"));
+    scene->add(rBRDFTorus, string("brdf of the torus"));
+    scene->add(rShaderTorus, string("shader of the torus"));
 
     ////////////////////////////////
     // SPHERE WITH A BUMP TEXTURE //
@@ -380,14 +380,14 @@ void createScene03(Scene* pScene)
     Phong* rBRDF3 = new Phong(lDiffusion,lSpecular,15);
 
     // Create a shader for the marble sphere
-	Shader* rShader3 = new Shader(rBRDF3,lReflection,lRefraction,pScene,Shader::Material::BUMP);
+	Shader* rShader3 = new Shader(rBRDF3,lReflection,lRefraction,scene,Shader::Material::BUMP);
     rShader3->setReflectionCountMax(2);
 
 	rSphere3->setShader(rShader3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDF3, string("brdf of sphere 2"));
-    pScene->add(rShader3, string("shader of sphere 2"));
+    scene->add(rSphere3);
+    scene->add(rBRDF3, string("brdf of sphere 2"));
+    scene->add(rShader3, string("shader of sphere 2"));
 
     ///////////////////////////
     // SPHERE WITH A TEXTURE //
@@ -405,20 +405,20 @@ void createScene03(Scene* pScene)
     rCubeMapSphere->addImage(CubeMap::RIGHT,"./resources/earth_right.png");
     rCubeMapSphere->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-    pScene->add(rCubeMapSphere);
+    scene->add(rCubeMapSphere);
 
     lDiffusion.setColor(255, 255, 255);
 	BRDF* rBRDF4 = new Phong(lDiffusion*2.0,lSpecular,15);
     rBRDF4->setCubeMap(rCubeMapSphere);
 
 	// Create a shader for the sphere
-	Shader* rShader4 = new Shader(rBRDF4,lReflection,lRefraction,pScene);
+	Shader* rShader4 = new Shader(rBRDF4,lReflection,lRefraction,scene);
     rShader4->setReflectionCountMax(1);
 	rSphere4->setShader(rShader4);
 
-    pScene->add(rSphere4);
-    pScene->add(rBRDF4, string("brdf of sphere 4"));
-    pScene->add(rShader4, string("shader of sphere 4"));
+    scene->add(rSphere4);
+    scene->add(rBRDF4, string("brdf of sphere 4"));
+    scene->add(rShader4, string("shader of sphere 4"));
 
 
     ////////////
@@ -428,7 +428,7 @@ void createScene03(Scene* pScene)
     Color lLightCol(18.0f);
 
 	Light* rLight = new PunctualLight(lLightPos,lLightCol);
-    pScene->add(rLight);
+    scene->add(rLight);
 
 
     ////////////
@@ -442,25 +442,25 @@ void createScene03(Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     ///////////
     // FLOOR //
     ///////////
     FloorParameters lFloorParameters = {Color(0.0f), Color(0.0f), 1.0f, 1.0f, 2, 40.0,3.0, string("no_texture")};
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 
 
 }
 
 
-void createScene04(Scene* pScene)
+void createScene04(Scene* scene)
 {
 
     // Same reflection coefficient for the spheres behind
@@ -477,13 +477,13 @@ void createScene04(Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,25);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere1->setReflectionCountMax(2);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
     MatouMalin::Point lCenterSphere2(0.0,0.0,0.0);
@@ -495,13 +495,13 @@ void createScene04(Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,25);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a purple sphere
     MatouMalin::Point lCenterSphere3(180.0,0.0,0.0);
@@ -513,13 +513,13 @@ void createScene04(Scene* pScene)
     Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,25);
 
     // Create a shader for the third sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere3->setReflectionCountMax(2);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
 
     ////////////
@@ -528,24 +528,24 @@ void createScene04(Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,0.0f,100.0f);
 	Color lLowLightColor(20.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLowLightColor);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     MatouMalin::Point lLight2Position(-200.f,0.0f,100.0f);
 	Light* rLight2 = new PunctualLight(lLight2Position,lLowLightColor);
-    pScene->add(rLight2);
+    scene->add(rLight2);
 
     MatouMalin::Point lLight3Position(200.f,0.0f,100.0f);
 	Light* rLight3 = new PunctualLight(lLight3Position,lLowLightColor);
-    pScene->add(rLight3);
+    scene->add(rLight3);
 
     MatouMalin::Point lLight4Position(90.f,300.f,200.0f);
 	Color lHighLightColor(200.0f);
 	Light* rLight4 = new PunctualLight(lLight4Position,lHighLightColor);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
     MatouMalin::Point lLight5Position(-90.f,300.f,200.0f);
 	Light* rLight5 = new PunctualLight(lLight5Position,lHighLightColor);
-    pScene->add(rLight5);
+    scene->add(rLight5);
 
     ////////////
     // CAMERA //
@@ -558,20 +558,20 @@ void createScene04(Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::ALL_SHARP,10.0);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     // FLOOR
     FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0f,1.0f,2,2000.0,100.0, string("./resources/rect5130.png")};
 
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene04bis(MatouMalin::Scene* pScene)
+void createScene04bis(MatouMalin::Scene* scene)
 {
     // Same reflection coefficient for the spheres
     double lReflectionCoeff(8.0);
@@ -589,13 +589,13 @@ void createScene04bis(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,25);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere1->setReflectionCountMax(4);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     //////////////////
@@ -610,13 +610,13 @@ void createScene04bis(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,25);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere2->setReflectionCountMax(4);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     ///////////////////
     // PURPLE SPHERE //
@@ -630,13 +630,13 @@ void createScene04bis(MatouMalin::Scene* pScene)
     Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,25);
 
     // Create a shader for the third sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere3->setReflectionCountMax(4);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
 
     ////////////
@@ -645,11 +645,11 @@ void createScene04bis(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight4Position(1.15f,4.f,4.0f);
 	Color lLightColor(16.0f);
 	Light* rLight4 = new PunctualLight(lLight4Position,lLightColor);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
     MatouMalin::Point lLight5Position(-1.15f,4.f,4.0f);
 	Light* rLight5 = new PunctualLight(lLight5Position,lLightColor);
-    pScene->add(rLight5);
+    scene->add(rLight5);
 
 
     ////////////
@@ -661,27 +661,27 @@ void createScene04bis(MatouMalin::Scene* pScene)
 	float FOV = 80.f*3.141592/180.f;
 
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     ///////////
     // FLOOR //
     ///////////
     FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("./resources/small_damier.png")};
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 
 }
 
 
-void createScene05(Scene* pScene)
+void createScene05(Scene* scene)
 {
     // TORUS
     string lPath = "./resources/torus.obj";
-    pScene->createFromFile(lPath);
+    scene->createFromFile(lPath);
 
     // Create a BRDF model for the torus
     Color lDiffusionTorus(0.76f,0.33f,0.12f);
@@ -689,13 +689,13 @@ void createScene05(Scene* pScene)
 	Phong* rBRDFTorus = new Phong(lDiffusionTorus,lSpecularTorus,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,pScene,Shader::BUMP);
+	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,scene,Shader::BUMP);
 
-    auto lIt = pScene->renderableList().begin();
+    auto lIt = scene->renderableList().begin();
     (*lIt)->setShader(rShaderTorus);
 
-    pScene->add(rBRDFTorus, string("brdf of the torus"));
-    pScene->add(rShaderTorus, string("shader of the torus"));
+    scene->add(rBRDFTorus, string("brdf of the torus"));
+    scene->add(rShaderTorus, string("shader of the torus"));
 
 
     ////////////
@@ -704,12 +704,12 @@ void createScene05(Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,1.0f,10.0f);
 	Color lLight1Color(10.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     MatouMalin::Point lLight4Position(0.f,10.f,6.0f);
 	Color lLight4Color(10.0f);
 	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
 
     ////////////
@@ -723,22 +723,22 @@ void createScene05(Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     // FLOOR
     FloorParameters lFloorParameters = {Color(0.6f), Color(0.7f),1.0,1.0, 2,200.0,50.0, string("no_texture")};
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.7f,0.72f,0.2f));
+    scene->setBackgroundColor(Color(0.7f,0.72f,0.2f));
 
 }
 
-void createScene06(Scene* pScene)
+void createScene06(Scene* scene)
 {
 
     // Same reflection coefficient for the spheres
@@ -754,12 +754,12 @@ void createScene06(Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,2.0,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,2.0,scene);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // SPHERES IN THE BACKGROUND
     // Nearest spheres
@@ -771,26 +771,26 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereL1 = new Sphere(lCenter,lSize);
 
     Phong* rBRDF_L1 = new Phong(Color(250, 240, 230)*5.0,Color(1.0),3);
-	Shader* rShaderL1 = new Shader(rBRDF_L1,lReflectionCoeff,1.0,pScene,Shader::BUMP);
+	Shader* rShaderL1 = new Shader(rBRDF_L1,lReflectionCoeff,1.0,scene,Shader::BUMP);
 
     rSphereL1->setShader(rShaderL1);
 
-    pScene->add(rSphereL1);
-    pScene->add(rBRDF_L1, string("brdf left 1"));
-    pScene->add(rShaderL1, string("shader left 1"));
+    scene->add(rSphereL1);
+    scene->add(rBRDF_L1, string("brdf left 1"));
+    scene->add(rShaderL1, string("shader left 1"));
 
     // BG 1, right
     lCenter.setX(20.0);
 	Sphere* rSphereR1 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFR1 = new Phong(Color(135, 206, 250)*5.0,Color(1.0),3);
-	Shader* rShaderR1 = new Shader(rBRDFR1,lReflectionCoeff,1.0,pScene,Shader::BUMP);
+	Shader* rShaderR1 = new Shader(rBRDFR1,lReflectionCoeff,1.0,scene,Shader::BUMP);
 
     rSphereR1->setShader(rShaderR1);
 
-    pScene->add(rSphereR1);
-    pScene->add(rBRDFR1, string("brdf right 1"));
-    pScene->add(rShaderR1, string("shader right 1"));
+    scene->add(rSphereR1);
+    scene->add(rBRDFR1, string("brdf right 1"));
+    scene->add(rShaderR1, string("shader right 1"));
 
     // BG 1, down
     lCenter.setX(0.0);
@@ -798,26 +798,26 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereD1 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFD1 = new Phong(Color(250, 128, 114)*5.0,Color(1.0),3);
-	Shader* rShaderD1 = new Shader(rBRDFD1,lReflectionCoeff,1.0,pScene,Shader::BUMP);
+	Shader* rShaderD1 = new Shader(rBRDFD1,lReflectionCoeff,1.0,scene,Shader::BUMP);
 
     rSphereD1->setShader(rShaderD1);
 
-    pScene->add(rSphereD1);
-    pScene->add(rBRDFD1, string("brdf down 1"));
-    pScene->add(rShaderD1, string("shader down 1"));
+    scene->add(rSphereD1);
+    scene->add(rBRDFD1, string("brdf down 1"));
+    scene->add(rShaderD1, string("shader down 1"));
 
     // BG 1, up
     lCenter.setY(20.0);
 	Sphere* rSphereU1 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFU1 = new Phong(Color(255, 250, 205)*5.0,Color(1.0),3);
-	Shader* rShaderU1 = new Shader(rBRDFU1,lReflectionCoeff,1.0,pScene,Shader::BUMP);
+	Shader* rShaderU1 = new Shader(rBRDFU1,lReflectionCoeff,1.0,scene,Shader::BUMP);
 
     rSphereU1->setShader(rShaderU1);
 
-    pScene->add(rSphereU1);
-    pScene->add(rBRDFU1, string("brdf up 1"));
-    pScene->add(rShaderU1, string("shader up 1"));
+    scene->add(rSphereU1);
+    scene->add(rBRDFU1, string("brdf up 1"));
+    scene->add(rShaderU1, string("shader up 1"));
 
     // Furthest spheres
     lSize = 22.0;
@@ -829,13 +829,13 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereLD2 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFLD2 = new Phong(Color(127, 255, 212)*5.0,Color(1.0),3);
-	Shader* rShaderLD2 = new Shader(rBRDFLD2,lReflectionCoeff,1.0,pScene);
+	Shader* rShaderLD2 = new Shader(rBRDFLD2,lReflectionCoeff,1.0,scene);
 
     rSphereLD2->setShader(rShaderLD2);
 
-    pScene->add(rSphereLD2);
-    pScene->add(rBRDFLD2, string("brdf left down 2"));
-    pScene->add(rShaderLD2, string("shader left down 2"));
+    scene->add(rSphereLD2);
+    scene->add(rBRDFLD2, string("brdf left down 2"));
+    scene->add(rShaderLD2, string("shader left down 2"));
 
     // BG 2, right down
     lCenter.setX(85.0);
@@ -843,13 +843,13 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereRD2 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFRD2 = new Phong(Color(240, 248, 255)*5.0,Color(1.0),3);
-	Shader* rShaderRD2 = new Shader(rBRDFRD2,lReflectionCoeff,1.0,pScene);
+	Shader* rShaderRD2 = new Shader(rBRDFRD2,lReflectionCoeff,1.0,scene);
 
     rSphereRD2->setShader(rShaderRD2);
 
-    pScene->add(rSphereRD2);
-    pScene->add(rBRDFRD2, string("brdf right down 2"));
-    pScene->add(rShaderRD2, string("shader right down 2"));
+    scene->add(rSphereRD2);
+    scene->add(rBRDFRD2, string("brdf right down 2"));
+    scene->add(rShaderRD2, string("shader right down 2"));
 
     // BG 2, left up
     lCenter.setX(-85.0);
@@ -857,13 +857,13 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereLU2 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFLU2 = new Phong(Color(255, 99, 71)*5.0,Color(1.0),3);
-	Shader* rShaderLU2 = new Shader(rBRDFLU2,lReflectionCoeff,1.0,pScene);
+	Shader* rShaderLU2 = new Shader(rBRDFLU2,lReflectionCoeff,1.0,scene);
 
     rSphereLU2->setShader(rShaderLU2);
 
-    pScene->add(rSphereLU2);
-    pScene->add(rBRDFLU2, string("brdf left up 2"));
-    pScene->add(rShaderLU2, string("shader left up 2"));
+    scene->add(rSphereLU2);
+    scene->add(rBRDFLU2, string("brdf left up 2"));
+    scene->add(rShaderLU2, string("shader left up 2"));
 
     // BG2, right up
     lCenter.setX(85.0);
@@ -871,13 +871,13 @@ void createScene06(Scene* pScene)
 	Sphere* rSphereRU2 = new Sphere(lCenter,lSize);
 
     Phong* rBRDFRU2 = new Phong(Color(255, 255, 0)*5.0,Color(1.0),3);
-	Shader* rShaderRU2 = new Shader(rBRDFRU2,lReflectionCoeff,1.0,pScene);
+	Shader* rShaderRU2 = new Shader(rBRDFRU2,lReflectionCoeff,1.0,scene);
 
     rSphereRU2->setShader(rShaderRU2);
 
-    pScene->add(rSphereRU2);
-    pScene->add(rBRDFRU2, string("brdf right up 2"));
-    pScene->add(rShaderRU2, string("shader right up 2"));
+    scene->add(rSphereRU2);
+    scene->add(rBRDFRU2, string("brdf right up 2"));
+    scene->add(rShaderRU2, string("shader right up 2"));
 
 
 //    // SPHERE WITH TEXTURE
@@ -895,18 +895,18 @@ void createScene06(Scene* pScene)
 //    rCubeMapSphere->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
 //    rCubeMapSphere->addImage(CubeMap::RIGHT,"./resources/Desert_right.png");
 //
-//    pScene->add(rCubeMapSphere);
+//    scene->add(rCubeMapSphere);
 //
 //	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,3);
 //    rBRDFSphere2->setCubeMap(rCubeMapSphere);
 //
 //    // Create a shader for the second sphere
-//	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,1.0,pScene);
+//	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,1.0,scene);
 //    rSphere2->setShader(rShaderSphere2);
 //
-//    pScene->add(rSphere2);
-//    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-//    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+//    scene->add(rSphere2);
+//    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+//    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
 
     ////////////
@@ -915,7 +915,7 @@ void createScene06(Scene* pScene)
     MatouMalin::Point lLightPosition(0.0f,0.0f,20.0f);
 	Color lLightColor(6.0f);
 	Light* rLight1 = new PunctualLight(lLightPosition,lLightColor);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
 
     ////////////
@@ -931,7 +931,7 @@ void createScene06(Scene* pScene)
     rCamera->setAperture(Camera::F_SMALL,Camera::Precision::EXCELLENT);
 //    rCamera->setAperture(Camera::ALL_SHARP);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     // BACKGROUND
     CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260); // 260
@@ -945,12 +945,12 @@ void createScene06(Scene* pScene)
 
     rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-    pScene->setBackgroundCubeMap(rCubeMapBckGrd);
+    scene->setBackgroundCubeMap(rCubeMapBckGrd);
 
 
 }
 
-void createScene07(Scene* pScene)
+void createScene07(Scene* scene)
 {
     // Create a sphere (1)
 	MatouMalin::Point lCenterSphere1(-30.f,10.0f,20.0f);
@@ -962,12 +962,12 @@ void createScene07(Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,0.8,1.0,pScene,Shader::TURBULANCE);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,0.8,1.0,scene,Shader::TURBULANCE);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a sphere (2)
 	MatouMalin::Point lCenterSphere2(0.0f,10.0f,20.0f);
@@ -979,12 +979,12 @@ void createScene07(Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,0.8,1.0,pScene,Shader::MARBLE);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,0.8,1.0,scene,Shader::MARBLE);
 	rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a sphere (3)
 	MatouMalin::Point lCenterSphere3(30.f,10.0f,20.0f);
@@ -996,12 +996,12 @@ void createScene07(Scene* pScene)
 	Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,0.8,1.0,pScene,Shader::BUMP);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,0.8,1.0,scene,Shader::BUMP);
 	rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
     ////////////
     // LIGHTS //
@@ -1009,19 +1009,19 @@ void createScene07(Scene* pScene)
     MatouMalin::Point lLightPosition(0.0f,90.0f,0.0f);
 	Color lLightColor(5.0f);
 	Light* rLight1 = new PunctualLight(lLightPosition,lLightColor);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     //    lLightPosition.setPoint(0.0f,15.0f,37.0f);
     //	Light* rLight2 = new PunctualLight(lLightPosition,lLightColor);
-    //    pScene->add(rLight2);
+    //    scene->add(rLight2);
 
     lLightPosition.setPoint(10.0f,20.0f,37.0f);
 	Light* rLight3 = new PunctualLight(lLightPosition,lLightColor);
-    pScene->add(rLight3);
+    scene->add(rLight3);
 
     lLightPosition.setPoint(-10.0f,20.0f,37.0f);
 	Light* rLight4 = new PunctualLight(lLightPosition,lLightColor);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
 
     ////////////
@@ -1038,24 +1038,24 @@ void createScene07(Scene* pScene)
     rCamera->setAperture(Camera::Aperture::ALL_SHARP);
 
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     // ROOM
     RoomParameters lRoomParameters = {Color(1.0f,0.18f,0.17f), Color(0.0f), 1.0,1.0, 2,50.0, 20.0,string("./resources/textureLeaves_750x750.png"),string("./resources/textureWall_400x400.png"),string("./resources/textureWall_400x400_Right.png"),string("./resources/textureWall_400x400.png")};
 
 //    RoomParameters lRoomParameters = {Color(1.0f,0.78f,0.17f), Color(0.0f,0.0f,0.79), 50.0, 20.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
 
-    createRoom(pScene, lRoomParameters);
+    createRoom(scene, lRoomParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.2f));
+    scene->setBackgroundColor(Color(0.2f));
 
 
 }
 
-void createScene08(MatouMalin::Scene* pScene)
+void createScene08(MatouMalin::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(0.8);
@@ -1071,12 +1071,12 @@ void createScene08(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,3);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a green sphere
     MatouMalin::Point lCenterSphere2(10.0,0.0,-100.0);
@@ -1088,12 +1088,12 @@ void createScene08(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,3);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     ////////////
     // LIGHTS //
@@ -1101,7 +1101,7 @@ void createScene08(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,10.f,0.0f);
 	Color lLight1Color(3.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     ////////////
     // CAMERA //
@@ -1114,22 +1114,22 @@ void createScene08(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::F_SMALL,1.0,Camera::Precision::SUPER_AWESOME);
     rCamera->setFocalPoint(lCenterSphere1);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(188,236,253));
+    scene->setBackgroundColor(Color(188,236,253));
 
 
 }
 
-void createScene09(MatouMalin::Scene* pScene)
+void createScene09(MatouMalin::Scene* scene)
 {
     // Load the "torus"
     string lPath = "./resources/head_4.obj";
-    pScene->createFromFile(lPath);
+    scene->createFromFile(lPath);
 
     // Create a BRDF model for the sphere
     Color lDiffusionSphere(0.76f,0.33f,0.12f);
@@ -1137,12 +1137,12 @@ void createScene09(MatouMalin::Scene* pScene)
 	Phong* rBRDFShpere = new Phong(lDiffusionSphere,lSpecularSphere,5);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere = new Shader(rBRDFShpere,0.8,1.0,pScene);
+	Shader* rShaderSphere = new Shader(rBRDFShpere,0.8,1.0,scene);
 
-    pScene->add(rBRDFShpere, string("brdf of the sphere"));
-    pScene->add(rShaderSphere, string("shader of the sphere"));
+    scene->add(rBRDFShpere, string("brdf of the sphere"));
+    scene->add(rShaderSphere, string("shader of the sphere"));
 
-    auto lIt = pScene->renderableList().begin();
+    auto lIt = scene->renderableList().begin();
 
     (*lIt)->setShader(rShaderSphere);
     lIt++;
@@ -1154,10 +1154,10 @@ void createScene09(MatouMalin::Scene* pScene)
 	Phong* rBRDFTorus = new Phong(lDiffusionTorus,lSpecularTorus,5);
 
 	// Create a shader for the torus
-	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,pScene,Shader::Material::MARBLE);
+	Shader* rShaderTorus = new Shader(rBRDFTorus,0.8,1.0,scene,Shader::Material::MARBLE);
 
-    pScene->add(rBRDFTorus, string("brdf of the torus"));
-    pScene->add(rShaderTorus, string("shader of the torus"));
+    scene->add(rBRDFTorus, string("brdf of the torus"));
+    scene->add(rShaderTorus, string("shader of the torus"));
 
     (*lIt)->setShader(rShaderTorus);
     lIt++;
@@ -1172,10 +1172,10 @@ void createScene09(MatouMalin::Scene* pScene)
 	Phong* rBRDFPipe = new Phong(lDiffusionPipe,lSpecularPipe,5);
 
 	// Create a shader for the torus
-	Shader* rShaderPipe = new Shader(rBRDFPipe,0.8,1.0,pScene);
+	Shader* rShaderPipe = new Shader(rBRDFPipe,0.8,1.0,scene);
 
-    pScene->add(rBRDFPipe, string("brdf of the pipe"));
-    pScene->add(rShaderPipe, string("shader of the pipe"));
+    scene->add(rBRDFPipe, string("brdf of the pipe"));
+    scene->add(rShaderPipe, string("shader of the pipe"));
 
     (*lIt)->setShader(rShaderPipe);
     lIt++;
@@ -1187,10 +1187,10 @@ void createScene09(MatouMalin::Scene* pScene)
 	Phong* rBRDFCone = new Phong(lDiffusionCone,lSpecularCone,5);
 
 	// Create a shader for the torus
-	Shader* rShaderCone = new Shader(rBRDFCone,0.8,1.0,pScene,Shader::TURBULANCE);
+	Shader* rShaderCone = new Shader(rBRDFCone,0.8,1.0,scene,Shader::TURBULANCE);
 
-    pScene->add(rBRDFCone, string("brdf of the cone"));
-    pScene->add(rShaderCone, string("shader of the cone"));
+    scene->add(rBRDFCone, string("brdf of the cone"));
+    scene->add(rShaderCone, string("shader of the cone"));
 
     (*lIt)->setShader(rShaderCone);
 
@@ -1201,12 +1201,12 @@ void createScene09(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,1.0f,10.0f);
 	Color lLight1Color(10.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     MatouMalin::Point lLight4Position(0.f,10.f,6.0f);
 	Color lLight4Color(10.0f);
 	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
-    pScene->add(rLight4);
+    scene->add(rLight4);
 
 
     ////////////
@@ -1220,21 +1220,21 @@ void createScene09(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     // FLOOR
 //    FloorParameters lFloorParameters = {Color(0.6f), Color(0.7f),200.0,50.0, string("no_texture")};
-//    createFloor(pScene, lFloorParameters);
+//    createFloor(scene, lFloorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.2f,0.32f,0.8f));
+    scene->setBackgroundColor(Color(0.2f,0.32f,0.8f));
 
 
 }
 
-void createScene10(MatouMalin::Scene* pScene)
+void createScene10(MatouMalin::Scene* scene)
 {
 
     // Same reflection coefficient for the spheres behind
@@ -1253,13 +1253,13 @@ void createScene10(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,8);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere1->setReflectionCountMax(2);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     /////////////////////////////////
@@ -1274,13 +1274,13 @@ void createScene10(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,15);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
 
     ////////////
@@ -1291,7 +1291,7 @@ void createScene10(MatouMalin::Scene* pScene)
     lLight1Color *= 2.0;
 
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
 
     MatouMalin::Point lLight2Position(90.f,150.f,190.0f);
@@ -1300,7 +1300,7 @@ void createScene10(MatouMalin::Scene* pScene)
     lLight2Color *= 2.0f;
 
 	Light* rLight2 = new PunctualLight(lLight2Position,lLight2Color);
-    pScene->add(rLight2);
+    scene->add(rLight2);
 
     MatouMalin::Point lLight3Position(-190.f,150.f,90.0f);
 	Color lLight3Color(255,140,0);
@@ -1308,7 +1308,7 @@ void createScene10(MatouMalin::Scene* pScene)
     lLight3Color *= 200.0f;
 
 	Light* rLight3 = new PunctualLight(lLight3Position,lLight3Color);
-    pScene->add(rLight3);
+    scene->add(rLight3);
 
 
     ////////////
@@ -1322,23 +1322,23 @@ void createScene10(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setAperture(Camera::ALL_SHARP,10.0);
 
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     ///////////
     // FLOOR //
     ///////////
     FloorParameters lFloorParameters = {Color(1.0f), Color(0.3f),1.0,1.0, 2, 2000.0,100.0, string("./resources/rect5130.png")};
-    createFloor(pScene, lFloorParameters);
+    createFloor(scene, lFloorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene11(MatouMalin::Scene* pScene)
+void createScene11(MatouMalin::Scene* scene)
 {
     double lReflectionCoeff(2.0);
     double lRefractionCoeff(1.0);
@@ -1355,15 +1355,15 @@ void createScene11(MatouMalin::Scene* pScene)
 	BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,15);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene,Shader::TURBULANCE);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene,Shader::TURBULANCE);
 
     // Set the max number of reflections to 4
     rShaderSphere1->setReflectionCountMax(4);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     ///////////////////////////
@@ -1378,15 +1378,15 @@ void createScene11(MatouMalin::Scene* pScene)
 	BRDF* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,15);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene,Shader::TURBULANCE);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene,Shader::TURBULANCE);
 
     // Set the max number of reflections to 3
     rShaderSphere2->setReflectionCountMax(3);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
 
     //////////////////////////
@@ -1401,15 +1401,15 @@ void createScene11(MatouMalin::Scene* pScene)
 	BRDF* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,15);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,pScene,Shader::TURBULANCE);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,lReflectionCoeff,lRefractionCoeff,scene,Shader::TURBULANCE);
 
     // Set the max number of reflections to 5
     rShaderSphere3->setReflectionCountMax(5);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
 
     ////////////
@@ -1418,12 +1418,12 @@ void createScene11(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,1.0f,10.0f);
 	Color lLight1Color(8.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     MatouMalin::Point lLight2Position(0.f,1.0f,-10.0f);
 	Color lLight2Color(5.0f);
 	Light* rLight2 = new PunctualLight(lLight2Position,lLight2Color);
-    pScene->add(rLight2);
+    scene->add(rLight2);
 
 
     ////////////
@@ -1435,17 +1435,17 @@ void createScene11(MatouMalin::Scene* pScene)
 	float FOV = 60.f*3.141592/180.f;
 
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 
 }
 
-void createScene12(MatouMalin::Scene* pScene)
+void createScene12(MatouMalin::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(2.0);
@@ -1469,18 +1469,18 @@ void createScene12(MatouMalin::Scene* pScene)
     //    rCubeMapSphere->setLink(CubeMap::LEFT, 0);
     //    rCubeMapSphere->setLink(CubeMap::RIGHT, 0);
     //
-    //    pScene->add(rCubeMapSphere);
+    //    scene->add(rCubeMapSphere);
     //
     //    rBRDFSphere1->setCubeMap(rCubeMapSphere);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere1->setReflectionCountMax(4);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
     MatouMalin::Point lCenterSphere2(-21.0,-5.0,8.0);
@@ -1492,13 +1492,13 @@ void createScene12(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,3);
 
     // Create a shader for the second sphere
-	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,pScene);
+	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,lRefractionCoeff,scene);
     rShaderSphere2->setReflectionCountMax(4);
     rSphere2->setShader(rShaderSphere2);
 
-    pScene->add(rSphere2);
-    pScene->add(rBRDFSphere2, string("brdf of sphere 2"));
-    pScene->add(rShaderSphere2, string("shader of sphere 2"));
+    scene->add(rSphere2);
+    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
+    scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a transparent sphere for refraction
     MatouMalin::Point lCenterSphere3(21.0,-5.0,8.0);
@@ -1510,13 +1510,13 @@ void createScene12(MatouMalin::Scene* pScene)
     Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3,lSpecularSphere3,3);
 
     // Create a shader for the third sphere
-	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,0.6,1.0,pScene);
+	Shader* rShaderSphere3 = new Shader(rBRDFSphere3,0.6,1.0,scene);
     rShaderSphere3->setReflectionCountMax(4);
     rSphere3->setShader(rShaderSphere3);
 
-    pScene->add(rSphere3);
-    pScene->add(rBRDFSphere3, string("brdf of sphere 3"));
-    pScene->add(rShaderSphere3, string("shader of sphere 3"));
+    scene->add(rSphere3);
+    scene->add(rBRDFSphere3, string("brdf of sphere 3"));
+    scene->add(rShaderSphere3, string("shader of sphere 3"));
 
     ////////////
     // LIGHTS //
@@ -1524,12 +1524,12 @@ void createScene12(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(0.f,25.0f,50.0f);
 	Color lLight1Color(30.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLight1Color);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
     //    MatouMalin::Point lLight4Position(0.f,20.f,6.0f);
     //	Color lLight4Color(10.0f);
     //	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
-    //    pScene->add(rLight4);
+    //    scene->add(rLight4);
 
 
     ////////////
@@ -1543,12 +1543,12 @@ void createScene12(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     //    rCamera->setAperture(Camera::F_SMALL,45.0,Camera::LOW);
     rCamera->setAperture(Camera::ALL_SHARP);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     // ROOM
     RoomParameters lParameters = {Color(0.8f),Color(1.0f), 0.0,1.0, 2,35.0,15.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
-    createRoom(pScene, lParameters);
+    createRoom(scene, lParameters);
 
 
 
@@ -1565,16 +1565,16 @@ void createScene12(MatouMalin::Scene* pScene)
     //    rCubeMap->setLink(CubeMap::LEFT, 0);
     //    rCubeMap->setLink(CubeMap::RIGHT, 0);
     //
-    //    pScene->setBackgroundCubeMap(rCubeMap);
+    //    scene->setBackgroundCubeMap(rCubeMap);
 
-    pScene->setBackgroundColor(Color(220, 240, 250));
+    scene->setBackgroundColor(Color(220, 240, 250));
 
 
 }
 
-void createScene13(MatouMalin::Scene* pScene)
+void createScene13(MatouMalin::Scene* scene)
 {
-    pScene->createFromFile("./resources/tableAndStatue3_bis.obj");
+    scene->createFromFile("./resources/tableAndStatue3_bis.obj");
 
     // Create BRDF model for the cones
     Color lDiffusion(255, 105, 0);
@@ -1582,24 +1582,24 @@ void createScene13(MatouMalin::Scene* pScene)
 	Phong* rBRDFCones = new Phong(lDiffusion,lSpecular,3);
 
 	// Create a shader for the cones
-	Shader* rShaderCones = new Shader(rBRDFCones,0.8,1.0,pScene,Shader::NONE);
+	Shader* rShaderCones = new Shader(rBRDFCones,0.8,1.0,scene,Shader::NONE);
 
-    pScene->add(rBRDFCones, "BRDF cones ");
-    pScene->add(rShaderCones, "Shader cones ");
+    scene->add(rBRDFCones, "BRDF cones ");
+    scene->add(rShaderCones, "Shader cones ");
 
-    auto lIt = pScene->objectNamed("pCone1");
+    auto lIt = scene->objectNamed("pCone1");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone2");
+    lIt = scene->objectNamed("pCone2");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone3");
+    lIt = scene->objectNamed("pCone3");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone4");
+    lIt = scene->objectNamed("pCone4");
     if (lIt)
         lIt->setShader(rShaderCones);
 
@@ -1607,16 +1607,16 @@ void createScene13(MatouMalin::Scene* pScene)
 	Phong* rBRDFTorus = new Phong(Color(255,99,71),Color(1.0),3);
 
 	// Create a shader for the torus
-	Shader* rShaderTorus = new Shader(rBRDFTorus,1.8,1.0,pScene,Shader::NONE);
+	Shader* rShaderTorus = new Shader(rBRDFTorus,1.8,1.0,scene,Shader::NONE);
 
-    pScene->add(rBRDFTorus, "BRDF torus ");
-    pScene->add(rShaderTorus, "Shader torus ");
+    scene->add(rBRDFTorus, "BRDF torus ");
+    scene->add(rShaderTorus, "Shader torus ");
 
-    lIt = pScene->objectNamed("pTorus1");
+    lIt = scene->objectNamed("pTorus1");
     if (lIt)
         lIt->setShader(rShaderTorus);
 
-    lIt = pScene->objectNamed("pTorus2");
+    lIt = scene->objectNamed("pTorus2");
     if (lIt)
         lIt->setShader(rShaderTorus);
 
@@ -1624,17 +1624,17 @@ void createScene13(MatouMalin::Scene* pScene)
     Phong* rBRDFPyramid = new Phong(Color(128,128,0), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, pScene,Shader::Material::TURBULANCE);
+    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, scene,Shader::Material::TURBULANCE);
 
-    pScene->add(rBRDFPyramid, "BRDF pyramid ");
-    pScene->add(rShaderPyramid, "Shader pyramid ");
+    scene->add(rBRDFPyramid, "BRDF pyramid ");
+    scene->add(rShaderPyramid, "Shader pyramid ");
 
     // Set shaders for the table
-    lIt = pScene->objectNamed("pPyramid1");
+    lIt = scene->objectNamed("pPyramid1");
     if (lIt)
         lIt->setShader(rShaderPyramid);
 
-    lIt = pScene->objectNamed("pPyramid2");
+    lIt = scene->objectNamed("pPyramid2");
     if (lIt)
         lIt->setShader(rShaderPyramid);
 
@@ -1645,29 +1645,29 @@ void createScene13(MatouMalin::Scene* pScene)
     Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, pScene,Shader::Material::MARBLE);
+    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, scene,Shader::Material::MARBLE);
 
-    pScene->add(rBRDFTable, "BRDF table ");
-    pScene->add(rShaderTable, "Shader table ");
+    scene->add(rBRDFTable, "BRDF table ");
+    scene->add(rShaderTable, "Shader table ");
 
     // Set shaders for the table
-    lIt = pScene->objectNamed("pCylinder1");
+    lIt = scene->objectNamed("pCylinder1");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder2");
+    lIt = scene->objectNamed("pCylinder2");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder3");
+    lIt = scene->objectNamed("pCylinder3");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder4");
+    lIt = scene->objectNamed("pCylinder4");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCube1");
+    lIt = scene->objectNamed("pCube1");
     if (lIt)
         lIt->setShader(rShaderTable);
 
@@ -1694,18 +1694,18 @@ void createScene13(MatouMalin::Scene* pScene)
 
     rCubeMapDesert->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-    pScene->add(rCubeMapDesert);
+    scene->add(rCubeMapDesert);
 
     rBRDFSphere1->setCubeMap(rCubeMapDesert);
 
 	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,1.0,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,1.0,scene);
     rShaderSphere1->setReflectionCountMax(1);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Mirror on the right wall
     double lMirrorXPos = 10.0;
@@ -1726,16 +1726,16 @@ void createScene13(MatouMalin::Scene* pScene)
 	Phong* rBRDFMirror = new Phong(Color(0.4f,0.4f,0.6f),Color(1.0f),8);
 
 	// Create a shader for the mirror
-	Shader* rShaderMirror = new Shader(rBRDFMirror,20.0,1.0,pScene);
+	Shader* rShaderMirror = new Shader(rBRDFMirror,20.0,1.0,scene);
     rShaderMirror->setReflectionCountMax(2);
 
 	rMirror1->setShader(rShaderMirror);
 	rMirror2->setShader(rShaderMirror);
 
-    pScene->add(rMirror1);
-    pScene->add(rMirror2);
-    pScene->add(rBRDFMirror, string("brdf of sphere 1"));
-    pScene->add(rShaderMirror, string("shader of sphere 1"));
+    scene->add(rMirror1);
+    scene->add(rMirror2);
+    scene->add(rBRDFMirror, string("brdf of sphere 1"));
+    scene->add(rShaderMirror, string("shader of sphere 1"));
 
 
     ////////////
@@ -1744,16 +1744,16 @@ void createScene13(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(-3.0,10.0,20.0);
 	Color lLightColor(20.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLightColor);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
 
 //    MatouMalin::Point lLight2Position(-5.0,10.0,10.0);
 //	Light* rLight2 = new PunctualLight(lLight2Position,lLightColor);
-//    pScene->add(rLight2);
+//    scene->add(rLight2);
 
 //    MatouMalin::Point lLight3Position(-4.0,7.0,-9.0);
 //	Light* rLight3 = new PunctualLight(lLight3Position,lLightColor);
-//    pScene->add(rLight3);
+//    scene->add(rLight3);
 
 
     ////////////
@@ -1767,22 +1767,22 @@ void createScene13(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setFocalPoint(lCenterSphere+lDirectionCamera.normalize()*rSphere1->radius()*(-1.0));
     rCamera->setAperture(Camera::Aperture::F_SMALL,Camera::Precision::SUPER_AWESOME);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
     RoomParameters lParameters = {Color(0.8f),Color(0.8f), 0.0,1.0, 1, MatouMalin::Point(-28.0,0.0,-20.0),Vector(40.0,15.0,40.0),string("./resources/floor.png"),string("./resources/textureWall_400x400.png"),string("./resources/textureWall_400x400_Right.png"),string("./resources/textureWall_400x400.png"),string("./resources/ceiling.png")};
 
-    createRoom(pScene, lParameters);
+    createRoom(scene, lParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    pScene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene14(MatouMalin::Scene* pScene)
+void createScene14(MatouMalin::Scene* scene)
 {
-    pScene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
+    scene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
 
     // Create BRDF model for the cones
     Color lDiffusion(255, 105, 0);
@@ -1790,24 +1790,24 @@ void createScene14(MatouMalin::Scene* pScene)
 	Phong* rBRDFCones = new Phong(lDiffusion,lSpecular,3);
 
 	// Create a shader for the cones
-	Shader* rShaderCones = new Shader(rBRDFCones,0.8,1.0,pScene,Shader::NONE);
+	Shader* rShaderCones = new Shader(rBRDFCones,0.8,1.0,scene,Shader::NONE);
 
-    pScene->add(rBRDFCones, "BRDF cones ");
-    pScene->add(rShaderCones, "Shader cones ");
+    scene->add(rBRDFCones, "BRDF cones ");
+    scene->add(rShaderCones, "Shader cones ");
 
-    auto lIt = pScene->objectNamed("pCone1");
+    auto lIt = scene->objectNamed("pCone1");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone2");
+    lIt = scene->objectNamed("pCone2");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone3");
+    lIt = scene->objectNamed("pCone3");
     if (lIt)
         lIt->setShader(rShaderCones);
 
-    lIt = pScene->objectNamed("pCone4");
+    lIt = scene->objectNamed("pCone4");
     if (lIt)
         lIt->setShader(rShaderCones);
 
@@ -1815,16 +1815,16 @@ void createScene14(MatouMalin::Scene* pScene)
 	Phong* rBRDFTorus = new Phong(Color(255,99,71),Color(1.0),3);
 
 	// Create a shader for the torus
-	Shader* rShaderTorus = new Shader(rBRDFTorus,1.8,1.0,pScene,Shader::NONE);
+	Shader* rShaderTorus = new Shader(rBRDFTorus,1.8,1.0,scene,Shader::NONE);
 
-    pScene->add(rBRDFTorus, "BRDF torus ");
-    pScene->add(rShaderTorus, "Shader torus ");
+    scene->add(rBRDFTorus, "BRDF torus ");
+    scene->add(rShaderTorus, "Shader torus ");
 
-    lIt = pScene->objectNamed("pTorus1");
+    lIt = scene->objectNamed("pTorus1");
     if (lIt)
         lIt->setShader(rShaderTorus);
 
-    lIt = pScene->objectNamed("pTorus2");
+    lIt = scene->objectNamed("pTorus2");
     if (lIt)
         lIt->setShader(rShaderTorus);
 
@@ -1832,17 +1832,17 @@ void createScene14(MatouMalin::Scene* pScene)
     Phong* rBRDFPyramid = new Phong(Color(128,128,0), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, pScene,Shader::Material::TURBULANCE);
+    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, scene,Shader::Material::TURBULANCE);
 
-    pScene->add(rBRDFPyramid, "BRDF pyramid ");
-    pScene->add(rShaderPyramid, "Shader pyramid ");
+    scene->add(rBRDFPyramid, "BRDF pyramid ");
+    scene->add(rShaderPyramid, "Shader pyramid ");
 
     // Set shaders for the table
-    lIt = pScene->objectNamed("pPyramid1");
+    lIt = scene->objectNamed("pPyramid1");
     if (lIt)
         lIt->setShader(rShaderPyramid);
 
-    lIt = pScene->objectNamed("pPyramid2");
+    lIt = scene->objectNamed("pPyramid2");
     if (lIt)
         lIt->setShader(rShaderPyramid);
 
@@ -1850,12 +1850,12 @@ void createScene14(MatouMalin::Scene* pScene)
     Phong* rBRDFBackPyramid = new Phong(Color(0, 255, 255), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderBackPyramid = new Shader(rBRDFBackPyramid, 1.0f, 1.0f, pScene,Shader::Material::BUMP);
+    Shader* rShaderBackPyramid = new Shader(rBRDFBackPyramid, 1.0f, 1.0f, scene,Shader::Material::BUMP);
 
-    pScene->add(rBRDFBackPyramid, "BRDF pyramid in the background ");
-    pScene->add(rShaderBackPyramid, "Shader pyramid in the background ");
+    scene->add(rBRDFBackPyramid, "BRDF pyramid in the background ");
+    scene->add(rShaderBackPyramid, "Shader pyramid in the background ");
 
-    lIt = pScene->objectNamed("pPyramid3");
+    lIt = scene->objectNamed("pPyramid3");
     if (lIt)
         lIt->setShader(rShaderBackPyramid);
 
@@ -1864,29 +1864,29 @@ void createScene14(MatouMalin::Scene* pScene)
     Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, pScene,Shader::Material::MARBLE);
+    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, scene,Shader::Material::MARBLE);
 
-    pScene->add(rBRDFTable, "BRDF table ");
-    pScene->add(rShaderTable, "Shader table ");
+    scene->add(rBRDFTable, "BRDF table ");
+    scene->add(rShaderTable, "Shader table ");
 
     // Set shaders for the table
-    lIt = pScene->objectNamed("pCylinder1");
+    lIt = scene->objectNamed("pCylinder1");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder2");
+    lIt = scene->objectNamed("pCylinder2");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder3");
+    lIt = scene->objectNamed("pCylinder3");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCylinder4");
+    lIt = scene->objectNamed("pCylinder4");
     if (lIt)
         lIt->setShader(rShaderTable);
 
-    lIt = pScene->objectNamed("pCube1");
+    lIt = scene->objectNamed("pCube1");
     if (lIt)
         lIt->setShader(rShaderTable);
 
@@ -1903,13 +1903,13 @@ void createScene14(MatouMalin::Scene* pScene)
 	Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1,lSpecularSphere1,8);
 
   	// Create a shader for the sphere
-	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,2.4,pScene);
+	Shader* rShaderSphere1 = new Shader(rBRDFSphere1,1.0,2.4,scene);
     rShaderSphere1->setReflectionCountMax(1);
 	rSphere1->setShader(rShaderSphere1);
 
-    pScene->add(rSphere1);
-    pScene->add(rBRDFSphere1, string("brdf of sphere 1"));
-    pScene->add(rShaderSphere1, string("shader of sphere 1"));
+    scene->add(rSphere1);
+    scene->add(rBRDFSphere1, string("brdf of sphere 1"));
+    scene->add(rShaderSphere1, string("shader of sphere 1"));
 
 
     ////////////
@@ -1918,16 +1918,16 @@ void createScene14(MatouMalin::Scene* pScene)
     MatouMalin::Point lLight1Position(0.0,20.0,10.0);
 	Color lLightColor(20.0f);
 	Light* rLight1 = new PunctualLight(lLight1Position,lLightColor);
-    pScene->add(rLight1);
+    scene->add(rLight1);
 
 
     MatouMalin::Point lLight2Position(-5.0,10.0,10.0);
 	Light* rLight2 = new PunctualLight(lLight2Position,lLightColor);
-    pScene->add(rLight2);
+    scene->add(rLight2);
 
     MatouMalin::Point lLight3Position(5.0,10.0,10.0);
 	Light* rLight3 = new PunctualLight(lLight3Position,lLightColor);
-    pScene->add(rLight3);
+    scene->add(rLight3);
 
 
     ////////////
@@ -1941,7 +1941,7 @@ void createScene14(MatouMalin::Scene* pScene)
 	Camera* rCamera = new Camera(lCentreCamera,lDirectionCamera,lCameraUp,FOV);
     rCamera->setFocalPoint(lCenterSphere+lDirectionCamera.normalize()*rSphere1->radius()*(-1.0));
     rCamera->setAperture(Camera::Aperture::F_MEDIUM,Camera::Precision::SUPER_AWESOME);
-    pScene->add(rCamera);
+    scene->add(rCamera);
 
 
     CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260); // 260
@@ -1955,15 +1955,15 @@ void createScene14(MatouMalin::Scene* pScene)
 
     rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-    pScene->setBackgroundCubeMap(rCubeMapBckGrd);
+    scene->setBackgroundCubeMap(rCubeMapBckGrd);
 }
 
-void createFloor(Scene* pScene, const FloorParameters & pParam)
+void createFloor(Scene* scene, const FloorParameters & param)
 {
-    double lDeep = -1.0*pParam.deep;
+    double lDeep = -1.0*param.deep;
 
-    Triangle* rTriangleZ1 = new Triangle(MatouMalin::Point(-pParam.size,lDeep,-pParam.size),MatouMalin::Point(-pParam.size,lDeep,pParam.size),MatouMalin::Point(pParam.size,lDeep,pParam.size));
-    Triangle* rTriangleZ2 = new Triangle(MatouMalin::Point(-pParam.size,lDeep,-pParam.size),MatouMalin::Point(pParam.size,lDeep,pParam.size),MatouMalin::Point(pParam.size,lDeep,-pParam.size));
+    Triangle* rTriangleZ1 = new Triangle(MatouMalin::Point(-param.size,lDeep,-param.size),MatouMalin::Point(-param.size,lDeep,param.size),MatouMalin::Point(param.size,lDeep,param.size));
+    Triangle* rTriangleZ2 = new Triangle(MatouMalin::Point(-param.size,lDeep,-param.size),MatouMalin::Point(param.size,lDeep,param.size),MatouMalin::Point(param.size,lDeep,-param.size));
 
     rTriangleZ1->setVertexNormal(0, Vector(0.0,1.0,0.0));
     rTriangleZ1->setVertexNormal(1, Vector(0.0,1.0,0.0));
@@ -1974,14 +1974,14 @@ void createFloor(Scene* pScene, const FloorParameters & pParam)
     rTriangleZ2->setVertexNormal(2, Vector(0.0,1.0,0.0));
 
 	// Create BRDF model for the triangle
-	Phong* lBRDFTriangle = new Phong(pParam.diffusion,pParam.specular,3);
+	Phong* lBRDFTriangle = new Phong(param.diffusion,param.specular,3);
     lBRDFTriangle->setAmbient(Color(0.0f));
 
-    if (pParam.floorTexturePath.compare("no_texture"))
+    if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(MatouMalin::Point(0.0,-4.0,0.0), pParam.size*2.0);
+        CubeMap* rCubeMapFloor = new CubeMap(MatouMalin::Point(0.0,-4.0,0.0), param.size*2.0);
 
-        rCubeMapFloor->addImage(CubeMap::BACK, pParam.floorTexturePath);
+        rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::FRONT, 0);
         rCubeMapFloor->setLink(CubeMap::UP, 0);
         rCubeMapFloor->setLink(CubeMap::DOWN, 0);
@@ -1990,37 +1990,37 @@ void createFloor(Scene* pScene, const FloorParameters & pParam)
 
         rCubeMapFloor->setInterpolationMethod(Image::Interpolation::NEAREST);
 
-        pScene->add(rCubeMapFloor);
+        scene->add(rCubeMapFloor);
 
         lBRDFTriangle->setCubeMap(rCubeMapFloor);
     }
 
 
 	// Create a shader for the triangle
-	Shader* lShaderTriangle = new Shader(lBRDFTriangle,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    lShaderTriangle->setReflectionCountMax(pParam.maxReflection);
+	Shader* lShaderTriangle = new Shader(lBRDFTriangle,param.reflectionCoeff,param.refractionCoeff,scene);
+    lShaderTriangle->setReflectionCountMax(param.maxReflection);
 
     rTriangleZ1->setShader(lShaderTriangle);
     rTriangleZ2->setShader(lShaderTriangle);
 
-    pScene->add(rTriangleZ1);
-    pScene->add(rTriangleZ2);
-    pScene->add(lBRDFTriangle, string("brdf of the triangles of the floor"));
-    pScene->add(lShaderTriangle, string("shader of the triangles of the floor"));
+    scene->add(rTriangleZ1);
+    scene->add(rTriangleZ2);
+    scene->add(lBRDFTriangle, string("brdf of the triangles of the floor"));
+    scene->add(lShaderTriangle, string("shader of the triangles of the floor"));
 
 }
 
-void createRoom(Scene* pScene, const RoomParameters & pParam)
+void createRoom(Scene* scene, const RoomParameters & param)
 {
 
-    MatouMalin::Point lZero(pParam.lowCorner);
-    MatouMalin::Point lOne(lZero.x(),lZero.y(), lZero.z()+pParam.dimensions.z());
-    MatouMalin::Point lTwo(lZero.x()+pParam.dimensions.x(),lZero.y(), lZero.z()+pParam.dimensions.z());
-    MatouMalin::Point lThree(lZero.x()+pParam.dimensions.x(),lZero.y(), lZero.z());
-    MatouMalin::Point lFour(lZero.x(),lZero.y()+pParam.dimensions.y(), lZero.z());
-    MatouMalin::Point lFive(lZero.x(),lZero.y()+pParam.dimensions.y(), lZero.z()+pParam.dimensions.z());
-    MatouMalin::Point lSix = pParam.lowCorner + pParam.dimensions;
-    MatouMalin::Point lSeven(lZero.x()+pParam.dimensions.x(),lZero.y()+pParam.dimensions.y(), lZero.z());
+    MatouMalin::Point lZero(param.lowCorner);
+    MatouMalin::Point lOne(lZero.x(),lZero.y(), lZero.z()+param.dimensions.z());
+    MatouMalin::Point lTwo(lZero.x()+param.dimensions.x(),lZero.y(), lZero.z()+param.dimensions.z());
+    MatouMalin::Point lThree(lZero.x()+param.dimensions.x(),lZero.y(), lZero.z());
+    MatouMalin::Point lFour(lZero.x(),lZero.y()+param.dimensions.y(), lZero.z());
+    MatouMalin::Point lFive(lZero.x(),lZero.y()+param.dimensions.y(), lZero.z()+param.dimensions.z());
+    MatouMalin::Point lSix = param.lowCorner + param.dimensions;
+    MatouMalin::Point lSeven(lZero.x()+param.dimensions.x(),lZero.y()+param.dimensions.y(), lZero.z());
 
     // Create floor
     Triangle* rTriFloor1 = new Triangle(lZero,lOne,lTwo);
@@ -2036,14 +2036,14 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
     MatouMalin::Point lMiddleOfFace((lZero.x()+lOne.x()+lTwo.x()+lThree.x())*0.25,(lZero.y()+lOne.y()+lTwo.y()+lThree.y())*0.25,(lZero.z()+lOne.z()+lTwo.z()+lThree.z())*0.25);
 
-    Phong* rBRDF_Floor = new Phong(pParam.diffusion,pParam.specular,3);
+    Phong* rBRDF_Floor = new Phong(param.diffusion,param.specular,3);
 //    rBRDF_Floor->setAmbient(Color(0.0f));
 
-    if (pParam.floorTexturePath.compare("no_texture"))
+    if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(lMiddleOfFace, max(pParam.dimensions.x(), pParam.dimensions.z()));
+        CubeMap* rCubeMapFloor = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
-        rCubeMapFloor->addImage(CubeMap::BACK, pParam.floorTexturePath);
+        rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::FRONT, 0);
         rCubeMapFloor->setLink(CubeMap::UP, 0);
         rCubeMapFloor->setLink(CubeMap::DOWN, 0);
@@ -2052,21 +2052,21 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
         rCubeMapFloor->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-        pScene->add(rCubeMapFloor);
+        scene->add(rCubeMapFloor);
 
         rBRDF_Floor->setCubeMap(rCubeMapFloor);
     }
 
-    Shader* rShaderFloor = new Shader(rBRDF_Floor,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    rShaderFloor->setReflectionCountMax(pParam.maxReflection);
+    Shader* rShaderFloor = new Shader(rBRDF_Floor,param.reflectionCoeff,param.refractionCoeff,scene);
+    rShaderFloor->setReflectionCountMax(param.maxReflection);
 
     rTriFloor1->setShader(rShaderFloor);
     rTriFloor2->setShader(rShaderFloor);
 
-    pScene->add(rTriFloor1);
-    pScene->add(rTriFloor2);
-    pScene->add(rBRDF_Floor, string("brdf of the triangles of the floor"));
-    pScene->add(rShaderFloor, string("shader of the triangles of the floor"));
+    scene->add(rTriFloor1);
+    scene->add(rTriFloor2);
+    scene->add(rBRDF_Floor, string("brdf of the triangles of the floor"));
+    scene->add(rShaderFloor, string("shader of the triangles of the floor"));
 
 
     // Create left wall
@@ -2085,14 +2085,14 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
     lMiddleOfFace.setY((lZero.y()+lOne.y()+lFour.y()+lFive.y())*0.25);
     lMiddleOfFace.setZ((lZero.z()+lOne.z()+lFour.z()+lFive.z())*0.25);
 
-    Phong* rBRDFLeftWall = new Phong(pParam.diffusion,pParam.specular,3);
+    Phong* rBRDFLeftWall = new Phong(param.diffusion,param.specular,3);
     rBRDFLeftWall->setAmbient(Color(0.1f));
 
-    if (pParam.wallLeftTexturePath.compare("no_texture"))
+    if (param.wallLeftTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapLeftWall = new CubeMap(lMiddleOfFace, max(pParam.dimensions.y(), pParam.dimensions.z()));
+        CubeMap* rCubeMapLeftWall = new CubeMap(lMiddleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
-        rCubeMapLeftWall->addImage(CubeMap::BACK, pParam.wallLeftTexturePath);
+        rCubeMapLeftWall->addImage(CubeMap::BACK, param.wallLeftTexturePath);
         rCubeMapLeftWall->setLink(CubeMap::FRONT, 0);
         rCubeMapLeftWall->setLink(CubeMap::UP, 0);
         rCubeMapLeftWall->setLink(CubeMap::DOWN, 0);
@@ -2101,21 +2101,21 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
         rCubeMapLeftWall->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-        pScene->add(rCubeMapLeftWall);
+        scene->add(rCubeMapLeftWall);
 
         rBRDFLeftWall->setCubeMap(rCubeMapLeftWall);
     }
 
-    Shader* rShaderLeftWall = new Shader(rBRDFLeftWall,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    rShaderLeftWall->setReflectionCountMax(pParam.maxReflection);
+    Shader* rShaderLeftWall = new Shader(rBRDFLeftWall,param.reflectionCoeff,param.refractionCoeff,scene);
+    rShaderLeftWall->setReflectionCountMax(param.maxReflection);
 
     rTriLeftWall1->setShader(rShaderLeftWall);
     rTriLeftWall2->setShader(rShaderLeftWall);
 
-    pScene->add(rTriLeftWall1);
-    pScene->add(rTriLeftWall2);
-    pScene->add(rBRDFLeftWall, string("brdf of the triangles of the left wall"));
-    pScene->add(rShaderLeftWall, string("shader of the triangles of the left wall"));
+    scene->add(rTriLeftWall1);
+    scene->add(rTriLeftWall2);
+    scene->add(rBRDFLeftWall, string("brdf of the triangles of the left wall"));
+    scene->add(rShaderLeftWall, string("shader of the triangles of the left wall"));
 
 
     // Create back wall
@@ -2134,14 +2134,14 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
     lMiddleOfFace.setY((lZero.y()+lThree.y()+lFour.y()+lSeven.y())*0.25);
     lMiddleOfFace.setZ((lZero.z()+lThree.z()+lFour.z()+lSeven.z())*0.25);
 
-    Phong* rBRDFBackWall = new Phong(pParam.diffusion,pParam.specular,3);
+    Phong* rBRDFBackWall = new Phong(param.diffusion,param.specular,3);
     rBRDFBackWall->setAmbient(Color(0.1f));
 
-    if (pParam.wallBackTexturePath.compare("no_texture"))
+    if (param.wallBackTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapBackWall = new CubeMap(lMiddleOfFace, max(pParam.dimensions.x(), pParam.dimensions.y()));
+        CubeMap* rCubeMapBackWall = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.y()));
 
-        rCubeMapBackWall->addImage(CubeMap::BACK, pParam.wallBackTexturePath);
+        rCubeMapBackWall->addImage(CubeMap::BACK, param.wallBackTexturePath);
         rCubeMapBackWall->setLink(CubeMap::FRONT, 0);
         rCubeMapBackWall->setLink(CubeMap::UP, 0);
         rCubeMapBackWall->setLink(CubeMap::DOWN, 0);
@@ -2150,21 +2150,21 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
         rCubeMapBackWall->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-        pScene->add(rCubeMapBackWall);
+        scene->add(rCubeMapBackWall);
 
         rBRDFBackWall->setCubeMap(rCubeMapBackWall);
     }
 
-    Shader* rShaderBackWall = new Shader(rBRDFBackWall,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    rShaderBackWall->setReflectionCountMax(pParam.maxReflection);
+    Shader* rShaderBackWall = new Shader(rBRDFBackWall,param.reflectionCoeff,param.refractionCoeff,scene);
+    rShaderBackWall->setReflectionCountMax(param.maxReflection);
 
     rTriBackWall1->setShader(rShaderBackWall);
     rTriBackWall2->setShader(rShaderBackWall);
 
-    pScene->add(rTriBackWall1);
-    pScene->add(rTriBackWall2);
-    pScene->add(rBRDFBackWall, string("brdf of the triangles of the back wall"));
-    pScene->add(rShaderBackWall, string("shader of the triangles of the back wall"));
+    scene->add(rTriBackWall1);
+    scene->add(rTriBackWall2);
+    scene->add(rBRDFBackWall, string("brdf of the triangles of the back wall"));
+    scene->add(rShaderBackWall, string("shader of the triangles of the back wall"));
 
     // Create right wall
     Triangle* rTriRightWall1 = new Triangle(lThree, lTwo, lSix);
@@ -2182,14 +2182,14 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
     lMiddleOfFace.setY((lTwo.y()+lThree.y()+lSix.y()+lSeven.y())*0.25);
     lMiddleOfFace.setZ((lTwo.z()+lThree.z()+lSix.z()+lSeven.z())*0.25);
 
-    Phong* rBRDFRightWall = new Phong(pParam.diffusion,pParam.specular,3);
+    Phong* rBRDFRightWall = new Phong(param.diffusion,param.specular,3);
     rBRDFRightWall->setAmbient(Color(0.1f));
 
-    if (pParam.wallRightTexturePath.compare("no_texture"))
+    if (param.wallRightTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapRightWall = new CubeMap(lMiddleOfFace, max(pParam.dimensions.y(), pParam.dimensions.z()));
+        CubeMap* rCubeMapRightWall = new CubeMap(lMiddleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
-        rCubeMapRightWall->addImage(CubeMap::BACK, pParam.wallRightTexturePath);
+        rCubeMapRightWall->addImage(CubeMap::BACK, param.wallRightTexturePath);
         rCubeMapRightWall->setLink(CubeMap::FRONT, 0);
         rCubeMapRightWall->setLink(CubeMap::UP, 0);
         rCubeMapRightWall->setLink(CubeMap::DOWN, 0);
@@ -2198,21 +2198,21 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
         rCubeMapRightWall->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-        pScene->add(rCubeMapRightWall);
+        scene->add(rCubeMapRightWall);
 
         rBRDFRightWall->setCubeMap(rCubeMapRightWall);
     }
 
-    Shader* rShaderRightWall = new Shader(rBRDFRightWall,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    rShaderRightWall->setReflectionCountMax(pParam.maxReflection);
+    Shader* rShaderRightWall = new Shader(rBRDFRightWall,param.reflectionCoeff,param.refractionCoeff,scene);
+    rShaderRightWall->setReflectionCountMax(param.maxReflection);
 
     rTriRightWall1->setShader(rShaderRightWall);
     rTriRightWall2->setShader(rShaderRightWall);
 
-    pScene->add(rTriRightWall1);
-    pScene->add(rTriRightWall2);
-    pScene->add(rBRDFRightWall, string("brdf of the triangles of the right wall"));
-    pScene->add(rShaderRightWall, string("shader of the triangles of the right wall"));
+    scene->add(rTriRightWall1);
+    scene->add(rTriRightWall2);
+    scene->add(rBRDFRightWall, string("brdf of the triangles of the right wall"));
+    scene->add(rShaderRightWall, string("shader of the triangles of the right wall"));
 
     // Create roof
     Triangle* rTriCeiling1 = new Triangle(lFour, lFive, lSix);
@@ -2230,14 +2230,14 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
     lMiddleOfFace.setY((lFour.y()+lFive.y()+lSix.y()+lSeven.y())*0.25);
     lMiddleOfFace.setZ((lFour.z()+lFive.z()+lSix.z()+lSeven.z())*0.25);
 
-    Phong* rBRDFCeiling = new Phong(pParam.diffusion,pParam.specular,13);
+    Phong* rBRDFCeiling = new Phong(param.diffusion,param.specular,13);
     rBRDFCeiling->setAmbient(Color(0.1f));
 
-    if (pParam.ceilingTexturePath.compare("no_texture"))
+    if (param.ceilingTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapCeiling = new CubeMap(lMiddleOfFace, max(pParam.dimensions.x(), pParam.dimensions.z()));
+        CubeMap* rCubeMapCeiling = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
-        rCubeMapCeiling->addImage(CubeMap::DOWN, pParam.ceilingTexturePath);
+        rCubeMapCeiling->addImage(CubeMap::DOWN, param.ceilingTexturePath);
         rCubeMapCeiling->setLink(CubeMap::FRONT, 0);
         rCubeMapCeiling->setLink(CubeMap::UP, 0);
         rCubeMapCeiling->setLink(CubeMap::BACK, 0);
@@ -2246,22 +2246,22 @@ void createRoom(Scene* pScene, const RoomParameters & pParam)
 
         rCubeMapCeiling->setInterpolationMethod(Image::Interpolation::LINEAR);
 
-        pScene->add(rCubeMapCeiling);
+        scene->add(rCubeMapCeiling);
 
         rBRDFCeiling->setCubeMap(rCubeMapCeiling);
     }
 
 
-    Shader* rShaderCeiling = new Shader(rBRDFCeiling,pParam.reflectionCoeff,pParam.refractionCoeff,pScene);
-    rShaderCeiling->setReflectionCountMax(pParam.maxReflection);
+    Shader* rShaderCeiling = new Shader(rBRDFCeiling,param.reflectionCoeff,param.refractionCoeff,scene);
+    rShaderCeiling->setReflectionCountMax(param.maxReflection);
 
     rTriCeiling1->setShader(rShaderCeiling);
     rTriCeiling2->setShader(rShaderCeiling);
 
-    pScene->add(rTriCeiling1);
-    pScene->add(rTriCeiling2);
-    pScene->add(rBRDFCeiling, string("brdf of the triangles of the roof"));
-    pScene->add(rShaderCeiling, string("shader of the triangles of the roof"));
+    scene->add(rTriCeiling1);
+    scene->add(rTriCeiling2);
+    scene->add(rBRDFCeiling, string("brdf of the triangles of the roof"));
+    scene->add(rShaderCeiling, string("shader of the triangles of the roof"));
 
 }
 

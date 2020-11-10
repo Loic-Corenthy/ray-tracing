@@ -63,17 +63,17 @@ Noise::Noise(void)
 
 }
 
-Noise::Noise(const Noise & pNoise)
-:_permutations(pNoise._permutations)
+Noise::Noise(const Noise & noise)
+:_permutations(noise._permutations)
 {
 }
 
-Noise Noise::operator=(const Noise & pNoise)
+Noise Noise::operator=(const Noise & noise)
 {
-    if (this == & pNoise)
+    if (this == & noise)
         return *this;
 
-    _permutations = pNoise._permutations;
+    _permutations = noise._permutations;
 
     return *this;
 }
@@ -91,29 +91,29 @@ void Noise::_init(void)
             _permutations.push_back(smPermutations[i]);
 }
 
-double Noise::_grad(int pHash, double pX, double pY, double pZ) const
+double Noise::_grad(int hash, double x, double y, double z) const
 {
-    int lH = pHash & 15;
+    int lH = hash & 15;
     // CONVERT LO 4 BITS OF HASH CODE
-    double lU = lH < 8 || lH == 12 || lH == 13 ? pX : pY; // INTO 12 GRADIENT DIRECTIONS.
-    double lV = lH < 4 || lH == 12 || lH == 13 ? pY : pZ;
+    double lU = lH < 8 || lH == 12 || lH == 13 ? x : y; // INTO 12 GRADIENT DIRECTIONS.
+    double lV = lH < 4 || lH == 12 || lH == 13 ? y : z;
 
     return (((lH & 1) == 0 ? lU : -lU) + ((lH&2) == 0 ? lV : -lV));
 }
 
-double Noise::perlinNoise(double pX, double pY, double pZ) const
+double Noise::perlinNoise(double x, double y, double z) const
 {
-    int lX = static_cast<int>(floor(pX)) & 255;
-    int lY = static_cast<int>(floor(pY)) & 255;
-    int lZ = static_cast<int>(floor(pZ)) & 255;
+    int lX = static_cast<int>(floor(x)) & 255;
+    int lY = static_cast<int>(floor(y)) & 255;
+    int lZ = static_cast<int>(floor(z)) & 255;
 
-    pX -= floor(pX);
-    pY -= floor(pY);
-    pZ -= floor(pZ);
+    x -= floor(x);
+    y -= floor(y);
+    z -= floor(z);
 
-    double lU = _fade(pX);
-    double lV = _fade(pY);
-    double lW = _fade(pZ);
+    double lU = _fade(x);
+    double lV = _fade(y);
+    double lW = _fade(z);
 
     int lA  = _permutations[lX]+lY;
     int lAA = _permutations[lA]+lZ;
@@ -122,11 +122,11 @@ double Noise::perlinNoise(double pX, double pY, double pZ) const
     int lBA = _permutations[lB]+lZ;
     int lBB = _permutations[lB+1]+lZ;
 
-    double lTmp1 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA], pX, pY, pZ),     _grad(_permutations[lBA], pX-1.0, pY, pZ)),
-                             _lerp(lU, _grad(_permutations[lAB], pX, pY-1.0, pZ), _grad(_permutations[lBB], pX-1.0, pY-1.0, pZ)));
+    double lTmp1 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA], x, y, z),     _grad(_permutations[lBA], x-1.0, y, z)),
+                             _lerp(lU, _grad(_permutations[lAB], x, y-1.0, z), _grad(_permutations[lBB], x-1.0, y-1.0, z)));
 
-    double lTmp2 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA+1], pX, pY, pZ-1.0), _grad(_permutations[lBA+1], pX-1.0, pY, pZ-1.0)),
-                             _lerp(lU, _grad(_permutations[lAB+1], pX, pY-1.0, pZ-1.0), _grad(_permutations[lBB+1], pX-1.0, pY-1.0, pZ-1.0)));
+    double lTmp2 = _lerp(lV, _lerp(lU, _grad(_permutations[lAA+1], x, y, z-1.0), _grad(_permutations[lBA+1], x-1.0, y, z-1.0)),
+                             _lerp(lU, _grad(_permutations[lAB+1], x, y-1.0, z-1.0), _grad(_permutations[lBB+1], x-1.0, y-1.0, z-1.0)));
 
     return _lerp(lW, lTmp1, lTmp2);
 }

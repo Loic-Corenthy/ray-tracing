@@ -27,19 +27,19 @@ namespace MatouMalin
         BoundingBox(void);
 
         /// Constructor with parameter
-        BoundingBox(const Point & pMin, const Point & pMax);
+        BoundingBox(const Point & min, const Point & max);
 
         /// Copy constructor
-        BoundingBox(const BoundingBox & pBoundingBox);
+        BoundingBox(const BoundingBox & boundingBox);
 
         /// Copy operator
-        BoundingBox operator=(const BoundingBox & pBoundingBox);
+        BoundingBox operator=(const BoundingBox & boundingBox);
 
         /// Destructor
         ~BoundingBox(void);
 
         /// Check if a ray intersect the bounding box
-        bool intersect(const Ray & pRay) const;
+        bool intersect(const Ray & ray) const;
 
         /// Get the more left, down, back point
         Point min(void) const;
@@ -48,10 +48,10 @@ namespace MatouMalin
         Point max(void) const;
 
         /// Set the point with the minimum coordinate values
-        void setMin(const Point & pMin);
+        void setMin(const Point & min);
 
         /// Set the more right, up, front point
-        void setMax(const Point & pMax);
+        void setMax(const Point & max);
 
     private:
         Point _min;
@@ -69,16 +69,16 @@ namespace MatouMalin
         return _max;
     }
 
-    inline void BoundingBox::setMin(const Point & pMin)
+    inline void BoundingBox::setMin(const Point & min)
     {
-        assert(pMin.x() <= _min.x() && pMin.y() <= _min.y() && pMin.z() <= _min.z() && "The point has at least one coordinate which is not minimum");
-        _min = pMin;
+        assert(min.x() <= _min.x() && min.y() <= _min.y() && min.z() <= _min.z() && "The point has at least one coordinate which is not minimum");
+        _min = min;
     }
 
-    inline void BoundingBox::setMax(const Point & pMax)
+    inline void BoundingBox::setMax(const Point & max)
     {
-        assert(pMax.x() >= _max.x() && pMax.y() >= _max.y() && pMax.z() >= _max.z() && "The point has at least one coordinate which is not maximum");
-        _max = pMax;
+        assert(max.x() >= _max.x() && max.y() >= _max.y() && max.z() >= _max.z() && "The point has at least one coordinate which is not maximum");
+        _max = max;
     }
 
 } // namespace MatouMalin

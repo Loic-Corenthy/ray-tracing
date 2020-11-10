@@ -17,12 +17,12 @@ Camera::Camera(void)
 {
 }
 
-Camera::Camera(Point pPosition,Vector pDirection,Vector pUp,float pFOV)
-:_focalPlane(pDirection*(-1),pPosition + (pDirection*5.0f)),
- _position(pPosition),
- _direction(pDirection),
- _up(pUp),
- _fOV(pFOV),
+Camera::Camera(Point position,Vector direction,Vector up,float fOV)
+:_focalPlane(direction*(-1),position + (direction*5.0f)),
+ _position(position),
+ _direction(direction),
+ _up(up),
+ _fOV(fOV),
  _aperture(ALL_SHARP),
  _focalLength(1.0),
  _apertureStepMultiplier(1.0)
@@ -31,34 +31,34 @@ Camera::Camera(Point pPosition,Vector pDirection,Vector pUp,float pFOV)
 	_up = _direction^_right;
 }
 
-Camera::Camera(const Camera & pCamera)
-:_focalPlane(pCamera._focalPlane),
- _position(pCamera._position),
- _direction(pCamera._direction),
- _up(pCamera._up),
- _right(pCamera._right),
- _fOV(pCamera._fOV),
- _aperture(pCamera._aperture),
- _focalLength(pCamera._focalLength),
- _apertureStepMultiplier(pCamera._apertureStepMultiplier)
+Camera::Camera(const Camera & camera)
+:_focalPlane(camera._focalPlane),
+ _position(camera._position),
+ _direction(camera._direction),
+ _up(camera._up),
+ _right(camera._right),
+ _fOV(camera._fOV),
+ _aperture(camera._aperture),
+ _focalLength(camera._focalLength),
+ _apertureStepMultiplier(camera._apertureStepMultiplier)
 {
 
 }
 
-Camera Camera::operator=(const Camera & pCamera)
+Camera Camera::operator=(const Camera & camera)
 {
-    if(this == & pCamera)
+    if(this == & camera)
         return *this;
 
-    _focalPlane = pCamera._focalPlane;
-    _position = pCamera._position;
-	_direction = pCamera._direction;
-	_up = pCamera._up;
-    _right = pCamera._right;
-	_fOV = pCamera._fOV;
-    _aperture = pCamera._aperture;
-    _focalLength = pCamera._focalLength;
-    _apertureStepMultiplier = pCamera._apertureStepMultiplier;
+    _focalPlane = camera._focalPlane;
+    _position = camera._position;
+	_direction = camera._direction;
+	_up = camera._up;
+    _right = camera._right;
+	_fOV = camera._fOV;
+    _aperture = camera._aperture;
+    _focalLength = camera._focalLength;
+    _apertureStepMultiplier = camera._apertureStepMultiplier;
 
     return *this;
 }
@@ -67,31 +67,31 @@ Camera::~Camera(void)
 {
 }
 
-void Camera::setDirection(const Vector & pDirection)
+void Camera::setDirection(const Vector & direction)
 {
-	_direction = pDirection;
+	_direction = direction;
 
     _right = _up^_direction;
 	_up = _direction^_right;
 
-    _focalPlane.setNormal(pDirection*(-1.0));
-    _focalPlane.setPosition(_position + pDirection*_focalLength);
+    _focalPlane.setNormal(direction*(-1.0));
+    _focalPlane.setPosition(_position + direction*_focalLength);
 }
 
-void Camera::setUp(const Vector & pUp)
+void Camera::setUp(const Vector & up)
 {
-	_up = pUp;
+	_up = up;
 
     _right = _up^_direction;
 	_up = _direction^_right;
 }
 
-void Camera::setAperture(unsigned short pMode, unsigned short pPrecision, double pFocalLength)
+void Camera::setAperture(unsigned short mode, unsigned short precision, double focalLength)
 {
     // Save parameters
-    _aperture = pMode;
-    _focalLength = pFocalLength;
-    _apertureStepMultiplier = static_cast<double>(pPrecision);
+    _aperture = mode;
+    _focalLength = focalLength;
+    _apertureStepMultiplier = static_cast<double>(precision);
 
     // Update the focal plane position
     //_focalPlane.setPosition(_position + _direction*_focalLength);
@@ -116,7 +116,7 @@ void Camera::setAperture(unsigned short pMode, unsigned short pPrecision, double
     float lInvSumCoeffs = 1.0f/lTmpTotal;
     for_each(_apertureColorCoeffs.begin(), _apertureColorCoeffs.end(), [lInvSumCoeffs](float & lIt){lIt *= lInvSumCoeffs;}); // (c++11)
 
-    switch (pMode)
+    switch (mode)
     {
         case F_SMALL:
             _apertureRadius = (_position - _focalPlane.position()).length()/64.0;

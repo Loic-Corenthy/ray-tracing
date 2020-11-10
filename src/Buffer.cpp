@@ -13,28 +13,28 @@ Buffer::Buffer(void)
 {
 }
 
-Buffer::Buffer(unsigned int pHeight,unsigned int pWidth)
-:_height(pHeight),
- _width(pWidth)
+Buffer::Buffer(unsigned int height,unsigned int width)
+:_height(height),
+ _width(width)
 {
-	_pixels = new unsigned char[3*pHeight*pWidth];
-	for (unsigned int i=0, lEnd=3*pHeight*pWidth; i<lEnd; i++)
+	_pixels = new unsigned char[3*height*width];
+	for (unsigned int i=0, lEnd=3*height*width; i<lEnd; i++)
 		_pixels[i] = 0;
 
 }
 
-Buffer::Buffer(const Buffer & pBuffer)
+Buffer::Buffer(const Buffer & buffer)
 {
-    if (_height == pBuffer._height && _width == pBuffer._width)
+    if (_height == buffer._height && _width == buffer._width)
     {
         // No need to re allocate memory, just overwrite the values
         for (unsigned int i=0, lEnd = 3*_height*_width; i<lEnd; i++)
-            _pixels[i] = (pBuffer._pixels)[i];
+            _pixels[i] = (buffer._pixels)[i];
     }
     else
     {
-        _height = pBuffer._height;
-        _width = pBuffer._width;
+        _height = buffer._height;
+        _width = buffer._width;
 
         // delete the existing pixels
         if (_pixels)
@@ -47,27 +47,27 @@ Buffer::Buffer(const Buffer & pBuffer)
         _pixels = new unsigned char[3*_height*_width];
         for (unsigned int i=0, lEnd = 3*_height*_width; i<lEnd; i++)
         {
-            _pixels[i] = (pBuffer._pixels)[i];
+            _pixels[i] = (buffer._pixels)[i];
         }
     }
 
 }
 
-Buffer Buffer::operator=(const Buffer & pBuffer)
+Buffer Buffer::operator=(const Buffer & buffer)
 {
-    if(this == & pBuffer)
+    if(this == & buffer)
         return *this;
 
-    if (_height == pBuffer._height && _width == pBuffer._width)
+    if (_height == buffer._height && _width == buffer._width)
     {
         // No need to re allocate memory, just overwrite the values
         for (unsigned int i=0, lEnd = 3*_height*_width; i<lEnd; i++)
-            _pixels[i] = (pBuffer._pixels)[i];
+            _pixels[i] = (buffer._pixels)[i];
     }
     else
     {
-        _height = pBuffer._height;
-        _width = pBuffer._width;
+        _height = buffer._height;
+        _width = buffer._width;
 
         // delete the existing pixels
         if (_pixels)
@@ -80,7 +80,7 @@ Buffer Buffer::operator=(const Buffer & pBuffer)
         _pixels = new unsigned char[3*_height*_width];
         for (unsigned int i=0, lEnd = 3*_height*_width; i<lEnd; i++)
         {
-            _pixels[i] = (pBuffer._pixels)[i];
+            _pixels[i] = (buffer._pixels)[i];
         }
     }
 
@@ -95,12 +95,12 @@ Buffer::~Buffer(void)
 }
 
 
-void Buffer::setPixel(unsigned int pI,unsigned int pJ,const Color & pColor)
+void Buffer::setPixel(unsigned int i,unsigned int j,const Color & color)
 {
-	assert(0 <= pI && pI<=mWidth && 0 <= pJ && pJ<=mHeight);
-	unsigned int lIndex = 3*(_width*pJ + pI);
+	assert(0 <= i && i<=mWidth && 0 <= j && j<=mHeight);
+	unsigned int lIndex = 3*(_width*j + i);
 
-	Color lColor(pColor);
+	Color lColor(color);
 
 	if(lColor[0] < 0)
 	{
@@ -138,10 +138,10 @@ void Buffer::setPixel(unsigned int pI,unsigned int pJ,const Color & pColor)
 	_pixels[lIndex + 2] = b;
 }
 
-Color Buffer::pixel(unsigned int pI,unsigned int pJ) const
+Color Buffer::pixel(unsigned int i,unsigned int j) const
 {
-	assert(0 <= pI && pI<=mWidth && 0 <= pJ && pJ<=mHeight);
-	unsigned int lIndex = 3*(_width*pJ + pI);
+	assert(0 <= i && i<=mWidth && 0 <= j && j<=mHeight);
+	unsigned int lIndex = 3*(_width*j + i);
 
     return Color(_pixels[lIndex + 0],_pixels[lIndex + 1],_pixels[lIndex + 2]);
 

@@ -10,31 +10,31 @@ Ray::Ray(void)
     _length = (float)MAXFLOAT;
 }
 
-Ray::Ray(const Point & pOrigin, const Vector & pDirection)
-:_origin(pOrigin),
- _direction(pDirection),
+Ray::Ray(const Point & origin, const Vector & direction)
+:_origin(origin),
+ _direction(direction),
  _intersected(nullptr)
 {
 	_length = (float)MAXFLOAT;
 }
 
-Ray::Ray(const Ray & pRay)
-:_origin(pRay._origin),
- _direction(pRay._direction),
- _length(pRay._length),
- _intersected(pRay._intersected)
+Ray::Ray(const Ray & ray)
+:_origin(ray._origin),
+ _direction(ray._direction),
+ _length(ray._length),
+ _intersected(ray._intersected)
 {
 }
 
-Ray Ray::operator=(const Ray & pRay)
+Ray Ray::operator=(const Ray & ray)
 {
-    if(this == & pRay)
+    if(this == & ray)
         return *this;
 
-    _origin = pRay._origin;
-	_direction = pRay._direction;
-	_length = pRay._length;
-	_intersected = pRay._intersected;
+    _origin = ray._origin;
+	_direction = ray._direction;
+	_length = ray._length;
+	_intersected = ray._intersected;
 
     return *this;
 }

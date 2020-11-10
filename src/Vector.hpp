@@ -14,34 +14,34 @@ namespace MatouMalin
         Vector(void);
 
         /// Constructor with coordinates parameters
-        Vector(double pX,double pY,double pZ);
+        Vector(double x,double y,double z);
 
         /// Constructor with same value for all coordinates
-        Vector(double pCommonValue);
+        Vector(double commonValue);
 
         /// Copy constructor
-        Vector(const Vector & pVector);
+        Vector(const Vector & vector);
 
         /// Destructor
         ~Vector(void);
 
         /// Coordinate operator (read only)
-        double operator[](unsigned int pIndex) const;
+        double operator[](unsigned int index) const;
 
         /// Coordinate operator (read, write)
-        double & operator[](unsigned int pIndex);
+        double & operator[](unsigned int index);
 
         /// Set all coordinates at once
-        void setVector(double pX,double pY,double pZ);
+        void setVector(double x,double y,double z);
 
         /// Set X coordinate
-        void setX(double pX);
+        void setX(double x);
 
         /// Set Y coordinate
-        void setY(double pY);
+        void setY(double y);
 
         /// Set Z coordinate
-        void setZ(double pZ);
+        void setZ(double z);
 
         /// Get X coordinate
         double x(void) const;
@@ -53,28 +53,28 @@ namespace MatouMalin
         double z(void) const;
 
         /// Copy the coordinates of a vector to another one
-        Vector operator=(const Vector & pVector);
+        Vector operator=(const Vector & vector);
 
         /// Return the vector sum of 2 vectors
-        Vector operator+(const Vector & pVector) const;
+        Vector operator+(const Vector & vector) const;
 
         /// Return the vector difference of 2 vectors
-        Vector operator-(const Vector & pVector) const;
+        Vector operator-(const Vector & vector) const;
 
         /// Add a vector to the current one
-        Vector operator+=(const Vector & pVector);
+        Vector operator+=(const Vector & vector);
 
         /// Substract a vector to the current one
-        Vector operator-=(const Vector & pVector);
+        Vector operator-=(const Vector & vector);
 
         /// Multiply a vector by a scalar
-        Vector operator*(double pScalar) const;
+        Vector operator*(double scalar) const;
 
         /// Scalar product of 2 vectors
-        double  operator*(const Vector & pVector) const;
+        double  operator*(const Vector & vector) const;
 
         /// Dot product of 2 vectors
-        Vector operator^(const Vector & pVector) const;
+        Vector operator^(const Vector & vector) const;
 
         /// Return the length of the vector
         double length(void) const;
@@ -91,38 +91,38 @@ namespace MatouMalin
 
     }; // class Vector
 
-    inline double Vector::operator[](unsigned int pIndex) const
+    inline double Vector::operator[](unsigned int index) const
     {
-        assert(0 <= pIndex && pIndex <= 2 && "Vector: index out of bounds");
-        return _coords[pIndex];
+        assert(0 <= index && index <= 2 && "Vector: index out of bounds");
+        return _coords[index];
     }
 
-    inline double & Vector::operator[](unsigned int pIndex)
+    inline double & Vector::operator[](unsigned int index)
     {
-        assert(0 <= pIndex && pIndex <= 2 && "Vector: index out of bounds");
-        return _coords[pIndex];
+        assert(0 <= index && index <= 2 && "Vector: index out of bounds");
+        return _coords[index];
     }
 
-    inline void Vector::setVector(double pX,double pY,double pZ)
+    inline void Vector::setVector(double x,double y,double z)
     {
-        _coords[0] = pX;
-        _coords[1] = pY;
-        _coords[2] = pZ;
+        _coords[0] = x;
+        _coords[1] = y;
+        _coords[2] = z;
     }
 
-    inline void Vector::setX(double pX)
+    inline void Vector::setX(double x)
     {
-        _coords[0] = pX;
+        _coords[0] = x;
     }
 
-    inline void Vector::setY(double pY)
+    inline void Vector::setY(double y)
     {
-        _coords[1] = pY;
+        _coords[1] = y;
     }
 
-    inline void Vector::setZ(double pZ)
+    inline void Vector::setZ(double z)
     {
-        _coords[2] = pZ;
+        _coords[2] = z;
     }
 
     inline double Vector::x(void) const
@@ -140,9 +140,9 @@ namespace MatouMalin
         return _coords[2];
     }
 
-    inline double Vector::operator*(const Vector & pVector) const
+    inline double Vector::operator*(const Vector & vector) const
     {
-        return (_coords[0]*pVector._coords[0] + _coords[1]*pVector._coords[1]  + _coords[2]*pVector._coords[2]);
+        return (_coords[0]*vector._coords[0] + _coords[1]*vector._coords[1]  + _coords[2]*vector._coords[2]);
     }
 
     inline double Vector::length(void)const

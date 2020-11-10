@@ -26,25 +26,25 @@ namespace MatouMalin
         Shader(void);
 
         /// Constructor with parameters
-        Shader(BRDF* pBRDF, double pReflectionCoeff, double pRefractionCoeff, Scene* pScene, unsigned short pMaterial = Shader::Material::NONE);
+        Shader(BRDF* bRDF, double reflectionCoeff, double refractionCoeff, Scene* scene, unsigned short material = Shader::Material::NONE);
 
         /// Copy constructor
-        Shader(const Shader & pShader);
+        Shader(const Shader & shader);
 
         /// Copy operator
-        Shader operator=(const Shader & pShader);
+        Shader operator=(const Shader & shader);
 
         /// Destructor
         ~Shader(void);
 
         /// Get the color at a point in function of the BRDF model
-        Color color(const Vector & pVecToViewer,const Vector & pNormal,const Point & pPoint, Renderable* pThis, unsigned int pReflectionCount);
+        Color color(const Vector & vecToViewer,const Vector & normal,const Point & point, Renderable* thisShader, unsigned int reflectionCount);
 
         /// Get a pointer on the scene
         Scene* ptrOnScene(void);
 
         /// Get the ambient light coefficient
-        Color ambientColor(const Ray & pRay) const;
+        Color ambientColor(const Ray & ray) const;
 
         /// Get how many reflections the object can have at maximum
         unsigned short reflectionCountMax(void) const;
@@ -59,13 +59,13 @@ namespace MatouMalin
         BRDF* reflectionModel(void);
 
         /// Set how many reflections the object can have at maximum (must be less than 10)
-        void setReflectionCountMax(unsigned short pValue);
+        void setReflectionCountMax(unsigned short value);
 
         /// Set the reflection coefficient, must be between 0 and 1
-        void setReflectionCoeff(double pCoeff);
+        void setReflectionCoeff(double coeff);
 
         /// Set the refraction coefficient, must be bigger than 1 to enable refraction
-        void setRefractionCoeff(double pCoeff);
+        void setRefractionCoeff(double coeff);
 
     private:
         BRDF* _bRDF;
@@ -103,21 +103,21 @@ namespace MatouMalin
         return _bRDF;
     }
 
-    inline void Shader::setReflectionCountMax(unsigned short pValue)
+    inline void Shader::setReflectionCountMax(unsigned short value)
     {
-        assert(0 < pValue && pValue < 11 && "reflection count max out of range");
-        _reflectionCountMax = pValue;
+        assert(0 < value && value < 11 && "reflection count max out of range");
+        _reflectionCountMax = value;
     }
 
-    inline void Shader::setReflectionCoeff(double pCoeff)
+    inline void Shader::setReflectionCoeff(double coeff)
     {
-        _reflectionCoeff = pCoeff;
+        _reflectionCoeff = coeff;
     }
 
-    inline void Shader::setRefractionCoeff(double pCoeff)
+    inline void Shader::setRefractionCoeff(double coeff)
     {
-        assert(pCoeff >= 1 && "Refraction coefficient must be bigger than 1");
-        _refractionCoeff = pCoeff;
+        assert(coeff >= 1 && "Refraction coefficient must be bigger than 1");
+        _refractionCoeff = coeff;
     }
 
 } // namespace MatouMalin

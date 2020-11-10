@@ -14,25 +14,25 @@ namespace MatouMalin
         Phong(void);
 
         /// Constructor with parameters
-        Phong(const Color & pDiffusionColor, const Color &  pSpecularColor, int pExponent);
+        Phong(const Color & diffusionColor, const Color &  specularColor, int exponent);
 
         /// Copy constructor
-        Phong(const Phong & pPhong);
+        Phong(const Phong & phong);
 
         /// Copy operator
-        Phong operator=(const Phong & pPhong);
+        Phong operator=(const Phong & phong);
 
         /// Destructor
         ~Phong(void);
 
         /// Set the diffusion color coefficient
-        void setDiffusionColor(const Color & pDiffusionColor);
+        void setDiffusionColor(const Color & diffusionColor);
 
         /// Set the specular color coefficient
-        void setSpecularColor(const Color & pSpecularColor);
+        void setSpecularColor(const Color & specularColor);
 
         /// Set the exponent
-        void setExponent(int pExponent);
+        void setExponent(int exponent);
 
         /// Get the DiffusionColor coefficient
         Color diffusionColor(void) const;
@@ -44,13 +44,13 @@ namespace MatouMalin
         int exponent(void) const;
 
         /// Implementation of virtual method from BRDF
-        Color reflectance(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection);
+        Color reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection);
 
         /// Implementation of virtual method from BRDF
-        Color diffuse(const Vector & pVecToLight, const Vector & pNormal,const Point & pIntersection) const final;
+        Color diffuse(const Vector & vecToLight, const Vector & normal,const Point & intersection) const final;
 
         /// Implementation of virtual method from BRDF
-        Color specular(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection) const final;
+        Color specular(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) const final;
 
     private:
         Color _diffusionColor;
@@ -59,19 +59,19 @@ namespace MatouMalin
 
     }; // class Phong
 
-    inline void Phong::setDiffusionColor(const Color & pDiffusionColor)
+    inline void Phong::setDiffusionColor(const Color & diffusionColor)
     {
-        _diffusionColor = pDiffusionColor;
+        _diffusionColor = diffusionColor;
     }
 
-    inline void Phong::setSpecularColor(const Color &  pSpecularColor)
+    inline void Phong::setSpecularColor(const Color &  specularColor)
     {
-        _specularColor = pSpecularColor;
+        _specularColor = specularColor;
     }
 
-    inline void Phong::setExponent(int pExponent)
+    inline void Phong::setExponent(int exponent)
     {
-        _exponent = pExponent;
+        _exponent = exponent;
     }
 
     inline Color Phong::diffusionColor(void) const

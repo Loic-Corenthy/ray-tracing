@@ -14,37 +14,37 @@ namespace MatouMalin
         PunctualLight(void);
 
         /// Constructor with parameters
-        PunctualLight(const Point & pPosition,const Color & pIntensity);
+        PunctualLight(const Point & position,const Color & intensity);
 
         /// Copy constructor
-        PunctualLight(const PunctualLight & pPunctualLight);
+        PunctualLight(const PunctualLight & punctualLight);
 
         /// Copy operator
-        PunctualLight operator=(const PunctualLight & pPunctualLight);
+        PunctualLight operator=(const PunctualLight & punctualLight);
 
         /// Destructor
         ~PunctualLight(void);
 
         /// Set the light position
-        void setPosition(const Point & pPosition);
+        void setPosition(const Point & position);
 
         /// Get the light position
         const Point & position(void) const;
 
         /// Implementation of virtual function from Light
-        Color intensityAt(const Point & pPoint,const Scene & pScene, Renderable* pCurrentObject) const;
+        Color intensityAt(const Point & point,const Scene & scene, Renderable* currentObject) const;
 
         /// Implementation of virtual function from Light
-        Vector directionFrom(const Point & pPoint) const;
+        Vector directionFrom(const Point & point) const;
 
     private:
         Point _position;
 
     }; // class PunctualLight
 
-    inline void PunctualLight::setPosition(const Point & pPosition)
+    inline void PunctualLight::setPosition(const Point & position)
     {
-        _position = pPosition;
+        _position = position;
     }
 
     inline const Point & PunctualLight::position(void) const
@@ -52,9 +52,9 @@ namespace MatouMalin
         return _position;
     }
 
-    inline MatouMalin::Vector PunctualLight::directionFrom(const MatouMalin::Point & pPoint) const
+    inline MatouMalin::Vector PunctualLight::directionFrom(const MatouMalin::Point & point) const
     {
-        return (_position - pPoint);
+        return (_position - point);
     }
 
 } // namespace MatouMalin

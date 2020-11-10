@@ -22,40 +22,40 @@ namespace MatouMalin
         Lambert(void);
 
         /// Constructor with parameters
-        Lambert(const Color & pDiffusionColor);
+        Lambert(const Color & diffusionColor);
 
         /// Copy constructor
-        Lambert(const Lambert & pLambert);
+        Lambert(const Lambert & lambert);
 
         /// Copy operator
-        Lambert operator=(const Lambert & pLambert);
+        Lambert operator=(const Lambert & lambert);
 
         /// Destructor
         ~Lambert(void);
 
         /// Set the Kd coefficient
-        void setDiffusionColor(Color pKd);
+        void setDiffusionColor(Color kd);
 
         /// Get the Kd coefficient
         Color diffusionColor(void) const;
 
         /// Implementation of virtual method from BRDF
-        Color reflectance(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection);
+        Color reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection);
 
         /// Implementation of virtual method from BRDF
-        Color diffuse(const Vector & pVecToLight, const Vector & pNormal,const Point & pIntersection) const final;//(c++11)
+        Color diffuse(const Vector & vecToLight, const Vector & normal,const Point & intersection) const final;//(c++11)
 
         /// Implementation of virtual method from BRDF
-        Color specular(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection) const final;//(c++11)
+        Color specular(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) const final;//(c++11)
 
     private:
         Color _diffusionColor;
 
     }; // class Lambert
 
-    inline void Lambert::setDiffusionColor(Color pDiffusionColor)
+    inline void Lambert::setDiffusionColor(Color diffusionColor)
     {
-        _diffusionColor = pDiffusionColor;
+        _diffusionColor = diffusionColor;
     }
 
     inline Color Lambert::diffusionColor(void) const

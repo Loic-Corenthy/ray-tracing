@@ -37,7 +37,7 @@ Image::Image(void)
 
 }
 
-Image::Image(const string & pPath)
+Image::Image(const string & path)
 :_image(nullptr),
  _rawData(nullptr),
  _width(0),
@@ -48,10 +48,10 @@ Image::Image(const string & pPath)
  _interpolation(NEAREST),
  _imageLoaded(false)
 {
-    _createImageFromFile(pPath);
+    _createImageFromFile(path);
 }
 
-Image::Image(const Image & pImage)
+Image::Image(const Image & image)
 :_width(0),
  _height(0),
  _bytesPerPixel(4),
@@ -60,7 +60,7 @@ Image::Image(const Image & pImage)
  _imageLoaded(false)
 {
     // If an image has already been loaded
-    if (pImage._imageLoaded)
+    if (image._imageLoaded)
     {
 #ifdef __linux__
 
@@ -71,24 +71,24 @@ Image::Image(const Image & pImage)
 
 #endif
         // Copy the raw data
-        unsigned int lDataSize = pImage._width*pImage._height*pImage._bytesPerPixel;
+        unsigned int lDataSize = image._width*image._height*image._bytesPerPixel;
         _rawData = new unsigned char[lDataSize];
-        memcpy(_rawData, pImage._rawData, lDataSize);
+        memcpy(_rawData, image._rawData, lDataSize);
     }
 }
 
-Image Image::operator=(const Image & pImage)
+Image Image::operator=(const Image & image)
 {
-    if (this == & pImage)
+    if (this == & image)
         return *this;
 
-    _width = pImage._width;
-    _height = pImage._height;
-    _bytesPerPixel = pImage._bytesPerPixel;
-    _bytesPerRow = pImage._bytesPerRow;
-    _bitsPerComponent = pImage._bitsPerComponent;
-    _interpolation = pImage._interpolation;
-    _imageLoaded = pImage._imageLoaded;
+    _width = image._width;
+    _height = image._height;
+    _bytesPerPixel = image._bytesPerPixel;
+    _bytesPerRow = image._bytesPerRow;
+    _bitsPerComponent = image._bitsPerComponent;
+    _interpolation = image._interpolation;
+    _imageLoaded = image._imageLoaded;
 
     // If an image has already been loaded
     if (_imageLoaded)
@@ -102,9 +102,9 @@ Image Image::operator=(const Image & pImage)
 
 #endif
         // Copy the raw data
-        unsigned int lDataSize = pImage._width*pImage._height*pImage._bytesPerPixel;
+        unsigned int lDataSize = image._width*image._height*image._bytesPerPixel;
         _rawData = new unsigned char[lDataSize];
-        memcpy(_rawData, pImage._rawData, lDataSize);
+        memcpy(_rawData, image._rawData, lDataSize);
     }
     return *this;
 }
@@ -114,22 +114,22 @@ Image::~Image(void)
     delete [] _rawData;
 }
 
-bool Image::loadFromFile(const string & pPath)
+bool Image::loadFromFile(const string & path)
 {
-    return _createImageFromFile(pPath);
+    return _createImageFromFile(path);
 }
 
-Color Image::pixelColor(double pI, double pJ) const
+Color Image::pixelColor(double i, double j) const
 {
     // _rawData contains the image data in the RGBA8888 pixel format, do not forget that _rawData[byteIndex + 3] is the alpha component
 
-    assert(-0.000001<= pI && pI <= 1.000001 && "Index out of image's bounds");
-    assert(-0.000001<= pJ && pJ <= 1.000001 && "Index out of image's bounds");
+    assert(-0.000001<= i && i <= 1.000001 && "Index out of image's bounds");
+    assert(-0.000001<= j && j <= 1.000001 && "Index out of image's bounds");
 
     if (_interpolation == NEAREST)
     {
-        unsigned int lI = static_cast<unsigned int>(pI*_width);
-        unsigned int lJ = static_cast<unsigned int>(pJ*_height);
+        unsigned int lI = static_cast<unsigned int>(i*_width);
+        unsigned int lJ = static_cast<unsigned int>(j*_height);
 
         //        unsigned int lByteIndex = _width*_height*_bytesPerPixel - (_bytesPerRow * lJ) + lI * _bytesPerPixel;
         unsigned int lByteIndex = (_bytesPerRow * lJ) + lI * _bytesPerPixel;
@@ -140,11 +140,11 @@ Color Image::pixelColor(double pI, double pJ) const
     else
     {
         // Get the decimal part
-        double lDecimalPI = pI - floor(pI);
-        double lDecimalPJ = pJ - floor(pJ);
+        double lDecimalPI = i - floor(i);
+        double lDecimalPJ = j - floor(j);
 
-        unsigned int lI = static_cast<unsigned int>(pI*_width);
-        unsigned int lJ = static_cast<unsigned int>(pJ*_height);
+        unsigned int lI = static_cast<unsigned int>(i*_width);
+        unsigned int lJ = static_cast<unsigned int>(j*_height);
 
         if (lI >= _width - 1)
             lI--;
@@ -175,9 +175,9 @@ Color Image::pixelColor(double pI, double pJ) const
 
 
 #ifdef __linux__
-    bool Image::_createImageFromFile(const string & pPath)
+    bool Image::_createImageFromFile(const string & path)
     {
-        _image = ImageInput::open(pPath);
+        _image = ImageInput::open(path);
 
         if (!_image)
             return false;
@@ -197,7 +197,7 @@ Color Image::pixelColor(double pI, double pJ) const
         return true;
     }
 #elif __APPLE__
-    bool Image::_createImageFromFile(const string & pPath)
+    bool Image::_createImageFromFile(const string & path)
     {
         // Set up options. The options here are for caching the image in a decoded form and for using floating-point values if the image format supports them.
         CFStringRef lKeys[2]   = {kCGImageSourceShouldCache, kCGImageSourceShouldAllowFloat};
@@ -208,7 +208,7 @@ Color Image::pixelColor(double pI, double pJ) const
 
         // Create an URL from the path
         string lFilePath("file://");
-        lFilePath.append(pPath);
+        lFilePath.append(path);
 
         CFStringRef lBaseStr = CFStringCreateWithCString ( kCFAllocatorDefault, lFilePath.c_str(), kCFStringEncodingASCII);
         CFURLRef lBaseURL = CFURLCreateWithString(NULL, lBaseStr, NULL);
@@ -261,7 +261,7 @@ Color Image::pixelColor(double pI, double pJ) const
         return true;
     }
 #elif _WIN32
-    bool Image::_createImageFromFile(const string & pPath)
+    bool Image::_createImageFromFile(const string & path)
     {
         static_assert(false && "method not implemented");
         return false;

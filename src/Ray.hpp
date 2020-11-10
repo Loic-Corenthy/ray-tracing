@@ -25,28 +25,28 @@ namespace MatouMalin
         Ray(void);
 
         /// Constructor with parameters
-        Ray(const Point & pOrigin, const Vector & pDirection);
+        Ray(const Point & origin, const Vector & direction);
 
         /// Copy constructor
-        Ray(const Ray & pRay);
+        Ray(const Ray & ray);
 
         /// Copy operator
-        Ray operator=(const Ray & pRay);
+        Ray operator=(const Ray & ray);
 
         /// Destructor
         ~Ray(void);
 
         /// Set the origin of the ray
-        void setOrigin(const Point & pPoint);
+        void setOrigin(const Point & point);
 
         /// Set the direction of the ray
-        void setDirection(const Vector & pVector);
+        void setDirection(const Vector & vector);
 
         /// Set the length of the ray
-        void setLength(float pLength);
+        void setLength(float length);
 
         /// Keep a pointer on the intersected object
-        void setIntersected(Renderable* pIntersected);
+        void setIntersected(Renderable* intersected);
 
         /// Get the origin of the ray
         const Point & origin(void) const;
@@ -72,24 +72,24 @@ namespace MatouMalin
 
     }; // Class Ray
 
-    inline void Ray::setOrigin(const Point & pPoint)
+    inline void Ray::setOrigin(const Point & point)
     {
-        _origin = pPoint;
+        _origin = point;
     }
 
-    inline void Ray::setDirection(const Vector & pVector)
+    inline void Ray::setDirection(const Vector & vector)
     {
-        _direction = pVector;
+        _direction = vector;
     }
 
-    inline void Ray::setLength(float pLength)
+    inline void Ray::setLength(float length)
     {
-        _length = pLength;
+        _length = length;
     }
 
-    inline void Ray::setIntersected(Renderable* pIntersected)
+    inline void Ray::setIntersected(Renderable* intersected)
     {
-         _intersected = pIntersected;
+         _intersected = intersected;
     }
 
     inline const Point & Ray::origin(void) const

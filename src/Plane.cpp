@@ -18,42 +18,42 @@ Plane::Plane(void)
 
 }
 
-Plane::Plane(double pA, double pB, double pC, double pD)
-:_equationCoeffs{pA,pB,pC,pD},
- _normal(pA,pB,pC)
+Plane::Plane(double a, double b, double c, double d)
+:_equationCoeffs{pA,b,c,d},
+ _normal(a,b,c)
 {
     _updatePosition();
 }
 
-Plane::Plane(const Vector & pNormal, const Point & pPosition)
-:_normal(pNormal),
- _position(pPosition)
+Plane::Plane(const Vector & normal, const Point & position)
+:_normal(normal),
+ _position(position)
 {
     _updateEquation();
 }
 
-Plane::Plane(const Plane & pPlane)
-:_normal(pPlane._normal),
- _position(pPlane._position)
+Plane::Plane(const Plane & plane)
+:_normal(plane._normal),
+ _position(plane._position)
 {
-    _equationCoeffs[0] = pPlane._equationCoeffs[0];
-    _equationCoeffs[1] = pPlane._equationCoeffs[1];
-    _equationCoeffs[2] = pPlane._equationCoeffs[2];
-    _equationCoeffs[3] = pPlane._equationCoeffs[3];
+    _equationCoeffs[0] = plane._equationCoeffs[0];
+    _equationCoeffs[1] = plane._equationCoeffs[1];
+    _equationCoeffs[2] = plane._equationCoeffs[2];
+    _equationCoeffs[3] = plane._equationCoeffs[3];
 }
 
-Plane Plane::operator=(const Plane & pPlane)
+Plane Plane::operator=(const Plane & plane)
 {
-    if (this == &pPlane)
+    if (this == &plane)
         return *this;
 
-    _normal = pPlane._normal;
-    _position = pPlane._position;
+    _normal = plane._normal;
+    _position = plane._position;
 
-    _equationCoeffs[0] = pPlane._equationCoeffs[0];
-    _equationCoeffs[1] = pPlane._equationCoeffs[1];
-    _equationCoeffs[2] = pPlane._equationCoeffs[2];
-    _equationCoeffs[3] = pPlane._equationCoeffs[3];
+    _equationCoeffs[0] = plane._equationCoeffs[0];
+    _equationCoeffs[1] = plane._equationCoeffs[1];
+    _equationCoeffs[2] = plane._equationCoeffs[2];
+    _equationCoeffs[3] = plane._equationCoeffs[3];
 
     return *this;
 
@@ -64,44 +64,44 @@ Plane::~Plane(void)
 
 }
 
-bool Plane::intersect(Ray & pRay)
+bool Plane::intersect(Ray & ray)
 {
-    double lScalarProd = pRay.direction()*_normal;
+    double lScalarProd = ray.direction()*_normal;
 
     // Check if ray is not parallel to triangle
     if (lScalarProd != 0.0)
     {
-        Vector lOrigin(pRay.origin().x(),pRay.origin().y(),pRay.origin().z());
+        Vector lOrigin(ray.origin().x(),ray.origin().y(),ray.origin().z());
 
         // Calculate the lenght the ray when intersecting the plane
         double lLength = (-1.0)*(lOrigin*_normal + _equationCoeffs[3])/(lScalarProd);
 
-        pRay.setLength(lLength);
-        pRay.setIntersected(nullptr); // (c++11)
+        ray.setLength(lLength);
+        ray.setIntersected(nullptr); // (c++11)
         return true;
     }
     else
         return false;
 }
 
-void Plane::setCoefficient(unsigned int pIndex, double pValue)
+void Plane::setCoefficient(unsigned int index, double value)
 {
-    assert(0 <= pIndex && pIndex <4 && "index out of boundaries for the coefficients");
-    _equationCoeffs[pIndex] = pValue;
+    assert(0 <= index && index <4 && "index out of boundaries for the coefficients");
+    _equationCoeffs[index] = value;
 
     _updatePosition();
     _updateNormal();
 }
 
-void Plane::setNormal(const Vector & pNormal)
+void Plane::setNormal(const Vector & normal)
 {
-    _normal = pNormal;
+    _normal = normal;
     _updateEquation();
 }
 
-void Plane::setPosition(const Point & pPosition)
+void Plane::setPosition(const Point & position)
 {
-    _position = pPosition;
+    _position = position;
     _updateEquation();
 }
 

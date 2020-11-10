@@ -25,9 +25,9 @@ CubeMap::CubeMap(void)
     _images.reserve(6);
 }
 
-CubeMap::CubeMap(const Point & pCenter, double pSize)
-:_center(pCenter),
- _size(pSize),
+CubeMap::CubeMap(const Point & center, double size)
+:_center(center),
+ _size(size),
  _faceImageIDs{{UP,0},{DOWN,1},{LEFT,2},{RIGHT,3},{BACK,4},{FRONT,5}} // (c++11)
 {
     // At most 6 images per cube
@@ -36,45 +36,45 @@ CubeMap::CubeMap(const Point & pCenter, double pSize)
 
 CubeMap::~CubeMap(void)
 {
-//    for_each(_images.begin(), _images.end(), [](vector<Image*>::iterator pImage){delete *pImage;});
+//    for_each(_images.begin(), _images.end(), [](vector<Image*>::iterator image){delete *image;});
     for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
         delete *lIt;
 
 }
 
-void CubeMap::addImage(unsigned short pFace, const std::string & pPath)
+void CubeMap::addImage(unsigned short face, const std::string & path)
 {
-    Image* rImage = new Image(pPath);
+    Image* rImage = new Image(path);
     _images.push_back(rImage);
 
-    setLink(pFace, static_cast<unsigned int>(_images.size()-1));
+    setLink(face, static_cast<unsigned int>(_images.size()-1));
 }
 
-void CubeMap::setLink(unsigned short pFace, unsigned int pImageIdx)
+void CubeMap::setLink(unsigned short face, unsigned int imageIdx)
 {
-    _faceImageIDs[pFace] = pImageIdx;
+    _faceImageIDs[face] = imageIdx;
 }
 
-Color CubeMap::colorAt(const Ray & pRay)
+Color CubeMap::colorAt(const Ray & ray)
 {
     unsigned short lFace(UNASSIGNED);
     double lI(0.0);
     double lJ(0.0);
 
-    _intersect(pRay, lFace, lI, lJ);
+    _intersect(ray, lFace, lI, lJ);
 
     unsigned int lImageIdx = _faceImageIDs[lFace];
 
     return _images[lImageIdx]->pixelColor(lI,lJ);
 }
 
-void CubeMap::setInterpolationMethod(unsigned short pMethod)
+void CubeMap::setInterpolationMethod(unsigned short method)
 {
     for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
-        (*lIt)->setInterpolation(pMethod);
+        (*lIt)->setInterpolation(method);
 }
 
-void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, double & pJ) const
+void CubeMap::_intersect(const Ray & ray, unsigned short & face, double & i, double & j) const
 {
     double lRadius(_size*0.5);
     double lInvSize(1.0/_size);
@@ -88,92 +88,92 @@ void CubeMap::_intersect(const Ray & pRay, unsigned short & pFace, double & pI, 
     lMax += lEpsilon;
 
     // Check if ray is not parallel to the XY plane
-    if (pRay.direction().z() > 0.0)
+    if (ray.direction().z() > 0.0)
     {
         // Front plane: Calculate the lenght the ray when intersecting the plane
-        double lLength = (lMax.z() - pRay.origin().z())/pRay.direction().z();
+        double lLength = (lMax.z() - ray.origin().z())/ray.direction().z();
 
         // Front plane: Calculate the coordinates of the intersection point
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        Point lP = ray.origin() + ray.direction()*lLength;
 
         // Front plane: Check if the point in the plane is really inside the rectangle
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.y() >= lMin.y() && lP.y() <= lMax.y())
         {
-            pFace = FRONT;
-            pI = (lP.x() - lMin.x())*lInvSize;
-            pJ = (lP.y() - lMin.y())*lInvSize;
+            face = FRONT;
+            i = (lP.x() - lMin.x())*lInvSize;
+            j = (lP.y() - lMin.y())*lInvSize;
             return;
         }
     }
 
-    if (pRay.direction().z() < 0.0)
+    if (ray.direction().z() < 0.0)
     {
         // Same for back plane:
-        double lLength = (lMin.z() - pRay.origin().z())/pRay.direction().z();
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        double lLength = (lMin.z() - ray.origin().z())/ray.direction().z();
+        Point lP = ray.origin() + ray.direction()*lLength;
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.y() >= lMin.y() && lP.y() <= lMax.y())
         {
-            pFace = BACK;
-            pI = (lP.x() - lMin.x())*lInvSize;
-            pJ = (lP.y() - lMin.y())*lInvSize;
+            face = BACK;
+            i = (lP.x() - lMin.x())*lInvSize;
+            j = (lP.y() - lMin.y())*lInvSize;
             return;
         }
 
     }
 
-    if (pRay.direction().y() > 0.0) // Check if the ray is not parallel to the XZ plane
+    if (ray.direction().y() > 0.0) // Check if the ray is not parallel to the XZ plane
     {
         // Same for up plane:
-        double lLength = (lMax.y() - pRay.origin().y())/pRay.direction().y();
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        double lLength = (lMax.y() - ray.origin().y())/ray.direction().y();
+        Point lP = ray.origin() + ray.direction()*lLength;
 
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() &&  lP.z() >= lMin.z() && lP.z() <= lMax.z())
         {
-            pFace = UP;
-            pI = (lP.x() - lMin.x())*lInvSize;
-            pJ = (lP.z() - lMin.z())*lInvSize;
+            face = UP;
+            i = (lP.x() - lMin.x())*lInvSize;
+            j = (lP.z() - lMin.z())*lInvSize;
             return;
         }
     }
 
-    if (pRay.direction().y() < 0.0)
+    if (ray.direction().y() < 0.0)
     {
         // Same for down plane:
-        double lLength = (lMin.y() - pRay.origin().y())/pRay.direction().y();
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        double lLength = (lMin.y() - ray.origin().y())/ray.direction().y();
+        Point lP = ray.origin() + ray.direction()*lLength;
         if(lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
         {
-            pFace = DOWN;
-            pI = (lP.x() - lMin.x())*lInvSize;
-            pJ = (lP.z() - lMin.z())*lInvSize;
+            face = DOWN;
+            i = (lP.x() - lMin.x())*lInvSize;
+            j = (lP.z() - lMin.z())*lInvSize;
             return;
         }
     }
 
-    if (pRay.direction().x() > 0.0) // Check if the ray is not parallel to the YZ plane
+    if (ray.direction().x() > 0.0) // Check if the ray is not parallel to the YZ plane
     {
         // Same for right plane:
-        double lLength = (lMax.x() - pRay.origin().x())/pRay.direction().x();
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        double lLength = (lMax.x() - ray.origin().x())/ray.direction().x();
+        Point lP = ray.origin() + ray.direction()*lLength;
         if(lP.y() >= lMin.y() && lP.y() <= lMax.y() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
         {
-            pFace = RIGHT;
-            pI = (lP.z() - lMin.z())*lInvSize;
-            pJ = (lP.y() - lMin.y())*lInvSize;
+            face = RIGHT;
+            i = (lP.z() - lMin.z())*lInvSize;
+            j = (lP.y() - lMin.y())*lInvSize;
             return;
         }
     }
 
-    if (pRay.direction().x() < 0.0)
+    if (ray.direction().x() < 0.0)
     {
         // Same for left plane:
-        double lLength = (lMin.x() - pRay.origin().x())/pRay.direction().x();
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        double lLength = (lMin.x() - ray.origin().x())/ray.direction().x();
+        Point lP = ray.origin() + ray.direction()*lLength;
         if(lP.y() >= lMin.y() && lP.y() <= lMax.y() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
         {
-            pFace = LEFT;
-            pI = (lP.z() - lMin.z())*lInvSize;
-            pJ = (lP.y() - lMin.y())*lInvSize;
+            face = LEFT;
+            i = (lP.z() - lMin.z())*lInvSize;
+            j = (lP.y() - lMin.y())*lInvSize;
             return;
         }
 

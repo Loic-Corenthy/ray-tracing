@@ -10,28 +10,28 @@ BRDF::BRDF(void)
 }
 
 
-BRDF::BRDF(const Color & pAmbient)
-:_ambientColor(pAmbient),
+BRDF::BRDF(const Color & ambient)
+:_ambientColor(ambient),
  _cubeMap(nullptr)
 {
 }
 
 
-BRDF::BRDF(const BRDF & pBRDF)
-:_ambientColor(pBRDF._ambientColor),
- _cubeMap(pBRDF._cubeMap)
+BRDF::BRDF(const BRDF & bRDF)
+:_ambientColor(bRDF._ambientColor),
+ _cubeMap(bRDF._cubeMap)
 {
 
 }
 
 
-void BRDF::operator=(const BRDF & pBRDF)
+void BRDF::operator=(const BRDF & brdf)
 {
-    if (this == &pBRDF)
+    if (this == & brdf)
         return;
 
-    _ambientColor = pBRDF._ambientColor;
-    _cubeMap = pBRDF._cubeMap;
+    _ambientColor = brdf._ambientColor;
+    _cubeMap = brdf._cubeMap;
 }
 
 BRDF::~BRDF(void)

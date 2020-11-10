@@ -12,27 +12,27 @@ DirectionalLight::DirectionalLight(void)
 
 }
 
-DirectionalLight::DirectionalLight(const Vector & pDirection,const Color & pIntensity)
-:Light(pIntensity),
- _direction(pDirection)
+DirectionalLight::DirectionalLight(const Vector & direction,const Color & intensity)
+:Light(intensity),
+ _direction(direction)
 {
 
 }
 
-DirectionalLight::DirectionalLight(const DirectionalLight & pDirectionalLight)
-:Light(pDirectionalLight)
+DirectionalLight::DirectionalLight(const DirectionalLight & directionalLight)
+:Light(directionalLight)
 {
-	_direction = pDirectionalLight._direction;
+	_direction = directionalLight._direction;
 }
 
-DirectionalLight DirectionalLight::operator=(const MatouMalin::DirectionalLight &pDirectionalLight)
+DirectionalLight DirectionalLight::operator=(const MatouMalin::DirectionalLight &directionalLight)
 {
-    if(this == & pDirectionalLight)
+    if(this == & directionalLight)
         return *this;
 
-    Light::operator=(pDirectionalLight);
+    Light::operator=(directionalLight);
 
-    _direction = pDirectionalLight._direction;
+    _direction = directionalLight._direction;
 
     return *this;
 }
@@ -42,21 +42,21 @@ DirectionalLight::~DirectionalLight(void)
 }
 
 
-Color DirectionalLight::intensityAt(const Point & pPoint,const Scene & pScene, MatouMalin::Renderable* pCurrentObject) const
+Color DirectionalLight::intensityAt(const Point & point,const Scene & scene, MatouMalin::Renderable* currentObject) const
 {
     Ray lMyRay;
 
-    lMyRay.setOrigin(pPoint);
+    lMyRay.setOrigin(point);
     lMyRay.setDirection(_direction*(-1));
-    lMyRay.setIntersected(pCurrentObject);
+    lMyRay.setIntersected(currentObject);
 
-	bool lHasIntersection = pScene.intersect(lMyRay);
+	bool lHasIntersection = scene.intersect(lMyRay);
 
 	if(lHasIntersection)
 		return	Color(0.0f);
 	else
 	{
-        double lCos = pCurrentObject->normal(pPoint)*(_direction*(-1.0));
+        double lCos = currentObject->normal(point)*(_direction*(-1.0));
 		return _intensity*lCos;
 	}
 

@@ -11,42 +11,42 @@ Color::Color(void)
 	_components[2] = 0.0f;
 }
 
-Color::Color(float pCommonValue)
+Color::Color(float commonValue)
 {
-    _components[0] = pCommonValue;
-	_components[1] = pCommonValue;
-	_components[2] = pCommonValue;
+    _components[0] = commonValue;
+	_components[1] = commonValue;
+	_components[2] = commonValue;
 }
 
-Color::Color(float pRed,float pGreen, float pBlue)
+Color::Color(float red,float green, float blue)
 {
-	_components[0] = pRed;
-	_components[1] = pGreen;
-	_components[2] = pBlue;
+	_components[0] = red;
+	_components[1] = green;
+	_components[2] = blue;
 }
 
-Color::Color(int pRed, int pGreen, int pBlue)
+Color::Color(int red, int green, int blue)
 {
-    _components[0] = static_cast<float>(pRed)*_inv255;
-	_components[1] = static_cast<float>(pGreen)*_inv255;
-	_components[2] = static_cast<float>(pBlue)*_inv255;
+    _components[0] = static_cast<float>(red)*_inv255;
+	_components[1] = static_cast<float>(green)*_inv255;
+	_components[2] = static_cast<float>(blue)*_inv255;
 }
 
-Color::Color(const Color & pColor)
+Color::Color(const Color & color)
 {
-	_components[0] = pColor._components[0];
-	_components[1] = pColor._components[1];
-	_components[2] = pColor._components[2];
+	_components[0] = color._components[0];
+	_components[1] = color._components[1];
+	_components[2] = color._components[2];
 }
 
-Color Color::operator=(const Color & pColor)
+Color Color::operator=(const Color & color)
 {
-    if (this == & pColor)
+    if (this == & color)
         return *this;
 
-	_components[0] = pColor._components[0];
-	_components[1] = pColor._components[1];
-	_components[2] = pColor._components[2];
+	_components[0] = color._components[0];
+	_components[1] = color._components[1];
+	_components[2] = color._components[2];
 
     return *this;
 }

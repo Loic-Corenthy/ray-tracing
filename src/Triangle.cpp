@@ -21,11 +21,11 @@ Triangle::Triangle(void)
 
 }
 
-Triangle::Triangle(const Point & pPoint0,const Point & pPoint1,const Point & pPoint2)
+Triangle::Triangle(const Point & point0,const Point & point1,const Point & point2)
 {
-	_vertice[0] = pPoint0;
-	_vertice[1] = pPoint1;
-	_vertice[2] = pPoint2;
+	_vertice[0] = point0;
+	_vertice[1] = point1;
+	_vertice[2] = point2;
 
     _vertexNormal[0] = Vector(0.0);
     _vertexNormal[1] = Vector(0.0);
@@ -34,17 +34,17 @@ Triangle::Triangle(const Point & pPoint0,const Point & pPoint1,const Point & pPo
     updateNormal();
 }
 
-Triangle::Triangle(const Triangle & pTriangle)
+Triangle::Triangle(const Triangle & triangle)
 {
-	_vertice[0] = pTriangle._vertice[0];
-	_vertice[1] = pTriangle._vertice[1];
-	_vertice[2] = pTriangle._vertice[2];
+	_vertice[0] = triangle._vertice[0];
+	_vertice[1] = triangle._vertice[1];
+	_vertice[2] = triangle._vertice[2];
 
-    _vertexNormal[0] = pTriangle._vertexNormal[0];
-    _vertexNormal[1] = pTriangle._vertexNormal[1];
-    _vertexNormal[2] = pTriangle._vertexNormal[2];
+    _vertexNormal[0] = triangle._vertexNormal[0];
+    _vertexNormal[1] = triangle._vertexNormal[1];
+    _vertexNormal[2] = triangle._vertexNormal[2];
 
-    _normal = pTriangle._normal;
+    _normal = triangle._normal;
 }
 
 Triangle::~Triangle(void)
@@ -60,15 +60,15 @@ void Triangle::updateNormal(void)
     _normal.normalize();
 }
 
-bool Triangle::intersect(Ray & pRay)
+bool Triangle::intersect(Ray & ray)
 {
-    double lScalarProd = pRay.direction()*_normal;
+    double lScalarProd = ray.direction()*_normal;
 
     // Check if ray is not parallel to triangle
     if (lScalarProd != 0.0)
     {
         Vector lPointInTriangle(_vertice[0][0],_vertice[0][1],_vertice[0][2]);
-        Vector lOrigin(pRay.origin().x(),pRay.origin().y(),pRay.origin().z());
+        Vector lOrigin(ray.origin().x(),ray.origin().y(),ray.origin().z());
 
         // Calculate coeffient in the equation of the plane containing the triangle
         double lD = (_normal*lPointInTriangle)*(-1.0);
@@ -77,7 +77,7 @@ bool Triangle::intersect(Ray & pRay)
         double lLength = (-1.0)*(lOrigin*_normal + lD)/(lScalarProd);
 
         // Calculate the coordinates of the intersection point
-        Point lP = pRay.origin() + pRay.direction()*lLength;
+        Point lP = ray.origin() + ray.direction()*lLength;
 
         // Check if the point in the plane is really inside the triangle
         Vector lAB = _vertice[1] - _vertice[0];
@@ -90,8 +90,8 @@ bool Triangle::intersect(Ray & pRay)
 
         if( (lAB^lAP)*_normal >= 0.0 && (lBC^lBP)*_normal >= 0.0 && (lCA^lCP)*_normal >= 0.0 && lLength > 0.0)
         {
-            pRay.setLength(lLength);
-            pRay.setIntersected(this);
+            ray.setLength(lLength);
+            ray.setIntersected(this);
             return true;
         }
         else
@@ -102,26 +102,26 @@ bool Triangle::intersect(Ray & pRay)
 
 }
 
-Color Triangle::color(Ray & pRay, unsigned int pReflectionCount)
+Color Triangle::color(Ray & ray, unsigned int reflectionCount)
 {
     // Calculate normal from vertex normals
-    Vector lNormalAtPt = _barycentricNormal(pRay.intersection());
+    Vector lNormalAtPt = _barycentricNormal(ray.intersection());
 
-	return (_shader->color(pRay.direction()*(-1),lNormalAtPt,pRay.intersection(),this,pReflectionCount));
+	return (_shader->color(ray.direction()*(-1),lNormalAtPt,ray.intersection(),this,reflectionCount));
 }
 
-Vector Triangle::interpolatedNormal(const MatouMalin::Point &pPosition) const
+Vector Triangle::interpolatedNormal(const MatouMalin::Point &position) const
 {
-    return _barycentricNormal(pPosition);
+    return _barycentricNormal(position);
 }
 
-bool Triangle::refractedRay(const Ray &pIncomingRay, Ray & pRefractedRay)
+bool Triangle::refractedRay(const Ray &incomingRay, Ray & refractedRay)
 {
     assert(false && "Not implemented yet :)");
     return false;
 }
 
-Vector Triangle::_barycentricNormal(const MatouMalin::Point & pPositionInTriangle) const
+Vector Triangle::_barycentricNormal(const MatouMalin::Point & positionInTriangle) const
 {
     Vector lAB(_vertice[1] - _vertice[0]);
 	Vector lAC(_vertice[2] - _vertice[0]);
@@ -129,10 +129,10 @@ Vector Triangle::_barycentricNormal(const MatouMalin::Point & pPositionInTriangl
 	Vector lNormal = lAB^lAC;
     double lInvNormalLengthSqr = 1.0/(lNormal*lNormal);
 
-    double lAlpha = lNormal*((_vertice[2] - _vertice[1])^(pPositionInTriangle - _vertice[1]));
+    double lAlpha = lNormal*((_vertice[2] - _vertice[1])^(positionInTriangle - _vertice[1]));
     lAlpha *= lInvNormalLengthSqr;
 
-    double lBeta = lNormal*((_vertice[0] - _vertice[2])^(pPositionInTriangle - _vertice[2]));
+    double lBeta = lNormal*((_vertice[0] - _vertice[2])^(positionInTriangle - _vertice[2]));
     lBeta *= lInvNormalLengthSqr;
 
     double lGamma = 1.0 - lAlpha - lBeta;

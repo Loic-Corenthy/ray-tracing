@@ -11,28 +11,28 @@ Sphere::Sphere(void)
 {
 }
 
-Sphere::Sphere(const Point & pPoint,float pRadius)
-:_center(pPoint),_radius(pRadius)
+Sphere::Sphere(const Point & point,float radius)
+:_center(point),_radius(radius)
 {
 }
 
-Sphere::Sphere(const Sphere & pSphere)
-:Renderable(pSphere),
- _center(pSphere._center),
- _radius(pSphere._radius)
+Sphere::Sphere(const Sphere & sphere)
+:Renderable(sphere),
+ _center(sphere._center),
+ _radius(sphere._radius)
 {
 
 }
 
-Sphere Sphere::operator=(const Sphere &pSphere)
+Sphere Sphere::operator=(const Sphere &sphere)
 {
-    if (this == & pSphere)
+    if (this == & sphere)
         return *this;
 
-    Renderable::operator=(pSphere);
+    Renderable::operator=(sphere);
 
-    _center = pSphere._center;
-	_radius = pSphere._radius;
+    _center = sphere._center;
+	_radius = sphere._radius;
 
     return *this;
 }
@@ -41,12 +41,12 @@ Sphere::~Sphere(void)
 {
 }
 
-bool Sphere::intersect(Ray & pRay)
+bool Sphere::intersect(Ray & ray)
 {
 
-	float a = pRay.direction()[0]*pRay.direction()[0] + pRay.direction()[1]*pRay.direction()[1] + pRay.direction()[2]*pRay.direction()[2];
-	float b = 2*(pRay.direction()[0]*(pRay.origin()[0] - _center[0]) + pRay.direction()[1]*(pRay.origin()[1] - _center[1]) + pRay.direction()[2]*(pRay.origin()[2] - _center[2]));
-	float c = (pRay.origin()[0] - _center[0])*(pRay.origin()[0] - _center[0]) + (pRay.origin()[1] - _center[1])*(pRay.origin()[1] - _center[1]) + (pRay.origin()[2] - _center[2])*(pRay.origin()[2] - _center[2]) - _radius*_radius;
+	float a = ray.direction()[0]*ray.direction()[0] + ray.direction()[1]*ray.direction()[1] + ray.direction()[2]*ray.direction()[2];
+	float b = 2*(ray.direction()[0]*(ray.origin()[0] - _center[0]) + ray.direction()[1]*(ray.origin()[1] - _center[1]) + ray.direction()[2]*(ray.origin()[2] - _center[2]));
+	float c = (ray.origin()[0] - _center[0])*(ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1])*(ray.origin()[1] - _center[1]) + (ray.origin()[2] - _center[2])*(ray.origin()[2] - _center[2]) - _radius*_radius;
 
     float lRoot1(0.0f);
 	float lRoot2(0.0f);
@@ -59,14 +59,14 @@ bool Sphere::intersect(Ray & pRay)
 
     if(lRoot1 > 0.0 && lRoot2 > 0.0)
     {
-		pRay.setLength((lRoot1<lRoot2)?lRoot1:lRoot2);
-        pRay.setIntersected(this);
+		ray.setLength((lRoot1<lRoot2)?lRoot1:lRoot2);
+        ray.setIntersected(this);
 		return true;
 	}
     else if((lRoot1 > 0.0 && lRoot2 <= 0.0) || (lRoot2 > 0.0 && lRoot1 <= 0.0))
     {
-        pRay.setLength((lRoot1>lRoot2)?lRoot1:lRoot2);
-        pRay.setIntersected(this);
+        ray.setLength((lRoot1>lRoot2)?lRoot1:lRoot2);
+        ray.setIntersected(this);
 		return true;
     }
     else
@@ -74,21 +74,21 @@ bool Sphere::intersect(Ray & pRay)
 
 }
 
-Color Sphere::color(Ray & pRay, unsigned int pReflectionCount)
+Color Sphere::color(Ray & ray, unsigned int reflectionCount)
 {
     // Calculate normal from vertex normals
-    Vector lNormalAtPt = (pRay.intersection() - _center);
+    Vector lNormalAtPt = (ray.intersection() - _center);
     lNormalAtPt.normalize();
 
-	return (_shader->color(pRay.direction()*(-1),lNormalAtPt,pRay.intersection(),this,pReflectionCount));
+	return (_shader->color(ray.direction()*(-1),lNormalAtPt,ray.intersection(),this,reflectionCount));
 
 }
 
-bool Sphere::refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay)
+bool Sphere::refractedRay(const Ray & incomingRay, Ray & refractedRay)
 {
-    Vector lIncomingDirection = pIncomingRay.direction();
+    Vector lIncomingDirection = incomingRay.direction();
     lIncomingDirection.normalize();
-    Vector lNormal = normal(pIncomingRay.intersection());
+    Vector lNormal = normal(incomingRay.intersection());
     double lAirIndex = 1.0;
     double lCurrentObjectIndex = _shader->refractionCoeff();
 
@@ -98,7 +98,7 @@ bool Sphere::refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay)
 
     if (lFirstRefraction)
     {
-        Ray lInsideSphere(pIncomingRay.intersection()+lRefractedDirection*0.1, lRefractedDirection);
+        Ray lInsideSphere(incomingRay.intersection()+lRefractedDirection*0.1, lRefractedDirection);
 
         bool lGetOut = this->intersect(lInsideSphere);
         assert(lGetOut && "Intersection not found inside the sphere");
@@ -113,9 +113,9 @@ bool Sphere::refractedRay(const Ray & pIncomingRay, Ray & pRefractedRay)
 
         assert(lSecondRefraction && "Ray cannot get find its way out of the sphere :p ");
 
-        pRefractedRay.setOrigin(lInsideSphere.intersection());
-        pRefractedRay.setDirection(lOutRefractionDirection);
-        pRefractedRay.setIntersected(this);
+        refractedRay.setOrigin(lInsideSphere.intersection());
+        refractedRay.setDirection(lOutRefractionDirection);
+        refractedRay.setIntersected(this);
 
         return true;
     }

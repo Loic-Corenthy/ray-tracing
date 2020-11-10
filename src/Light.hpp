@@ -19,25 +19,25 @@ namespace MatouMalin
         Light(void);
 
         /// Constructor with parameters
-        Light(const Color & pColor);
+        Light(const Color & color);
 
         /// Copy constructor
-        Light(const Light & pLight);
+        Light(const Light & light);
 
         /// Copy operator
-        void operator=(const Light & pLight);
+        void operator=(const Light & light);
 
         /// Destructor
         virtual ~Light(void);
 
         /// Get the intensity of the light on a point of an object in the scene
-        virtual Color intensityAt(const Point & pPoint,const Scene & pScene, Renderable* pCurrentObject) const = 0;
+        virtual Color intensityAt(const Point & point,const Scene & scene, Renderable* currentObject) const = 0;
 
         /// Get the direction of the light from a point of an object in the scene
-        virtual Vector directionFrom(const Point & pPoint) const = 0;
+        virtual Vector directionFrom(const Point & point) const = 0;
 
         /// Set the intensity (color) of the light
-        void setIntensity(const Color & pColor);
+        void setIntensity(const Color & color);
 
         /// Get the intensity (color) of the light
         Color intensity(void) const;
@@ -47,9 +47,9 @@ namespace MatouMalin
 
     }; // class Light
 
-    inline void Light::setIntensity(const MatouMalin::Color &pColor)
+    inline void Light::setIntensity(const MatouMalin::Color &color)
     {
-        _intensity = pColor;
+        _intensity = color;
     }
 
     inline Color Light::intensity(void) const

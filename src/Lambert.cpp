@@ -24,27 +24,27 @@ Lambert::Lambert(void)
 {
 }
 
-Lambert::Lambert(const Color & pDiffusionColor)
-:BRDF(pDiffusionColor*0.1),
- _diffusionColor(pDiffusionColor)
+Lambert::Lambert(const Color & diffusionColor)
+:BRDF(diffusionColor*0.1),
+ _diffusionColor(diffusionColor)
 {
 }
 
-Lambert::Lambert(const Lambert & pLambert)
-:BRDF(pLambert),
- _diffusionColor(pLambert._diffusionColor)
+Lambert::Lambert(const Lambert & lambert)
+:BRDF(lambert),
+ _diffusionColor(lambert._diffusionColor)
 {
 
 }
 
-Lambert Lambert::operator=(const Lambert & pLambert)
+Lambert Lambert::operator=(const Lambert & lambert)
 {
-    if(this == & pLambert)
+    if(this == & lambert)
         return *this;
 
-    BRDF::operator=(pLambert);
+    BRDF::operator=(lambert);
 
-    _diffusionColor = pLambert._diffusionColor;
+    _diffusionColor = lambert._diffusionColor;
 
     return *this;
 }
@@ -53,19 +53,19 @@ Lambert::~Lambert(void)
 {
 }
 
-Color Lambert::reflectance(const Vector & pVecToLight, const Vector & pVecToViewer,const Vector & pNormal,const Point & pIntersection)
+Color Lambert::reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection)
 {
-    return diffuse(pVecToLight, pNormal, pIntersection);
+    return diffuse(vecToLight, normal, intersection);
 }
 
-Color Lambert::diffuse(const Vector & pVecToLight, const Vector & pNormal, const Point & pIntersection) const
+Color Lambert::diffuse(const Vector & vecToLight, const Vector & normal, const Point & intersection) const
 {
     // Make local copy to normalize
-	Vector lVecToLight(pVecToLight);
+	Vector lVecToLight(vecToLight);
     lVecToLight.normalize();
 
     // Calculate diffusion coefficient
-	double lCosAlpha = lVecToLight*pNormal;
+	double lCosAlpha = lVecToLight*normal;
 
     // Set negative coefficents to zero
     lCosAlpha = (lCosAlpha < 0.0)?0.0:lCosAlpha;
@@ -73,7 +73,7 @@ Color Lambert::diffuse(const Vector & pVecToLight, const Vector & pNormal, const
     const CubeMap* lCubeMap = cubeMap();
     if (lCubeMap)
     {
-        Ray lNormalRay(pIntersection,pNormal);
+        Ray lNormalRay(intersection,normal);
         Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
         return lDiffColor*lCosAlpha;
 
@@ -82,7 +82,7 @@ Color Lambert::diffuse(const Vector & pVecToLight, const Vector & pNormal, const
         return (_diffusionColor*lCosAlpha);
 }
 
-Color Lambert::specular(const MatouMalin::Vector &pVecToLight, const MatouMalin::Vector &pVecToViewer, const MatouMalin::Vector &pNormal, const MatouMalin::Point &pIntersection) const
+Color Lambert::specular(const MatouMalin::Vector &vecToLight, const MatouMalin::Vector &vecToViewer, const MatouMalin::Vector &normal, const MatouMalin::Point &intersection) const
 {
     return Color(0.0f);
 }

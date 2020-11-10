@@ -13,28 +13,28 @@ namespace MatouMalin
         Buffer(void);
 
         /// Constructor with parameters
-        Buffer(unsigned int pHeight,unsigned int pWidth);
+        Buffer(unsigned int height,unsigned int width);
 
         /// Copy constructor
-        Buffer(const Buffer & pBuffer);
+        Buffer(const Buffer & buffer);
 
         /// Copy operator
-        Buffer operator=(const Buffer & pBuffer);
+        Buffer operator=(const Buffer & buffer);
 
         /// Destructor
         ~Buffer(void);
 
         /// Set the value of one pixel in the buffer
-        void setPixel(unsigned int pI,unsigned int pJ,const Color & pColor);
+        void setPixel(unsigned int i,unsigned int j,const Color & color);
 
         /// Set the buffer's height
-        void setHeight(unsigned int pHeight);
+        void setHeight(unsigned int height);
 
         /// Set the buffer's width
-        void setWidth(unsigned int pWidth);
+        void setWidth(unsigned int width);
 
         /// Get the color corresponding to one specific pixel
-        Color pixel(unsigned int pI,unsigned int pJ) const;
+        Color pixel(unsigned int i,unsigned int j) const;
 
         /// Get a pointer on the table containing all the pixels
         const unsigned char* allPixels(void) const;
@@ -65,14 +65,14 @@ namespace MatouMalin
         return _width;
     }
 
-    inline void Buffer::setHeight(unsigned int pHeight)
+    inline void Buffer::setHeight(unsigned int height)
     {
-        _height = pHeight;
+        _height = height;
     }
 
-    inline void Buffer::setWidth(unsigned int pWidth)
+    inline void Buffer::setWidth(unsigned int width)
     {
-        _width = pWidth;
+        _width = width;
     }
 
     inline const unsigned char* Buffer::allPixels(void) const

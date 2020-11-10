@@ -8,23 +8,23 @@ Light::Light(void)
 
 }
 
-Light::Light(const Color & pColor)
-:_intensity(pColor)
+Light::Light(const Color & color)
+:_intensity(color)
 {
 
 }
 
-Light::Light(const Light & pLight)
+Light::Light(const Light & light)
 {
-    _intensity = pLight._intensity;
+    _intensity = light._intensity;
 }
 
-void Light::operator=(const Light & pLight)
+void Light::operator=(const Light & light)
 {
-    if(this == & pLight)
+    if(this == & light)
         return;
 
-    _intensity = pLight._intensity;
+    _intensity = light._intensity;
 }
 
 Light::~Light(void)

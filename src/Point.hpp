@@ -16,13 +16,13 @@ namespace MatouMalin
         Point(void);
 
         /// Constructor with position parameters
-        Point(double x,double y,double z);
+        Point(double x, double y, double z);
 
         /// Constructor with position parameters
         Point(double commonValue);
 
         /// Copy constructor
-        Point(const Point & point);
+        Point(const Point& point);
 
         /// Destructor
         ~Point(void);
@@ -31,10 +31,10 @@ namespace MatouMalin
         double operator[](unsigned int index) const;
 
         /// Coordinate operator (read,write)
-        double & operator[](unsigned int index);
+        double& operator[](unsigned int index);
 
         /// Set 3 coordinates
-        void setPoint(double x,double y,double z);
+        void setPoint(double x, double y, double z);
 
         /// Set X coordinate
         void setX(double x);
@@ -61,12 +61,12 @@ namespace MatouMalin
         Point operator+(const Vector vector) const;
 
         /// Copy operator
-        Point operator=(const Point & point);
+        Point operator=(const Point& point);
 
     private:
         double _coords[3];
 
-    }; // class Point
+    };  // class Point
 
     inline double Point::operator[](unsigned int index) const
     {
@@ -74,7 +74,7 @@ namespace MatouMalin
         return _coords[index];
     }
 
-    inline double & Point::operator[](unsigned int index)
+    inline double& Point::operator[](unsigned int index)
     {
         assert(0 <= index && index < 3 && "Point: index out of bounds");
         return _coords[index];
@@ -90,7 +90,7 @@ namespace MatouMalin
         return Point(_coords[0] + vector[0], _coords[1] + vector[1], _coords[2] + vector[2]);
     }
 
-    inline void Point::setPoint(double x,double y,double z)
+    inline void Point::setPoint(double x, double y, double z)
     {
         _coords[0] = x;
         _coords[1] = y;
@@ -127,6 +127,6 @@ namespace MatouMalin
         return _coords[2];
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

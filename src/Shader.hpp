@@ -19,7 +19,13 @@ namespace MatouMalin
     class Shader
     {
     public:
-        enum Material : unsigned short {NONE, MARBLE, TURBULANCE, BUMP}; // TEXTURE
+        enum Material : unsigned short
+        {
+            NONE,
+            MARBLE,
+            TURBULANCE,
+            BUMP
+        };  // TEXTURE
 
     public:
         /// Default constructor
@@ -29,22 +35,22 @@ namespace MatouMalin
         Shader(BRDF* bRDF, double reflectionCoeff, double refractionCoeff, Scene* scene, unsigned short material = Shader::Material::NONE);
 
         /// Copy constructor
-        Shader(const Shader & shader);
+        Shader(const Shader& shader);
 
         /// Copy operator
-        Shader operator=(const Shader & shader);
+        Shader operator=(const Shader& shader);
 
         /// Destructor
         ~Shader(void);
 
         /// Get the color at a point in function of the BRDF model
-        Color color(const Vector & vecToViewer,const Vector & normal,const Point & point, Renderable* thisShader, unsigned int reflectionCount);
+        Color color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount);
 
         /// Get a pointer on the scene
         Scene* ptrOnScene(void);
 
         /// Get the ambient light coefficient
-        Color ambientColor(const Ray & ray) const;
+        Color ambientColor(const Ray& ray) const;
 
         /// Get how many reflections the object can have at maximum
         unsigned short reflectionCountMax(void) const;
@@ -68,15 +74,15 @@ namespace MatouMalin
         void setRefractionCoeff(double coeff);
 
     private:
-        BRDF* _bRDF;
+        BRDF*          _bRDF;
         unsigned short _reflectionCountMax;
-        double _reflectionCoeff;
-        double _currentReflectionCoeff;
-        double _refractionCoeff;
+        double         _reflectionCoeff;
+        double         _currentReflectionCoeff;
+        double         _refractionCoeff;
         unsigned short _material;
-        Scene* _scene;
+        Scene*         _scene;
 
-    }; // class Shader
+    };  // class Shader
 
     inline Scene* Shader::ptrOnScene(void)
     {
@@ -120,6 +126,6 @@ namespace MatouMalin
         _refractionCoeff = coeff;
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

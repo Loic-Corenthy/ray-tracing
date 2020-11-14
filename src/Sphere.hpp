@@ -20,22 +20,22 @@ namespace MatouMalin
         Sphere(void);
 
         /// Constructor with parameters
-        Sphere(const MatouMalin::Point & point,float radius);
+        Sphere(const MatouMalin::Point& point, float radius);
 
         /// Copy constructor
-        Sphere(const Sphere & sphere);
+        Sphere(const Sphere& sphere);
 
         /// Copy operator
-        Sphere operator=(const Sphere & sphere);
+        Sphere operator=(const Sphere& sphere);
 
         /// Destructor
         ~Sphere(void);
 
         /// Get the center of the sphere (read only)
-        const MatouMalin::Point & center(void) const;
+        const MatouMalin::Point& center(void) const;
 
         /// Set the center of the sphere
-        void setCenter(const MatouMalin::Point & point);
+        void setCenter(const MatouMalin::Point& point);
 
         /// Get the radius of the sphere (read only)
         float radius(void) const;
@@ -44,36 +44,36 @@ namespace MatouMalin
         void setRadius(float radius);
 
         /// Virtual function, determine if a ray intersect the sphere
-        bool intersect(Ray & ray);
+        bool intersect(Ray& ray);
 
         /// Virtual function, get the color at the intersection point
-        Color color(Ray & ray, unsigned int type = 0);
+        Color color(Ray& ray, unsigned int type = 0);
 
         /// Virtual function, get the normal at the intersection point
-        Vector normal(const Point & position) const;
+        Vector normal(const Point& position) const;
 
         /// Virtual function, get the normal at the intersection point (interpolating from other vectors)
-        Vector interpolatedNormal(const Point & position) const;
+        Vector interpolatedNormal(const Point& position) const;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray & incomingRay, Ray & refractedRay);
+        bool refractedRay(const Ray& incomingRay, Ray& refractedRay);
 
     private:
         /// Calculate roots of a second order polynom.
-        bool _solveSecDeg(float a,float b,float c,float & root1,float & root2);
+        bool _solveSecDeg(float a, float b, float c, float& root1, float& root2);
 
     private:
         Point _center;
         float _radius;
 
-    }; // class Sphere
+    };  // class Sphere
 
-    inline const MatouMalin::Point & Sphere::center(void) const
+    inline const MatouMalin::Point& Sphere::center(void) const
     {
         return _center;
     }
 
-    inline void Sphere::setCenter(const MatouMalin::Point & point)
+    inline void Sphere::setCenter(const MatouMalin::Point& point)
     {
         _center = point;
     }
@@ -88,16 +88,16 @@ namespace MatouMalin
         _radius = radius;
     }
 
-    inline Vector Sphere::normal(const Point & position) const
+    inline Vector Sphere::normal(const Point& position) const
     {
         return ((position - _center).normalize());
     }
 
-    inline Vector Sphere::interpolatedNormal(const Point & position) const
+    inline Vector Sphere::interpolatedNormal(const Point& position) const
     {
         return ((position - _center).normalize());
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

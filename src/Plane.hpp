@@ -29,28 +29,28 @@ namespace MatouMalin
         Plane(double a, double b, double c, double d);
 
         /// Constructor with position and normal direction
-        Plane(const Vector & normal, const Point & position);
+        Plane(const Vector& normal, const Point& position);
 
         /// Copy constructor
-        Plane(const Plane & plane);
+        Plane(const Plane& plane);
 
         /// Copy operator
-        Plane operator=(const Plane & plane);
+        Plane operator=(const Plane& plane);
 
         /// Destructor
         ~Plane(void);
 
         /// Calculate the intersection with a ray
-        bool intersect(Ray & ray);
+        bool intersect(Ray& ray);
 
         /// Set the coefficients of the equation
         void setCoefficient(unsigned int index, double value);
 
         /// Set the normal vector
-        void setNormal(const Vector & normal);
+        void setNormal(const Vector& normal);
 
         /// Set the position in space
-        void setPosition(const Point & position);
+        void setPosition(const Point& position);
 
         /// Get the coefficients of the equation
         double coefficient(unsigned int index) const;
@@ -76,11 +76,11 @@ namespace MatouMalin
         Point  _position;
         Vector _normal;
 
-    }; // class Plane
+    };  // class Plane
 
     inline double Plane::coefficient(unsigned int index) const
     {
-        assert(0 <= index && index <4 && "index out of boundaries for the coefficients");
+        assert(0 <= index && index < 4 && "index out of boundaries for the coefficients");
         return _equationCoeffs[index];
     }
 
@@ -95,16 +95,6 @@ namespace MatouMalin
     }
 
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif
-
-
-
-
-
-
-
-
-
-

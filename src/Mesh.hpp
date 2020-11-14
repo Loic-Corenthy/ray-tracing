@@ -33,63 +33,63 @@ namespace MatouMalin
         Mesh(unsigned int triangleCount);
 
         /// Copy constructor
-        Mesh(const Mesh & mesh);
+        Mesh(const Mesh& mesh);
 
         /// Copy operator
-        Mesh operator=(const Mesh & mesh);
+        Mesh operator=(const Mesh& mesh);
 
         /// Destructor
         ~Mesh(void);
 
         /// Add a triangle to the mesh
-        void addTriangle(const Triangle & triangle);
+        void addTriangle(const Triangle& triangle);
 
         /// Set min and max point in bounding box
-        void setBBLimits(const Point & min, const Point & max);
+        void setBBLimits(const Point& min, const Point& max);
 
         /// Get bounding box (read only)
-        const BoundingBox & boundingBox(void) const;
+        const BoundingBox& boundingBox(void) const;
 
         /// Virtual function from Renderable
-        bool intersect(Ray & ray);
+        bool intersect(Ray& ray);
 
         /// Virtual function from Renderable
-        Color color(Ray & ray, unsigned int reflectionCount = 0);
+        Color color(Ray& ray, unsigned int reflectionCount = 0);
 
         /// Virtual function from Renderable
-        Vector normal(const Point & position) const;
+        Vector normal(const Point& position) const;
 
         /// Virtual function from Renderable
-        Vector interpolatedNormal(const Point & position) const;
+        Vector interpolatedNormal(const Point& position) const;
 
         /// Redefine function in Renderable
         void setShader(Shader* shader);
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray & incomingRay, Ray & refractedRay);
+        bool refractedRay(const Ray& incomingRay, Ray& refractedRay);
 
     private:
         std::vector<Triangle> _triangles;
-        BoundingBox _bB;
-        int _intersectedTriangle;
+        BoundingBox           _bB;
+        int                   _intersectedTriangle;
 
-    }; // class Mesh
+    };  // class Mesh
 
-    inline void Mesh::addTriangle(const Triangle & triangle)
+    inline void Mesh::addTriangle(const Triangle& triangle)
     {
         _triangles.push_back(triangle);
     }
 
-    inline void Mesh::setBBLimits(const Point &min, const Point &max)
+    inline void Mesh::setBBLimits(const Point& min, const Point& max)
     {
         _bB.setMin(min);
         _bB.setMax(max);
     }
 
-    inline const BoundingBox & Mesh::boundingBox(void) const
+    inline const BoundingBox& Mesh::boundingBox(void) const
     {
         return _bB;
     }
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

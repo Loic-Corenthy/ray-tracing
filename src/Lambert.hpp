@@ -22,13 +22,13 @@ namespace MatouMalin
         Lambert(void);
 
         /// Constructor with parameters
-        Lambert(const Color & diffusionColor);
+        Lambert(const Color& diffusionColor);
 
         /// Copy constructor
-        Lambert(const Lambert & lambert);
+        Lambert(const Lambert& lambert);
 
         /// Copy operator
-        Lambert operator=(const Lambert & lambert);
+        Lambert operator=(const Lambert& lambert);
 
         /// Destructor
         ~Lambert(void);
@@ -40,18 +40,18 @@ namespace MatouMalin
         Color diffusionColor(void) const;
 
         /// Implementation of virtual method from BRDF
-        Color reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection);
+        Color reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection);
 
         /// Implementation of virtual method from BRDF
-        Color diffuse(const Vector & vecToLight, const Vector & normal,const Point & intersection) const final;//(c++11)
+        Color diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const final;  //(c++11)
 
         /// Implementation of virtual method from BRDF
-        Color specular(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) const final;//(c++11)
+        Color specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const final;  //(c++11)
 
     private:
         Color _diffusionColor;
 
-    }; // class Lambert
+    };  // class Lambert
 
     inline void Lambert::setDiffusionColor(Color diffusionColor)
     {
@@ -63,6 +63,6 @@ namespace MatouMalin
         return _diffusionColor;
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

@@ -15,55 +15,55 @@ namespace MatouMalin
         DirectionalLight(void);
 
         /// Constructor with parameters
-        DirectionalLight(const Vector & direction,const Color & intensity);
+        DirectionalLight(const Vector& direction, const Color& intensity);
 
         /// Copy constructor
-        DirectionalLight(const DirectionalLight & directionalLight);
+        DirectionalLight(const DirectionalLight& directionalLight);
 
         /// Copy operator
-        DirectionalLight operator=(const DirectionalLight & directionalLight);
+        DirectionalLight operator=(const DirectionalLight& directionalLight);
 
         /// Destructor
         ~DirectionalLight(void);
 
         /// Set direction of the light
-        void setDirection(const MatouMalin::Vector & direction);
+        void setDirection(const MatouMalin::Vector& direction);
 
         /// Set intensity of the light
-        void setIntensity(const Color & intensity);
+        void setIntensity(const Color& intensity);
 
         /// Get intensity of the light
-        const Vector & direction(void) const;
+        const Vector& direction(void) const;
 
         /// Get direction of the light
-        const Color & intensity(void) const;
+        const Color& intensity(void) const;
 
         /// Implementation of virtual funcion from Light
-        Color intensityAt(const Point & point,const Scene & scene, Renderable* currentObject) const;
+        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const;
 
         /// Implementation of virtual funcion from Light
-        Vector directionFrom(const Point & point) const;
+        Vector directionFrom(const Point& point) const;
 
     private:
         Vector _direction;
 
-    }; // class DirectionalLight
+    };  // class DirectionalLight
 
-    inline void DirectionalLight::setDirection(const Vector & direction)
+    inline void DirectionalLight::setDirection(const Vector& direction)
     {
         _direction = direction;
     }
 
-    inline const Vector & DirectionalLight::direction(void) const
+    inline const Vector& DirectionalLight::direction(void) const
     {
         return _direction;
     }
 
-    inline Vector DirectionalLight::directionFrom(const Point & point) const
+    inline Vector DirectionalLight::directionFrom(const Point& point) const
     {
-        return _direction*(-1);
+        return _direction * (-1);
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

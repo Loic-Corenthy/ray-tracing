@@ -16,22 +16,22 @@ namespace MatouMalin
         Color(float commonValue);
 
         /// Constructor with red, green and blue components (values between 0.0 and 1.0)
-        Color(float red,float green, float blue);
+        Color(float red, float green, float blue);
 
         /// Constructor with red, green and blue components (values between 0 and 255)
         Color(int red, int green, int blue);
 
         /// Copy constructor
-        Color(const Color & color);
+        Color(const Color& color);
 
         /// Copy operator
-        Color operator=(const Color & color);
+        Color operator=(const Color& color);
 
         /// Destructor
         ~Color(void);
 
         /// Component operator (read, write)
-        float & operator[](unsigned int index);
+        float& operator[](unsigned int index);
 
         /// Component operator (read only)
         float operator[](unsigned int index) const;
@@ -40,10 +40,10 @@ namespace MatouMalin
         bool isZero(void) const;
 
         /// Set the three component at the same time
-        void setColor(float red,float green, float blue);
+        void setColor(float red, float green, float blue);
 
         /// Set the three component at the same time
-        void setColor(int red,int green, int blue);
+        void setColor(int red, int green, int blue);
 
         /// Set red component (value between 0.0 and 1.0)
         void setRed(float value);
@@ -73,16 +73,16 @@ namespace MatouMalin
         float green(void);
 
         /// Add 2 colors
-        Color operator+(const Color & color) const;
+        Color operator+(const Color& color) const;
 
         /// Add another color to the current one
-        Color operator+=(const Color & color);
+        Color operator+=(const Color& color);
 
         /// Multiply two colors
-        Color operator*(const Color & color) const;
+        Color operator*(const Color& color) const;
 
         /// Multiply the current color by another one
-        Color operator*=(const Color & color);
+        Color operator*=(const Color& color);
 
         /// Multiply a color by a scalar
         Color operator*(float scale) const;
@@ -91,15 +91,15 @@ namespace MatouMalin
         void operator*=(float scale);
 
         /// Return true if all the coefficient for the 2 colors are the same, else return false
-        bool operator==(const Color & color) const;
+        bool operator==(const Color& color) const;
 
     private:
-        float               _components[3];
-        static const float  _inv255;
+        float              _components[3];
+        static const float _inv255;
 
-    }; // Class Color
+    };  // Class Color
 
-    inline float & Color::operator[](unsigned int index)
+    inline float& Color::operator[](unsigned int index)
     {
         assert(0 <= index && index <= 2 && "error index out of bounds");
         return _components[index];
@@ -125,9 +125,9 @@ namespace MatouMalin
 
     inline void Color::setColor(int red, int green, int blue)
     {
-        _components[0] = static_cast<float>(red)*_inv255;
-        _components[1] = static_cast<float>(green)*_inv255;
-        _components[2] = static_cast<float>(blue)*_inv255;
+        _components[0] = static_cast<float>(red) * _inv255;
+        _components[1] = static_cast<float>(green) * _inv255;
+        _components[2] = static_cast<float>(blue) * _inv255;
     }
 
     inline void Color::setRed(float value)
@@ -147,17 +147,17 @@ namespace MatouMalin
 
     inline void Color::setRed(int value)
     {
-        _components[0] = static_cast<float>(value)*_inv255;
+        _components[0] = static_cast<float>(value) * _inv255;
     }
 
     inline void Color::setGreen(int value)
     {
-        _components[1] = static_cast<float>(value)*_inv255;
+        _components[1] = static_cast<float>(value) * _inv255;
     }
 
     inline void Color::setBlue(int value)
     {
-        _components[2] = static_cast<float>(value)*_inv255;
+        _components[2] = static_cast<float>(value) * _inv255;
     }
 
     inline float Color::blue(void)
@@ -175,12 +175,12 @@ namespace MatouMalin
         return _components[1];
     }
 
-    inline Color Color::operator+(const Color & color) const
+    inline Color Color::operator+(const Color& color) const
     {
         return Color(_components[0] + color._components[0], _components[1] + color._components[1], _components[2] + color._components[2]);
     }
 
-    inline Color Color::operator+=(const Color & color)
+    inline Color Color::operator+=(const Color& color)
     {
         _components[0] += color._components[0];
         _components[1] += color._components[1];
@@ -189,12 +189,12 @@ namespace MatouMalin
         return *this;
     }
 
-    inline Color Color::operator*(const Color & color) const
+    inline Color Color::operator*(const Color& color) const
     {
-        return Color(_components[0]*color._components[0], _components[1]*color._components[1], _components[2]*color._components[2]);
+        return Color(_components[0] * color._components[0], _components[1] * color._components[1], _components[2] * color._components[2]);
     }
 
-    inline Color Color::operator*=(const MatouMalin::Color & color)
+    inline Color Color::operator*=(const MatouMalin::Color& color)
     {
         _components[0] *= color._components[0];
         _components[1] *= color._components[1];
@@ -205,7 +205,7 @@ namespace MatouMalin
 
     inline Color Color::operator*(float scale) const
     {
-        return Color(_components[0]*scale,_components[1]*scale,_components[2]*scale);
+        return Color(_components[0] * scale, _components[1] * scale, _components[2] * scale);
     }
 
     inline void Color::operator*=(float scale)
@@ -215,11 +215,11 @@ namespace MatouMalin
         _components[2] *= scale;
     }
 
-    inline bool Color::operator==(const Color & color) const
+    inline bool Color::operator==(const Color& color) const
     {
         return (_components[0] == color._components[0] && _components[1] == color._components[1] && _components[2] == color._components[2]);
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

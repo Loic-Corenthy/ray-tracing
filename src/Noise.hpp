@@ -21,10 +21,10 @@ namespace MatouMalin
         Noise(void);
 
         /// Copy constructor
-        Noise(const Noise & noise);
+        Noise(const Noise& noise);
 
         /// Copy operator
-        Noise operator=(const Noise & noise);
+        Noise operator=(const Noise& noise);
 
         /// Destructor
         ~Noise(void);
@@ -52,10 +52,10 @@ namespace MatouMalin
         double _cerp(double a, double b, double t) const;
 
     private:
-        static const int smPermutations[256];
-        std::vector<int> _permutations;
+        static const int    smPermutations[256];
+        std::vector<int>    _permutations;
         static const double _pi;
-    }; // class Noise
+    };  // class Noise
 
     inline double Noise::_fade(double t) const
     {
@@ -64,22 +64,22 @@ namespace MatouMalin
 
     inline double Noise::_lerp(double t, double a, double b) const
     {
-        return (a + t*(b - a));
+        return (a + t * (b - a));
     }
 
     inline double Noise::_prandFromInt(int value) const
     {
-        value = (value<<13) ^ value;
-        return (1.0 - ( (value * (value * value * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
+        value = (value << 13) ^ value;
+        return (1.0 - ((value * (value * value * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
     }
 
     inline double Noise::_cerp(double a, double b, double t) const
     {
-        double lF = (1.0f - cosf(t*_pi))*0.5f;
-        return (a*(1.0-lF)+b*lF);
+        double lF = (1.0f - cosf(t * _pi)) * 0.5f;
+        return (a * (1.0 - lF) + b * lF);
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 
 #endif

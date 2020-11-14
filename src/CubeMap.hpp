@@ -26,29 +26,38 @@ namespace MatouMalin
     class CubeMap
     {
     public:
-        enum Faces : unsigned short {UNASSIGNED, UP, DOWN, LEFT, RIGHT, BACK, FRONT};
+        enum Faces : unsigned short
+        {
+            UNASSIGNED,
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT,
+            BACK,
+            FRONT
+        };
 
     public:
         /// Default constructor
         CubeMap(void);
 
         /// Constructor with parameters
-        CubeMap(const Point & center, double size);
+        CubeMap(const Point& center, double size);
 
         /// Destructor
         ~CubeMap(void);
 
         /// Add an image to a face of the cube
-        void addImage(unsigned short face, const std::string & path);
+        void addImage(unsigned short face, const std::string& path);
 
         /// Specify which image correspond to each face
         void setLink(unsigned short face, unsigned int imageIdx);
 
         /// Get the color corresponding to the intersection point of a ray with one of the faces of the cube
-        Color colorAt(const Ray & ray);
+        Color colorAt(const Ray& ray);
 
         /// Set the center of the cube
-        void setCenter(const Point & center);
+        void setCenter(const Point& center);
 
         /// Set the size of the cube
         void setSize(double size);
@@ -67,23 +76,23 @@ namespace MatouMalin
 
     private:
         /// Copy constructor (prevent copy)
-        CubeMap(const CubeMap & cubeMap);
+        CubeMap(const CubeMap& cubeMap);
 
         /// Copy operator (prevent copy)
-        CubeMap operator=(const CubeMap & cubeMap);
+        CubeMap operator=(const CubeMap& cubeMap);
 
         /// Calculate the intersection of a ray with the cube, return the intersected face and the coordinates of the intersection point in the face
-        void _intersect(const Ray & ray, unsigned short & face, double & i, double & j) const;
+        void _intersect(const Ray& ray, unsigned short& face, double& i, double& j) const;
 
     private:
-        std::vector<Image*> _images;
+        std::vector<Image*>                    _images;
         std::map<unsigned short, unsigned int> _faceImageIDs;
-        Point _center;
-        double _size;
+        Point                                  _center;
+        double                                 _size;
 
-    }; // class CubeMap
+    };  // class CubeMap
 
-    inline void CubeMap::setCenter(const Point & center)
+    inline void CubeMap::setCenter(const Point& center)
     {
         _center = center;
     }
@@ -108,6 +117,6 @@ namespace MatouMalin
         return _size;
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

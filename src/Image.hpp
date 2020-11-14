@@ -22,20 +22,24 @@ namespace MatouMalin
     class Image
     {
     public:
-        enum Interpolation: unsigned short {NEAREST, LINEAR};
+        enum Interpolation : unsigned short
+        {
+            NEAREST,
+            LINEAR
+        };
 
     public:
         /// Default constructor
         Image(void);
 
         /// Constructor with parameters
-        Image(const std::string & path);
+        Image(const std::string& path);
 
         /// Destructor
         ~Image(void);
 
         /// Load an image from a file
-        bool loadFromFile(const std::string & path);
+        bool loadFromFile(const std::string& path);
 
         /// Set the interpolation method used to return the pixel value
         void setInterpolation(unsigned short method);
@@ -57,20 +61,19 @@ namespace MatouMalin
 
     private:
         /// Copy constructor (prevent copy)
-        Image(const Image & image);
+        Image(const Image& image);
 
         /// Copy operator
-        Image operator=(const Image & image);
+        Image operator=(const Image& image);
 
         /// Implementation of the method loading an image from the file system
-        bool _createImageFromFile(const std::string & path);
+        bool _createImageFromFile(const std::string& path);
 
     private:
-
 #ifdef __linux__
         std::unique_ptr<OIIO::ImageInput> _image;
 #elif __APPLE__
-        CGImageRef     _image;
+        CGImageRef _image;
 #elif _WIN32
 
 #endif
@@ -83,7 +86,7 @@ namespace MatouMalin
         unsigned short _interpolation;
         bool           _imageLoaded;
 
-    }; // Class Image
+    };  // Class Image
 
 
     inline void Image::setInterpolation(unsigned short method)
@@ -111,6 +114,6 @@ namespace MatouMalin
         return _imageLoaded;
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

@@ -14,13 +14,13 @@ namespace MatouMalin
         Vector(void);
 
         /// Constructor with coordinates parameters
-        Vector(double x,double y,double z);
+        Vector(double x, double y, double z);
 
         /// Constructor with same value for all coordinates
         Vector(double commonValue);
 
         /// Copy constructor
-        Vector(const Vector & vector);
+        Vector(const Vector& vector);
 
         /// Destructor
         ~Vector(void);
@@ -29,10 +29,10 @@ namespace MatouMalin
         double operator[](unsigned int index) const;
 
         /// Coordinate operator (read, write)
-        double & operator[](unsigned int index);
+        double& operator[](unsigned int index);
 
         /// Set all coordinates at once
-        void setVector(double x,double y,double z);
+        void setVector(double x, double y, double z);
 
         /// Set X coordinate
         void setX(double x);
@@ -53,28 +53,28 @@ namespace MatouMalin
         double z(void) const;
 
         /// Copy the coordinates of a vector to another one
-        Vector operator=(const Vector & vector);
+        Vector operator=(const Vector& vector);
 
         /// Return the vector sum of 2 vectors
-        Vector operator+(const Vector & vector) const;
+        Vector operator+(const Vector& vector) const;
 
         /// Return the vector difference of 2 vectors
-        Vector operator-(const Vector & vector) const;
+        Vector operator-(const Vector& vector) const;
 
         /// Add a vector to the current one
-        Vector operator+=(const Vector & vector);
+        Vector operator+=(const Vector& vector);
 
         /// Substract a vector to the current one
-        Vector operator-=(const Vector & vector);
+        Vector operator-=(const Vector& vector);
 
         /// Multiply a vector by a scalar
         Vector operator*(double scalar) const;
 
         /// Scalar product of 2 vectors
-        double  operator*(const Vector & vector) const;
+        double operator*(const Vector& vector) const;
 
         /// Dot product of 2 vectors
-        Vector operator^(const Vector & vector) const;
+        Vector operator^(const Vector& vector) const;
 
         /// Return the length of the vector
         double length(void) const;
@@ -89,7 +89,7 @@ namespace MatouMalin
     private:
         double _coords[3];
 
-    }; // class Vector
+    };  // class Vector
 
     inline double Vector::operator[](unsigned int index) const
     {
@@ -97,13 +97,13 @@ namespace MatouMalin
         return _coords[index];
     }
 
-    inline double & Vector::operator[](unsigned int index)
+    inline double& Vector::operator[](unsigned int index)
     {
         assert(0 <= index && index <= 2 && "Vector: index out of bounds");
         return _coords[index];
     }
 
-    inline void Vector::setVector(double x,double y,double z)
+    inline void Vector::setVector(double x, double y, double z)
     {
         _coords[0] = x;
         _coords[1] = y;
@@ -140,21 +140,21 @@ namespace MatouMalin
         return _coords[2];
     }
 
-    inline double Vector::operator*(const Vector & vector) const
+    inline double Vector::operator*(const Vector& vector) const
     {
-        return (_coords[0]*vector._coords[0] + _coords[1]*vector._coords[1]  + _coords[2]*vector._coords[2]);
+        return (_coords[0] * vector._coords[0] + _coords[1] * vector._coords[1] + _coords[2] * vector._coords[2]);
     }
 
-    inline double Vector::length(void)const
+    inline double Vector::length(void) const
     {
-        return sqrt(_coords[0]*_coords[0] + _coords[1]*_coords[1] + _coords[2]*_coords[2]);
+        return sqrt(_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
     }
 
-    inline double Vector::lengthSqr(void)const
+    inline double Vector::lengthSqr(void) const
     {
-        return (_coords[0]*_coords[0] + _coords[1]*_coords[1] + _coords[2]*_coords[2]);
+        return (_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
     }
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

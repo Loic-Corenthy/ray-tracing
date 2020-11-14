@@ -18,10 +18,10 @@ namespace MatouMalin
         virtual ~BRDF(void);
 
         /// Implement how the reflectance is calculated
-        virtual Color reflectance(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) = 0;
+        virtual Color reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) = 0;
 
         /// Set ambient color
-        void setAmbient(const Color & ambient);
+        void setAmbient(const Color& ambient);
 
         /// Get ambient color
         Color ambient(void) const;
@@ -33,31 +33,31 @@ namespace MatouMalin
         const CubeMap* cubeMap(void) const;
 
         /// Implement how the diffuse color is calculated
-        virtual Color diffuse(const Vector & vecToLight, const Vector & normal,const Point & intersection) const = 0;
+        virtual Color diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const = 0;
 
         /// Implement how the specular effect is calculated
-        virtual Color specular(const Vector & vecToLight, const Vector & vecToViewer,const Vector & normal,const Point & intersection) const = 0;
+        virtual Color specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const = 0;
 
     protected:
         /// Default constructor
         BRDF(void);
 
         /// Constructor with parameter
-        BRDF(const Color & ambiant);
+        BRDF(const Color& ambiant);
 
         /// Copy constructor
-        BRDF(const BRDF & brdf);
+        BRDF(const BRDF& brdf);
 
         /// Copy operator
-        void operator=(const BRDF & brdf);
+        void operator=(const BRDF& brdf);
 
     private:
-        Color _ambientColor;
+        Color    _ambientColor;
         CubeMap* _cubeMap;
 
-    }; // class BRDF
+    };  // class BRDF
 
-    inline void BRDF::setAmbient(const Color & ambient)
+    inline void BRDF::setAmbient(const Color& ambient)
     {
         _ambientColor = ambient;
     }
@@ -78,7 +78,7 @@ namespace MatouMalin
     }
 
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 
 #endif

@@ -37,28 +37,28 @@ struct FloorParameters
 {
     MatouMalin::Color diffusion;
     MatouMalin::Color specular;
-    double reflectionCoeff;
-    double refractionCoeff;
-    unsigned short maxReflection;
-    double size;
-    double deep;
-    std::string floorTexturePath;
+    double            reflectionCoeff;
+    double            refractionCoeff;
+    unsigned short    maxReflection;
+    double            size;
+    double            deep;
+    std::string       floorTexturePath;
 };
 
 struct RoomParameters
 {
-    MatouMalin::Color diffusion;
-    MatouMalin::Color specular;
-    double reflectionCoeff;
-    double refractionCoeff;
-    unsigned short maxReflection;
-    MatouMalin::Point lowCorner;
+    MatouMalin::Color  diffusion;
+    MatouMalin::Color  specular;
+    double             reflectionCoeff;
+    double             refractionCoeff;
+    unsigned short     maxReflection;
+    MatouMalin::Point  lowCorner;
     MatouMalin::Vector dimensions;
-    std::string floorTexturePath;
-    std::string wallLeftTexturePath;
-    std::string wallRightTexturePath;
-    std::string wallBackTexturePath;
-    std::string ceilingTexturePath;
+    std::string        floorTexturePath;
+    std::string        wallLeftTexturePath;
+    std::string        wallRightTexturePath;
+    std::string        wallBackTexturePath;
+    std::string        ceilingTexturePath;
 };
 
 /// Create a test scene
@@ -110,10 +110,10 @@ void createScene13(MatouMalin::Scene* scene);
 void createScene14(MatouMalin::Scene* scene);
 
 // Create a square (2 triangles) to symbolise a floor
-void createFloor(MatouMalin::Scene* scene, const FloorParameters & param);
+void createFloor(MatouMalin::Scene* scene, const FloorParameters& param);
 
 // Create a "room" with a floor and 3 walls
-void createRoom(MatouMalin::Scene* scene, const RoomParameters & param);
+void createRoom(MatouMalin::Scene* scene, const RoomParameters& param);
 
 
 #endif

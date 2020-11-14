@@ -21,10 +21,10 @@ namespace MatouMalin
         OBJParameters(void);
 
         /// Copy constructor
-        OBJParameters(const OBJParameters & oBJParameters);
+        OBJParameters(const OBJParameters& oBJParameters);
 
         /// Copy operator
-        OBJParameters operator=(const OBJParameters & oBJParameters);
+        OBJParameters operator=(const OBJParameters& oBJParameters);
 
         /// Destructor
         ~OBJParameters(void);
@@ -78,13 +78,13 @@ namespace MatouMalin
         void opp(void);
 
     private:
-        unsigned int                _vertexCount;
-        unsigned int                _textureCount;
-        unsigned int                _normalCount;
-        std::vector<unsigned int>   _faceCount;
-        unsigned int                _currentFaceCount;
+        unsigned int              _vertexCount;
+        unsigned int              _textureCount;
+        unsigned int              _normalCount;
+        std::vector<unsigned int> _faceCount;
+        unsigned int              _currentFaceCount;
 
-    }; // class OBJParameters
+    };  // class OBJParameters
 
     inline unsigned int OBJParameters::vertexCount(void) const
     {
@@ -172,6 +172,6 @@ namespace MatouMalin
     }
 
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

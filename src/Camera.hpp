@@ -17,58 +17,72 @@ namespace MatouMalin
     class Camera
     {
     public:
-        enum Aperture : unsigned short {ALL_SHARP, F_SMALL, F_MEDIUM, F_BIG};
-        enum Precision: unsigned short {LOW = 1, MEDIUM = 2, HIGH = 3, EXCELLENT = 4, SUPER_AWESOME = 5};
+        enum Aperture : unsigned short
+        {
+            ALL_SHARP,
+            F_SMALL,
+            F_MEDIUM,
+            F_BIG
+        };
+        enum Precision : unsigned short
+        {
+            LOW           = 1,
+            MEDIUM        = 2,
+            HIGH          = 3,
+            EXCELLENT     = 4,
+            SUPER_AWESOME = 5
+        };
 
     public:
         /// Default constructor
         Camera(void);
 
         /// Constructor with parameters
-        Camera(Point position,Vector direction,Vector up,float fOV);
+        Camera(Point position, Vector direction, Vector up, float fOV);
 
         /// Copy constructor
-        Camera(const Camera & camera);
+        Camera(const Camera& camera);
 
         /// Copy operator
-        Camera operator=(const Camera & camera);
+        Camera operator=(const Camera& camera);
 
         /// Destructor
         ~Camera(void);
 
         /// Get the direction of a pixel in the buffer
-        template<typename NumType>
-        Vector pixelDirection(NumType x, NumType y,Buffer* buffer) const;
+        template <typename NumType>
+        Vector pixelDirection(NumType x, NumType y, Buffer* buffer) const;
 
         /// Set the position of the camera
-        void setPosition(const Point & position);
+        void setPosition(const Point& position);
 
         /// Set the direction of the camera
-        void setDirection(const Vector & direction);
+        void setDirection(const Vector& direction);
 
         /// Set the upward direction of the camera
-        void setUp(const Vector & up);
+        void setUp(const Vector& up);
 
         /// Set the field of view of the camera
         void setFOV(float fOV);
 
-        /// Set the aperture type of the camera. If not using the ALL_SHARP mode, specify the focal length (distance between the focal plane and the buffer
+        /// Set the aperture type of the camera. If not using the ALL_SHARP mode, specify the focal length (distance between the focal plane and the
+        /// buffer
         void setAperture(unsigned short mode, unsigned short precision = LOW, double focalLength = 0.0);
 
         /// Set the focal length
         void setFocalLength(double focalLength);
 
         /// Set the point contained by the focal plane
-        void setFocalPoint(const Point & focalPoint);
+        void setFocalPoint(const Point& focalPoint);
 
         /// Get the position of the camera (read only)
-        const Point & position(void) const;
+        const Point& position(void) const;
 
         /// Get the direction of the camera (read only)
-        const Vector & direction(void) const;
+        const Vector& direction(void) const;
 
         /// Get the upward direction of the camera (read only)
-        const Vector & up(void) const;
+        const Vector& up(void) const;
 
         /// Get the field of view of the camera
         float FOV(void) const;
@@ -89,38 +103,38 @@ namespace MatouMalin
         double focalLength(void) const;
 
         /// Get the focal plane
-        Plane & focalPlane(void);
+        Plane& focalPlane(void);
 
     private:
-        Plane               _focalPlane;
-        std::vector<float>  _apertureColorCoeffs;
-        double              _apertureRadius;
-        double              _apertureStep;
-        Point               _position;
-        Vector              _direction;
-        Vector              _up;
-        Vector              _right;
-        float               _fOV;
-        unsigned short      _aperture;
-        double              _focalLength;
-        double              _apertureStepMultiplier;
+        Plane              _focalPlane;
+        std::vector<float> _apertureColorCoeffs;
+        double             _apertureRadius;
+        double             _apertureStep;
+        Point              _position;
+        Vector             _direction;
+        Vector             _up;
+        Vector             _right;
+        float              _fOV;
+        unsigned short     _aperture;
+        double             _focalLength;
+        double             _apertureStepMultiplier;
 
-    }; // class Camera
+    };  // class Camera
 
     template <typename NumType>
-    Vector Camera::pixelDirection(NumType x,NumType y,Buffer* buffer) const
+    Vector Camera::pixelDirection(NumType x, NumType y, Buffer* buffer) const
     {
-        Vector lPixelDirection(0.0,0.0,0.0);
+        Vector lPixelDirection(0.0, 0.0, 0.0);
 
-        float lRightValue = (2*tan(_fOV/2)/(buffer->width()))*(buffer->width()/2.f - x);
-        float lUpValue= (2*tan(_fOV/2)/(buffer->width()))*(y - buffer->height()/2.f);
+        float lRightValue = (2 * tan(_fOV / 2) / (buffer->width())) * (buffer->width() / 2.f - x);
+        float lUpValue    = (2 * tan(_fOV / 2) / (buffer->width())) * (y - buffer->height() / 2.f);
 
-        lPixelDirection = _right*lRightValue + _up*lUpValue + _direction;
+        lPixelDirection = _right * lRightValue + _up * lUpValue + _direction;
 
         return lPixelDirection;
     }
 
-    inline void Camera::setPosition(const Point & position)
+    inline void Camera::setPosition(const Point& position)
     {
         _position = position;
     }
@@ -135,22 +149,22 @@ namespace MatouMalin
         _focalLength = focalLength;
     }
 
-    inline void Camera::setFocalPoint(const Point & focalPoint)
+    inline void Camera::setFocalPoint(const Point& focalPoint)
     {
         _focalPlane.setPosition(focalPoint);
     }
 
-    inline const Point & Camera::position(void) const
+    inline const Point& Camera::position(void) const
     {
         return _position;
     }
 
-    inline const Vector & Camera::direction(void) const
+    inline const Vector& Camera::direction(void) const
     {
         return _direction;
     }
 
-    inline const Vector & Camera::up(void) const
+    inline const Vector& Camera::up(void) const
     {
         return _up;
     }
@@ -177,8 +191,9 @@ namespace MatouMalin
 
     inline float Camera::apertureColorCoeff(double i, double j) const
     {
-        static double slCoeffCount = _apertureStepMultiplier*2.0+1.0;
-        return _apertureColorCoeffs[static_cast<unsigned int>((i/_apertureStep + _apertureStepMultiplier)*slCoeffCount + j/_apertureStep + _apertureStepMultiplier)];
+        static double slCoeffCount = _apertureStepMultiplier * 2.0 + 1.0;
+        return _apertureColorCoeffs[static_cast<unsigned int>((i / _apertureStep + _apertureStepMultiplier) * slCoeffCount + j / _apertureStep
+                                                              + _apertureStepMultiplier)];
     }
 
     inline double Camera::focalLength(void) const
@@ -186,10 +201,10 @@ namespace MatouMalin
         return _focalLength;
     }
 
-    inline Plane & Camera::focalPlane(void)
+    inline Plane& Camera::focalPlane(void)
     {
         return _focalPlane;
     }
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

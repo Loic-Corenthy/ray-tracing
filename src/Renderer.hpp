@@ -16,7 +16,7 @@ namespace MatouMalin
     {
     public:
         /// Get buffer (read only)
-        static const Buffer & getBuffer(void);
+        static const Buffer& getBuffer(void);
 
         /// Copy a pointer to the scene to render
         static void setScene(Scene* scene, int width, int height);
@@ -41,16 +41,16 @@ namespace MatouMalin
         Renderer(Scene* scene, int width, int height);
 
         /// Copy constructor (copy not allowed)
-        Renderer(const Renderer & renderer);
+        Renderer(const Renderer& renderer);
 
         /// Copy operator (copy not allowed)
-        Renderer operator=(const Renderer & renderer);
+        Renderer operator=(const Renderer& renderer);
 
         /// Get a reference on the instance
         static Renderer& _instance(void);
 
         /// Get buffer (read only)
-        const Buffer & _getBuffer(void) const;
+        const Buffer& _getBuffer(void) const;
 
         /// Copy a pointer to the scene to render
         void _setScene(Scene* scene, int width, int height);
@@ -65,13 +65,13 @@ namespace MatouMalin
         void _setSuperSampling(bool activate);
 
     private:
-        Scene* _scene;
-        Buffer _buffer;
+        Scene*         _scene;
+        Buffer         _buffer;
         unsigned short _reflectionCount;
-        bool _superSampling;
+        bool           _superSampling;
 
-    }; // class Renderer
+    };  // class Renderer
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 #endif

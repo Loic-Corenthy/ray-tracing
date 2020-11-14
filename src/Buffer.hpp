@@ -13,25 +13,25 @@ namespace MatouMalin
         Buffer(void);
 
         /// Constructor with parameters
-        Buffer(unsigned int height,unsigned int width);
+        Buffer(unsigned int height, unsigned int width);
 
         /// Copy constructor
-        Buffer(const Buffer & buffer);
+        Buffer(const Buffer& buffer);
 
         /// Copy operator
-        Buffer operator=(const Buffer & buffer);
+        Buffer operator=(const Buffer& buffer);
 
         /// Destructor
         ~Buffer(void);
 
         /// Set the value of one pixel in the buffer
-        void setPixel(unsigned int i,unsigned int j,const Color & color);
+        void setPixel(unsigned int i, unsigned int j, const Color& color);
 
         /// Set the buffer's width and height
         void dimensions(unsigned int width, unsigned int height);
 
         /// Get the color corresponding to one specific pixel
-        Color pixel(unsigned int i,unsigned int j) const;
+        Color pixel(unsigned int i, unsigned int j) const;
 
         /// Get a pointer on the table containing all the pixels
         const unsigned char* allPixels(void) const;
@@ -46,13 +46,13 @@ namespace MatouMalin
         void reset(void);
 
     private:
-        unsigned int _height = 0;
-        unsigned int _width  = 0;
+        unsigned int   _height = 0;
+        unsigned int   _width  = 0;
         unsigned char* _pixels = nullptr;
 
-    }; // class Buffer
+    };  // class Buffer
 
-} // namespace MatouMalin
+}  // namespace MatouMalin
 
 
 #endif

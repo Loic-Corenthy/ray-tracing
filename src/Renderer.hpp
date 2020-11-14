@@ -46,6 +46,7 @@ namespace MatouMalin
         /// Copy operator (copy not allowed)
         Renderer operator=(const Renderer & renderer);
 
+        /// Get a reference on the instance
         static Renderer& _instance(void);
 
         /// Get buffer (read only)

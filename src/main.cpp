@@ -1,40 +1,82 @@
-//
-//  main.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 6/5/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+//===============================================================================================//
+/*!
+ *  \file      main.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      06/05/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #ifdef __linux__
-    #include <GL/gl.h>
-    #include <GL/glu.h>
-    #include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 #elif __APPLE__
-    #include <OpenGL/gl.hpp>
-    #include <OpenGL/glu.hpp>
-    #include <GLUT/glut.hpp>
+#include <OpenGL/gl.hpp>
+#include <OpenGL/glu.hpp>
+#include <GLUT/glut.hpp>
 #elif _WIN32
-    // /*! \todo Add includes for Windows */
+// /*! \todo Add includes for Windows */
 #endif
 
 #include "CreateScenes.hpp"
 #include "Renderer.hpp"
 
-using namespace MatouMalin;
-using namespace std;
+using MatouMalin::Buffer;
+using MatouMalin::Renderer;
+using MatouMalin::Scene;
+using std::cerr;
+using std::cout;
+using std::endl;
 
-int main(int argc,char* argv[])
+int main(int argc, char* argv[])
 {
     if (argc < 2)
     {
-        cerr << "ERROR: Please call the executable with a number between 0 and 15 as parameter" << '\n';
-        cerr << "For example: " << argv[0] << " 3" << '\n';
-        cerr << "Supersampling is optional. For example: " << argv[0] << " 5 --supersampling" << endl;
+        cerr << "ERROR: Please call the executable with a number between 0 and 15 as scene parameter. \nFor example: " << argv[0] << " --scene 3\n\n";
+        cerr << "Supersampling is optional. \nFor example: " << argv[0] << " --scene 5 --supersampling\n\n";
+        cerr << "Window dimensions parameters are optional. \nFor example: " << argv[0] << " --scene 5 --width 800 --height 600\n\n";
+        cerr << "Window initial position parameters are optional. \nFor example: " << argv[0] << " --scene 5 --xpos 200 --ypos 100" << endl;
         return EXIT_FAILURE;
     }
 
-    const auto sceneIndex = atoi(argv[1]);
+    // Parameters to the executable
+    unsigned int sceneIndex   = 0;
+    unsigned int windowWidth  = 800u;
+    unsigned int windowHeight = 600u;
+    unsigned int windowXPos   = 0u;
+    unsigned int windowYPos   = 0u;
+
+    for (unsigned int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i], "--scene") == 0)
+        {
+            sceneIndex = atoi(argv[i + 1]);
+        }
+        else if (strcmp(argv[i], "--supersampling") == 0)
+        {
+            cout << "Super sampling on" << '\n';
+            Renderer::setSuperSampling(true);
+        }
+        else if (strcmp(argv[i], "--width ") == 0)
+        {
+            windowWidth = atoi(argv[i + 1]);
+        }
+        else if (strcmp(argv[i], "--height") == 0)
+        {
+            windowWidth = atoi(argv[i + 1]);
+        }
+        else if (strcmp(argv[i], "--xpos") == 0)
+        {
+            windowXPos = atoi(argv[i + 1]);
+        }
+        else if (strcmp(argv[i], "--ypos") == 0)
+        {
+            windowYPos = atoi(argv[i + 1]);
+        }
+    }
+
 
     if (sceneIndex < 0 || 15 < sceneIndex)
     {
@@ -42,16 +84,13 @@ int main(int argc,char* argv[])
         return EXIT_FAILURE;
     }
 
-	glutInit(&argc,argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-    // Define width and height of the window
-    constexpr const auto width  = 600u;
-    constexpr const auto height = 600u;
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-	// Init window position and size,
-	glutInitWindowPosition(0,0);
-	glutInitWindowSize(width,height);
+    // Init window position and size,
+    glutInitWindowPosition(windowXPos, windowYPos);
+    glutInitWindowSize(windowWidth, windowHeight);
 
     glutCreateWindow("Ray tracing window");
 
@@ -60,60 +99,84 @@ int main(int argc,char* argv[])
     // Setup the scene
     switch (sceneIndex)
     {
-        case  0: createTestScene(lScene);   break;
-        case  1: createScene01(lScene);     break;
-        case  2: createScene02(lScene);     break;
-        case  3: createScene03(lScene);     break;
-        case  4: createScene04(lScene);     break;
-        case  5: createScene04bis(lScene);  break;
-        case  6: createScene05(lScene);     break;
-        case  7: createScene06(lScene);     break;
-        case  8: createScene07(lScene);     break;
-        case  9: createScene08(lScene);     break;
-        case 10: createScene09(lScene);     break;
-        case 11: createScene10(lScene);     break;
-        case 12: createScene11(lScene);     break;
-        case 13: createScene12(lScene);     break;
-        case 14: createScene13(lScene);     break;
-        case 15: createScene14(lScene);     break;
-        default: assert(false && "We should never reach here"); break;
+        case 0:
+            createTestScene(lScene);
+            break;
+        case 1:
+            createScene01(lScene);
+            break;
+        case 2:
+            createScene02(lScene);
+            break;
+        case 3:
+            createScene03(lScene);
+            break;
+        case 4:
+            createScene04(lScene);
+            break;
+        case 5:
+            createScene04bis(lScene);
+            break;
+        case 6:
+            createScene05(lScene);
+            break;
+        case 7:
+            createScene06(lScene);
+            break;
+        case 8:
+            createScene07(lScene);
+            break;
+        case 9:
+            createScene08(lScene);
+            break;
+        case 10:
+            createScene09(lScene);
+            break;
+        case 11:
+            createScene10(lScene);
+            break;
+        case 12:
+            createScene11(lScene);
+            break;
+        case 13:
+            createScene12(lScene);
+            break;
+        case 14:
+            createScene13(lScene);
+            break;
+        case 15:
+            createScene14(lScene);
+            break;
+        default:
+            assert(false && "We should never reach here");
+            break;
     }
 
     // Send the scene to the renderer
-    Renderer::setScene(lScene, width, height);
-
-    if (argc == 3 && strcmp(argv[2], "--supersampling") == 0)
-    {
-        cout << "Super sampling on" << '\n';
-        Renderer::setSuperSampling(true);
-    }
+    Renderer::setScene(lScene, windowWidth, windowHeight);
 
     // Render the scene
     Renderer::render();
 
-    auto display = []()
-    {
-        const Buffer & lBuffer = Renderer::getBuffer();
-        const unsigned char* lPixels = lBuffer.allPixels();
-
+    auto display = []() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glMatrixMode(GL_MODELVIEW);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawPixels(width,height,GL_RGB,GL_UNSIGNED_BYTE,lPixels);
+        const Buffer& buffer = Renderer::getBuffer();
+        glDrawPixels(buffer.width(), buffer.height(), GL_RGB, GL_UNSIGNED_BYTE, buffer.allPixels());
 
         glutSwapBuffers();
     };
 
-	// Display loop
-	glutDisplayFunc(display);
+    // Display loop
+    glutDisplayFunc(display);
 
     delete lScene;
 
-	glutMainLoop();
+    glutMainLoop();
 
     cout << "Application exited succesfully" << endl;
     return EXIT_SUCCESS;
 }
-

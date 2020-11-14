@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Camera::Camera(void)
 : _focalPlane()

@@ -21,7 +21,7 @@
 #include "Triangle.hpp"
 #include "BoundingBox.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Mesh : public Renderable
     {
@@ -90,6 +90,6 @@ namespace MatouMalin
     {
         return _bB;
     }
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

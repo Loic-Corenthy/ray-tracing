@@ -1,6 +1,6 @@
 #include "Vector.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Vector::Vector(void)
 {

@@ -21,7 +21,7 @@
 #include "CubeMap.hpp"
 
 using namespace std;
-using namespace MatouMalin;
+using namespace LCNS;
 
 Scene::Scene(void)
 : _backgroundType(BACKGRD_UNDEFINED)

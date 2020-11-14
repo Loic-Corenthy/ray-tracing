@@ -17,7 +17,7 @@
 
 #include "Color.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Image
     {
@@ -114,6 +114,6 @@ namespace MatouMalin
         return _imageLoaded;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

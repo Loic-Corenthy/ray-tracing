@@ -12,7 +12,7 @@
 #include "Color.hpp"
 #include "Ray.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 using namespace std;
 
 

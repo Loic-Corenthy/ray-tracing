@@ -4,7 +4,7 @@
 // Local includes
 #include "Color.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Buffer
     {
@@ -52,7 +52,7 @@ namespace MatouMalin
 
     };  // class Buffer
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 
 #endif

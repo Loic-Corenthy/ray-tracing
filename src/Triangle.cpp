@@ -6,7 +6,7 @@
 #include "Scene.hpp"
 #include "Shader.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Triangle::Triangle(void)
 : _normal(Vector(0.0, 0.0, 0.0))
@@ -108,7 +108,7 @@ Color Triangle::color(Ray& ray, unsigned int reflectionCount)
     return (_shader->color(ray.direction() * (-1), lNormalAtPt, ray.intersection(), this, reflectionCount));
 }
 
-Vector Triangle::interpolatedNormal(const MatouMalin::Point& position) const
+Vector Triangle::interpolatedNormal(const LCNS::Point& position) const
 {
     return _barycentricNormal(position);
 }
@@ -119,7 +119,7 @@ bool Triangle::refractedRay(const Ray& incomingRay, Ray& refractedRay)
     return false;
 }
 
-Vector Triangle::_barycentricNormal(const MatouMalin::Point& positionInTriangle) const
+Vector Triangle::_barycentricNormal(const LCNS::Point& positionInTriangle) const
 {
     Vector lAB(_vertice[1] - _vertice[0]);
     Vector lAC(_vertice[2] - _vertice[0]);

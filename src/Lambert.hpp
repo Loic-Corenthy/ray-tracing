@@ -13,7 +13,7 @@
 #include "BRDF.hpp"
 #include "Color.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Lambert : public BRDF
     {
@@ -63,6 +63,6 @@ namespace MatouMalin
         return _diffusionColor;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

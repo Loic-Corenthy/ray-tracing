@@ -11,7 +11,7 @@
 // Standard includes
 #include <cmath>
 
-using namespace MatouMalin;
+using namespace LCNS;
 using namespace std;
 
 const int Noise::smPermutations[]

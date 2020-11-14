@@ -8,7 +8,7 @@
 
 #include "Plane.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Plane::Plane(void)
 : _equationCoeffs{ 0.0, 0.0, 0.0, 0.0 }

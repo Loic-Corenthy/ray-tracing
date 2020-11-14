@@ -1,6 +1,6 @@
 #include "BRDF.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 
 BRDF::BRDF(void)

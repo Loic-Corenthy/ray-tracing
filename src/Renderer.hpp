@@ -7,7 +7,7 @@
 // Local includes
 #include "Buffer.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Scene;
@@ -72,6 +72,6 @@ namespace MatouMalin
 
     };  // class Renderer
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

@@ -9,7 +9,7 @@
 #include "Mesh.hpp"
 
 // Namespaces
-using namespace MatouMalin;
+using namespace LCNS;
 
 Mesh::Mesh(void)
 : Renderable()
@@ -53,7 +53,7 @@ Mesh Mesh::operator=(const Mesh& mesh)
     return *this;
 }
 
-bool Mesh::intersect(MatouMalin::Ray& ray)
+bool Mesh::intersect(LCNS::Ray& ray)
 {
     // Check if the ray intersect the bounding box
     if (_bB.intersect(ray))

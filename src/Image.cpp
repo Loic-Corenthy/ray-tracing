@@ -16,8 +16,8 @@
 
 using std::string;
 
-using MatouMalin::Color;
-using MatouMalin::Image;
+using LCNS::Color;
+using LCNS::Image;
 
 using OIIO::ImageInput;
 using OIIO::ImageSpec;

@@ -5,7 +5,7 @@
 #include "Light.hpp"
 #include "Color.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class PunctualLight : public Light
     {
@@ -52,11 +52,11 @@ namespace MatouMalin
         return _position;
     }
 
-    inline MatouMalin::Vector PunctualLight::directionFrom(const MatouMalin::Point& point) const
+    inline LCNS::Vector PunctualLight::directionFrom(const LCNS::Point& point) const
     {
         return (_position - point);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

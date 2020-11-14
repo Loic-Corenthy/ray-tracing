@@ -3,7 +3,7 @@
 // Local includes
 #include "Ray.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 using namespace std;
 
 Renderable::Renderable(void)

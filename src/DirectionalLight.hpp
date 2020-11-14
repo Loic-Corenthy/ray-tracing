@@ -6,7 +6,7 @@
 #include "Color.hpp"
 #include "Light.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class DirectionalLight : public Light
     {
@@ -27,7 +27,7 @@ namespace MatouMalin
         ~DirectionalLight(void);
 
         /// Set direction of the light
-        void setDirection(const MatouMalin::Vector& direction);
+        void setDirection(const LCNS::Vector& direction);
 
         /// Set intensity of the light
         void setIntensity(const Color& intensity);
@@ -64,6 +64,6 @@ namespace MatouMalin
         return _direction * (-1);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

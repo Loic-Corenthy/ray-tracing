@@ -12,7 +12,7 @@
 #include <vector>
 #include <cmath>
 
-namespace MatouMalin
+namespace LCNS
 {
     class Noise
     {
@@ -79,7 +79,7 @@ namespace MatouMalin
         return (a * (1.0 - lF) + b * lF);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 
 #endif

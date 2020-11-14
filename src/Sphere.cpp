@@ -4,7 +4,7 @@
 
 #include "Shader.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Sphere::Sphere(void)
 : _center(Point(0, 0, 0))

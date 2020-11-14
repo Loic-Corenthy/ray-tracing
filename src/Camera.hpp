@@ -12,7 +12,7 @@
 #include "Vector.hpp"
 #include "Plane.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Camera
     {
@@ -205,6 +205,6 @@ namespace MatouMalin
     {
         return _focalPlane;
     }
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

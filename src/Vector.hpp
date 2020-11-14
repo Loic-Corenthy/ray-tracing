@@ -5,7 +5,7 @@
 #include <cmath>
 #include <cassert>
 
-namespace MatouMalin
+namespace LCNS
 {
     class Vector
     {
@@ -155,6 +155,6 @@ namespace MatouMalin
         return (_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

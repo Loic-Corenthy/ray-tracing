@@ -8,7 +8,7 @@
 #include "Ray.hpp"
 
 // Namespaces
-using namespace MatouMalin;
+using namespace LCNS;
 
 Phong::Phong(void)
 : _diffusionColor(Color(0.0))

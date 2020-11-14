@@ -18,7 +18,7 @@
 #include "Ray.hpp"
 
 // Namespace
-namespace MatouMalin
+namespace LCNS
 {
     class BoundingBox
     {
@@ -81,6 +81,6 @@ namespace MatouMalin
         _max = max;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

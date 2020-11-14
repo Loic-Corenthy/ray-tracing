@@ -1,6 +1,6 @@
 #include "Ray.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Ray::Ray(void)
 : _origin(Point(0.0f, 0.0f, 0.0f))

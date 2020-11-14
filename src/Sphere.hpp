@@ -11,7 +11,7 @@
 #include "Color.hpp"
 #include "Shader.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Sphere : public Renderable
     {
@@ -20,7 +20,7 @@ namespace MatouMalin
         Sphere(void);
 
         /// Constructor with parameters
-        Sphere(const MatouMalin::Point& point, float radius);
+        Sphere(const LCNS::Point& point, float radius);
 
         /// Copy constructor
         Sphere(const Sphere& sphere);
@@ -32,10 +32,10 @@ namespace MatouMalin
         ~Sphere(void);
 
         /// Get the center of the sphere (read only)
-        const MatouMalin::Point& center(void) const;
+        const LCNS::Point& center(void) const;
 
         /// Set the center of the sphere
-        void setCenter(const MatouMalin::Point& point);
+        void setCenter(const LCNS::Point& point);
 
         /// Get the radius of the sphere (read only)
         float radius(void) const;
@@ -68,12 +68,12 @@ namespace MatouMalin
 
     };  // class Sphere
 
-    inline const MatouMalin::Point& Sphere::center(void) const
+    inline const LCNS::Point& Sphere::center(void) const
     {
         return _center;
     }
 
-    inline void Sphere::setCenter(const MatouMalin::Point& point)
+    inline void Sphere::setCenter(const LCNS::Point& point)
     {
         _center = point;
     }
@@ -98,6 +98,6 @@ namespace MatouMalin
         return ((position - _center).normalize());
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

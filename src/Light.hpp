@@ -7,7 +7,7 @@
 #include "Color.hpp"
 #include "Scene.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Renderable;
@@ -47,7 +47,7 @@ namespace MatouMalin
 
     };  // class Light
 
-    inline void Light::setIntensity(const MatouMalin::Color& color)
+    inline void Light::setIntensity(const LCNS::Color& color)
     {
         _intensity = color;
     }
@@ -57,6 +57,6 @@ namespace MatouMalin
         return _intensity;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

@@ -10,7 +10,7 @@
 #include "Vector.hpp"
 #include "Shader.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Ray;
@@ -135,13 +135,13 @@ namespace MatouMalin
         _vertice[2] = point;
     }
 
-    inline void Triangle::setVI(unsigned int index, const MatouMalin::Point& point)
+    inline void Triangle::setVI(unsigned int index, const LCNS::Point& point)
     {
         assert(index == 0 || index == 1 || index == 2 && "Index must be 0,1 or 2");
         _vertice[index] = point;
     }
 
-    inline void Triangle::setVertexNormal(unsigned int index, const MatouMalin::Vector& vertexNormal)
+    inline void Triangle::setVertexNormal(unsigned int index, const LCNS::Vector& vertexNormal)
     {
         assert(index == 0 || index == 1 || index == 2 && "Index must be 0,1 or 2");
         _vertexNormal[index] = vertexNormal;
@@ -163,6 +163,6 @@ namespace MatouMalin
         _normal = normal;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

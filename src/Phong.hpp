@@ -5,7 +5,7 @@
 #include "BRDF.hpp"
 #include "Color.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Phong : public BRDF
     {
@@ -89,6 +89,6 @@ namespace MatouMalin
         return _exponent;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

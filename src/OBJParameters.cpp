@@ -10,7 +10,7 @@
 
 
 // Namespaces
-using namespace MatouMalin;
+using namespace LCNS;
 
 OBJParameters::OBJParameters(void)
 : _vertexCount(0)

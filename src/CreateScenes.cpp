@@ -11,13 +11,13 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace MatouMalin;
+using namespace LCNS;
 using namespace std;
 
 
-void createTestScene(MatouMalin::Scene* scene)
+void createTestScene(LCNS::Scene* scene)
 {
-    MatouMalin::Point lCenterSphere1(0.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere1(0.0, 0.0, 0.0);
     Renderable*       rSphere1 = new Sphere(lCenterSphere1, 2.3);
 
     // Create a BRDF model for the sphere
@@ -42,14 +42,14 @@ void createTestScene(MatouMalin::Scene* scene)
     scene->add(rLight1);
 
 
-    //    MatouMalin::Point lLight2Position(0.f,1.0f,0.0f);
+    //    LCNS::Point lLight2Position(0.f,1.0f,0.0f);
     //	Light* rLight2 = new PunctualLight(lLight2Position,lLight1Color);
     //    scene->add(rLight2);
 
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 7.0f, 10.0f);
+    LCNS::Point lCentreCamera(0.0f, 7.0f, 10.0f);
     Vector            lDirectionCamera(0.00f, -0.4f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -73,7 +73,7 @@ void createScene01(Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    MatouMalin::Point lCenterSphere1(0.0, 2.0, 2.1);
+    LCNS::Point lCenterSphere1(0.0, 2.0, 2.1);
     Renderable*       rSphere1 = new Sphere(lCenterSphere1, 0.3);
 
     // Create a BRDF model for the sphere
@@ -93,7 +93,7 @@ void createScene01(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    MatouMalin::Point lCenterSphere2(2.0, 0.5, 0.0);
+    LCNS::Point lCenterSphere2(2.0, 0.5, 0.0);
     Renderable*       rSphere2 = new Sphere(lCenterSphere2, 1.5);
 
     // Create a BRDF model for the sphere
@@ -113,7 +113,7 @@ void createScene01(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    MatouMalin::Point lCenterSphere3(-1.8, 0.0, 0.0);
+    LCNS::Point lCenterSphere3(-1.8, 0.0, 0.0);
     Renderable*       rSphere3 = new Sphere(lCenterSphere3, 1.0);
 
     // Create a BRDF model for the sphere
@@ -133,7 +133,7 @@ void createScene01(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 0.0f, 5.0f);
+    LCNS::Point lLight1Position(0.f, 0.0f, 5.0f);
     Color             lLight1Color(9.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
@@ -141,7 +141,7 @@ void createScene01(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 2.5f, 6.0f);
+    LCNS::Point lCentreCamera(0.0f, 2.5f, 6.0f);
     Vector            lDirectionCamera(0.05f, -0.4f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -165,7 +165,7 @@ void createScene02(Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    MatouMalin::Point lCenterSphere1(-60.0, 0.0, 60.0);
+    LCNS::Point lCenterSphere1(-60.0, 0.0, 60.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 40.f);
 
     // Create a BRDF model for the sphere
@@ -186,7 +186,7 @@ void createScene02(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    MatouMalin::Point lCenterSphere2(60.0, 0.0, 50.0);
+    LCNS::Point lCenterSphere2(60.0, 0.0, 50.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 40.f);
 
     // Create a BRDF model for the sphere
@@ -207,7 +207,7 @@ void createScene02(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    MatouMalin::Point lCenterSphere3(0.0, -10.0, 110.0);
+    LCNS::Point lCenterSphere3(0.0, -10.0, 110.0);
     Sphere*           rSphere3 = new Sphere(lCenterSphere3, 20.0f);
 
     // Create a BRDF model for the sphere
@@ -228,7 +228,7 @@ void createScene02(Scene* scene)
     ///////////////////////////////
     // CYAN SPHERE IN BACKGROUND //
     ///////////////////////////////
-    MatouMalin::Point lCenterSphere4(-50.0, 0.0, -250.0);
+    LCNS::Point lCenterSphere4(-50.0, 0.0, -250.0);
     Sphere*           rSphere4 = new Sphere(lCenterSphere4, 100.0f);
 
     // Create a BRDF model for the sphere
@@ -255,22 +255,22 @@ void createScene02(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(50.f, 130.f, 150.0f);
+    LCNS::Point lLight1Position(50.f, 130.f, 150.0f);
     Color             lLight1Color(18.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
 
-    MatouMalin::Point lLight2Position(20.f, 150.f, 150.0f);
+    LCNS::Point lLight2Position(20.f, 150.f, 150.0f);
     Color             lLight2Color(18.0f);
     Light*            rLight2 = new PunctualLight(lLight2Position, lLight2Color);
     scene->add(rLight2);
 
-    MatouMalin::Point lLight3Position(-70.f, 50.f, 110.0f);
+    LCNS::Point lLight3Position(-70.f, 50.f, 110.0f);
     Color             lLight3Color(15.0f);
     Light*            rLight3 = new PunctualLight(lLight3Position, lLight3Color);
     scene->add(rLight3);
 
-    MatouMalin::Point lLight4Position(-20.f, 50.f, 160.0f);
+    LCNS::Point lLight4Position(-20.f, 50.f, 160.0f);
     Color             lLight4Color(15.0f);
     Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
     scene->add(rLight4);
@@ -279,7 +279,7 @@ void createScene02(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 100.0f, 250.0f);
+    LCNS::Point lCentreCamera(0.0f, 100.0f, 250.0f);
     Vector            lDirectionCamera(0.0f, -0.6f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -306,7 +306,7 @@ void createScene03(Scene* scene)
     //////////////////////////////////////
     // SPHERE WITH A TURBULANCE TEXTURE //
     //////////////////////////////////////
-    MatouMalin::Point lCenter(-20.0, 0.0, 0.0);
+    LCNS::Point lCenter(-20.0, 0.0, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenter, 3.0f);
 
     Color  lDiffusion(245, 222, 179);
@@ -419,7 +419,7 @@ void createScene03(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLightPos(0.0, 20.0, 15.0);
+    LCNS::Point lLightPos(0.0, 20.0, 15.0);
     Color             lLightCol(18.0f);
 
     Light* rLight = new PunctualLight(lLightPos, lLightCol);
@@ -429,7 +429,7 @@ void createScene03(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(1.5f, 10.0f, 25.0f);
+    LCNS::Point lCentreCamera(1.5f, 10.0f, 25.0f);
     Vector            lDirectionCamera(-0.05f, -0.4f, -1.0f);
     Vector            lCameraUp(0.f, 1.0f, 0.f);
     float             FOV = 90.f * 3.141592 / 180.f;
@@ -460,7 +460,7 @@ void createScene04(Scene* scene)
     double lRefractionCoeff(1.0);
 
     // Create a sphere
-    MatouMalin::Point lCenterSphere1(-180.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere1(-180.0, 0.0, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 50.f);
 
     // Create a BRDF model for the sphere
@@ -478,7 +478,7 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    MatouMalin::Point lCenterSphere2(0.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere2(0.0, 0.0, 0.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 50.f);
 
     // Create a BRDF model for the sphere
@@ -496,7 +496,7 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a purple sphere
-    MatouMalin::Point lCenterSphere3(180.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere3(180.0, 0.0, 0.0);
     Sphere*           rSphere3 = new Sphere(lCenterSphere3, 50.0f);
 
     // Create a BRDF model for the sphere
@@ -517,32 +517,32 @@ void createScene04(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 0.0f, 100.0f);
+    LCNS::Point lLight1Position(0.f, 0.0f, 100.0f);
     Color             lLowLightColor(20.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLowLightColor);
     scene->add(rLight1);
 
-    MatouMalin::Point lLight2Position(-200.f, 0.0f, 100.0f);
+    LCNS::Point lLight2Position(-200.f, 0.0f, 100.0f);
     Light*            rLight2 = new PunctualLight(lLight2Position, lLowLightColor);
     scene->add(rLight2);
 
-    MatouMalin::Point lLight3Position(200.f, 0.0f, 100.0f);
+    LCNS::Point lLight3Position(200.f, 0.0f, 100.0f);
     Light*            rLight3 = new PunctualLight(lLight3Position, lLowLightColor);
     scene->add(rLight3);
 
-    MatouMalin::Point lLight4Position(90.f, 300.f, 200.0f);
+    LCNS::Point lLight4Position(90.f, 300.f, 200.0f);
     Color             lHighLightColor(200.0f);
     Light*            rLight4 = new PunctualLight(lLight4Position, lHighLightColor);
     scene->add(rLight4);
 
-    MatouMalin::Point lLight5Position(-90.f, 300.f, 200.0f);
+    LCNS::Point lLight5Position(-90.f, 300.f, 200.0f);
     Light*            rLight5 = new PunctualLight(lLight5Position, lHighLightColor);
     scene->add(rLight5);
 
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(-200.0f, 150.0f, 400.0f);
+    LCNS::Point lCentreCamera(-200.0f, 150.0f, 400.0f);
     Vector            lDirectionCamera(0.2f, -0.25f, -0.5f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -563,7 +563,7 @@ void createScene04(Scene* scene)
     scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene04bis(MatouMalin::Scene* scene)
+void createScene04bis(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres
     double lReflectionCoeff(8.0);
@@ -572,7 +572,7 @@ void createScene04bis(MatouMalin::Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    MatouMalin::Point lCenterSphere1(-2.50, 0.0, 0.0);
+    LCNS::Point lCenterSphere1(-2.50, 0.0, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 1.0f);
 
     // Create a BRDF model for the sphere
@@ -593,7 +593,7 @@ void createScene04bis(MatouMalin::Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    MatouMalin::Point lCenterSphere2(0.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere2(0.0, 0.0, 0.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 1.0f);
 
     // Create a BRDF model for the sphere
@@ -613,7 +613,7 @@ void createScene04bis(MatouMalin::Scene* scene)
     ///////////////////
     // PURPLE SPHERE //
     ///////////////////
-    MatouMalin::Point lCenterSphere3(2.50, 0.0, 0.0);
+    LCNS::Point lCenterSphere3(2.50, 0.0, 0.0);
     Sphere*           rSphere3 = new Sphere(lCenterSphere3, 1.0f);
 
     // Create a BRDF model for the sphere
@@ -634,12 +634,12 @@ void createScene04bis(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight4Position(1.15f, 4.f, 4.0f);
+    LCNS::Point lLight4Position(1.15f, 4.f, 4.0f);
     Color             lLightColor(16.0f);
     Light*            rLight4 = new PunctualLight(lLight4Position, lLightColor);
     scene->add(rLight4);
 
-    MatouMalin::Point lLight5Position(-1.15f, 4.f, 4.0f);
+    LCNS::Point lLight5Position(-1.15f, 4.f, 4.0f);
     Light*            rLight5 = new PunctualLight(lLight5Position, lLightColor);
     scene->add(rLight5);
 
@@ -647,7 +647,7 @@ void createScene04bis(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(-3.5f, 2.50f, 7.0f);
+    LCNS::Point lCentreCamera(-3.5f, 2.50f, 7.0f);
     Vector            lDirectionCamera(0.15f, -0.25f, -0.5f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -692,12 +692,12 @@ void createScene05(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 1.0f, 10.0f);
+    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
     Color             lLight1Color(10.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
 
-    MatouMalin::Point lLight4Position(0.f, 10.f, 6.0f);
+    LCNS::Point lLight4Position(0.f, 10.f, 6.0f);
     Color             lLight4Color(10.0f);
     Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
     scene->add(rLight4);
@@ -706,7 +706,7 @@ void createScene05(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 3.0f, 12.0f);
+    LCNS::Point lCentreCamera(0.0f, 3.0f, 12.0f);
     Vector            lDirectionCamera(0.01f, -0.3f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -734,7 +734,7 @@ void createScene06(Scene* scene)
     double lReflectionCoeff(0.8);
 
     // SPHERE WITH REFRACTION
-    MatouMalin::Point lCenter(0.0, 0.0, 0.0);
+    LCNS::Point lCenter(0.0, 0.0, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenter, 5.f);
 
     // Create a BRDF model for the sphere
@@ -870,7 +870,7 @@ void createScene06(Scene* scene)
 
 
     //    // SPHERE WITH TEXTURE
-    //    MatouMalin::Point lCenterSphere2(12.0,0.0,0.0);
+    //    LCNS::Point lCenterSphere2(12.0,0.0,0.0);
     //	Sphere* rSphere2 = new Sphere(lCenterSphere2,5.f);
     //
     //    // Create a BRDF model for the sphere
@@ -901,7 +901,7 @@ void createScene06(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLightPosition(0.0f, 0.0f, 20.0f);
+    LCNS::Point lLightPosition(0.0f, 0.0f, 20.0f);
     Color             lLightColor(6.0f);
     Light*            rLight1 = new PunctualLight(lLightPosition, lLightColor);
     scene->add(rLight1);
@@ -910,20 +910,20 @@ void createScene06(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 0.0f, 15.0f);
+    LCNS::Point lCentreCamera(0.0f, 0.0f, 15.0f);
     Vector            lDirectionCamera(0.0f, 0.0f, -1.01f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 90.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
-    rCamera->setFocalPoint(MatouMalin::Point(4.0));
+    rCamera->setFocalPoint(LCNS::Point(4.0));
     rCamera->setAperture(Camera::F_SMALL, Camera::Precision::EXCELLENT);
     //    rCamera->setAperture(Camera::ALL_SHARP);
 
     scene->add(rCamera);
 
     // BACKGROUND
-    CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260);  // 260
+    CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/River_back.png");
     rCubeMapBckGrd->addImage(CubeMap::FRONT, "./resources/River_front.png");
@@ -940,7 +940,7 @@ void createScene06(Scene* scene)
 void createScene07(Scene* scene)
 {
     // Create a sphere (1)
-    MatouMalin::Point lCenterSphere1(-30.f, 10.0f, 20.0f);
+    LCNS::Point lCenterSphere1(-30.f, 10.0f, 20.0f);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 13.f);
 
     // Create a BRDF model for the sphere
@@ -957,7 +957,7 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a sphere (2)
-    MatouMalin::Point lCenterSphere2(0.0f, 10.0f, 20.0f);
+    LCNS::Point lCenterSphere2(0.0f, 10.0f, 20.0f);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 13.f);
 
     // Create a BRDF model for the sphere
@@ -974,7 +974,7 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a sphere (3)
-    MatouMalin::Point lCenterSphere3(30.f, 10.0f, 20.0f);
+    LCNS::Point lCenterSphere3(30.f, 10.0f, 20.0f);
     Sphere*           rSphere3 = new Sphere(lCenterSphere3, 13.f);
 
     // Create a BRDF model for the sphere
@@ -993,7 +993,7 @@ void createScene07(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLightPosition(0.0f, 90.0f, 0.0f);
+    LCNS::Point lLightPosition(0.0f, 90.0f, 0.0f);
     Color             lLightColor(5.0f);
     Light*            rLight1 = new PunctualLight(lLightPosition, lLightColor);
     scene->add(rLight1);
@@ -1014,7 +1014,7 @@ void createScene07(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 25.0f, 105.0f);
+    LCNS::Point lCentreCamera(0.0f, 25.0f, 105.0f);
     Vector            lDirectionCamera(0.0f, -0.3f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -1051,14 +1051,14 @@ void createScene07(Scene* scene)
     scene->setBackgroundColor(Color(0.2f));
 }
 
-void createScene08(MatouMalin::Scene* scene)
+void createScene08(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(0.8);
     double lRefractionCoeff(1.0);
 
     // Create a red sphere
-    MatouMalin::Point lCenterSphere1(00.0, 0.0, -5.0);
+    LCNS::Point lCenterSphere1(00.0, 0.0, -5.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 2.f);
 
     // Create a BRDF model for the sphere
@@ -1075,7 +1075,7 @@ void createScene08(MatouMalin::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a green sphere
-    MatouMalin::Point lCenterSphere2(10.0, 0.0, -100.0);
+    LCNS::Point lCenterSphere2(10.0, 0.0, -100.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 30.f);
 
     // Create a BRDF model for the sphere
@@ -1094,7 +1094,7 @@ void createScene08(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 10.f, 0.0f);
+    LCNS::Point lLight1Position(0.f, 10.f, 0.0f);
     Color             lLight1Color(3.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
@@ -1102,7 +1102,7 @@ void createScene08(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 0.0f, 5.0f);
+    LCNS::Point lCentreCamera(0.0f, 0.0f, 5.0f);
     Vector            lDirectionCamera(0.0f, -0.1f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -1119,7 +1119,7 @@ void createScene08(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(188, 236, 253));
 }
 
-void createScene09(MatouMalin::Scene* scene)
+void createScene09(LCNS::Scene* scene)
 {
     // Load the "torus"
     string lPath = "./resources/head_4.obj";
@@ -1192,12 +1192,12 @@ void createScene09(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 1.0f, 10.0f);
+    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
     Color             lLight1Color(10.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
 
-    MatouMalin::Point lLight4Position(0.f, 10.f, 6.0f);
+    LCNS::Point lLight4Position(0.f, 10.f, 6.0f);
     Color             lLight4Color(10.0f);
     Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
     scene->add(rLight4);
@@ -1206,7 +1206,7 @@ void createScene09(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 2.4f, 8.0f);
+    LCNS::Point lCentreCamera(0.0f, 2.4f, 8.0f);
     Vector            lDirectionCamera(0.01f, -0.1f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -1226,7 +1226,7 @@ void createScene09(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(0.2f, 0.32f, 0.8f));
 }
 
-void createScene10(MatouMalin::Scene* scene)
+void createScene10(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(5.0);
@@ -1235,7 +1235,7 @@ void createScene10(MatouMalin::Scene* scene)
     ////////////////////////////////
     // Create a first blue sphere //
     ////////////////////////////////
-    MatouMalin::Point lCenterSphere1(0.0, 0.0, 0.0);
+    LCNS::Point lCenterSphere1(0.0, 0.0, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 100.f);
 
     // Create a BRDF model for the sphere
@@ -1256,7 +1256,7 @@ void createScene10(MatouMalin::Scene* scene)
     /////////////////////////////////
     // Create a second blue sphere //
     /////////////////////////////////
-    MatouMalin::Point lCenterSphere2(50.0, -20.0, 230.0);
+    LCNS::Point lCenterSphere2(50.0, -20.0, 230.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 60.f);
 
     // Create a BRDF model for the sphere
@@ -1277,7 +1277,7 @@ void createScene10(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(-40.f, 150.f, 50.0f);
+    LCNS::Point lLight1Position(-40.f, 150.f, 50.0f);
     Color             lLight1Color(212.0f, 27.0f, 218.0f);
     lLight1Color *= 2.0;
 
@@ -1285,7 +1285,7 @@ void createScene10(MatouMalin::Scene* scene)
     scene->add(rLight1);
 
 
-    MatouMalin::Point lLight2Position(90.f, 150.f, 190.0f);
+    LCNS::Point lLight2Position(90.f, 150.f, 190.0f);
     Color             lLight2Color(189.0f, 190.0f, 53.0f);
 
     lLight2Color *= 2.0f;
@@ -1293,7 +1293,7 @@ void createScene10(MatouMalin::Scene* scene)
     Light* rLight2 = new PunctualLight(lLight2Position, lLight2Color);
     scene->add(rLight2);
 
-    MatouMalin::Point lLight3Position(-190.f, 150.f, 90.0f);
+    LCNS::Point lLight3Position(-190.f, 150.f, 90.0f);
     Color             lLight3Color(255, 140, 0);
 
     lLight3Color *= 200.0f;
@@ -1305,7 +1305,7 @@ void createScene10(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(-280.0f, 150.0f, 350.0f);
+    LCNS::Point lCentreCamera(-280.0f, 150.0f, 350.0f);
     Vector            lDirectionCamera(0.5f, -0.35f, -0.5f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -1329,7 +1329,7 @@ void createScene10(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene11(MatouMalin::Scene* scene)
+void createScene11(LCNS::Scene* scene)
 {
     double lReflectionCoeff(2.0);
     double lRefractionCoeff(1.0);
@@ -1337,7 +1337,7 @@ void createScene11(MatouMalin::Scene* scene)
     //////////////////////////
     // Create a yellow sphere //
     //////////////////////////
-    MatouMalin::Point lCenterSphere1(-1.1, 0.0, 0.0);
+    LCNS::Point lCenterSphere1(-1.1, 0.0, 0.0);
     Renderable*       rSphere1 = new Sphere(lCenterSphere1, 1.0);
 
     // Create a BRDF model for the sphere
@@ -1360,7 +1360,7 @@ void createScene11(MatouMalin::Scene* scene)
     ///////////////////////////
     // Create a cyan sphere //
     ///////////////////////////
-    MatouMalin::Point lCenterSphere2(1.1, 0.0, 0.0);
+    LCNS::Point lCenterSphere2(1.1, 0.0, 0.0);
     Renderable*       rSphere2 = new Sphere(lCenterSphere2, 1.0);
 
     // Create a BRDF model for the sphere
@@ -1383,7 +1383,7 @@ void createScene11(MatouMalin::Scene* scene)
     //////////////////////////
     // Create a pink sphere //
     //////////////////////////
-    MatouMalin::Point lCenterSphere3(0.0, 1.8, 0.0);
+    LCNS::Point lCenterSphere3(0.0, 1.8, 0.0);
     Renderable*       rSphere3 = new Sphere(lCenterSphere3, 1.0);
 
     // Create a BRDF model for the sphere
@@ -1406,12 +1406,12 @@ void createScene11(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 1.0f, 10.0f);
+    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
     Color             lLight1Color(8.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
 
-    MatouMalin::Point lLight2Position(0.f, 1.0f, -10.0f);
+    LCNS::Point lLight2Position(0.f, 1.0f, -10.0f);
     Color             lLight2Color(5.0f);
     Light*            rLight2 = new PunctualLight(lLight2Position, lLight2Color);
     scene->add(rLight2);
@@ -1420,7 +1420,7 @@ void createScene11(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 0.7f, 2.0f);
+    LCNS::Point lCentreCamera(0.0f, 0.7f, 2.0f);
     Vector            lDirectionCamera(0.0f, 0.0f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -1435,14 +1435,14 @@ void createScene11(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene12(MatouMalin::Scene* scene)
+void createScene12(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
     double lReflectionCoeff(2.0);
     double lRefractionCoeff(1.0);
 
     // Create a sphere
-    MatouMalin::Point lCenterSphere1(0.0, 5.0, 5.0);
+    LCNS::Point lCenterSphere1(0.0, 5.0, 5.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere1, 9.f);
 
     // Create a BRDF model for the sphere
@@ -1473,7 +1473,7 @@ void createScene12(MatouMalin::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    MatouMalin::Point lCenterSphere2(-21.0, -5.0, 8.0);
+    LCNS::Point lCenterSphere2(-21.0, -5.0, 8.0);
     Sphere*           rSphere2 = new Sphere(lCenterSphere2, 9.f);
 
     // Create a BRDF model for the sphere
@@ -1491,7 +1491,7 @@ void createScene12(MatouMalin::Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a transparent sphere for refraction
-    MatouMalin::Point lCenterSphere3(21.0, -5.0, 8.0);
+    LCNS::Point lCenterSphere3(21.0, -5.0, 8.0);
     Sphere*           rSphere3 = new Sphere(lCenterSphere3, 9.0f);
 
     // Create a BRDF model for the sphere
@@ -1511,12 +1511,12 @@ void createScene12(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.f, 25.0f, 50.0f);
+    LCNS::Point lLight1Position(0.f, 25.0f, 50.0f);
     Color             lLight1Color(30.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
     scene->add(rLight1);
 
-    //    MatouMalin::Point lLight4Position(0.f,20.f,6.0f);
+    //    LCNS::Point lLight4Position(0.f,20.f,6.0f);
     //	Color lLight4Color(10.0f);
     //	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
     //    scene->add(rLight4);
@@ -1525,7 +1525,7 @@ void createScene12(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(0.0f, 15.0f, 40.0f);
+    LCNS::Point lCentreCamera(0.0f, 15.0f, 40.0f);
     Vector            lDirectionCamera(0.0f, -0.1f, -1.0f);
     Vector            lCameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
@@ -1559,7 +1559,7 @@ void createScene12(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(220, 240, 250));
 }
 
-void createScene13(MatouMalin::Scene* scene)
+void createScene13(LCNS::Scene* scene)
 {
     scene->createFromFile("./resources/tableAndStatue3_bis.obj");
 
@@ -1658,7 +1658,7 @@ void createScene13(MatouMalin::Scene* scene)
 
 
     // Sphere with texture
-    MatouMalin::Point lCenterSphere(0.0, 6.7, 0.0);
+    LCNS::Point lCenterSphere(0.0, 6.7, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere, 2.0f);
 
     // Create a BRDF model for the sphere
@@ -1667,7 +1667,7 @@ void createScene13(MatouMalin::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 8);
 
 
-    CubeMap* rCubeMapDesert = new CubeMap(MatouMalin::Point(0.0), 260);  // 260
+    CubeMap* rCubeMapDesert = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapDesert->addImage(CubeMap::BACK, "./resources/Desert_back.png");
     rCubeMapDesert->addImage(CubeMap::FRONT, "./resources/Desert_front.png");
@@ -1694,9 +1694,9 @@ void createScene13(MatouMalin::Scene* scene)
     // Mirror on the right wall
     double    lMirrorXPos = 10.0;
     Triangle* rMirror1    = new Triangle(
-    MatouMalin::Point(lMirrorXPos, 4.0, -10.0), MatouMalin::Point(lMirrorXPos, 12.0, -10.0), MatouMalin::Point(lMirrorXPos, 12.0, 18.0));
+    LCNS::Point(lMirrorXPos, 4.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, 18.0));
     Triangle* rMirror2
-    = new Triangle(MatouMalin::Point(lMirrorXPos, 4.0, -10.0), MatouMalin::Point(lMirrorXPos, 12.0, 18.0), MatouMalin::Point(lMirrorXPos, 4.0, 18.0));
+    = new Triangle(LCNS::Point(lMirrorXPos, 4.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, 18.0), LCNS::Point(lMirrorXPos, 4.0, 18.0));
 
     Vector lMinusX(-1.0, 0.0, 0.0);
 
@@ -1727,17 +1727,17 @@ void createScene13(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(-3.0, 10.0, 20.0);
+    LCNS::Point lLight1Position(-3.0, 10.0, 20.0);
     Color             lLightColor(20.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLightColor);
     scene->add(rLight1);
 
 
-    //    MatouMalin::Point lLight2Position(-5.0,10.0,10.0);
+    //    LCNS::Point lLight2Position(-5.0,10.0,10.0);
     //	Light* rLight2 = new PunctualLight(lLight2Position,lLightColor);
     //    scene->add(rLight2);
 
-    //    MatouMalin::Point lLight3Position(-4.0,7.0,-9.0);
+    //    LCNS::Point lLight3Position(-4.0,7.0,-9.0);
     //	Light* rLight3 = new PunctualLight(lLight3Position,lLightColor);
     //    scene->add(rLight3);
 
@@ -1745,7 +1745,7 @@ void createScene13(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(-5.0, 8.0, 21.0);
+    LCNS::Point lCentreCamera(-5.0, 8.0, 21.0);
     Vector            lDirectionCamera(0.4, -0.20, -1.0);
     Vector            lCameraUp(0.0, 1.0, 0.0);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -1760,7 +1760,7 @@ void createScene13(MatouMalin::Scene* scene)
                                    0.0,
                                    1.0,
                                    1,
-                                   MatouMalin::Point(-28.0, 0.0, -20.0),
+                                   LCNS::Point(-28.0, 0.0, -20.0),
                                    Vector(40.0, 15.0, 40.0),
                                    string("./resources/floor.png"),
                                    string("./resources/textureWall_400x400.png"),
@@ -1777,7 +1777,7 @@ void createScene13(MatouMalin::Scene* scene)
     scene->setBackgroundColor(Color(0.0f));
 }
 
-void createScene14(MatouMalin::Scene* scene)
+void createScene14(LCNS::Scene* scene)
 {
     scene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
 
@@ -1889,7 +1889,7 @@ void createScene14(MatouMalin::Scene* scene)
 
 
     // Sphere with texture
-    MatouMalin::Point lCenterSphere(.0, 6.7, 0.0);
+    LCNS::Point lCenterSphere(.0, 6.7, 0.0);
     Sphere*           rSphere1 = new Sphere(lCenterSphere, 2.0f);
 
     // Create a BRDF model for the sphere
@@ -1910,17 +1910,17 @@ void createScene14(MatouMalin::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    MatouMalin::Point lLight1Position(0.0, 20.0, 10.0);
+    LCNS::Point lLight1Position(0.0, 20.0, 10.0);
     Color             lLightColor(20.0f);
     Light*            rLight1 = new PunctualLight(lLight1Position, lLightColor);
     scene->add(rLight1);
 
 
-    MatouMalin::Point lLight2Position(-5.0, 10.0, 10.0);
+    LCNS::Point lLight2Position(-5.0, 10.0, 10.0);
     Light*            rLight2 = new PunctualLight(lLight2Position, lLightColor);
     scene->add(rLight2);
 
-    MatouMalin::Point lLight3Position(5.0, 10.0, 10.0);
+    LCNS::Point lLight3Position(5.0, 10.0, 10.0);
     Light*            rLight3 = new PunctualLight(lLight3Position, lLightColor);
     scene->add(rLight3);
 
@@ -1928,7 +1928,7 @@ void createScene14(MatouMalin::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    MatouMalin::Point lCentreCamera(-2.0, 8.0, 14.0);
+    LCNS::Point lCentreCamera(-2.0, 8.0, 14.0);
     Vector            lDirectionCamera(0.05, -0.05, -1.0);
     Vector            lCameraUp(0.0, 1.0, 0.0);
     float             FOV = 80.f * 3.141592 / 180.f;
@@ -1939,7 +1939,7 @@ void createScene14(MatouMalin::Scene* scene)
     scene->add(rCamera);
 
 
-    CubeMap* rCubeMapBckGrd = new CubeMap(MatouMalin::Point(0.0), 260);  // 260
+    CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/Desert_back.png");
     rCubeMapBckGrd->addImage(CubeMap::FRONT, "./resources/Desert_front.png");
@@ -1957,12 +1957,12 @@ void createFloor(Scene* scene, const FloorParameters& param)
 {
     double lDeep = -1.0 * param.deep;
 
-    Triangle* rTriangleZ1 = new Triangle(MatouMalin::Point(-param.size, lDeep, -param.size),
-                                         MatouMalin::Point(-param.size, lDeep, param.size),
-                                         MatouMalin::Point(param.size, lDeep, param.size));
-    Triangle* rTriangleZ2 = new Triangle(MatouMalin::Point(-param.size, lDeep, -param.size),
-                                         MatouMalin::Point(param.size, lDeep, param.size),
-                                         MatouMalin::Point(param.size, lDeep, -param.size));
+    Triangle* rTriangleZ1 = new Triangle(LCNS::Point(-param.size, lDeep, -param.size),
+                                         LCNS::Point(-param.size, lDeep, param.size),
+                                         LCNS::Point(param.size, lDeep, param.size));
+    Triangle* rTriangleZ2 = new Triangle(LCNS::Point(-param.size, lDeep, -param.size),
+                                         LCNS::Point(param.size, lDeep, param.size),
+                                         LCNS::Point(param.size, lDeep, -param.size));
 
     rTriangleZ1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
     rTriangleZ1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
@@ -1978,7 +1978,7 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
     if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(MatouMalin::Point(0.0, -4.0, 0.0), param.size * 2.0);
+        CubeMap* rCubeMapFloor = new CubeMap(LCNS::Point(0.0, -4.0, 0.0), param.size * 2.0);
 
         rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::FRONT, 0);
@@ -2010,14 +2010,14 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
 void createRoom(Scene* scene, const RoomParameters& param)
 {
-    MatouMalin::Point lZero(param.lowCorner);
-    MatouMalin::Point lOne(lZero.x(), lZero.y(), lZero.z() + param.dimensions.z());
-    MatouMalin::Point lTwo(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z() + param.dimensions.z());
-    MatouMalin::Point lThree(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z());
-    MatouMalin::Point lFour(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z());
-    MatouMalin::Point lFive(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z() + param.dimensions.z());
-    MatouMalin::Point lSix = param.lowCorner + param.dimensions;
-    MatouMalin::Point lSeven(lZero.x() + param.dimensions.x(), lZero.y() + param.dimensions.y(), lZero.z());
+    LCNS::Point lZero(param.lowCorner);
+    LCNS::Point lOne(lZero.x(), lZero.y(), lZero.z() + param.dimensions.z());
+    LCNS::Point lTwo(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z() + param.dimensions.z());
+    LCNS::Point lThree(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z());
+    LCNS::Point lFour(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z());
+    LCNS::Point lFive(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z() + param.dimensions.z());
+    LCNS::Point lSix = param.lowCorner + param.dimensions;
+    LCNS::Point lSeven(lZero.x() + param.dimensions.x(), lZero.y() + param.dimensions.y(), lZero.z());
 
     // Create floor
     Triangle* rTriFloor1 = new Triangle(lZero, lOne, lTwo);
@@ -2031,7 +2031,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriFloor2->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
     rTriFloor2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
 
-    MatouMalin::Point lMiddleOfFace((lZero.x() + lOne.x() + lTwo.x() + lThree.x()) * 0.25,
+    LCNS::Point lMiddleOfFace((lZero.x() + lOne.x() + lTwo.x() + lThree.x()) * 0.25,
                                     (lZero.y() + lOne.y() + lTwo.y() + lThree.y()) * 0.25,
                                     (lZero.z() + lOne.z() + lTwo.z() + lThree.z()) * 0.25);
 

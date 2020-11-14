@@ -5,7 +5,7 @@
 #include "Color.hpp"
 #include "CubeMap.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Point;
@@ -78,7 +78,7 @@ namespace MatouMalin
     }
 
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 
 #endif

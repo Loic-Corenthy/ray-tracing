@@ -23,9 +23,9 @@
 #include "CreateScenes.hpp"
 #include "Renderer.hpp"
 
-using MatouMalin::Buffer;
-using MatouMalin::Renderer;
-using MatouMalin::Scene;
+using LCNS::Buffer;
+using LCNS::Renderer;
+using LCNS::Scene;
 using std::cerr;
 using std::cout;
 using std::endl;

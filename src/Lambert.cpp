@@ -16,7 +16,7 @@
 #include "Ray.hpp"
 
 // Namespaces
-using namespace MatouMalin;
+using namespace LCNS;
 
 Lambert::Lambert(void)
 : BRDF()
@@ -80,10 +80,10 @@ Color Lambert::diffuse(const Vector& vecToLight, const Vector& normal, const Poi
         return (_diffusionColor * lCosAlpha);
 }
 
-Color Lambert::specular(const MatouMalin::Vector& vecToLight,
-                        const MatouMalin::Vector& vecToViewer,
-                        const MatouMalin::Vector& normal,
-                        const MatouMalin::Point&  intersection) const
+Color Lambert::specular(const LCNS::Vector& vecToLight,
+                        const LCNS::Vector& vecToViewer,
+                        const LCNS::Vector& normal,
+                        const LCNS::Point&  intersection) const
 {
     return Color(0.0f);
 }

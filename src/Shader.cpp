@@ -14,7 +14,7 @@
 #include "CubeMap.hpp"
 
 using namespace std;
-using namespace MatouMalin;
+using namespace LCNS;
 
 Shader::Shader(void)
 : _bRDF(nullptr)

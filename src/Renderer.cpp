@@ -15,7 +15,7 @@
 #include "Phong.hpp"
 #include "Noise.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 using namespace std;
 
 const Buffer& Renderer::getBuffer(void)

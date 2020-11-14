@@ -7,7 +7,7 @@
 // Local includes
 #include "Vector.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Point
     {
@@ -127,6 +127,6 @@ namespace MatouMalin
         return _coords[2];
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

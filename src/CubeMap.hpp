@@ -18,7 +18,7 @@
 #include "Point.hpp"
 #include "Image.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Color;
     class Ray;
@@ -117,6 +117,6 @@ namespace MatouMalin
         return _size;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

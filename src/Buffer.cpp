@@ -4,7 +4,7 @@
 #include <cassert>
 #include <iostream>
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Buffer::Buffer(void)
 {

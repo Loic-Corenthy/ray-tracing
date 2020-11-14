@@ -5,7 +5,7 @@
 #include <string>
 #include <cassert>
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Ray;
@@ -95,6 +95,6 @@ namespace MatouMalin
         return _name;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

@@ -12,7 +12,7 @@
 #include <cassert>
 #include <vector>
 
-namespace MatouMalin
+namespace LCNS
 {
     class OBJParameters
     {
@@ -172,6 +172,6 @@ namespace MatouMalin
     }
 
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

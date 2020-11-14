@@ -1,6 +1,6 @@
 #include "Point.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Point::Point(void)
 {

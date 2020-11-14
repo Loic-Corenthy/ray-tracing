@@ -1,6 +1,6 @@
 #include "Color.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 const float Color::_inv255 = 0.00392156862f;
 

@@ -11,7 +11,7 @@
 #define BIG_POS_VALUE 1000000.0
 #define BIG_NEG_VALUE -1000000.0
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 BoundingBox::BoundingBox(void)
 : _min(Point(BIG_POS_VALUE, BIG_POS_VALUE, BIG_POS_VALUE))

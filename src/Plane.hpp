@@ -17,7 +17,7 @@
 #include "Vector.hpp"
 #include "Ray.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     class Plane
     {
@@ -95,6 +95,6 @@ namespace MatouMalin
     }
 
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

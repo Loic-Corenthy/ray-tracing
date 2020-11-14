@@ -1,6 +1,6 @@
 #include "Light.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 Light::Light(void)
 : _intensity(Color(0.0f))

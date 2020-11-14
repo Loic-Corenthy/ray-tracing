@@ -12,7 +12,7 @@
 #include "Ray.hpp"
 #include "CubeMap.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Renderable;
@@ -156,7 +156,7 @@ namespace MatouMalin
             return _backgroundCubeMap->colorAt(ray);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 
 #endif

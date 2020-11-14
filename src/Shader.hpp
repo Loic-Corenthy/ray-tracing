@@ -11,7 +11,7 @@
 #include "BRDF.hpp"
 #include "Scene.hpp"
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Renderable;
@@ -126,6 +126,6 @@ namespace MatouMalin
         _refractionCoeff = coeff;
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

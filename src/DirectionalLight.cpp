@@ -3,7 +3,7 @@
 #include "Ray.hpp"
 #include "Scene.hpp"
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 DirectionalLight::DirectionalLight(void)
 : Light()
@@ -23,7 +23,7 @@ DirectionalLight::DirectionalLight(const DirectionalLight& directionalLight)
     _direction = directionalLight._direction;
 }
 
-DirectionalLight DirectionalLight::operator=(const MatouMalin::DirectionalLight& directionalLight)
+DirectionalLight DirectionalLight::operator=(const LCNS::DirectionalLight& directionalLight)
 {
     if (this == &directionalLight)
         return *this;
@@ -40,7 +40,7 @@ DirectionalLight::~DirectionalLight(void)
 }
 
 
-Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, MatouMalin::Renderable* currentObject) const
+Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, LCNS::Renderable* currentObject) const
 {
     Ray lMyRay;
 

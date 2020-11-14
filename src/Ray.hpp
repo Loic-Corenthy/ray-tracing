@@ -13,7 +13,7 @@
 #define MAXFLOAT std::numeric_limits<float>::max()
 #endif
 
-namespace MatouMalin
+namespace LCNS
 {
     // Forward declaration
     class Renderable;
@@ -117,7 +117,7 @@ namespace MatouMalin
         return (_origin + _direction * _length);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 
 #endif

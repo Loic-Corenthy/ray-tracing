@@ -6,7 +6,7 @@
 #include <cassert>
 #include <cmath>
 
-using namespace MatouMalin;
+using namespace LCNS;
 
 
 PunctualLight::PunctualLight(void)
@@ -15,7 +15,7 @@ PunctualLight::PunctualLight(void)
 {
 }
 
-PunctualLight::PunctualLight(const MatouMalin::Point& position, const Color& intensity)
+PunctualLight::PunctualLight(const LCNS::Point& position, const Color& intensity)
 : Light(intensity)
 , _position(position)
 {
@@ -44,7 +44,7 @@ PunctualLight::~PunctualLight(void)
 {
 }
 
-Color PunctualLight::intensityAt(const MatouMalin::Point& point, const Scene& scene, Renderable* currentObject) const
+Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
 {
     // Direction between point on object and current light
     Vector lDirection(_position - point);

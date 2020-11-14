@@ -4,7 +4,7 @@
 // Standard include
 #include <cassert>
 
-namespace MatouMalin
+namespace LCNS
 {
     class Color
     {
@@ -194,7 +194,7 @@ namespace MatouMalin
         return Color(_components[0] * color._components[0], _components[1] * color._components[1], _components[2] * color._components[2]);
     }
 
-    inline Color Color::operator*=(const MatouMalin::Color& color)
+    inline Color Color::operator*=(const LCNS::Color& color)
     {
         _components[0] *= color._components[0];
         _components[1] *= color._components[1];
@@ -220,6 +220,6 @@ namespace MatouMalin
         return (_components[0] == color._components[0] && _components[1] == color._components[1] && _components[2] == color._components[2]);
     }
 
-}  // namespace MatouMalin
+}  // namespace LCNS
 
 #endif

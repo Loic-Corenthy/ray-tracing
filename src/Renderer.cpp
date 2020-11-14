@@ -13,12 +13,41 @@
 #include "Renderable.hpp"
 #include "Shader.hpp"
 #include "Phong.hpp"
-
-
 #include "Noise.hpp"
 
 using namespace MatouMalin;
 using namespace std;
+
+const Buffer& Renderer::getBuffer(void)
+{
+    return _instance()._buffer;
+}
+
+void Renderer::setScene(Scene* scene, int width, int height)
+{
+    _instance()._setScene(scene, width, height);
+}
+
+void Renderer::render(void)
+{
+    _instance()._render();
+}
+
+bool Renderer::isSuperSamplingActive(void)
+{
+    return _instance()._isSuperSamplingActive();
+}
+
+void Renderer::setSuperSampling(bool activate)
+{
+    _instance()._setSuperSampling(activate);
+}
+
+Renderer& Renderer::_instance(void)
+{
+    static Renderer instance;
+    return instance;
+}
 
 Renderer::Renderer(void)
 :_scene(nullptr),
@@ -62,8 +91,7 @@ Renderer::~Renderer(void)
 {
 }
 
-
-void Renderer::render(void)
+void Renderer::_render(void)
 {
     Camera* lCamera = _scene->cameraList().front();
 
@@ -386,3 +414,26 @@ void Renderer::render(void)
     }
 
 }
+
+void Renderer::_setScene(Scene* scene, int width, int height)
+{
+    assert(scene != nullptr && "The scene assigned to the Renderer is not valid");
+    _buffer.dimensions(width, height);
+    _scene = scene;
+}
+
+const Buffer & Renderer::_getBuffer(void) const
+{
+    return _buffer;
+}
+
+void Renderer::_setSuperSampling(bool activate)
+{
+    _superSampling = activate;
+}
+
+bool Renderer::_isSuperSamplingActive(void) const
+{
+    return _superSampling;
+}
+

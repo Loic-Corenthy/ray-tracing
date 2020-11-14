@@ -27,11 +27,8 @@ namespace MatouMalin
         /// Set the value of one pixel in the buffer
         void setPixel(unsigned int i,unsigned int j,const Color & color);
 
-        /// Set the buffer's height
-        void setHeight(unsigned int height);
-
-        /// Set the buffer's width
-        void setWidth(unsigned int width);
+        /// Set the buffer's width and height
+        void dimensions(unsigned int width, unsigned int height);
 
         /// Get the color corresponding to one specific pixel
         Color pixel(unsigned int i,unsigned int j) const;
@@ -49,36 +46,11 @@ namespace MatouMalin
         void reset(void);
 
     private:
-        unsigned int _height;
-        unsigned int _width;
-        unsigned char* _pixels;
+        unsigned int _height = 0;
+        unsigned int _width  = 0;
+        unsigned char* _pixels = nullptr;
 
     }; // class Buffer
-
-    inline unsigned int Buffer::height(void) const
-    {
-        return _height;
-    }
-
-    inline unsigned int Buffer::width(void) const
-    {
-        return _width;
-    }
-
-    inline void Buffer::setHeight(unsigned int height)
-    {
-        _height = height;
-    }
-
-    inline void Buffer::setWidth(unsigned int width)
-    {
-        _width = width;
-    }
-
-    inline const unsigned char* Buffer::allPixels(void) const
-    {
-        return _pixels;
-    }
 
 } // namespace MatouMalin
 

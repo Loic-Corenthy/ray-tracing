@@ -7,20 +7,14 @@
 using namespace MatouMalin;
 
 Buffer::Buffer(void)
-:_height(0),
- _width(0),
- _pixels(nullptr)
 {
 }
 
 Buffer::Buffer(unsigned int height,unsigned int width)
-:_height(height),
- _width(width)
+:_height(height)
+,_width(width)
 {
-	_pixels = new unsigned char[3*height*width];
-	for (unsigned int i=0, lEnd=3*height*width; i<lEnd; i++)
-		_pixels[i] = 0;
-
+    reset();
 }
 
 Buffer::Buffer(const Buffer & buffer)
@@ -97,7 +91,7 @@ Buffer::~Buffer(void)
 
 void Buffer::setPixel(unsigned int i,unsigned int j,const Color & color)
 {
-	assert(0 <= i && i<=mWidth && 0 <= j && j<=mHeight);
+	assert(0 <= i && i<= _width && 0 <= j && j<= _height);
 	unsigned int lIndex = 3*(_width*j + i);
 
 	Color lColor(color);
@@ -140,15 +134,49 @@ void Buffer::setPixel(unsigned int i,unsigned int j,const Color & color)
 
 Color Buffer::pixel(unsigned int i,unsigned int j) const
 {
-	assert(0 <= i && i<=mWidth && 0 <= j && j<=mHeight);
+	assert(0 <= i && i<= _width && 0 <= j && j<= _height);
 	unsigned int lIndex = 3*(_width*j + i);
 
     return Color(_pixels[lIndex + 0],_pixels[lIndex + 1],_pixels[lIndex + 2]);
+}
 
+
+unsigned int Buffer::height(void) const
+{
+    return _height;
+}
+
+unsigned int Buffer::width(void) const
+{
+    return _width;
+}
+
+void Buffer::dimensions(unsigned int width, unsigned int height)
+{
+    _width = width;
+    _height = height;
+
+    reset();
+}
+
+const unsigned char* Buffer::allPixels(void) const
+{
+    return _pixels;
 }
 
 void Buffer::reset(void)
 {
-	for (unsigned int i=0, lEnd = 3*_height*_width; i<lEnd; i++)
+    if (_width == 0 || _height == 0)
+        return;
+
+    if (_pixels)
+    {
+        delete [] _pixels;
+        _pixels = nullptr;
+    }
+
+	_pixels = new unsigned char[3*_height*_width];
+
+	for (unsigned int i=0, lEnd=3*_height*_width; i<lEnd; i++)
 		_pixels[i] = 0;
 }

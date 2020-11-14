@@ -25,7 +25,6 @@
 #include "Phong.hpp"
 #include "Ray.hpp"
 #include "Renderable.hpp"
-#include "Renderer.hpp"
 #include "Scene.hpp"
 #include "Point.hpp"
 #include "Vector.hpp"

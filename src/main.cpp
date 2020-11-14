@@ -19,31 +19,10 @@
 #endif
 
 #include "CreateScenes.hpp"
+#include "Renderer.hpp"
 
 using namespace MatouMalin;
 using namespace std;
-
-constexpr const auto width  = 600u;
-constexpr const auto height = 600u;
-
-// Create renderer with scene and size of window parameters
-Renderer myRenderer(nullptr, width, height);
-
-// GLUT callbacks: Pass the buffer to glut to be displayed
-void display(void)
-{
-	const Buffer & lBuffer = myRenderer.getBuffer();
-	const unsigned char* lPixels = lBuffer.allPixels();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glMatrixMode(GL_MODELVIEW);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glDrawPixels(width,height,GL_RGB,GL_UNSIGNED_BYTE,lPixels);
-
-	glutSwapBuffers();
-}
 
 int main(int argc,char* argv[])
 {
@@ -65,6 +44,10 @@ int main(int argc,char* argv[])
 
 	glutInit(&argc,argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+
+    // Define width and height of the window
+    constexpr const auto width  = 600u;
+    constexpr const auto height = 600u;
 
 	// Init window position and size,
 	glutInitWindowPosition(0,0);
@@ -97,16 +80,31 @@ int main(int argc,char* argv[])
     }
 
     // Send the scene to the renderer
-	myRenderer.setScene(lScene);
+    Renderer::setScene(lScene, width, height);
 
     if (argc == 3 && strcmp(argv[2], "--supersampling") == 0)
     {
         cout << "Super sampling on" << '\n';
-        myRenderer.setSuperSampling(true);
+        Renderer::setSuperSampling(true);
     }
 
     // Render the scene
-	myRenderer.render();
+    Renderer::render();
+
+    auto display = []()
+    {
+        const Buffer & lBuffer = Renderer::getBuffer();
+        const unsigned char* lPixels = lBuffer.allPixels();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glMatrixMode(GL_MODELVIEW);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glDrawPixels(width,height,GL_RGB,GL_UNSIGNED_BYTE,lPixels);
+
+        glutSwapBuffers();
+    };
 
 	// Display loop
 	glutDisplayFunc(display);

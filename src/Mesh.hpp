@@ -1,19 +1,18 @@
-//
-//  Mesh.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/6/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Mesh.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      06/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_MESH_H
-#define RAYTRACING_MESH_H
+#pragma once
 
-// Standard includes
 #include <cassert>
 #include <vector>
 
-// Local includes
 #include "Renderable.hpp"
 #include "Point.hpp"
 #include "Vector.hpp"
@@ -91,5 +90,3 @@ namespace LCNS
         return _bB;
     }
 }  // namespace LCNS
-
-#endif

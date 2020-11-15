@@ -1,15 +1,15 @@
-//
-//  OBJParameters.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 8/29/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      OBJParameters.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      29/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "OBJParameters.hpp"
 
-
-// Namespaces
 using namespace LCNS;
 
 OBJParameters::OBJParameters(void)

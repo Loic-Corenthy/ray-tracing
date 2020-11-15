@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_RENDERABLE_H
-#define RAYTRACING_RENDERABLE_H
+//===============================================================================================//
+/*!
+ *  \file      Renderable.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard includes
+#pragma once
+
 #include <string>
 #include <cassert>
 
@@ -96,5 +104,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

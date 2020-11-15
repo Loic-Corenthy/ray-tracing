@@ -1,18 +1,17 @@
-//
-//  Plane.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 10/12/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Plane.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      12/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_PLANE_H
-#define RAYTRACING_PLANE_H
+#pragma once
 
-// Standard includes
 #include <cassert>
 
-// Local includes
 #include "Point.hpp"
 #include "Vector.hpp"
 #include "Ray.hpp"
@@ -96,5 +95,3 @@ namespace LCNS
 
 
 }  // namespace LCNS
-
-#endif

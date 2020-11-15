@@ -1,11 +1,19 @@
+//===============================================================================================//
+/*!
+ *  \file      Shader.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "Shader.hpp"
 
-// Standard includes
 #include <list>
 #include <iostream>
 #include <cmath>
 
-// Local includes
 #include "Scene.hpp"
 #include "Light.hpp"
 #include "Phong.hpp"
@@ -18,13 +26,12 @@ using namespace LCNS;
 
 Shader::Shader(void)
 : _bRDF(nullptr)
-,  //(c++11)
-_reflectionCountMax(1)
+, _reflectionCountMax(1)
 , _reflectionCoeff(0.0f)
 , _currentReflectionCoeff(0.0f)
 , _refractionCoeff(0.0f)
 , _material(0)
-, _scene(nullptr)  //(c++11)
+, _scene(nullptr)
 {
 }
 
@@ -109,8 +116,7 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
                     myColor *= noiseCoeff;
 
                     // Add specular compoment
-                    myColor
-                    += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
+                    myColor += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
                 }
 
                 it++;
@@ -136,8 +142,7 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
                     myColor *= noiseCoeff;
 
                     // Add specular compoment
-                    myColor
-                    += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
+                    myColor += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
                 }
 
                 it++;

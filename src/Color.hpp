@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_COLOR_H
-#define RAYTRACING_COLOR_H
+//===============================================================================================//
+/*!
+ *  \file      Color.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard include
+#pragma once
+
 #include <cassert>
 
 namespace LCNS
@@ -221,5 +229,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

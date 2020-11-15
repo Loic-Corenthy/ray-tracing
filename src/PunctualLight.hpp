@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_PUNCTUALLIGHT_H
-#define RAYTRACING_PUNCTUALLIGHT_H
+//===============================================================================================//
+/*!
+ *  \file      PunctualLight.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Local includes
+#pragma once
+
 #include "Light.hpp"
 #include "Color.hpp"
 
@@ -58,5 +66,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_PHONG_H
-#define RAYTRACING_PHONG_H
+//===============================================================================================//
+/*!
+ *  \file      Phong.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Local includes
+#pragma once
+
 #include "BRDF.hpp"
 #include "Color.hpp"
 
@@ -90,5 +98,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

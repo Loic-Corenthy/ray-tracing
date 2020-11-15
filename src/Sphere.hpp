@@ -1,10 +1,17 @@
-#ifndef RAYTRACING_SPHERE_H
-#define RAYTRACING_SPHERE_H
+//===============================================================================================//
+/*!
+ *  \file      Sphere.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard includes
+#pragma once
+
 #include <cassert>
 
-// Local includes
 #include "Point.hpp"
 #include "Ray.hpp"
 #include "Renderable.hpp"
@@ -20,7 +27,7 @@ namespace LCNS
         Sphere(void);
 
         /// Constructor with parameters
-        Sphere(const LCNS::Point& point, float radius);
+        Sphere(const Point& point, float radius);
 
         /// Copy constructor
         Sphere(const Sphere& sphere);
@@ -99,5 +106,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

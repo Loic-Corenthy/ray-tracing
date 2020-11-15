@@ -1,17 +1,17 @@
-//
-//  CreateScenes.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 12/15/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      CreateScenes.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      15/12/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_CREATE_SCENES_H
-#define RAYTRACING_CREATE_SCENES_H
+#pragma once
 
 #include <vector>
 #include <string>
-
 #include <cmath>
 
 #include "Buffer.hpp"
@@ -35,30 +35,30 @@
 
 struct FloorParameters
 {
-    LCNS::Color diffusion;
-    LCNS::Color specular;
-    double            reflectionCoeff;
-    double            refractionCoeff;
-    unsigned short    maxReflection;
-    double            size;
-    double            deep;
-    std::string       floorTexturePath;
+    LCNS::Color    diffusion;
+    LCNS::Color    specular;
+    double         reflectionCoeff;
+    double         refractionCoeff;
+    unsigned short maxReflection;
+    double         size;
+    double         deep;
+    std::string    floorTexturePath;
 };
 
 struct RoomParameters
 {
-    LCNS::Color  diffusion;
-    LCNS::Color  specular;
-    double             reflectionCoeff;
-    double             refractionCoeff;
-    unsigned short     maxReflection;
-    LCNS::Point  lowCorner;
-    LCNS::Vector dimensions;
-    std::string        floorTexturePath;
-    std::string        wallLeftTexturePath;
-    std::string        wallRightTexturePath;
-    std::string        wallBackTexturePath;
-    std::string        ceilingTexturePath;
+    LCNS::Color    diffusion;
+    LCNS::Color    specular;
+    double         reflectionCoeff;
+    double         refractionCoeff;
+    unsigned short maxReflection;
+    LCNS::Point    lowCorner;
+    LCNS::Vector   dimensions;
+    std::string    floorTexturePath;
+    std::string    wallLeftTexturePath;
+    std::string    wallRightTexturePath;
+    std::string    wallBackTexturePath;
+    std::string    ceilingTexturePath;
 };
 
 /// Create a test scene
@@ -114,6 +114,3 @@ void createFloor(LCNS::Scene* scene, const FloorParameters& param);
 
 // Create a "room" with a floor and 3 walls
 void createRoom(LCNS::Scene* scene, const RoomParameters& param);
-
-
-#endif

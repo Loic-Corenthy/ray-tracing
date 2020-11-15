@@ -1,13 +1,23 @@
+//===============================================================================================//
+/*!
+ *  \file      PunctualLight.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "PunctualLight.hpp"
-#include "Ray.hpp"
-#include "Scene.hpp"
-#include "Renderable.hpp"
 
 #include <cassert>
 #include <cmath>
 
-using namespace LCNS;
+#include "Ray.hpp"
+#include "Scene.hpp"
+#include "Renderable.hpp"
 
+using namespace LCNS;
 
 PunctualLight::PunctualLight(void)
 : Light()

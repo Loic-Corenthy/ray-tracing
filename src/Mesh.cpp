@@ -1,14 +1,15 @@
-//
-//  Mesh.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/6/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Mesh.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      06/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "Mesh.hpp"
 
-// Namespaces
 using namespace LCNS;
 
 Mesh::Mesh(void)

@@ -1,18 +1,17 @@
-//
-//  BoundingBox.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/6/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      BoundingBox.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      06/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_BOUNDINGBOX_H
-#define RAYTRACING_BOUNDINGBOX_H
+#pragma once
 
-// Standard includes
 #include <cassert>
 
-// Local includes
 #include "Point.hpp"
 #include "Vector.hpp"
 #include "Ray.hpp"
@@ -82,5 +81,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

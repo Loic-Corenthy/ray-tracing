@@ -1,10 +1,18 @@
+//===============================================================================================//
+/*!
+ *  \file      Renderer.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "Renderer.hpp"
 
-// Standard includes
 #include <iostream>
 #include <cmath>
 
-// Local includes
 #include "Scene.hpp"
 #include "Camera.hpp"
 #include "Vector.hpp"

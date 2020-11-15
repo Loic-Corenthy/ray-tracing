@@ -1,6 +1,15 @@
+//===============================================================================================//
+/*!
+ *  \file      Scene.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "Scene.hpp"
 
-// Standard includes
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +17,6 @@
 #include <cassert>
 #include <vector>
 
-// Local includes
 #include "Renderable.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"

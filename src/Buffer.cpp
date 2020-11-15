@@ -1,6 +1,15 @@
+//===============================================================================================//
+/*!
+ *  \file      Buffer.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "Buffer.hpp"
 
-// Standard includes
 #include <cassert>
 #include <iostream>
 

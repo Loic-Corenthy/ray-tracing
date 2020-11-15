@@ -1,10 +1,12 @@
-//
-//  CreateScenes.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 12/15/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      CreateScenes.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      15/12/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "CreateScenes.hpp"
 

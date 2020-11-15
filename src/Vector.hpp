@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_VECTOR_H
-#define RAYTRACING_VECTOR_H
+//===============================================================================================//
+/*!
+ *  \file      Vector.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard includes
+#pragma once
+
 #include <cmath>
 #include <cassert>
 
@@ -156,5 +164,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

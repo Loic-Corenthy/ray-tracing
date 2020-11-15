@@ -1,13 +1,14 @@
-//
-//  OBJParameters.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 8/29/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      OBJParameters.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      29/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_OBJPARAMETERS_H
-#define RAYTRACING_OBJPARAMETERS_H
+#pragma once
 
 #include <cassert>
 #include <vector>
@@ -173,5 +174,3 @@ namespace LCNS
 
 
 }  // namespace LCNS
-
-#endif

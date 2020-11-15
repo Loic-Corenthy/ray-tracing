@@ -1,21 +1,20 @@
-//
-//  Lambert.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/4/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Lambert.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      04/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "Lambert.hpp"
 
-// Standard includes
 #include <cmath>
 
-// Local includes
 #include "Vector.hpp"
 #include "Ray.hpp"
 
-// Namespaces
 using namespace LCNS;
 
 Lambert::Lambert(void)

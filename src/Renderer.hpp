@@ -1,10 +1,17 @@
-#ifndef RAYTRACING_RENDERER_H
-#define RAYTRACING_RENDERER_H
+//===============================================================================================//
+/*!
+ *  \file      Renderer.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard includes
+#pragma once
+
 #include <cassert>
 
-// Local includes
 #include "Buffer.hpp"
 
 namespace LCNS
@@ -73,5 +80,3 @@ namespace LCNS
     };  // class Renderer
 
 }  // namespace LCNS
-
-#endif

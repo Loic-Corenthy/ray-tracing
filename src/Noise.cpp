@@ -1,15 +1,14 @@
-//
-//  Noise.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/23/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Noise.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      23/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "Noise.hpp"
-
-// Standard includes
-#include <cmath>
 
 using namespace LCNS;
 using namespace std;

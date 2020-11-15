@@ -1,20 +1,19 @@
-//
-//  CubeMap.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 10/14/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      CubeMap.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_CUBEMAP_H
-#define RAYTRACING_CUBEMAP_H
+#pragma once
 
-// Standard includes
 #include <vector>
 #include <map>
 #include <string>
 
-// Local includes
 #include "Point.hpp"
 #include "Image.hpp"
 
@@ -118,5 +117,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

@@ -2,18 +2,25 @@
 /*!
  *  \file      Image.hpp
  *  \author    Loïc Corenthy
- *  \version   1.1
+ *  \version   1.0
  *  \date      10/14/2012
  *  \copyright (c) 2019 Loïc Corenthy. All rights reserved.
  */
 //===============================================================================================//
 
-#ifndef RAYTRACING_IMAGE_H
-#define RAYTRACING_IMAGE_H
+#pragma once
 
 #include <string>
-#include <OpenImageIO/imageio.h>
 #include <cassert>
+
+#ifdef __linux__
+#include <OpenImageIO/imageio.h>
+#include <OpenImageIO/typedesc.h>
+#elif __APPLE__
+/*! \todo Add appropriate includes */
+#elif _WIN32
+/*! \todo Add appropriate includes */
+#endif
 
 #include "Color.hpp"
 
@@ -115,5 +122,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

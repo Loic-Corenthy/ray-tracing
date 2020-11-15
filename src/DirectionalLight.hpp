@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_DIRECTIONALLIGHT_H
-#define RAYTRACING_DIRECTIONALLIGHT_H
+//===============================================================================================//
+/*!
+ *  \file      DirectionalLight.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Local includes
+#pragma once
+
 #include "Vector.hpp"
 #include "Color.hpp"
 #include "Light.hpp"
@@ -65,5 +73,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

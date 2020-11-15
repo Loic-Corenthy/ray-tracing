@@ -1,18 +1,14 @@
-//
-//  Image.cpp
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 10/14/12.
-//
-//
-
-#include <OpenImageIO/imageio.h>
-#include <OpenImageIO/typedesc.h>
+//===============================================================================================//
+/*!
+ *  \file      Image.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      10/14/2012
+ *  \copyright (c) 2019 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
 #include "Image.hpp"
-
-// Local includes
-#include "Color.hpp"
 
 using std::string;
 

@@ -1,4 +1,15 @@
+//===============================================================================================//
+/*!
+ *  \file      DirectionalLight.cpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
+
 #include "DirectionalLight.hpp"
+
 #include "Renderable.hpp"
 #include "Ray.hpp"
 #include "Scene.hpp"

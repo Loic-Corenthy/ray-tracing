@@ -1,13 +1,14 @@
-//
-//  Noise.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/23/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Noise.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      23/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_NOISE_H
-#define RAYTRACING_NOISE_H
+#pragma once
 
 #include <vector>
 #include <cmath>
@@ -80,6 +81,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-
-#endif

@@ -1,15 +1,15 @@
-//
-//  Lambert.h
-//  RayTracing
-//
-//  Created by Loïc CORENTHY on 9/4/12.
-//
-//
+//===============================================================================================//
+/*!
+ *  \file      Lambert.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      04/09/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-#ifndef RAYTRACING_LAMBERT_H
-#define RAYTRACING_LAMBERT_H
+#pragma once
 
-// Local includes
 #include "BRDF.hpp"
 #include "Color.hpp"
 
@@ -64,5 +64,3 @@ namespace LCNS
     }
 
 }  // namespace LCNS
-
-#endif

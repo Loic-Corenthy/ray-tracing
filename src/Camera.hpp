@@ -1,12 +1,19 @@
-#ifndef RAYTRACING_CAMERA_H
-#define RAYTRACING_CAMERA_H
+//===============================================================================================//
+/*!
+ *  \file      Camera.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Standard includes
+#pragma once
+
 #include <vector>
 #include <algorithm>
 #include <iostream>
 
-// Local includes
 #include "Point.hpp"
 #include "Buffer.hpp"
 #include "Vector.hpp"
@@ -206,5 +213,3 @@ namespace LCNS
         return _focalPlane;
     }
 }  // namespace LCNS
-
-#endif

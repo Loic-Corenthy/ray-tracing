@@ -1,7 +1,15 @@
-#ifndef RAYTRACING_BUFFER_H
-#define RAYTRACING_BUFFER_H
+//===============================================================================================//
+/*!
+ *  \file      Buffer.hpp
+ *  \author    Loïc Corenthy
+ *  \version   1.0
+ *  \date      14/10/2012
+ *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
+ */
+//===============================================================================================//
 
-// Local includes
+#pragma once
+
 #include "Color.hpp"
 
 namespace LCNS
@@ -53,6 +61,3 @@ namespace LCNS
     };  // class Buffer
 
 }  // namespace LCNS
-
-
-#endif

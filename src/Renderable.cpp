@@ -33,20 +33,20 @@ Renderable::~Renderable(void)
 
 bool Renderable::_refraction(const Vector& incomingDirection, const Vector& normal, double n1, double n2, Vector& refractedDirection) const
 {
-    double lMinusCosTheta1 = incomingDirection * normal;
-    double lN              = n1 / n2;
+    double minusCosTheta1 = incomingDirection * normal;
+    double n              = n1 / n2;
 
     // Test for total reflection
-    double lSqrSinTheta2 = lN * lN * (1.0 - lMinusCosTheta1 * lMinusCosTheta1);
+    double sqrSinTheta2 = n * n * (1.0 - minusCosTheta1 * minusCosTheta1);
 
-    if (lSqrSinTheta2 > 1.0)
+    if (sqrSinTheta2 > 1.0)
     {
         return false;
     }
     else
     {
-        double lCosTheta2  = sqrt(1.0 - lSqrSinTheta2);
-        refractedDirection = (incomingDirection - normal * lMinusCosTheta1) * lN - normal * lCosTheta2;
+        double cosTheta2  = sqrt(1.0 - sqrSinTheta2);
+        refractedDirection = (incomingDirection - normal * minusCosTheta1) * n - normal * cosTheta2;
         return true;
     }
 }

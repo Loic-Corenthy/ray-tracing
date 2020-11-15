@@ -51,24 +51,24 @@ bool Sphere::intersect(Ray& ray)
     float c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
               + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
 
-    float lRoot1(0.0f);
-    float lRoot2(0.0f);
-    bool  lRootOk(false);
+    float root1(0.0f);
+    float root2(0.0f);
+    bool  rootOk(false);
 
-    lRootOk = _solveSecDeg(a, b, c, lRoot1, lRoot2);
+    rootOk = _solveSecDeg(a, b, c, root1, root2);
 
-    if (lRootOk == false)
+    if (rootOk == false)
         return false;
 
-    if (lRoot1 > 0.0 && lRoot2 > 0.0)
+    if (root1 > 0.0 && root2 > 0.0)
     {
-        ray.setLength((lRoot1 < lRoot2) ? lRoot1 : lRoot2);
+        ray.setLength((root1 < root2) ? root1 : root2);
         ray.setIntersected(this);
         return true;
     }
-    else if ((lRoot1 > 0.0 && lRoot2 <= 0.0) || (lRoot2 > 0.0 && lRoot1 <= 0.0))
+    else if ((root1 > 0.0 && root2 <= 0.0) || (root2 > 0.0 && root1 <= 0.0))
     {
-        ray.setLength((lRoot1 > lRoot2) ? lRoot1 : lRoot2);
+        ray.setLength((root1 > root2) ? root1 : root2);
         ray.setIntersected(this);
         return true;
     }
@@ -79,44 +79,44 @@ bool Sphere::intersect(Ray& ray)
 Color Sphere::color(Ray& ray, unsigned int reflectionCount)
 {
     // Calculate normal from vertex normals
-    Vector lNormalAtPt = (ray.intersection() - _center);
-    lNormalAtPt.normalize();
+    Vector normalAtPt = (ray.intersection() - _center);
+    normalAtPt.normalize();
 
-    return (_shader->color(ray.direction() * (-1), lNormalAtPt, ray.intersection(), this, reflectionCount));
+    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
 }
 
 bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
 {
-    Vector lIncomingDirection = incomingRay.direction();
-    lIncomingDirection.normalize();
-    Vector lNormal             = normal(incomingRay.intersection());
-    double lAirIndex           = 1.0;
-    double lCurrentObjectIndex = _shader->refractionCoeff();
+    Vector incomingDirection = incomingRay.direction();
+    incomingDirection.normalize();
+    Vector normalToIncomingRay             = normal(incomingRay.intersection());
+    double airIndex           = 1.0;
+    double currentObjectIndex = _shader->refractionCoeff();
 
-    Vector lRefractedDirection;
+    Vector refractedDirection;
 
-    bool lFirstRefraction = _refraction(lIncomingDirection, lNormal, lAirIndex, lCurrentObjectIndex, lRefractedDirection);
+    bool firstRefraction = _refraction(incomingDirection, normalToIncomingRay, airIndex, currentObjectIndex, refractedDirection);
 
-    if (lFirstRefraction)
+    if (firstRefraction)
     {
-        Ray lInsideSphere(incomingRay.intersection() + lRefractedDirection * 0.1, lRefractedDirection);
+        Ray insideSphere(incomingRay.intersection() + refractedDirection * 0.1, refractedDirection);
 
-        bool lGetOut = this->intersect(lInsideSphere);
-        assert(lGetOut && "Intersection not found inside the sphere");
+        bool getOut = this->intersect(insideSphere);
+        assert(getOut && "Intersection not found inside the sphere");
 
-        Vector lOutRefractionDirection;
-        lIncomingDirection = lInsideSphere.direction();
-        lIncomingDirection.normalize();
-        bool lSecondRefraction = _refraction(
-        lInsideSphere.direction(), normal(lInsideSphere.intersection()) * (-1.0), lCurrentObjectIndex, lAirIndex, lOutRefractionDirection);
+        Vector outRefractionDirection;
+        incomingDirection = insideSphere.direction();
+        incomingDirection.normalize();
+        bool secondRefraction = _refraction(
+        insideSphere.direction(), normal(insideSphere.intersection()) * (-1.0), currentObjectIndex, airIndex, outRefractionDirection);
 
-        if (!lSecondRefraction)
+        if (!secondRefraction)
             return false;
 
-        assert(lSecondRefraction && "Ray cannot get find its way out of the sphere :p ");
+        assert(secondRefraction && "Ray cannot get find its way out of the sphere :p ");
 
-        refractedRay.setOrigin(lInsideSphere.intersection());
-        refractedRay.setDirection(lOutRefractionDirection);
+        refractedRay.setOrigin(insideSphere.intersection());
+        refractedRay.setDirection(outRefractionDirection);
         refractedRay.setIntersected(this);
 
         return true;
@@ -130,16 +130,16 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
 
 bool Sphere::_solveSecDeg(float a, float b, float c, float& root1, float& root2)
 {
-    float lDelta = 0;
-    lDelta       = b * b - 4 * a * c;
+    float delta = 0;
+    delta       = b * b - 4 * a * c;
 
-    if (lDelta < 0)
+    if (delta < 0)
     {
         root1 = 0;
         root2 = 0;
         return false;
     }
-    else if (lDelta == 0)
+    else if (delta == 0)
     {
         root1 = -b / (2 * a);
         root2 = -b / (2 * a);
@@ -147,8 +147,8 @@ bool Sphere::_solveSecDeg(float a, float b, float c, float& root1, float& root2)
     }
     else
     {
-        root1 = (-b - sqrt(lDelta)) / (2 * a);
-        root2 = (-b + sqrt(lDelta)) / (2 * a);
+        root1 = (-b - sqrt(delta)) / (2 * a);
+        root2 = (-b + sqrt(delta)) / (2 * a);
         return true;
     }
 }

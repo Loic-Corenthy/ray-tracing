@@ -75,8 +75,8 @@ namespace LCNS
 
     inline double Noise::_cerp(double a, double b, double t) const
     {
-        double lF = (1.0f - cosf(t * _pi)) * 0.5f;
-        return (a * (1.0 - lF) + b * lF);
+        double f = (1.0f - cosf(t * _pi)) * 0.5f;
+        return (a * (1.0 - f) + b * f);
     }
 
 }  // namespace LCNS

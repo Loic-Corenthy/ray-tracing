@@ -64,17 +64,17 @@ Plane::~Plane(void)
 
 bool Plane::intersect(Ray& ray)
 {
-    double lScalarProd = ray.direction() * _normal;
+    double scalarProd = ray.direction() * _normal;
 
     // Check if ray is not parallel to triangle
-    if (lScalarProd != 0.0)
+    if (scalarProd != 0.0)
     {
-        Vector lOrigin(ray.origin().x(), ray.origin().y(), ray.origin().z());
+        Vector origin(ray.origin().x(), ray.origin().y(), ray.origin().z());
 
         // Calculate the lenght the ray when intersecting the plane
-        double lLength = (-1.0) * (lOrigin * _normal + _equationCoeffs[3]) / (lScalarProd);
+        double length = (-1.0) * (origin * _normal + _equationCoeffs[3]) / (scalarProd);
 
-        ray.setLength(lLength);
+        ray.setLength(length);
         ray.setIntersected(nullptr);  // (c++11)
         return true;
     }
@@ -109,8 +109,8 @@ void Plane::_updateEquation(void)
     _equationCoeffs[1] = _normal.y();
     _equationCoeffs[2] = _normal.z();
 
-    Vector lPosition(_position.x(), _position.y(), _position.z());
-    _equationCoeffs[3] = (_normal * lPosition) * (-1.0);
+    Vector position(_position.x(), _position.y(), _position.z());
+    _equationCoeffs[3] = (_normal * position) * (-1.0);
 }
 
 void Plane::_updateNormal(void)

@@ -124,14 +124,14 @@ namespace LCNS
     template <typename NumType>
     Vector Camera::pixelDirection(NumType x, NumType y, Buffer* buffer) const
     {
-        Vector lPixelDirection(0.0, 0.0, 0.0);
+        Vector pixelDirection(0.0, 0.0, 0.0);
 
-        float lRightValue = (2 * tan(_fOV / 2) / (buffer->width())) * (buffer->width() / 2.f - x);
-        float lUpValue    = (2 * tan(_fOV / 2) / (buffer->width())) * (y - buffer->height() / 2.f);
+        float rightValue = (2 * tan(_fOV / 2) / (buffer->width())) * (buffer->width() / 2.f - x);
+        float upValue    = (2 * tan(_fOV / 2) / (buffer->width())) * (y - buffer->height() / 2.f);
 
-        lPixelDirection = _right * lRightValue + _up * lUpValue + _direction;
+        pixelDirection = _right * rightValue + _up * upValue + _direction;
 
-        return lPixelDirection;
+        return pixelDirection;
     }
 
     inline void Camera::setPosition(const Point& position)

@@ -60,24 +60,24 @@ Color Lambert::reflectance(const Vector& vecToLight, const Vector& vecToViewer, 
 Color Lambert::diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const
 {
     // Make local copy to normalize
-    Vector lVecToLight(vecToLight);
-    lVecToLight.normalize();
+    Vector vecToLightCopy(vecToLight);
+    vecToLightCopy.normalize();
 
     // Calculate diffusion coefficient
-    double lCosAlpha = lVecToLight * normal;
+    double cosAlpha = vecToLightCopy * normal;
 
     // Set negative coefficents to zero
-    lCosAlpha = (lCosAlpha < 0.0) ? 0.0 : lCosAlpha;
+    cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
 
-    const CubeMap* lCubeMap = cubeMap();
-    if (lCubeMap)
+    const CubeMap* cubeMap = BRDF::cubeMap();
+    if (cubeMap)
     {
-        Ray   lNormalRay(intersection, normal);
-        Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
-        return lDiffColor * lCosAlpha;
+        Ray   normalRay(intersection, normal);
+        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        return diffColor * cosAlpha;
     }
     else
-        return (_diffusionColor * lCosAlpha);
+        return (_diffusionColor * cosAlpha);
 }
 
 Color Lambert::specular(const LCNS::Vector& vecToLight,

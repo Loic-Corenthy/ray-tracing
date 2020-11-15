@@ -17,13 +17,13 @@ using namespace std;
 
 void createTestScene(LCNS::Scene* scene)
 {
-    LCNS::Point lCenterSphere1(0.0, 0.0, 0.0);
-    Renderable*       rSphere1 = new Sphere(lCenterSphere1, 2.3);
+    LCNS::Point centerSphere1(0.0, 0.0, 0.0);
+    Renderable*       rSphere1 = new Sphere(centerSphere1, 2.3);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere1(1.0f, 0.0f, 0.0f);
-    Color lSpecularSphere1(0.7f, 0.3f, 0.3f);
-    BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 5);
+    Color diffusionSphere1(1.0f, 0.0f, 0.0f);
+    Color specularSphere1(0.7f, 0.3f, 0.3f);
+    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
     Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 1.0, scene, Shader::NONE);
@@ -42,19 +42,19 @@ void createTestScene(LCNS::Scene* scene)
     scene->add(rLight1);
 
 
-    //    LCNS::Point lLight2Position(0.f,1.0f,0.0f);
-    //	Light* rLight2 = new PunctualLight(lLight2Position,lLight1Color);
+    //    LCNS::Point light2Position(0.f,1.0f,0.0f);
+    //	Light* rLight2 = new PunctualLight(light2Position,lLight1Color);
     //    scene->add(rLight2);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 7.0f, 10.0f);
-    Vector            lDirectionCamera(0.00f, -0.4f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 7.0f, 10.0f);
+    Vector            directionCamera(0.00f, -0.4f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
 
 
@@ -67,22 +67,22 @@ void createTestScene(LCNS::Scene* scene)
 void createScene01(Scene* scene)
 {
     // Same reflection coefficient for all the spheres
-    double lReflectionCoeff(2.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(2.0);
+    double refractionCoeff(1.0);
 
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point lCenterSphere1(0.0, 2.0, 2.1);
-    Renderable*       rSphere1 = new Sphere(lCenterSphere1, 0.3);
+    LCNS::Point centerSphere1(0.0, 2.0, 2.1);
+    Renderable*       rSphere1 = new Sphere(centerSphere1, 0.3);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere1(1.0f, 0.0f, 0.0f);
-    Color lSpecularSphere1(0.7f, 0.3f, 0.3f);
-    BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 5);
+    Color diffusionSphere1(1.0f, 0.0f, 0.0f);
+    Color specularSphere1(0.7f, 0.3f, 0.3f);
+    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene, Shader::MARBLE);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere1->setReflectionCountMax(2);
     rSphere1->setShader(rShaderSphere1);
 
@@ -93,16 +93,16 @@ void createScene01(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point lCenterSphere2(2.0, 0.5, 0.0);
-    Renderable*       rSphere2 = new Sphere(lCenterSphere2, 1.5);
+    LCNS::Point centerSphere2(2.0, 0.5, 0.0);
+    Renderable*       rSphere2 = new Sphere(centerSphere2, 1.5);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere2(0.0f, 1.0f, 0.0f);
-    Color lSpecularSphere2(1.0f);
-    BRDF* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 15);
+    Color diffusionSphere2(0.0f, 1.0f, 0.0f);
+    Color specularSphere2(1.0f);
+    BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene, Shader::MARBLE);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
@@ -113,16 +113,16 @@ void createScene01(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    LCNS::Point lCenterSphere3(-1.8, 0.0, 0.0);
-    Renderable*       rSphere3 = new Sphere(lCenterSphere3, 1.0);
+    LCNS::Point centerSphere3(-1.8, 0.0, 0.0);
+    Renderable*       rSphere3 = new Sphere(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere3(0.0f, 0.0f, 1.0f);
-    Color lSpecularSphere3(0.8f, 0.8f, 1.0f);
-    BRDF* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 25);
+    Color diffusionSphere3(0.0f, 0.0f, 1.0f);
+    Color specularSphere3(0.8f, 0.8f, 1.0f);
+    BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, lReflectionCoeff, lRefractionCoeff, scene, Shader::MARBLE);
+    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere3->setReflectionCountMax(2);
     rSphere3->setShader(rShaderSphere3);
 
@@ -133,20 +133,20 @@ void createScene01(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 0.0f, 5.0f);
-    Color             lLight1Color(9.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 0.0f, 5.0f);
+    Color             light1Color(9.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 2.5f, 6.0f);
-    Vector            lDirectionCamera(0.05f, -0.4f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 2.5f, 6.0f);
+    Vector            directionCamera(0.05f, -0.4f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
 
     ////////////////
@@ -159,22 +159,22 @@ void createScene01(Scene* scene)
 void createScene02(Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
-    double lReflectionCoeff(5.8);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(5.8);
+    double refractionCoeff(1.0);
 
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point lCenterSphere1(-60.0, 0.0, 60.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 40.f);
+    LCNS::Point centerSphere1(-60.0, 0.0, 60.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 40.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.0f, 0.6f, 0.6f);
-    Color  lSpecularSphere1(0.9f, 0.4f, 0.4f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1 * 2.0, lSpecularSphere1, 3);
+    Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
+    Color  specularSphere1(0.9f, 0.4f, 0.4f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1 * 2.0, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(3);
     rSphere1->setShader(rShaderSphere1);
 
@@ -186,16 +186,16 @@ void createScene02(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point lCenterSphere2(60.0, 0.0, 50.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 40.f);
+    LCNS::Point centerSphere2(60.0, 0.0, 50.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 40.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.6f, 1.0f, 0.6f);
-    Color  lSpecularSphere2(0.4, 1.0f, 0.4f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2 * 2.0, lSpecularSphere2, 3);
+    Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
+    Color  specularSphere2(0.4, 1.0f, 0.4f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2 * 2.0, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(3);
     rSphere2->setShader(rShaderSphere2);
 
@@ -207,16 +207,16 @@ void createScene02(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    LCNS::Point lCenterSphere3(0.0, -10.0, 110.0);
-    Sphere*           rSphere3 = new Sphere(lCenterSphere3, 20.0f);
+    LCNS::Point centerSphere3(0.0, -10.0, 110.0);
+    Sphere*           rSphere3 = new Sphere(centerSphere3, 20.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere3(0.6f, 0.6f, 1.0f);
-    Color  lSpecularSphere3(0.4f, 0.4f, 0.9f);
-    Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3 * 2.0, lSpecularSphere3, 3);
+    Color  diffusionSphere3(0.6f, 0.6f, 1.0f);
+    Color  specularSphere3(0.4f, 0.4f, 0.9f);
+    Phong* rBRDFSphere3 = new Phong(diffusionSphere3 * 2.0, specularSphere3, 3);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, lReflectionCoeff, 1.0, scene);
+    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, 1.0, scene);
     rShaderSphere3->setReflectionCountMax(3);
     rSphere3->setShader(rShaderSphere3);
 
@@ -228,13 +228,13 @@ void createScene02(Scene* scene)
     ///////////////////////////////
     // CYAN SPHERE IN BACKGROUND //
     ///////////////////////////////
-    LCNS::Point lCenterSphere4(-50.0, 0.0, -250.0);
-    Sphere*           rSphere4 = new Sphere(lCenterSphere4, 100.0f);
+    LCNS::Point centerSphere4(-50.0, 0.0, -250.0);
+    Sphere*           rSphere4 = new Sphere(centerSphere4, 100.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere4(0, 255, 255);
-    Color  lSpecularSphere4(0.0f);
-    Phong* rBRDFSphere4 = new Phong(lDiffusionSphere4 * 6, lSpecularSphere4, 3);
+    Color  diffusionSphere4(0, 255, 255);
+    Color  specularSphere4(0.0f);
+    Phong* rBRDFSphere4 = new Phong(diffusionSphere4 * 6, specularSphere4, 3);
 
     // Create a shader for the fourth sphere
     Shader* rShaderSphere4 = new Shader(rBRDFSphere4, 0.0, 1.0, scene);
@@ -248,44 +248,44 @@ void createScene02(Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = { Color(1.0), Color(0.8), 2.0, 1.0, 2, 400.0, 80.0, string("./resources/damierBlueYellow.png") };
-    createFloor(scene, lFloorParameters);
+    FloorParameters floorParameters = { Color(1.0), Color(0.8), 2.0, 1.0, 2, 400.0, 80.0, string("./resources/damierBlueYellow.png") };
+    createFloor(scene, floorParameters);
 
 
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(50.f, 130.f, 150.0f);
-    Color             lLight1Color(18.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(50.f, 130.f, 150.0f);
+    Color             light1Color(18.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point lLight2Position(20.f, 150.f, 150.0f);
-    Color             lLight2Color(18.0f);
-    Light*            rLight2 = new PunctualLight(lLight2Position, lLight2Color);
+    LCNS::Point light2Position(20.f, 150.f, 150.0f);
+    Color             light2Color(18.0f);
+    Light*            rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
-    LCNS::Point lLight3Position(-70.f, 50.f, 110.0f);
-    Color             lLight3Color(15.0f);
-    Light*            rLight3 = new PunctualLight(lLight3Position, lLight3Color);
+    LCNS::Point light3Position(-70.f, 50.f, 110.0f);
+    Color             light3Color(15.0f);
+    Light*            rLight3 = new PunctualLight(light3Position, light3Color);
     scene->add(rLight3);
 
-    LCNS::Point lLight4Position(-20.f, 50.f, 160.0f);
-    Color             lLight4Color(15.0f);
-    Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
+    LCNS::Point light4Position(-20.f, 50.f, 160.0f);
+    Color             light4Color(15.0f);
+    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 100.0f, 250.0f);
-    Vector            lDirectionCamera(0.0f, -0.6f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 100.0f, 250.0f);
+    Vector            directionCamera(0.0f, -0.6f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
-    rCamera->setFocalPoint(lCenterSphere3);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
+    rCamera->setFocalPoint(centerSphere3);
     rCamera->setAperture(Camera::F_SMALL, Camera::SUPER_AWESOME);
 
     scene->add(rCamera);
@@ -300,21 +300,21 @@ void createScene02(Scene* scene)
 void createScene03(Scene* scene)
 {
     // Same reflection coefficient for the spheres
-    double lReflection(1.0);
-    double lRefraction(1.0);
+    double reflection(1.0);
+    double refraction(1.0);
 
     //////////////////////////////////////
     // SPHERE WITH A TURBULANCE TEXTURE //
     //////////////////////////////////////
-    LCNS::Point lCenter(-20.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenter, 3.0f);
+    LCNS::Point center(-20.0, 0.0, 0.0);
+    Sphere*           rSphere1 = new Sphere(center, 3.0f);
 
-    Color  lDiffusion(245, 222, 179);
-    Color  lSpecular(255, 255, 255);
-    Phong* rBRDF1 = new Phong(lDiffusion * 2.0, lSpecular, 15);
+    Color  diffusion(245, 222, 179);
+    Color  specular(255, 255, 255);
+    Phong* rBRDF1 = new Phong(diffusion * 2.0, specular, 15);
 
     // Create a shader for the turbulance sphere
-    Shader* rShader1 = new Shader(rBRDF1, lReflection, lRefraction, scene, Shader::Material::TURBULANCE);
+    Shader* rShader1 = new Shader(rBRDF1, reflection, refraction, scene, Shader::Material::TURBULANCE);
     rShader1->setReflectionCountMax(2);
 
     rSphere1->setShader(rShader1);
@@ -326,14 +326,14 @@ void createScene03(Scene* scene)
     //////////////////////////////////
     // SPHERE WITH A MARBLE TEXTURE //
     //////////////////////////////////
-    lCenter.setPoint(-10.0, 0.0, 0.0);
-    Sphere* rSphere2 = new Sphere(lCenter, 3.0f);
+    center.setPoint(-10.0, 0.0, 0.0);
+    Sphere* rSphere2 = new Sphere(center, 3.0f);
 
-    lDiffusion.setColor(0, 255, 255);
-    Phong* rBRDF2 = new Phong(lDiffusion, lSpecular, 15);
+    diffusion.setColor(0, 255, 255);
+    Phong* rBRDF2 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
-    Shader* rShader2 = new Shader(rBRDF2, lReflection, lRefraction, scene, Shader::Material::MARBLE);
+    Shader* rShader2 = new Shader(rBRDF2, reflection, refraction, scene, Shader::Material::MARBLE);
     rShader2->setReflectionCountMax(2);
 
     rSphere2->setShader(rShader2);
@@ -345,22 +345,22 @@ void createScene03(Scene* scene)
     ///////////
     // TORUS //
     ///////////
-    string lPath = "./resources/torus.obj";
-    scene->createFromFile(lPath);
+    string path = "./resources/torus.obj";
+    scene->createFromFile(path);
 
     // Create a BRDF model for the torus
-    lDiffusion.setColor(255, 105, 0);
-    Phong* rBRDFTorus = new Phong(lDiffusion, lSpecular, 3);
+    diffusion.setColor(255, 105, 0);
+    Phong* rBRDFTorus = new Phong(diffusion, specular, 3);
 
     // Create a shader for the torus
     Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::NONE);
 
     // Get an iterator on the object of the scene and displace it until refers to the torus
-    auto lIt = scene->renderableList().begin();
-    lIt++;
-    lIt++;
+    auto it = scene->renderableList().begin();
+    it++;
+    it++;
 
-    (*lIt)->setShader(rShaderTorus);
+    (*it)->setShader(rShaderTorus);
 
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
@@ -368,14 +368,14 @@ void createScene03(Scene* scene)
     ////////////////////////////////
     // SPHERE WITH A BUMP TEXTURE //
     ////////////////////////////////
-    lCenter.setPoint(8.0, 0.0, 0.0);
-    Sphere* rSphere3 = new Sphere(lCenter, 3.0f);
+    center.setPoint(8.0, 0.0, 0.0);
+    Sphere* rSphere3 = new Sphere(center, 3.0f);
 
-    lDiffusion.setColor(127, 255, 0);
-    Phong* rBRDF3 = new Phong(lDiffusion, lSpecular, 15);
+    diffusion.setColor(127, 255, 0);
+    Phong* rBRDF3 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
-    Shader* rShader3 = new Shader(rBRDF3, lReflection, lRefraction, scene, Shader::Material::BUMP);
+    Shader* rShader3 = new Shader(rBRDF3, reflection, refraction, scene, Shader::Material::BUMP);
     rShader3->setReflectionCountMax(2);
 
     rSphere3->setShader(rShader3);
@@ -387,11 +387,11 @@ void createScene03(Scene* scene)
     ///////////////////////////
     // SPHERE WITH A TEXTURE //
     ///////////////////////////
-    lCenter.setPoint(18.0, 0.0, 0.0);
-    Renderable* rSphere4 = new Sphere(lCenter, 3.0);
+    center.setPoint(18.0, 0.0, 0.0);
+    Renderable* rSphere4 = new Sphere(center, 3.0);
 
     // Create a BRDF model for the sphere
-    CubeMap* rCubeMapSphere = new CubeMap(lCenter, 104);
+    CubeMap* rCubeMapSphere = new CubeMap(center, 104);
     rCubeMapSphere->addImage(CubeMap::BACK, "./resources/earth_back.png");
     rCubeMapSphere->addImage(CubeMap::FRONT, "./resources/earth_front.png");
     rCubeMapSphere->addImage(CubeMap::UP, "./resources/earth_up.png");
@@ -402,12 +402,12 @@ void createScene03(Scene* scene)
 
     scene->add(rCubeMapSphere);
 
-    lDiffusion.setColor(255, 255, 255);
-    BRDF* rBRDF4 = new Phong(lDiffusion * 2.0, lSpecular, 15);
+    diffusion.setColor(255, 255, 255);
+    BRDF* rBRDF4 = new Phong(diffusion * 2.0, specular, 15);
     rBRDF4->setCubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
-    Shader* rShader4 = new Shader(rBRDF4, lReflection, lRefraction, scene);
+    Shader* rShader4 = new Shader(rBRDF4, reflection, refraction, scene);
     rShader4->setReflectionCountMax(1);
     rSphere4->setShader(rShader4);
 
@@ -419,22 +419,22 @@ void createScene03(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLightPos(0.0, 20.0, 15.0);
-    Color             lLightCol(18.0f);
+    LCNS::Point lightPos(0.0, 20.0, 15.0);
+    Color             lightCol(18.0f);
 
-    Light* rLight = new PunctualLight(lLightPos, lLightCol);
+    Light* rLight = new PunctualLight(lightPos, lightCol);
     scene->add(rLight);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(1.5f, 10.0f, 25.0f);
-    Vector            lDirectionCamera(-0.05f, -0.4f, -1.0f);
-    Vector            lCameraUp(0.f, 1.0f, 0.f);
+    LCNS::Point centreCamera(1.5f, 10.0f, 25.0f);
+    Vector            directionCamera(-0.05f, -0.4f, -1.0f);
+    Vector            cameraUp(0.f, 1.0f, 0.f);
     float             FOV = 90.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
     scene->add(rCamera);
@@ -442,8 +442,8 @@ void createScene03(Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = { Color(0.0f), Color(0.0f), 1.0f, 1.0f, 2, 40.0, 3.0, string("no_texture") };
-    createFloor(scene, lFloorParameters);
+    FloorParameters floorParameters = { Color(0.0f), Color(0.0f), 1.0f, 1.0f, 2, 40.0, 3.0, string("no_texture") };
+    createFloor(scene, floorParameters);
 
 
     ////////////////
@@ -456,20 +456,20 @@ void createScene03(Scene* scene)
 void createScene04(Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
-    double lReflectionCoeff(8.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(8.0);
+    double refractionCoeff(1.0);
 
     // Create a sphere
-    LCNS::Point lCenterSphere1(-180.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 50.f);
+    LCNS::Point centerSphere1(-180.0, 0.0, 0.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 50.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.3f, 0.0f, 0.0f);
-    Color  lSpecularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 25);
+    Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
+    Color  specularSphere1(1.0f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(2);
     rSphere1->setShader(rShaderSphere1);
 
@@ -478,16 +478,16 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    LCNS::Point lCenterSphere2(0.0, 0.0, 0.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 50.f);
+    LCNS::Point centerSphere2(0.0, 0.0, 0.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 50.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.0f, 1.2f, 0.0f);
-    Color  lSpecularSphere2(0.8f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 25);
+    Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
+    Color  specularSphere2(0.8f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
@@ -496,16 +496,16 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a purple sphere
-    LCNS::Point lCenterSphere3(180.0, 0.0, 0.0);
-    Sphere*           rSphere3 = new Sphere(lCenterSphere3, 50.0f);
+    LCNS::Point centerSphere3(180.0, 0.0, 0.0);
+    Sphere*           rSphere3 = new Sphere(centerSphere3, 50.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere3(0.24f, 0.34f, 1.97f);
-    Color  lSpecularSphere3(0.8);
-    Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 25);
+    Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
+    Color  specularSphere3(0.8);
+    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere3->setReflectionCountMax(2);
     rSphere3->setShader(rShaderSphere3);
 
@@ -517,45 +517,45 @@ void createScene04(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 0.0f, 100.0f);
-    Color             lLowLightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLowLightColor);
+    LCNS::Point light1Position(0.f, 0.0f, 100.0f);
+    Color             lowLightColor(20.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, lowLightColor);
     scene->add(rLight1);
 
-    LCNS::Point lLight2Position(-200.f, 0.0f, 100.0f);
-    Light*            rLight2 = new PunctualLight(lLight2Position, lLowLightColor);
+    LCNS::Point light2Position(-200.f, 0.0f, 100.0f);
+    Light*            rLight2 = new PunctualLight(light2Position, lowLightColor);
     scene->add(rLight2);
 
-    LCNS::Point lLight3Position(200.f, 0.0f, 100.0f);
-    Light*            rLight3 = new PunctualLight(lLight3Position, lLowLightColor);
+    LCNS::Point light3Position(200.f, 0.0f, 100.0f);
+    Light*            rLight3 = new PunctualLight(light3Position, lowLightColor);
     scene->add(rLight3);
 
-    LCNS::Point lLight4Position(90.f, 300.f, 200.0f);
-    Color             lHighLightColor(200.0f);
-    Light*            rLight4 = new PunctualLight(lLight4Position, lHighLightColor);
+    LCNS::Point light4Position(90.f, 300.f, 200.0f);
+    Color             highLightColor(200.0f);
+    Light*            rLight4 = new PunctualLight(light4Position, highLightColor);
     scene->add(rLight4);
 
-    LCNS::Point lLight5Position(-90.f, 300.f, 200.0f);
-    Light*            rLight5 = new PunctualLight(lLight5Position, lHighLightColor);
+    LCNS::Point light5Position(-90.f, 300.f, 200.0f);
+    Light*            rLight5 = new PunctualLight(light5Position, highLightColor);
     scene->add(rLight5);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(-200.0f, 150.0f, 400.0f);
-    Vector            lDirectionCamera(0.2f, -0.25f, -0.5f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(-200.0f, 150.0f, 400.0f);
+    Vector            directionCamera(0.2f, -0.25f, -0.5f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP, 10.0);
 
     scene->add(rCamera);
 
     // FLOOR
-    FloorParameters lFloorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
+    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
 
-    createFloor(scene, lFloorParameters);
+    createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
@@ -566,22 +566,22 @@ void createScene04(Scene* scene)
 void createScene04bis(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres
-    double lReflectionCoeff(8.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(8.0);
+    double refractionCoeff(1.0);
 
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point lCenterSphere1(-2.50, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 1.0f);
+    LCNS::Point centerSphere1(-2.50, 0.0, 0.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 1.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.3f, 0.0f, 0.0f);
-    Color  lSpecularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 25);
+    Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
+    Color  specularSphere1(1.0f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(4);
     rSphere1->setShader(rShaderSphere1);
 
@@ -593,16 +593,16 @@ void createScene04bis(LCNS::Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point lCenterSphere2(0.0, 0.0, 0.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 1.0f);
+    LCNS::Point centerSphere2(0.0, 0.0, 0.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 1.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.0f, 1.2f, 0.0f);
-    Color  lSpecularSphere2(0.8f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 25);
+    Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
+    Color  specularSphere2(0.8f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(4);
     rSphere2->setShader(rShaderSphere2);
 
@@ -613,16 +613,16 @@ void createScene04bis(LCNS::Scene* scene)
     ///////////////////
     // PURPLE SPHERE //
     ///////////////////
-    LCNS::Point lCenterSphere3(2.50, 0.0, 0.0);
-    Sphere*           rSphere3 = new Sphere(lCenterSphere3, 1.0f);
+    LCNS::Point centerSphere3(2.50, 0.0, 0.0);
+    Sphere*           rSphere3 = new Sphere(centerSphere3, 1.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere3(0.24f, 0.34f, 1.97f);
-    Color  lSpecularSphere3(0.8);
-    Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 25);
+    Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
+    Color  specularSphere3(0.8);
+    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere3->setReflectionCountMax(4);
     rSphere3->setShader(rShaderSphere3);
 
@@ -634,32 +634,32 @@ void createScene04bis(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight4Position(1.15f, 4.f, 4.0f);
-    Color             lLightColor(16.0f);
-    Light*            rLight4 = new PunctualLight(lLight4Position, lLightColor);
+    LCNS::Point light4Position(1.15f, 4.f, 4.0f);
+    Color             lightColor(16.0f);
+    Light*            rLight4 = new PunctualLight(light4Position, lightColor);
     scene->add(rLight4);
 
-    LCNS::Point lLight5Position(-1.15f, 4.f, 4.0f);
-    Light*            rLight5 = new PunctualLight(lLight5Position, lLightColor);
+    LCNS::Point light5Position(-1.15f, 4.f, 4.0f);
+    Light*            rLight5 = new PunctualLight(light5Position, lightColor);
     scene->add(rLight5);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(-3.5f, 2.50f, 7.0f);
-    Vector            lDirectionCamera(0.15f, -0.25f, -0.5f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(-3.5f, 2.50f, 7.0f);
+    Vector            directionCamera(0.15f, -0.25f, -0.5f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
 
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("./resources/small_damier.png") };
-    createFloor(scene, lFloorParameters);
+    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("./resources/small_damier.png") };
+    createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
@@ -671,19 +671,19 @@ void createScene04bis(LCNS::Scene* scene)
 void createScene05(Scene* scene)
 {
     // TORUS
-    string lPath = "./resources/torus.obj";
-    scene->createFromFile(lPath);
+    string path = "./resources/torus.obj";
+    scene->createFromFile(path);
 
     // Create a BRDF model for the torus
-    Color  lDiffusionTorus(0.76f, 0.33f, 0.12f);
-    Color  lSpecularTorus(0.9f, 0.8f, 0.8f);
-    Phong* rBRDFTorus = new Phong(lDiffusionTorus, lSpecularTorus, 3);
+    Color  diffusionTorus(0.76f, 0.33f, 0.12f);
+    Color  specularTorus(0.9f, 0.8f, 0.8f);
+    Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 3);
 
     // Create a shader for the sphere
     Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::BUMP);
 
-    auto lIt = scene->renderableList().begin();
-    (*lIt)->setShader(rShaderTorus);
+    auto it = scene->renderableList().begin();
+    (*it)->setShader(rShaderTorus);
 
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
@@ -692,34 +692,34 @@ void createScene05(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
-    Color             lLight1Color(10.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
+    Color             light1Color(10.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point lLight4Position(0.f, 10.f, 6.0f);
-    Color             lLight4Color(10.0f);
-    Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
+    LCNS::Point light4Position(0.f, 10.f, 6.0f);
+    Color             light4Color(10.0f);
+    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 3.0f, 12.0f);
-    Vector            lDirectionCamera(0.01f, -0.3f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 3.0f, 12.0f);
+    Vector            directionCamera(0.01f, -0.3f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
     scene->add(rCamera);
 
 
     // FLOOR
-    FloorParameters lFloorParameters = { Color(0.6f), Color(0.7f), 1.0, 1.0, 2, 200.0, 50.0, string("no_texture") };
-    createFloor(scene, lFloorParameters);
+    FloorParameters floorParameters = { Color(0.6f), Color(0.7f), 1.0, 1.0, 2, 200.0, 50.0, string("no_texture") };
+    createFloor(scene, floorParameters);
 
 
     ////////////////
@@ -731,19 +731,19 @@ void createScene05(Scene* scene)
 void createScene06(Scene* scene)
 {
     // Same reflection coefficient for the spheres
-    double lReflectionCoeff(0.8);
+    double reflectionCoeff(0.8);
 
     // SPHERE WITH REFRACTION
-    LCNS::Point lCenter(0.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenter, 5.f);
+    LCNS::Point center(0.0, 0.0, 0.0);
+    Sphere*           rSphere1 = new Sphere(center, 5.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.0f);
-    Color  lSpecularSphere1(0.1f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 3);
+    Color  diffusionSphere1(1.0f);
+    Color  specularSphere1(0.1f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, 2.0, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, 2.0, scene);
     rSphere1->setShader(rShaderSphere1);
 
     scene->add(rSphere1);
@@ -752,15 +752,15 @@ void createScene06(Scene* scene)
 
     // SPHERES IN THE BACKGROUND
     // Nearest spheres
-    double lSize = 4.0;
-    lCenter.setZ(-20);
+    double size = 4.0;
+    center.setZ(-20);
 
     // BG 1, left
-    lCenter.setX(-20.0);
-    Sphere* rSphereL1 = new Sphere(lCenter, lSize);
+    center.setX(-20.0);
+    Sphere* rSphereL1 = new Sphere(center, size);
 
     Phong*  rBRDF_L1  = new Phong(Color(250, 240, 230) * 5.0, Color(1.0), 3);
-    Shader* rShaderL1 = new Shader(rBRDF_L1, lReflectionCoeff, 1.0, scene, Shader::BUMP);
+    Shader* rShaderL1 = new Shader(rBRDF_L1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereL1->setShader(rShaderL1);
 
@@ -769,11 +769,11 @@ void createScene06(Scene* scene)
     scene->add(rShaderL1, string("shader left 1"));
 
     // BG 1, right
-    lCenter.setX(20.0);
-    Sphere* rSphereR1 = new Sphere(lCenter, lSize);
+    center.setX(20.0);
+    Sphere* rSphereR1 = new Sphere(center, size);
 
     Phong*  rBRDFR1   = new Phong(Color(135, 206, 250) * 5.0, Color(1.0), 3);
-    Shader* rShaderR1 = new Shader(rBRDFR1, lReflectionCoeff, 1.0, scene, Shader::BUMP);
+    Shader* rShaderR1 = new Shader(rBRDFR1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereR1->setShader(rShaderR1);
 
@@ -782,12 +782,12 @@ void createScene06(Scene* scene)
     scene->add(rShaderR1, string("shader right 1"));
 
     // BG 1, down
-    lCenter.setX(0.0);
-    lCenter.setY(-20.0);
-    Sphere* rSphereD1 = new Sphere(lCenter, lSize);
+    center.setX(0.0);
+    center.setY(-20.0);
+    Sphere* rSphereD1 = new Sphere(center, size);
 
     Phong*  rBRDFD1   = new Phong(Color(250, 128, 114) * 5.0, Color(1.0), 3);
-    Shader* rShaderD1 = new Shader(rBRDFD1, lReflectionCoeff, 1.0, scene, Shader::BUMP);
+    Shader* rShaderD1 = new Shader(rBRDFD1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereD1->setShader(rShaderD1);
 
@@ -796,11 +796,11 @@ void createScene06(Scene* scene)
     scene->add(rShaderD1, string("shader down 1"));
 
     // BG 1, up
-    lCenter.setY(20.0);
-    Sphere* rSphereU1 = new Sphere(lCenter, lSize);
+    center.setY(20.0);
+    Sphere* rSphereU1 = new Sphere(center, size);
 
     Phong*  rBRDFU1   = new Phong(Color(255, 250, 205) * 5.0, Color(1.0), 3);
-    Shader* rShaderU1 = new Shader(rBRDFU1, lReflectionCoeff, 1.0, scene, Shader::BUMP);
+    Shader* rShaderU1 = new Shader(rBRDFU1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereU1->setShader(rShaderU1);
 
@@ -809,16 +809,16 @@ void createScene06(Scene* scene)
     scene->add(rShaderU1, string("shader up 1"));
 
     // Furthest spheres
-    lSize = 22.0;
-    lCenter.setZ(-220);
+    size = 22.0;
+    center.setZ(-220);
 
     // BG 2, left down
-    lCenter.setX(-85.0);
-    lCenter.setY(-85.0);
-    Sphere* rSphereLD2 = new Sphere(lCenter, lSize);
+    center.setX(-85.0);
+    center.setY(-85.0);
+    Sphere* rSphereLD2 = new Sphere(center, size);
 
     Phong*  rBRDFLD2   = new Phong(Color(127, 255, 212) * 5.0, Color(1.0), 3);
-    Shader* rShaderLD2 = new Shader(rBRDFLD2, lReflectionCoeff, 1.0, scene);
+    Shader* rShaderLD2 = new Shader(rBRDFLD2, reflectionCoeff, 1.0, scene);
 
     rSphereLD2->setShader(rShaderLD2);
 
@@ -827,12 +827,12 @@ void createScene06(Scene* scene)
     scene->add(rShaderLD2, string("shader left down 2"));
 
     // BG 2, right down
-    lCenter.setX(85.0);
-    lCenter.setY(-85.0);
-    Sphere* rSphereRD2 = new Sphere(lCenter, lSize);
+    center.setX(85.0);
+    center.setY(-85.0);
+    Sphere* rSphereRD2 = new Sphere(center, size);
 
     Phong*  rBRDFRD2   = new Phong(Color(240, 248, 255) * 5.0, Color(1.0), 3);
-    Shader* rShaderRD2 = new Shader(rBRDFRD2, lReflectionCoeff, 1.0, scene);
+    Shader* rShaderRD2 = new Shader(rBRDFRD2, reflectionCoeff, 1.0, scene);
 
     rSphereRD2->setShader(rShaderRD2);
 
@@ -841,12 +841,12 @@ void createScene06(Scene* scene)
     scene->add(rShaderRD2, string("shader right down 2"));
 
     // BG 2, left up
-    lCenter.setX(-85.0);
-    lCenter.setY(85.0);
-    Sphere* rSphereLU2 = new Sphere(lCenter, lSize);
+    center.setX(-85.0);
+    center.setY(85.0);
+    Sphere* rSphereLU2 = new Sphere(center, size);
 
     Phong*  rBRDFLU2   = new Phong(Color(255, 99, 71) * 5.0, Color(1.0), 3);
-    Shader* rShaderLU2 = new Shader(rBRDFLU2, lReflectionCoeff, 1.0, scene);
+    Shader* rShaderLU2 = new Shader(rBRDFLU2, reflectionCoeff, 1.0, scene);
 
     rSphereLU2->setShader(rShaderLU2);
 
@@ -855,12 +855,12 @@ void createScene06(Scene* scene)
     scene->add(rShaderLU2, string("shader left up 2"));
 
     // BG2, right up
-    lCenter.setX(85.0);
-    lCenter.setY(85.0);
-    Sphere* rSphereRU2 = new Sphere(lCenter, lSize);
+    center.setX(85.0);
+    center.setY(85.0);
+    Sphere* rSphereRU2 = new Sphere(center, size);
 
     Phong*  rBRDFRU2   = new Phong(Color(255, 255, 0) * 5.0, Color(1.0), 3);
-    Shader* rShaderRU2 = new Shader(rBRDFRU2, lReflectionCoeff, 1.0, scene);
+    Shader* rShaderRU2 = new Shader(rBRDFRU2, reflectionCoeff, 1.0, scene);
 
     rSphereRU2->setShader(rShaderRU2);
 
@@ -870,13 +870,13 @@ void createScene06(Scene* scene)
 
 
     //    // SPHERE WITH TEXTURE
-    //    LCNS::Point lCenterSphere2(12.0,0.0,0.0);
-    //	Sphere* rSphere2 = new Sphere(lCenterSphere2,5.f);
+    //    LCNS::Point centerSphere2(12.0,0.0,0.0);
+    //	Sphere* rSphere2 = new Sphere(centerSphere2,5.f);
     //
     //    // Create a BRDF model for the sphere
-    //    Color lDiffusionSphere2(1.0f);
-    //	Color lSpecularSphere2(0.1);
-    //    CubeMap* rCubeMapSphere = new CubeMap(lCenterSphere2, 520);
+    //    Color diffusionSphere2(1.0f);
+    //	Color specularSphere2(0.1);
+    //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere2, 520);
     //    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/Desert_back.png");
     //    rCubeMapSphere->addImage(CubeMap::FRONT,"./resources/Desert_front.png");
     //    rCubeMapSphere->addImage(CubeMap::UP, "./resources/Desert_up.png");
@@ -886,7 +886,7 @@ void createScene06(Scene* scene)
     //
     //    scene->add(rCubeMapSphere);
     //
-    //	Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2,lSpecularSphere2,3);
+    //	Phong* rBRDFSphere2 = new Phong(diffusionSphere2,lSpecularSphere2,3);
     //    rBRDFSphere2->setCubeMap(rCubeMapSphere);
     //
     //    // Create a shader for the second sphere
@@ -901,21 +901,21 @@ void createScene06(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLightPosition(0.0f, 0.0f, 20.0f);
-    Color             lLightColor(6.0f);
-    Light*            rLight1 = new PunctualLight(lLightPosition, lLightColor);
+    LCNS::Point lightPosition(0.0f, 0.0f, 20.0f);
+    Color             lightColor(6.0f);
+    Light*            rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 0.0f, 15.0f);
-    Vector            lDirectionCamera(0.0f, 0.0f, -1.01f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 0.0f, 15.0f);
+    Vector            directionCamera(0.0f, 0.0f, -1.01f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 90.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setFocalPoint(LCNS::Point(4.0));
     rCamera->setAperture(Camera::F_SMALL, Camera::Precision::EXCELLENT);
     //    rCamera->setAperture(Camera::ALL_SHARP);
@@ -940,13 +940,13 @@ void createScene06(Scene* scene)
 void createScene07(Scene* scene)
 {
     // Create a sphere (1)
-    LCNS::Point lCenterSphere1(-30.f, 10.0f, 20.0f);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 13.f);
+    LCNS::Point centerSphere1(-30.f, 10.0f, 20.0f);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 13.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(229.0f / 255.0f, 51.0f / 255.0f, 163.0f / 255.0f);
-    Color  lSpecularSphere1(0.0f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 3);
+    Color  diffusionSphere1(229.0f / 255.0f, 51.0f / 255.0f, 163.0f / 255.0f);
+    Color  specularSphere1(0.0f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
     Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 0.8, 1.0, scene, Shader::TURBULANCE);
@@ -957,13 +957,13 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a sphere (2)
-    LCNS::Point lCenterSphere2(0.0f, 10.0f, 20.0f);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 13.f);
+    LCNS::Point centerSphere2(0.0f, 10.0f, 20.0f);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 13.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(220.0f / 255.0f, 210.0f / 255.0f, 120.0f / 255.0f);
-    Color  lSpecularSphere2(0.0f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 3);
+    Color  diffusionSphere2(220.0f / 255.0f, 210.0f / 255.0f, 120.0f / 255.0f);
+    Color  specularSphere2(0.0f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the sphere
     Shader* rShaderSphere2 = new Shader(rBRDFSphere2, 0.8, 1.0, scene, Shader::MARBLE);
@@ -974,13 +974,13 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a sphere (3)
-    LCNS::Point lCenterSphere3(30.f, 10.0f, 20.0f);
-    Sphere*           rSphere3 = new Sphere(lCenterSphere3, 13.f);
+    LCNS::Point centerSphere3(30.f, 10.0f, 20.0f);
+    Sphere*           rSphere3 = new Sphere(centerSphere3, 13.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere3(90.0f / 255.0f, 160.0f / 255.0f, 210.0f / 255.0f);
-    Color  lSpecularSphere3(0.0f);
-    Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 3);
+    Color  diffusionSphere3(90.0f / 255.0f, 160.0f / 255.0f, 210.0f / 255.0f);
+    Color  specularSphere3(0.0f);
+    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the sphere
     Shader* rShaderSphere3 = new Shader(rBRDFSphere3, 0.8, 1.0, scene, Shader::BUMP);
@@ -993,42 +993,42 @@ void createScene07(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLightPosition(0.0f, 90.0f, 0.0f);
-    Color             lLightColor(5.0f);
-    Light*            rLight1 = new PunctualLight(lLightPosition, lLightColor);
+    LCNS::Point lightPosition(0.0f, 90.0f, 0.0f);
+    Color             lightColor(5.0f);
+    Light*            rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
-    //    lLightPosition.setPoint(0.0f,15.0f,37.0f);
-    //	Light* rLight2 = new PunctualLight(lLightPosition,lLightColor);
+    //    lightPosition.setPoint(0.0f,15.0f,37.0f);
+    //	Light* rLight2 = new PunctualLight(lightPosition,lLightColor);
     //    scene->add(rLight2);
 
-    lLightPosition.setPoint(10.0f, 20.0f, 37.0f);
-    Light* rLight3 = new PunctualLight(lLightPosition, lLightColor);
+    lightPosition.setPoint(10.0f, 20.0f, 37.0f);
+    Light* rLight3 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight3);
 
-    lLightPosition.setPoint(-10.0f, 20.0f, 37.0f);
-    Light* rLight4 = new PunctualLight(lLightPosition, lLightColor);
+    lightPosition.setPoint(-10.0f, 20.0f, 37.0f);
+    Light* rLight4 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 25.0f, 105.0f);
-    Vector            lDirectionCamera(0.0f, -0.3f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 25.0f, 105.0f);
+    Vector            directionCamera(0.0f, -0.3f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     //    rCamera->setAperture(Camera::F_SMALL,85.0,Camera::PRECISION::LOW);
-    //    rCamera->setFocalPoint(lCenterSphere2);
+    //    rCamera->setFocalPoint(centerSphere2);
     rCamera->setAperture(Camera::Aperture::ALL_SHARP);
 
 
     scene->add(rCamera);
 
     // ROOM
-    RoomParameters lRoomParameters = { Color(1.0f, 0.18f, 0.17f),
+    RoomParameters roomParameters = { Color(1.0f, 0.18f, 0.17f),
                                        Color(0.0f),
                                        1.0,
                                        1.0,
@@ -1040,10 +1040,10 @@ void createScene07(Scene* scene)
                                        string("./resources/textureWall_400x400_Right.png"),
                                        string("./resources/textureWall_400x400.png") };
 
-    //    RoomParameters lRoomParameters = {Color(1.0f,0.78f,0.17f),
+    //    RoomParameters roomParameters = {Color(1.0f,0.78f,0.17f),
     //    Color(0.0f,0.0f,0.79), 50.0, 20.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
 
-    createRoom(scene, lRoomParameters);
+    createRoom(scene, roomParameters);
 
     ////////////////
     // BACKGROUND //
@@ -1054,20 +1054,20 @@ void createScene07(Scene* scene)
 void createScene08(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
-    double lReflectionCoeff(0.8);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(0.8);
+    double refractionCoeff(1.0);
 
     // Create a red sphere
-    LCNS::Point lCenterSphere1(00.0, 0.0, -5.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 2.f);
+    LCNS::Point centerSphere1(00.0, 0.0, -5.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 2.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.0f, 0.6f, 0.6f);
-    Color  lSpecularSphere1(0.9f, 0.4f, 0.4f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 3);
+    Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
+    Color  specularSphere1(0.9f, 0.4f, 0.4f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rSphere1->setShader(rShaderSphere1);
 
     scene->add(rSphere1);
@@ -1075,16 +1075,16 @@ void createScene08(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a green sphere
-    LCNS::Point lCenterSphere2(10.0, 0.0, -100.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 30.f);
+    LCNS::Point centerSphere2(10.0, 0.0, -100.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 30.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.6f, 1.0f, 0.6f);
-    Color  lSpecularSphere2(0.4, 1.0f, 0.4f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 3);
+    Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
+    Color  specularSphere2(0.4, 1.0f, 0.4f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rSphere2->setShader(rShaderSphere2);
 
     scene->add(rSphere2);
@@ -1094,22 +1094,22 @@ void createScene08(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 10.f, 0.0f);
-    Color             lLight1Color(3.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 10.f, 0.0f);
+    Color             light1Color(3.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 0.0f, 5.0f);
-    Vector            lDirectionCamera(0.0f, -0.1f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 0.0f, 5.0f);
+    Vector            directionCamera(0.0f, -0.1f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::F_SMALL, 1.0, Camera::Precision::SUPER_AWESOME);
-    rCamera->setFocalPoint(lCenterSphere1);
+    rCamera->setFocalPoint(centerSphere1);
     scene->add(rCamera);
 
 
@@ -1122,13 +1122,13 @@ void createScene08(LCNS::Scene* scene)
 void createScene09(LCNS::Scene* scene)
 {
     // Load the "torus"
-    string lPath = "./resources/head_4.obj";
-    scene->createFromFile(lPath);
+    string path = "./resources/head_4.obj";
+    scene->createFromFile(path);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere(0.76f, 0.33f, 0.12f);
-    Color  lSpecularSphere(1.0f);
-    Phong* rBRDFShpere = new Phong(lDiffusionSphere, lSpecularSphere, 5);
+    Color  diffusionSphere(0.76f, 0.33f, 0.12f);
+    Color  specularSphere(1.0f);
+    Phong* rBRDFShpere = new Phong(diffusionSphere, specularSphere, 5);
 
     // Create a shader for the sphere
     Shader* rShaderSphere = new Shader(rBRDFShpere, 0.8, 1.0, scene);
@@ -1136,16 +1136,16 @@ void createScene09(LCNS::Scene* scene)
     scene->add(rBRDFShpere, string("brdf of the sphere"));
     scene->add(rShaderSphere, string("shader of the sphere"));
 
-    auto lIt = scene->renderableList().begin();
+    auto it = scene->renderableList().begin();
 
-    (*lIt)->setShader(rShaderSphere);
-    lIt++;
+    (*it)->setShader(rShaderSphere);
+    it++;
 
 
     // Create a BRDF model for the torus
-    Color  lDiffusionTorus(0.96f, 0.40f, 0.40f);
-    Color  lSpecularTorus(0.9f, 0.8f, 0.8f);
-    Phong* rBRDFTorus = new Phong(lDiffusionTorus, lSpecularTorus, 5);
+    Color  diffusionTorus(0.96f, 0.40f, 0.40f);
+    Color  specularTorus(0.9f, 0.8f, 0.8f);
+    Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 5);
 
     // Create a shader for the torus
     Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::Material::MARBLE);
@@ -1153,17 +1153,17 @@ void createScene09(LCNS::Scene* scene)
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
 
-    (*lIt)->setShader(rShaderTorus);
-    lIt++;
+    (*it)->setShader(rShaderTorus);
+    it++;
 
-    (*lIt)->setShader(rShaderTorus);
-    lIt++;
+    (*it)->setShader(rShaderTorus);
+    it++;
 
 
     // Create a BRDF model for the pipe
-    Color  lDiffusionPipe(0.16f, 0.89f, 0.0f);
-    Color  lSpecularPipe(0.4f, 0.8f, 0.4f);
-    Phong* rBRDFPipe = new Phong(lDiffusionPipe, lSpecularPipe, 5);
+    Color  diffusionPipe(0.16f, 0.89f, 0.0f);
+    Color  specularPipe(0.4f, 0.8f, 0.4f);
+    Phong* rBRDFPipe = new Phong(diffusionPipe, specularPipe, 5);
 
     // Create a shader for the torus
     Shader* rShaderPipe = new Shader(rBRDFPipe, 0.8, 1.0, scene);
@@ -1171,14 +1171,14 @@ void createScene09(LCNS::Scene* scene)
     scene->add(rBRDFPipe, string("brdf of the pipe"));
     scene->add(rShaderPipe, string("shader of the pipe"));
 
-    (*lIt)->setShader(rShaderPipe);
-    lIt++;
+    (*it)->setShader(rShaderPipe);
+    it++;
 
 
     // Create a BRDF model for the cone
-    Color  lDiffusionCone(0.06f, 0.10f, 0.90f);
-    Color  lSpecularCone(0.3f, 0.2f, 0.8f);
-    Phong* rBRDFCone = new Phong(lDiffusionCone, lSpecularCone, 5);
+    Color  diffusionCone(0.06f, 0.10f, 0.90f);
+    Color  specularCone(0.3f, 0.2f, 0.8f);
+    Phong* rBRDFCone = new Phong(diffusionCone, specularCone, 5);
 
     // Create a shader for the torus
     Shader* rShaderCone = new Shader(rBRDFCone, 0.8, 1.0, scene, Shader::TURBULANCE);
@@ -1186,39 +1186,39 @@ void createScene09(LCNS::Scene* scene)
     scene->add(rBRDFCone, string("brdf of the cone"));
     scene->add(rShaderCone, string("shader of the cone"));
 
-    (*lIt)->setShader(rShaderCone);
+    (*it)->setShader(rShaderCone);
 
 
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
-    Color             lLight1Color(10.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
+    Color             light1Color(10.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point lLight4Position(0.f, 10.f, 6.0f);
-    Color             lLight4Color(10.0f);
-    Light*            rLight4 = new PunctualLight(lLight4Position, lLight4Color);
+    LCNS::Point light4Position(0.f, 10.f, 6.0f);
+    Color             light4Color(10.0f);
+    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 2.4f, 8.0f);
-    Vector            lDirectionCamera(0.01f, -0.1f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 2.4f, 8.0f);
+    Vector            directionCamera(0.01f, -0.1f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
 
     scene->add(rCamera);
 
     // FLOOR
-    //    FloorParameters lFloorParameters = {Color(0.6f), Color(0.7f),200.0,50.0, string("no_texture")};
-    //    createFloor(scene, lFloorParameters);
+    //    FloorParameters floorParameters = {Color(0.6f), Color(0.7f),200.0,50.0, string("no_texture")};
+    //    createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
@@ -1229,22 +1229,22 @@ void createScene09(LCNS::Scene* scene)
 void createScene10(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
-    double lReflectionCoeff(5.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(5.0);
+    double refractionCoeff(1.0);
 
     ////////////////////////////////
     // Create a first blue sphere //
     ////////////////////////////////
-    LCNS::Point lCenterSphere1(0.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 100.f);
+    LCNS::Point centerSphere1(0.0, 0.0, 0.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 100.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(0.f, 0.0f, 0.1f);
-    Color  lSpecularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 8);
+    Color  diffusionSphere1(0.f, 0.0f, 0.1f);
+    Color  specularSphere1(1.0f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(2);
     rSphere1->setShader(rShaderSphere1);
 
@@ -1256,16 +1256,16 @@ void createScene10(LCNS::Scene* scene)
     /////////////////////////////////
     // Create a second blue sphere //
     /////////////////////////////////
-    LCNS::Point lCenterSphere2(50.0, -20.0, 230.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 60.f);
+    LCNS::Point centerSphere2(50.0, -20.0, 230.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 60.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.0f, 0.0f, 0.1f);
-    Color  lSpecularSphere2(0, 250, 154);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 15);
+    Color  diffusionSphere2(0.0f, 0.0f, 0.1f);
+    Color  specularSphere2(0, 250, 154);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(2);
     rSphere2->setShader(rShaderSphere2);
 
@@ -1277,40 +1277,40 @@ void createScene10(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(-40.f, 150.f, 50.0f);
-    Color             lLight1Color(212.0f, 27.0f, 218.0f);
-    lLight1Color *= 2.0;
+    LCNS::Point light1Position(-40.f, 150.f, 50.0f);
+    Color             light1Color(212.0f, 27.0f, 218.0f);
+    light1Color *= 2.0;
 
-    Light* rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
 
-    LCNS::Point lLight2Position(90.f, 150.f, 190.0f);
-    Color             lLight2Color(189.0f, 190.0f, 53.0f);
+    LCNS::Point light2Position(90.f, 150.f, 190.0f);
+    Color             light2Color(189.0f, 190.0f, 53.0f);
 
-    lLight2Color *= 2.0f;
+    light2Color *= 2.0f;
 
-    Light* rLight2 = new PunctualLight(lLight2Position, lLight2Color);
+    Light* rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
-    LCNS::Point lLight3Position(-190.f, 150.f, 90.0f);
-    Color             lLight3Color(255, 140, 0);
+    LCNS::Point light3Position(-190.f, 150.f, 90.0f);
+    Color             light3Color(255, 140, 0);
 
-    lLight3Color *= 200.0f;
+    light3Color *= 200.0f;
 
-    Light* rLight3 = new PunctualLight(lLight3Position, lLight3Color);
+    Light* rLight3 = new PunctualLight(light3Position, light3Color);
     scene->add(rLight3);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(-280.0f, 150.0f, 350.0f);
-    Vector            lDirectionCamera(0.5f, -0.35f, -0.5f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(-280.0f, 150.0f, 350.0f);
+    Vector            directionCamera(0.5f, -0.35f, -0.5f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP, 10.0);
 
     scene->add(rCamera);
@@ -1319,8 +1319,8 @@ void createScene10(LCNS::Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters lFloorParameters = { Color(1.0f), Color(0.3f), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
-    createFloor(scene, lFloorParameters);
+    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
+    createFloor(scene, floorParameters);
 
 
     ////////////////
@@ -1331,22 +1331,22 @@ void createScene10(LCNS::Scene* scene)
 
 void createScene11(LCNS::Scene* scene)
 {
-    double lReflectionCoeff(2.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(2.0);
+    double refractionCoeff(1.0);
 
     //////////////////////////
     // Create a yellow sphere //
     //////////////////////////
-    LCNS::Point lCenterSphere1(-1.1, 0.0, 0.0);
-    Renderable*       rSphere1 = new Sphere(lCenterSphere1, 1.0);
+    LCNS::Point centerSphere1(-1.1, 0.0, 0.0);
+    Renderable*       rSphere1 = new Sphere(centerSphere1, 1.0);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere1(255, 255, 0);
-    Color lSpecularSphere1(230, 230, 250);
-    BRDF* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 15);
+    Color diffusionSphere1(255, 255, 0);
+    Color specularSphere1(230, 230, 250);
+    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 15);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene, Shader::TURBULANCE);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 4
     rShaderSphere1->setReflectionCountMax(4);
@@ -1360,16 +1360,16 @@ void createScene11(LCNS::Scene* scene)
     ///////////////////////////
     // Create a cyan sphere //
     ///////////////////////////
-    LCNS::Point lCenterSphere2(1.1, 0.0, 0.0);
-    Renderable*       rSphere2 = new Sphere(lCenterSphere2, 1.0);
+    LCNS::Point centerSphere2(1.1, 0.0, 0.0);
+    Renderable*       rSphere2 = new Sphere(centerSphere2, 1.0);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere2(0, 255, 255);
-    Color lSpecularSphere2(255, 160, 122);
-    BRDF* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 15);
+    Color diffusionSphere2(0, 255, 255);
+    Color specularSphere2(255, 160, 122);
+    BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene, Shader::TURBULANCE);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 3
     rShaderSphere2->setReflectionCountMax(3);
@@ -1383,16 +1383,16 @@ void createScene11(LCNS::Scene* scene)
     //////////////////////////
     // Create a pink sphere //
     //////////////////////////
-    LCNS::Point lCenterSphere3(0.0, 1.8, 0.0);
-    Renderable*       rSphere3 = new Sphere(lCenterSphere3, 1.0);
+    LCNS::Point centerSphere3(0.0, 1.8, 0.0);
+    Renderable*       rSphere3 = new Sphere(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color lDiffusionSphere3(255, 0, 255);
-    Color lSpecularSphere3(127, 255, 212);
-    BRDF* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 15);
+    Color diffusionSphere3(255, 0, 255);
+    Color specularSphere3(127, 255, 212);
+    BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, lReflectionCoeff, lRefractionCoeff, scene, Shader::TURBULANCE);
+    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 5
     rShaderSphere3->setReflectionCountMax(5);
@@ -1406,26 +1406,26 @@ void createScene11(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 1.0f, 10.0f);
-    Color             lLight1Color(8.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
+    Color             light1Color(8.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point lLight2Position(0.f, 1.0f, -10.0f);
-    Color             lLight2Color(5.0f);
-    Light*            rLight2 = new PunctualLight(lLight2Position, lLight2Color);
+    LCNS::Point light2Position(0.f, 1.0f, -10.0f);
+    Color             light2Color(5.0f);
+    Light*            rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 0.7f, 2.0f);
-    Vector            lDirectionCamera(0.0f, 0.0f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 0.7f, 2.0f);
+    Vector            directionCamera(0.0f, 0.0f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
 
 
@@ -1438,20 +1438,20 @@ void createScene11(LCNS::Scene* scene)
 void createScene12(LCNS::Scene* scene)
 {
     // Same reflection coefficient for the spheres behind
-    double lReflectionCoeff(2.0);
-    double lRefractionCoeff(1.0);
+    double reflectionCoeff(2.0);
+    double refractionCoeff(1.0);
 
     // Create a sphere
-    LCNS::Point lCenterSphere1(0.0, 5.0, 5.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere1, 9.f);
+    LCNS::Point centerSphere1(0.0, 5.0, 5.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere1, 9.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.0f, 0.8f, 0.9f);
-    Color  lSpecularSphere1(1.0);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 3);
+    Color  diffusionSphere1(1.0f, 0.8f, 0.9f);
+    Color  specularSphere1(1.0);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a BRDF model for the sphere
-    //    CubeMap* rCubeMapSphere = new CubeMap(lCenterSphere1, 720);
+    //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere1, 720);
     //    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/nightSky2.png");
     //    rCubeMapSphere->setLink(CubeMap::FRONT, 0);
     //    rCubeMapSphere->setLink(CubeMap::UP, 0);
@@ -1464,7 +1464,7 @@ void createScene12(LCNS::Scene* scene)
     //    rBRDFSphere1->setCubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(4);
     rSphere1->setShader(rShaderSphere1);
 
@@ -1473,16 +1473,16 @@ void createScene12(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    LCNS::Point lCenterSphere2(-21.0, -5.0, 8.0);
-    Sphere*           rSphere2 = new Sphere(lCenterSphere2, 9.f);
+    LCNS::Point centerSphere2(-21.0, -5.0, 8.0);
+    Sphere*           rSphere2 = new Sphere(centerSphere2, 9.f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere2(0.9f, 1.0f, 0.8f);
-    Color  lSpecularSphere2(1.0f);
-    Phong* rBRDFSphere2 = new Phong(lDiffusionSphere2, lSpecularSphere2, 3);
+    Color  diffusionSphere2(0.9f, 1.0f, 0.8f);
+    Color  specularSphere2(1.0f);
+    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, lReflectionCoeff, lRefractionCoeff, scene);
+    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(4);
     rSphere2->setShader(rShaderSphere2);
 
@@ -1491,13 +1491,13 @@ void createScene12(LCNS::Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a transparent sphere for refraction
-    LCNS::Point lCenterSphere3(21.0, -5.0, 8.0);
-    Sphere*           rSphere3 = new Sphere(lCenterSphere3, 9.0f);
+    LCNS::Point centerSphere3(21.0, -5.0, 8.0);
+    Sphere*           rSphere3 = new Sphere(centerSphere3, 9.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere3(0.95f, 0.88f, 0.60f);
-    Color  lSpecularSphere3(1.0f);
-    Phong* rBRDFSphere3 = new Phong(lDiffusionSphere3, lSpecularSphere3, 3);
+    Color  diffusionSphere3(0.95f, 0.88f, 0.60f);
+    Color  specularSphere3(1.0f);
+    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the third sphere
     Shader* rShaderSphere3 = new Shader(rBRDFSphere3, 0.6, 1.0, scene);
@@ -1511,41 +1511,41 @@ void createScene12(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.f, 25.0f, 50.0f);
-    Color             lLight1Color(30.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLight1Color);
+    LCNS::Point light1Position(0.f, 25.0f, 50.0f);
+    Color             light1Color(30.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    //    LCNS::Point lLight4Position(0.f,20.f,6.0f);
-    //	Color lLight4Color(10.0f);
-    //	Light* rLight4 = new PunctualLight(lLight4Position,lLight4Color);
+    //    LCNS::Point light4Position(0.f,20.f,6.0f);
+    //	Color light4Color(10.0f);
+    //	Light* rLight4 = new PunctualLight(light4Position,lLight4Color);
     //    scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(0.0f, 15.0f, 40.0f);
-    Vector            lDirectionCamera(0.0f, -0.1f, -1.0f);
-    Vector            lCameraUp(0.f, 1.f, 0.f);
+    LCNS::Point centreCamera(0.0f, 15.0f, 40.0f);
+    Vector            directionCamera(0.0f, -0.1f, -1.0f);
+    Vector            cameraUp(0.f, 1.f, 0.f);
     float             FOV = 60.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     //    rCamera->setAperture(Camera::F_SMALL,45.0,Camera::LOW);
     rCamera->setAperture(Camera::ALL_SHARP);
     scene->add(rCamera);
 
 
     // ROOM
-    RoomParameters lParameters
+    RoomParameters parameters
     = { Color(0.8f), Color(1.0f), 0.0, 1.0, 2, 35.0, 15.0, string("no_texture"), string("no_texture"), string("no_texture"), string("no_texture") };
-    createRoom(scene, lParameters);
+    createRoom(scene, parameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    //    CubeMap* rCubeMap = new CubeMap(lCenterSphere1, 750);
+    //    CubeMap* rCubeMap = new CubeMap(centerSphere1, 750);
     //
     //    rCubeMap->addImage(CubeMap::BACK, "./resources/nightSky2.png");
     //    rCubeMap->setLink(CubeMap::FRONT, 0);
@@ -1564,9 +1564,9 @@ void createScene13(LCNS::Scene* scene)
     scene->createFromFile("./resources/tableAndStatue3_bis.obj");
 
     // Create BRDF model for the cones
-    Color  lDiffusion(255, 105, 0);
-    Color  lSpecular(1.0f);
-    Phong* rBRDFCones = new Phong(lDiffusion, lSpecular, 3);
+    Color  diffusion(255, 105, 0);
+    Color  specular(1.0f);
+    Phong* rBRDFCones = new Phong(diffusion, specular, 3);
 
     // Create a shader for the cones
     Shader* rShaderCones = new Shader(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
@@ -1574,21 +1574,21 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rBRDFCones, "BRDF cones ");
     scene->add(rShaderCones, "Shader cones ");
 
-    auto lIt = scene->objectNamed("pCone1");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    auto it = scene->objectNamed("pCone1");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone2");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone2");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone3");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone3");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone4");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone4");
+    if (it)
+        it->setShader(rShaderCones);
 
     // Create BRDF model for the torus
     Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
@@ -1599,13 +1599,13 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rBRDFTorus, "BRDF torus ");
     scene->add(rShaderTorus, "Shader torus ");
 
-    lIt = scene->objectNamed("pTorus1");
-    if (lIt)
-        lIt->setShader(rShaderTorus);
+    it = scene->objectNamed("pTorus1");
+    if (it)
+        it->setShader(rShaderTorus);
 
-    lIt = scene->objectNamed("pTorus2");
-    if (lIt)
-        lIt->setShader(rShaderTorus);
+    it = scene->objectNamed("pTorus2");
+    if (it)
+        it->setShader(rShaderTorus);
 
     // Create a BRDF model for the table
     Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
@@ -1617,13 +1617,13 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rShaderPyramid, "Shader pyramid ");
 
     // Set shaders for the table
-    lIt = scene->objectNamed("pPyramid1");
-    if (lIt)
-        lIt->setShader(rShaderPyramid);
+    it = scene->objectNamed("pPyramid1");
+    if (it)
+        it->setShader(rShaderPyramid);
 
-    lIt = scene->objectNamed("pPyramid2");
-    if (lIt)
-        lIt->setShader(rShaderPyramid);
+    it = scene->objectNamed("pPyramid2");
+    if (it)
+        it->setShader(rShaderPyramid);
 
 
     // Create a BRDF model for the table
@@ -1636,35 +1636,35 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rShaderTable, "Shader table ");
 
     // Set shaders for the table
-    lIt = scene->objectNamed("pCylinder1");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder1");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder2");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder2");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder3");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder3");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder4");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder4");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCube1");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCube1");
+    if (it)
+        it->setShader(rShaderTable);
 
 
     // Sphere with texture
-    LCNS::Point lCenterSphere(0.0, 6.7, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere, 2.0f);
+    LCNS::Point centerSphere(0.0, 6.7, 0.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere, 2.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(1.0f);
-    Color  lSpecularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 8);
+    Color  diffusionSphere1(1.0f);
+    Color  specularSphere1(1.0f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
 
     CubeMap* rCubeMapDesert = new CubeMap(LCNS::Point(0.0), 260);  // 260
@@ -1692,21 +1692,21 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Mirror on the right wall
-    double    lMirrorXPos = 10.0;
+    double    mirrorXPos = 10.0;
     Triangle* rMirror1    = new Triangle(
-    LCNS::Point(lMirrorXPos, 4.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, 18.0));
+    LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0));
     Triangle* rMirror2
-    = new Triangle(LCNS::Point(lMirrorXPos, 4.0, -10.0), LCNS::Point(lMirrorXPos, 12.0, 18.0), LCNS::Point(lMirrorXPos, 4.0, 18.0));
+    = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0), LCNS::Point(mirrorXPos, 4.0, 18.0));
 
-    Vector lMinusX(-1.0, 0.0, 0.0);
+    Vector minusX(-1.0, 0.0, 0.0);
 
-    rMirror1->setVertexNormal(0, lMinusX);
-    rMirror1->setVertexNormal(1, lMinusX);
-    rMirror1->setVertexNormal(2, lMinusX);
+    rMirror1->setVertexNormal(0, minusX);
+    rMirror1->setVertexNormal(1, minusX);
+    rMirror1->setVertexNormal(2, minusX);
 
-    rMirror2->setVertexNormal(0, lMinusX);
-    rMirror2->setVertexNormal(1, lMinusX);
-    rMirror2->setVertexNormal(2, lMinusX);
+    rMirror2->setVertexNormal(0, minusX);
+    rMirror2->setVertexNormal(1, minusX);
+    rMirror2->setVertexNormal(2, minusX);
 
     // Create a BRDF model for the mirror
     Phong* rBRDFMirror = new Phong(Color(0.4f, 0.4f, 0.6f), Color(1.0f), 8);
@@ -1727,35 +1727,35 @@ void createScene13(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(-3.0, 10.0, 20.0);
-    Color             lLightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLightColor);
+    LCNS::Point light1Position(-3.0, 10.0, 20.0);
+    Color             lightColor(20.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
 
 
-    //    LCNS::Point lLight2Position(-5.0,10.0,10.0);
-    //	Light* rLight2 = new PunctualLight(lLight2Position,lLightColor);
+    //    LCNS::Point light2Position(-5.0,10.0,10.0);
+    //	Light* rLight2 = new PunctualLight(light2Position,lLightColor);
     //    scene->add(rLight2);
 
-    //    LCNS::Point lLight3Position(-4.0,7.0,-9.0);
-    //	Light* rLight3 = new PunctualLight(lLight3Position,lLightColor);
+    //    LCNS::Point light3Position(-4.0,7.0,-9.0);
+    //	Light* rLight3 = new PunctualLight(light3Position,lLightColor);
     //    scene->add(rLight3);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(-5.0, 8.0, 21.0);
-    Vector            lDirectionCamera(0.4, -0.20, -1.0);
-    Vector            lCameraUp(0.0, 1.0, 0.0);
+    LCNS::Point centreCamera(-5.0, 8.0, 21.0);
+    Vector            directionCamera(0.4, -0.20, -1.0);
+    Vector            cameraUp(0.0, 1.0, 0.0);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
-    rCamera->setFocalPoint(lCenterSphere + lDirectionCamera.normalize() * rSphere1->radius() * (-1.0));
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
+    rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
     rCamera->setAperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
-    RoomParameters lParameters = { Color(0.8f),
+    RoomParameters parameters = { Color(0.8f),
                                    Color(0.8f),
                                    0.0,
                                    1.0,
@@ -1768,7 +1768,7 @@ void createScene13(LCNS::Scene* scene)
                                    string("./resources/textureWall_400x400.png"),
                                    string("./resources/ceiling.png") };
 
-    createRoom(scene, lParameters);
+    createRoom(scene, parameters);
 
 
     ////////////////
@@ -1782,9 +1782,9 @@ void createScene14(LCNS::Scene* scene)
     scene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
 
     // Create BRDF model for the cones
-    Color  lDiffusion(255, 105, 0);
-    Color  lSpecular(1.0f);
-    Phong* rBRDFCones = new Phong(lDiffusion, lSpecular, 3);
+    Color  diffusion(255, 105, 0);
+    Color  specular(1.0f);
+    Phong* rBRDFCones = new Phong(diffusion, specular, 3);
 
     // Create a shader for the cones
     Shader* rShaderCones = new Shader(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
@@ -1792,21 +1792,21 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rBRDFCones, "BRDF cones ");
     scene->add(rShaderCones, "Shader cones ");
 
-    auto lIt = scene->objectNamed("pCone1");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    auto it = scene->objectNamed("pCone1");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone2");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone2");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone3");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone3");
+    if (it)
+        it->setShader(rShaderCones);
 
-    lIt = scene->objectNamed("pCone4");
-    if (lIt)
-        lIt->setShader(rShaderCones);
+    it = scene->objectNamed("pCone4");
+    if (it)
+        it->setShader(rShaderCones);
 
     // Create BRDF model for the torus
     Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
@@ -1817,13 +1817,13 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rBRDFTorus, "BRDF torus ");
     scene->add(rShaderTorus, "Shader torus ");
 
-    lIt = scene->objectNamed("pTorus1");
-    if (lIt)
-        lIt->setShader(rShaderTorus);
+    it = scene->objectNamed("pTorus1");
+    if (it)
+        it->setShader(rShaderTorus);
 
-    lIt = scene->objectNamed("pTorus2");
-    if (lIt)
-        lIt->setShader(rShaderTorus);
+    it = scene->objectNamed("pTorus2");
+    if (it)
+        it->setShader(rShaderTorus);
 
     // Create a BRDF model for the table
     Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
@@ -1835,13 +1835,13 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rShaderPyramid, "Shader pyramid ");
 
     // Set shaders for the table
-    lIt = scene->objectNamed("pPyramid1");
-    if (lIt)
-        lIt->setShader(rShaderPyramid);
+    it = scene->objectNamed("pPyramid1");
+    if (it)
+        it->setShader(rShaderPyramid);
 
-    lIt = scene->objectNamed("pPyramid2");
-    if (lIt)
-        lIt->setShader(rShaderPyramid);
+    it = scene->objectNamed("pPyramid2");
+    if (it)
+        it->setShader(rShaderPyramid);
 
 
     Phong* rBRDFBackPyramid = new Phong(Color(0, 255, 255), Color(1.0f), 10);
@@ -1852,9 +1852,9 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rBRDFBackPyramid, "BRDF pyramid in the background ");
     scene->add(rShaderBackPyramid, "Shader pyramid in the background ");
 
-    lIt = scene->objectNamed("pPyramid3");
-    if (lIt)
-        lIt->setShader(rShaderBackPyramid);
+    it = scene->objectNamed("pPyramid3");
+    if (it)
+        it->setShader(rShaderBackPyramid);
 
 
     // Create a BRDF model for the table
@@ -1867,35 +1867,35 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rShaderTable, "Shader table ");
 
     // Set shaders for the table
-    lIt = scene->objectNamed("pCylinder1");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder1");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder2");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder2");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder3");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder3");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCylinder4");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCylinder4");
+    if (it)
+        it->setShader(rShaderTable);
 
-    lIt = scene->objectNamed("pCube1");
-    if (lIt)
-        lIt->setShader(rShaderTable);
+    it = scene->objectNamed("pCube1");
+    if (it)
+        it->setShader(rShaderTable);
 
 
     // Sphere with texture
-    LCNS::Point lCenterSphere(.0, 6.7, 0.0);
-    Sphere*           rSphere1 = new Sphere(lCenterSphere, 2.0f);
+    LCNS::Point centerSphere(.0, 6.7, 0.0);
+    Sphere*           rSphere1 = new Sphere(centerSphere, 2.0f);
 
     // Create a BRDF model for the sphere
-    Color  lDiffusionSphere1(0.1f);
-    Color  lSpecularSphere1(0.1f);
-    Phong* rBRDFSphere1 = new Phong(lDiffusionSphere1, lSpecularSphere1, 8);
+    Color  diffusionSphere1(0.1f);
+    Color  specularSphere1(0.1f);
+    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
     Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 2.4, scene);
@@ -1910,31 +1910,31 @@ void createScene14(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lLight1Position(0.0, 20.0, 10.0);
-    Color             lLightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(lLight1Position, lLightColor);
+    LCNS::Point light1Position(0.0, 20.0, 10.0);
+    Color             lightColor(20.0f);
+    Light*            rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
 
 
-    LCNS::Point lLight2Position(-5.0, 10.0, 10.0);
-    Light*            rLight2 = new PunctualLight(lLight2Position, lLightColor);
+    LCNS::Point light2Position(-5.0, 10.0, 10.0);
+    Light*            rLight2 = new PunctualLight(light2Position, lightColor);
     scene->add(rLight2);
 
-    LCNS::Point lLight3Position(5.0, 10.0, 10.0);
-    Light*            rLight3 = new PunctualLight(lLight3Position, lLightColor);
+    LCNS::Point light3Position(5.0, 10.0, 10.0);
+    Light*            rLight3 = new PunctualLight(light3Position, lightColor);
     scene->add(rLight3);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point lCentreCamera(-2.0, 8.0, 14.0);
-    Vector            lDirectionCamera(0.05, -0.05, -1.0);
-    Vector            lCameraUp(0.0, 1.0, 0.0);
+    LCNS::Point centreCamera(-2.0, 8.0, 14.0);
+    Vector            directionCamera(0.05, -0.05, -1.0);
+    Vector            cameraUp(0.0, 1.0, 0.0);
     float             FOV = 80.f * 3.141592 / 180.f;
 
-    Camera* rCamera = new Camera(lCentreCamera, lDirectionCamera, lCameraUp, FOV);
-    rCamera->setFocalPoint(lCenterSphere + lDirectionCamera.normalize() * rSphere1->radius() * (-1.0));
+    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
+    rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
     rCamera->setAperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
@@ -1955,14 +1955,14 @@ void createScene14(LCNS::Scene* scene)
 
 void createFloor(Scene* scene, const FloorParameters& param)
 {
-    double lDeep = -1.0 * param.deep;
+    double deep = -1.0 * param.deep;
 
-    Triangle* rTriangleZ1 = new Triangle(LCNS::Point(-param.size, lDeep, -param.size),
-                                         LCNS::Point(-param.size, lDeep, param.size),
-                                         LCNS::Point(param.size, lDeep, param.size));
-    Triangle* rTriangleZ2 = new Triangle(LCNS::Point(-param.size, lDeep, -param.size),
-                                         LCNS::Point(param.size, lDeep, param.size),
-                                         LCNS::Point(param.size, lDeep, -param.size));
+    Triangle* rTriangleZ1 = new Triangle(LCNS::Point(-param.size, deep, -param.size),
+                                         LCNS::Point(-param.size, deep, param.size),
+                                         LCNS::Point(param.size, deep, param.size));
+    Triangle* rTriangleZ2 = new Triangle(LCNS::Point(-param.size, deep, -param.size),
+                                         LCNS::Point(param.size, deep, param.size),
+                                         LCNS::Point(param.size, deep, -param.size));
 
     rTriangleZ1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
     rTriangleZ1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
@@ -1973,8 +1973,8 @@ void createFloor(Scene* scene, const FloorParameters& param)
     rTriangleZ2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
 
     // Create BRDF model for the triangle
-    Phong* lBRDFTriangle = new Phong(param.diffusion, param.specular, 3);
-    lBRDFTriangle->setAmbient(Color(0.0f));
+    Phong* bRDFTriangle = new Phong(param.diffusion, param.specular, 3);
+    bRDFTriangle->setAmbient(Color(0.0f));
 
     if (param.floorTexturePath.compare("no_texture"))
     {
@@ -1991,37 +1991,37 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
         scene->add(rCubeMapFloor);
 
-        lBRDFTriangle->setCubeMap(rCubeMapFloor);
+        bRDFTriangle->setCubeMap(rCubeMapFloor);
     }
 
 
     // Create a shader for the triangle
-    Shader* lShaderTriangle = new Shader(lBRDFTriangle, param.reflectionCoeff, param.refractionCoeff, scene);
-    lShaderTriangle->setReflectionCountMax(param.maxReflection);
+    Shader* shaderTriangle = new Shader(bRDFTriangle, param.reflectionCoeff, param.refractionCoeff, scene);
+    shaderTriangle->setReflectionCountMax(param.maxReflection);
 
-    rTriangleZ1->setShader(lShaderTriangle);
-    rTriangleZ2->setShader(lShaderTriangle);
+    rTriangleZ1->setShader(shaderTriangle);
+    rTriangleZ2->setShader(shaderTriangle);
 
     scene->add(rTriangleZ1);
     scene->add(rTriangleZ2);
-    scene->add(lBRDFTriangle, string("brdf of the triangles of the floor"));
-    scene->add(lShaderTriangle, string("shader of the triangles of the floor"));
+    scene->add(bRDFTriangle, string("brdf of the triangles of the floor"));
+    scene->add(shaderTriangle, string("shader of the triangles of the floor"));
 }
 
 void createRoom(Scene* scene, const RoomParameters& param)
 {
-    LCNS::Point lZero(param.lowCorner);
-    LCNS::Point lOne(lZero.x(), lZero.y(), lZero.z() + param.dimensions.z());
-    LCNS::Point lTwo(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z() + param.dimensions.z());
-    LCNS::Point lThree(lZero.x() + param.dimensions.x(), lZero.y(), lZero.z());
-    LCNS::Point lFour(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z());
-    LCNS::Point lFive(lZero.x(), lZero.y() + param.dimensions.y(), lZero.z() + param.dimensions.z());
-    LCNS::Point lSix = param.lowCorner + param.dimensions;
-    LCNS::Point lSeven(lZero.x() + param.dimensions.x(), lZero.y() + param.dimensions.y(), lZero.z());
+    LCNS::Point zero(param.lowCorner);
+    LCNS::Point one(zero.x(), zero.y(), zero.z() + param.dimensions.z());
+    LCNS::Point two(zero.x() + param.dimensions.x(), zero.y(), zero.z() + param.dimensions.z());
+    LCNS::Point three(zero.x() + param.dimensions.x(), zero.y(), zero.z());
+    LCNS::Point four(zero.x(), zero.y() + param.dimensions.y(), zero.z());
+    LCNS::Point five(zero.x(), zero.y() + param.dimensions.y(), zero.z() + param.dimensions.z());
+    LCNS::Point six = param.lowCorner + param.dimensions;
+    LCNS::Point seven(zero.x() + param.dimensions.x(), zero.y() + param.dimensions.y(), zero.z());
 
     // Create floor
-    Triangle* rTriFloor1 = new Triangle(lZero, lOne, lTwo);
-    Triangle* rTriFloor2 = new Triangle(lZero, lTwo, lThree);
+    Triangle* rTriFloor1 = new Triangle(zero, one, two);
+    Triangle* rTriFloor2 = new Triangle(zero, two, three);
 
     rTriFloor1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
     rTriFloor1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
@@ -2031,16 +2031,16 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriFloor2->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
     rTriFloor2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
 
-    LCNS::Point lMiddleOfFace((lZero.x() + lOne.x() + lTwo.x() + lThree.x()) * 0.25,
-                                    (lZero.y() + lOne.y() + lTwo.y() + lThree.y()) * 0.25,
-                                    (lZero.z() + lOne.z() + lTwo.z() + lThree.z()) * 0.25);
+    LCNS::Point middleOfFace((zero.x() + one.x() + two.x() + three.x()) * 0.25,
+                                    (zero.y() + one.y() + two.y() + three.y()) * 0.25,
+                                    (zero.z() + one.z() + two.z() + three.z()) * 0.25);
 
     Phong* rBRDF_Floor = new Phong(param.diffusion, param.specular, 3);
     //    rBRDF_Floor->setAmbient(Color(0.0f));
 
     if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.z()));
+        CubeMap* rCubeMapFloor = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
         rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::FRONT, 0);
@@ -2069,8 +2069,8 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
 
     // Create left wall
-    Triangle* rTriLeftWall1 = new Triangle(lZero, lFour, lFive);
-    Triangle* rTriLeftWall2 = new Triangle(lZero, lFive, lOne);
+    Triangle* rTriLeftWall1 = new Triangle(zero, four, five);
+    Triangle* rTriLeftWall2 = new Triangle(zero, five, one);
 
     rTriLeftWall1->setVertexNormal(0, Vector(1.0, 0.0, 0.0));
     rTriLeftWall1->setVertexNormal(1, Vector(1.0, 0.0, 0.0));
@@ -2080,16 +2080,16 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriLeftWall2->setVertexNormal(1, Vector(1.0, 0.0, 0.0));
     rTriLeftWall2->setVertexNormal(2, Vector(1.0, 0.0, 0.0));
 
-    lMiddleOfFace.setX((lZero.x() + lOne.x() + lFour.x() + lFive.x()) * 0.25);
-    lMiddleOfFace.setY((lZero.y() + lOne.y() + lFour.y() + lFive.y()) * 0.25);
-    lMiddleOfFace.setZ((lZero.z() + lOne.z() + lFour.z() + lFive.z()) * 0.25);
+    middleOfFace.setX((zero.x() + one.x() + four.x() + five.x()) * 0.25);
+    middleOfFace.setY((zero.y() + one.y() + four.y() + five.y()) * 0.25);
+    middleOfFace.setZ((zero.z() + one.z() + four.z() + five.z()) * 0.25);
 
     Phong* rBRDFLeftWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFLeftWall->setAmbient(Color(0.1f));
 
     if (param.wallLeftTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapLeftWall = new CubeMap(lMiddleOfFace, max(param.dimensions.y(), param.dimensions.z()));
+        CubeMap* rCubeMapLeftWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
         rCubeMapLeftWall->addImage(CubeMap::BACK, param.wallLeftTexturePath);
         rCubeMapLeftWall->setLink(CubeMap::FRONT, 0);
@@ -2118,8 +2118,8 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
 
     // Create back wall
-    Triangle* rTriBackWall1 = new Triangle(lZero, lThree, lFour);
-    Triangle* rTriBackWall2 = new Triangle(lFour, lThree, lSeven);
+    Triangle* rTriBackWall1 = new Triangle(zero, three, four);
+    Triangle* rTriBackWall2 = new Triangle(four, three, seven);
 
     rTriBackWall1->setVertexNormal(0, Vector(0.0, 0.0, 1.0));
     rTriBackWall1->setVertexNormal(1, Vector(0.0, 0.0, 1.0));
@@ -2129,16 +2129,16 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriBackWall2->setVertexNormal(1, Vector(0.0, 0.0, 1.0));
     rTriBackWall2->setVertexNormal(2, Vector(0.0, 0.0, 1.0));
 
-    lMiddleOfFace.setX((lZero.x() + lThree.x() + lFour.x() + lSeven.x()) * 0.25);
-    lMiddleOfFace.setY((lZero.y() + lThree.y() + lFour.y() + lSeven.y()) * 0.25);
-    lMiddleOfFace.setZ((lZero.z() + lThree.z() + lFour.z() + lSeven.z()) * 0.25);
+    middleOfFace.setX((zero.x() + three.x() + four.x() + seven.x()) * 0.25);
+    middleOfFace.setY((zero.y() + three.y() + four.y() + seven.y()) * 0.25);
+    middleOfFace.setZ((zero.z() + three.z() + four.z() + seven.z()) * 0.25);
 
     Phong* rBRDFBackWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFBackWall->setAmbient(Color(0.1f));
 
     if (param.wallBackTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapBackWall = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.y()));
+        CubeMap* rCubeMapBackWall = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.y()));
 
         rCubeMapBackWall->addImage(CubeMap::BACK, param.wallBackTexturePath);
         rCubeMapBackWall->setLink(CubeMap::FRONT, 0);
@@ -2166,8 +2166,8 @@ void createRoom(Scene* scene, const RoomParameters& param)
     scene->add(rShaderBackWall, string("shader of the triangles of the back wall"));
 
     // Create right wall
-    Triangle* rTriRightWall1 = new Triangle(lThree, lTwo, lSix);
-    Triangle* rTriRightWall2 = new Triangle(lThree, lSix, lSeven);
+    Triangle* rTriRightWall1 = new Triangle(three, two, six);
+    Triangle* rTriRightWall2 = new Triangle(three, six, seven);
 
     rTriRightWall1->setVertexNormal(0, Vector(-1.0, 0.0, 0.0));
     rTriRightWall1->setVertexNormal(1, Vector(-1.0, 0.0, 0.0));
@@ -2177,16 +2177,16 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriRightWall2->setVertexNormal(1, Vector(-1.0, 0.0, 0.0));
     rTriRightWall2->setVertexNormal(2, Vector(-1.0, 0.0, 0.0));
 
-    lMiddleOfFace.setX((lTwo.x() + lThree.x() + lSix.x() + lSeven.x()) * 0.25);
-    lMiddleOfFace.setY((lTwo.y() + lThree.y() + lSix.y() + lSeven.y()) * 0.25);
-    lMiddleOfFace.setZ((lTwo.z() + lThree.z() + lSix.z() + lSeven.z()) * 0.25);
+    middleOfFace.setX((two.x() + three.x() + six.x() + seven.x()) * 0.25);
+    middleOfFace.setY((two.y() + three.y() + six.y() + seven.y()) * 0.25);
+    middleOfFace.setZ((two.z() + three.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFRightWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFRightWall->setAmbient(Color(0.1f));
 
     if (param.wallRightTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapRightWall = new CubeMap(lMiddleOfFace, max(param.dimensions.y(), param.dimensions.z()));
+        CubeMap* rCubeMapRightWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
         rCubeMapRightWall->addImage(CubeMap::BACK, param.wallRightTexturePath);
         rCubeMapRightWall->setLink(CubeMap::FRONT, 0);
@@ -2214,8 +2214,8 @@ void createRoom(Scene* scene, const RoomParameters& param)
     scene->add(rShaderRightWall, string("shader of the triangles of the right wall"));
 
     // Create roof
-    Triangle* rTriCeiling1 = new Triangle(lFour, lFive, lSix);
-    Triangle* rTriCeiling2 = new Triangle(lFour, lSix, lSeven);
+    Triangle* rTriCeiling1 = new Triangle(four, five, six);
+    Triangle* rTriCeiling2 = new Triangle(four, six, seven);
 
     rTriCeiling1->setVertexNormal(0, Vector(0.0, -1.0, 0.0));
     rTriCeiling1->setVertexNormal(1, Vector(0.0, -1.0, 0.0));
@@ -2225,16 +2225,16 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriCeiling2->setVertexNormal(1, Vector(0.0, -1.0, 0.0));
     rTriCeiling2->setVertexNormal(2, Vector(0.0, -1.0, 0.0));
 
-    lMiddleOfFace.setX((lFour.x() + lFive.x() + lSix.x() + lSeven.x()) * 0.25);
-    lMiddleOfFace.setY((lFour.y() + lFive.y() + lSix.y() + lSeven.y()) * 0.25);
-    lMiddleOfFace.setZ((lFour.z() + lFive.z() + lSix.z() + lSeven.z()) * 0.25);
+    middleOfFace.setX((four.x() + five.x() + six.x() + seven.x()) * 0.25);
+    middleOfFace.setY((four.y() + five.y() + six.y() + seven.y()) * 0.25);
+    middleOfFace.setZ((four.z() + five.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFCeiling = new Phong(param.diffusion, param.specular, 13);
     rBRDFCeiling->setAmbient(Color(0.1f));
 
     if (param.ceilingTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapCeiling = new CubeMap(lMiddleOfFace, max(param.dimensions.x(), param.dimensions.z()));
+        CubeMap* rCubeMapCeiling = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
         rCubeMapCeiling->addImage(CubeMap::DOWN, param.ceilingTexturePath);
         rCubeMapCeiling->setLink(CubeMap::FRONT, 0);

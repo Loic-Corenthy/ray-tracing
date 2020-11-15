@@ -42,19 +42,19 @@ DirectionalLight::~DirectionalLight(void)
 
 Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, LCNS::Renderable* currentObject) const
 {
-    Ray lMyRay;
+    Ray myRay;
 
-    lMyRay.setOrigin(point);
-    lMyRay.setDirection(_direction * (-1));
-    lMyRay.setIntersected(currentObject);
+    myRay.setOrigin(point);
+    myRay.setDirection(_direction * (-1));
+    myRay.setIntersected(currentObject);
 
-    bool lHasIntersection = scene.intersect(lMyRay);
+    bool hasIntersection = scene.intersect(myRay);
 
-    if (lHasIntersection)
+    if (hasIntersection)
         return Color(0.0f);
     else
     {
-        double lCos = currentObject->normal(point) * (_direction * (-1.0));
-        return _intensity * lCos;
+        double cos = currentObject->normal(point) * (_direction * (-1.0));
+        return _intensity * cos;
     }
 }

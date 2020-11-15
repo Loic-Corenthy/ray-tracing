@@ -66,11 +66,11 @@ Scene::~Scene(void)
     for_each(_renderableList.begin(), _renderableList.end(), DeleteObject());
     for_each(_cubeMapList.begin(), _cubeMapList.end(), DeleteObject());
 
-    for (auto lIt = _shaderMap.begin(), lEnd = _shaderMap.end(); lIt != lEnd; lIt++)
-        delete lIt->second;
+    for (auto it = _shaderMap.begin(), end = _shaderMap.end(); it != end; it++)
+        delete it->second;
 
-    for (auto lIt = _bRDFMap.begin(), lEnd = _bRDFMap.end(); lIt != lEnd; lIt++)
-        delete lIt->second;
+    for (auto it = _bRDFMap.begin(), end = _bRDFMap.end(); it != end; it++)
+        delete it->second;
 
     if (_backgroundCubeMap)
         delete _backgroundCubeMap;
@@ -78,11 +78,11 @@ Scene::~Scene(void)
 
 Renderable* Scene::objectNamed(const std::string& name)
 {
-    for (auto lIt = _renderableList.begin(), lEnd = _renderableList.end(); lIt != lEnd; lIt++)
+    for (auto it = _renderableList.begin(), end = _renderableList.end(); it != end; it++)
     {
-        if ((*lIt)->name() == name)
+        if ((*it)->name() == name)
         {
-            return (*lIt);
+            return (*it);
         }
     }
 
@@ -127,36 +127,36 @@ void Scene::add(CubeMap* cubeMap)
 
 bool Scene::intersect(Ray& ray) const
 {
-    float       lClosestDist   = std::numeric_limits<float>::max();
+    float       closestDist   = std::numeric_limits<float>::max();
     Renderable* rClosestObject = nullptr;
-    Renderable* lObjectFromRay = ray.intersected();
+    Renderable* objectFromRay = ray.intersected();
 
-    int lI = 0;
+    int i = 0;
 
-    bool lHasIntersection(false);
+    bool hasIntersection(false);
 
     if (!(_renderableList.empty()))
     {
-        auto lIterator = _renderableList.begin();  //(c++11)
-        auto lEnd      = _renderableList.end();
+        auto iterator = _renderableList.begin();  //(c++11)
+        auto end      = _renderableList.end();
 
-        while (lIterator != lEnd)
+        while (iterator != end)
         {
-            lHasIntersection = (*lIterator)->intersect(ray);
-            if (lHasIntersection && ray.length() < lClosestDist && lObjectFromRay != ray.intersected())
+            hasIntersection = (*iterator)->intersect(ray);
+            if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
-                lClosestDist   = ray.length();
+                closestDist   = ray.length();
                 rClosestObject = ray.intersected();
-                lI++;
+                i++;
             }
 
-            lIterator++;
+            iterator++;
         }
     }
 
-    if (lI > 0)
+    if (i > 0)
     {
-        ray.setLength(lClosestDist);
+        ray.setLength(closestDist);
         ray.setIntersected(rClosestObject);
         return true;
     }
@@ -171,76 +171,76 @@ bool Scene::intersect(Ray& ray) const
 void Scene::createFromFile(const string& objFilePath)
 {
     // Count the different parameters (vertices, normals, faces, ...) in the file
-    OBJParameters lParameters;
-    _countVerticesAndFaces(objFilePath, lParameters);
+    OBJParameters parameters;
+    _countVerticesAndFaces(objFilePath, parameters);
 
     // Create containers for the vertices and normals
-    vector<Point> lVertices;
-    lVertices.reserve(lParameters.vertexCount());
+    vector<Point> vertices;
+    vertices.reserve(parameters.vertexCount());
 
-    vector<Vector> lNormals;
-    if (lParameters.normalCount() > 0)
-        lNormals.reserve(lParameters.normalCount());
+    vector<Vector> normals;
+    if (parameters.normalCount() > 0)
+        normals.reserve(parameters.normalCount());
 
     // Create a mesh containing all the triangle of a group
-    unsigned int lCurrentObjectIdx = 0;
+    unsigned int currentObjectIdx = 0;
     Mesh*        rCurrentObject    = nullptr;
 
-    Point lMinPoint(1000000.0, 1000000.0, 1000000.0);
-    Point lMaxPoint(-1000000.0, -1000000.0, -1000000.0);
+    Point minPoint(1000000.0, 1000000.0, 1000000.0);
+    Point maxPoint(-1000000.0, -1000000.0, -1000000.0);
 
 
-    Point  lTmpPoint(0.0, 0.0, 0.0);
-    Vector lTmpNormal(0.0, 0.0, 0.0);
-    double lTmpDoubleValue(0.0);
+    Point  tmpPoint(0.0, 0.0, 0.0);
+    Vector tmpNormal(0.0, 0.0, 0.0);
+    double tmpDoubleValue(0.0);
 
-    unsigned int lVertexIdx(0);
-    unsigned int lTextureIdx(0);
-    unsigned int lNormalIdx(0);
-    bool         lLineNotProcessed(true);
-    bool         lFirstGDefault(true);
+    unsigned int vertexIdx(0);
+    unsigned int textureIdx(0);
+    unsigned int normalIdx(0);
+    bool         lineNotProcessed(true);
+    bool         firstGDefault(true);
 
     // Create the triangles
-    ifstream lObjFile(objFilePath.c_str(), ifstream::in);
+    ifstream objFile(objFilePath.c_str(), ifstream::in);
 
-    if (lObjFile)
+    if (objFile)
     {
-        string lLine;
-        while (getline(lObjFile, lLine))
+        string line;
+        while (getline(objFile, line))
         {
-            stringstream lStringStream(lLine);
-            string       lWord;
-            lLineNotProcessed = true;
+            stringstream stringStream(line);
+            string       word;
+            lineNotProcessed = true;
 
 
-            switch (lLine[0])
+            switch (line[0])
             {
                 case 'g':
-                    if (lLine == "g default")
+                    if (line == "g default")
                     {
-                        if (lFirstGDefault)
-                            lFirstGDefault = false;
+                        if (firstGDefault)
+                            firstGDefault = false;
                         else
                         {
-                            rCurrentObject->setBBLimits(lMinPoint, lMaxPoint);
+                            rCurrentObject->setBBLimits(minPoint, maxPoint);
                             rCurrentObject = nullptr;
-                            lMinPoint.setPoint(1000000.0, 1000000.0, 1000000.0);
-                            lMaxPoint.setPoint(-1000000.0, -1000000.0, -1000000.0);
+                            minPoint.setPoint(1000000.0, 1000000.0, 1000000.0);
+                            maxPoint.setPoint(-1000000.0, -1000000.0, -1000000.0);
 
-                            lCurrentObjectIdx++;
+                            currentObjectIdx++;
                         }
                     }
                     else
                     {
-                        rCurrentObject = new Mesh(lParameters.faceCount(lCurrentObjectIdx));
+                        rCurrentObject = new Mesh(parameters.faceCount(currentObjectIdx));
 
                         // Read the "g"
-                        lStringStream >> lWord;
+                        stringStream >> word;
 
                         // Read the name of the object
-                        lStringStream >> lWord;
+                        stringStream >> word;
 
-                        rCurrentObject->setName(lWord);
+                        rCurrentObject->setName(word);
 
                         _renderableList.push_back(rCurrentObject);
                     }
@@ -248,147 +248,147 @@ void Scene::createFromFile(const string& objFilePath)
 
 
                 case 'v':
-                    if (lLine[1] == ' ')
+                    if (line[1] == ' ')
                     {
-                        while (lStringStream.good() && lLineNotProcessed)
+                        while (stringStream.good() && lineNotProcessed)
                         {
                             // Read the "v"
-                            lStringStream >> lWord;
+                            stringStream >> word;
 
                             // Read the x coordinate of the vertex
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpPoint.setX(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpPoint.setX(tmpDoubleValue);
 
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpPoint.setY(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpPoint.setY(tmpDoubleValue);
 
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpPoint.setZ(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpPoint.setZ(tmpDoubleValue);
 
-                            lVertices.push_back(lTmpPoint);
+                            vertices.push_back(tmpPoint);
 
-                            lLineNotProcessed = false;
+                            lineNotProcessed = false;
                         }
                     }
-                    else if (lLine[1] == 'n')
+                    else if (line[1] == 'n')
                     {
-                        while (lStringStream.good() && lLineNotProcessed)
+                        while (stringStream.good() && lineNotProcessed)
                         {
                             // Read the "vn"
-                            lStringStream >> lWord;
+                            stringStream >> word;
 
                             // Read the x coordinate of the vertex
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpNormal.setX(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpNormal.setX(tmpDoubleValue);
 
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpNormal.setY(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpNormal.setY(tmpDoubleValue);
 
-                            lStringStream >> lTmpDoubleValue;
-                            lTmpNormal.setZ(lTmpDoubleValue);
+                            stringStream >> tmpDoubleValue;
+                            tmpNormal.setZ(tmpDoubleValue);
 
-                            lNormals.push_back(lTmpNormal);
+                            normals.push_back(tmpNormal);
 
-                            lLineNotProcessed = false;
+                            lineNotProcessed = false;
                         }
                     }
                     break;
 
                 case 'f':
-                    if (lParameters.textureCoordinatesCount() == 0 && lParameters.normalCount() == 0)
+                    if (parameters.textureCoordinatesCount() == 0 && parameters.normalCount() == 0)
                     {
-                        while (lStringStream.good() && lLineNotProcessed)
+                        while (stringStream.good() && lineNotProcessed)
                         {
-                            Triangle* lTriangle = new Triangle;
+                            Triangle* triangle = new Triangle;
 
                             // Read the "f"
-                            lStringStream >> lWord;
+                            stringStream >> word;
 
                             // Read the first vertex index
-                            lStringStream >> lVertexIdx;
-                            lTriangle->setV0(lVertices[lVertexIdx - 1]);
+                            stringStream >> vertexIdx;
+                            triangle->setV0(vertices[vertexIdx - 1]);
 
                             // Read the second vertex index
-                            lStringStream >> lVertexIdx;
-                            lTriangle->setV1(lVertices[lVertexIdx - 1]);
+                            stringStream >> vertexIdx;
+                            triangle->setV1(vertices[vertexIdx - 1]);
 
                             // Read the third vertex index
-                            lStringStream >> lVertexIdx;
-                            lTriangle->setV2(lVertices[lVertexIdx - 1]);
+                            stringStream >> vertexIdx;
+                            triangle->setV2(vertices[vertexIdx - 1]);
 
 
                             // Calculate the normal
-                            if (lParameters.normalCount() > 0)
-                                lTriangle->setNormal(lNormals[lVertexIdx - 1]);
+                            if (parameters.normalCount() > 0)
+                                triangle->setNormal(normals[vertexIdx - 1]);
                             else
-                                lTriangle->updateNormal();
+                                triangle->updateNormal();
 
-                            _renderableList.push_back(lTriangle);
+                            _renderableList.push_back(triangle);
 
-                            lLineNotProcessed = false;
+                            lineNotProcessed = false;
                         }
                     }
                     else
                     {
-                        while (lStringStream.good() && lLineNotProcessed)
+                        while (stringStream.good() && lineNotProcessed)
                         {
-                            Triangle lTriangle;
+                            Triangle triangle;
 
                             // Read the "f"
-                            lStringStream >> lWord;
+                            stringStream >> word;
 
-                            Vector lLocalNormals[3] = { Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 0.0) };
+                            Vector localNormals[3] = { Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 0.0) };
 
                             for (unsigned int i = 0; i < 3; ++i)
                             {
                                 // Read the first combination of vertex/texture/normal indices
-                                lStringStream >> lWord;
+                                stringStream >> word;
 
-                                char* lStr = new char[lWord.size() + 1];
-                                strcpy(lStr, lWord.c_str());
+                                char* str = new char[word.size() + 1];
+                                strcpy(str, word.c_str());
 
-                                char* lSubStr = strtok(lStr, "/");
-                                lVertexIdx    = stoi(lSubStr);
+                                char* subStr = strtok(str, "/");
+                                vertexIdx    = stoi(subStr);
 
-                                lSubStr     = strtok(NULL, "/");
-                                lTextureIdx = stoi(lSubStr);
+                                subStr     = strtok(NULL, "/");
+                                textureIdx = stoi(subStr);
 
-                                lSubStr    = strtok(NULL, "/");
-                                lNormalIdx = stoi(lSubStr);
+                                subStr    = strtok(NULL, "/");
+                                normalIdx = stoi(subStr);
 
-                                delete[] lStr;
+                                delete[] str;
 
-                                lTriangle.setVI(i, lVertices[lVertexIdx - 1]);
+                                triangle.setVI(i, vertices[vertexIdx - 1]);
 
                                 // Update bounding box
-                                if (lVertices[lVertexIdx - 1].x() < lMinPoint.x())
-                                    lMinPoint.setX(lVertices[lVertexIdx - 1].x());
+                                if (vertices[vertexIdx - 1].x() < minPoint.x())
+                                    minPoint.setX(vertices[vertexIdx - 1].x());
 
-                                if (lVertices[lVertexIdx - 1].y() < lMinPoint.y())
-                                    lMinPoint.setY(lVertices[lVertexIdx - 1].y());
+                                if (vertices[vertexIdx - 1].y() < minPoint.y())
+                                    minPoint.setY(vertices[vertexIdx - 1].y());
 
-                                if (lVertices[lVertexIdx - 1].z() < lMinPoint.z())
-                                    lMinPoint.setZ(lVertices[lVertexIdx - 1].z());
+                                if (vertices[vertexIdx - 1].z() < minPoint.z())
+                                    minPoint.setZ(vertices[vertexIdx - 1].z());
 
-                                if (lVertices[lVertexIdx - 1].x() > lMaxPoint.x())
-                                    lMaxPoint.setX(lVertices[lVertexIdx - 1].x());
+                                if (vertices[vertexIdx - 1].x() > maxPoint.x())
+                                    maxPoint.setX(vertices[vertexIdx - 1].x());
 
-                                if (lVertices[lVertexIdx - 1].y() > lMaxPoint.y())
-                                    lMaxPoint.setY(lVertices[lVertexIdx - 1].y());
+                                if (vertices[vertexIdx - 1].y() > maxPoint.y())
+                                    maxPoint.setY(vertices[vertexIdx - 1].y());
 
-                                if (lVertices[lVertexIdx - 1].z() > lMaxPoint.z())
-                                    lMaxPoint.setZ(lVertices[lVertexIdx - 1].z());
+                                if (vertices[vertexIdx - 1].z() > maxPoint.z())
+                                    maxPoint.setZ(vertices[vertexIdx - 1].z());
 
-                                lTriangle.setVertexNormal(i, lNormals[lNormalIdx - 1]);
-                                lLocalNormals[i] = lNormals[lNormalIdx - 1];
+                                triangle.setVertexNormal(i, normals[normalIdx - 1]);
+                                localNormals[i] = normals[normalIdx - 1];
                             }
 
                             // Calculate the normal
-                            lTriangle.updateNormal();
+                            triangle.updateNormal();
 
-                            rCurrentObject->addTriangle(lTriangle);
+                            rCurrentObject->addTriangle(triangle);
 
-                            lLineNotProcessed = false;
+                            lineNotProcessed = false;
                         }
                     }
                     break;
@@ -399,9 +399,9 @@ void Scene::createFromFile(const string& objFilePath)
         }
 
         // Set the bouning box of the last object
-        rCurrentObject->setBBLimits(lMinPoint, lMaxPoint);
+        rCurrentObject->setBBLimits(minPoint, maxPoint);
 
-        lObjFile.close();
+        objFile.close();
     }
     else
     {
@@ -411,40 +411,40 @@ void Scene::createFromFile(const string& objFilePath)
 
 Color Scene::meanAmbiantLight(void) const
 {
-    Color lMeanLight(0.0f);
+    Color meanLight(0.0f);
 
     // Calculate mean light value: sum all the light sources intensities
-    for (list<Light*>::const_iterator lIterator = _lightList.begin(), lEnd = _lightList.end(); lIterator != lEnd; lIterator++)
-        lMeanLight += (*lIterator)->intensity();
+    for (list<Light*>::const_iterator iterator = _lightList.begin(), end = _lightList.end(); iterator != end; iterator++)
+        meanLight += (*iterator)->intensity();
 
     // Divide by the number of light sources
-    lMeanLight *= 1.0f / static_cast<float>(_lightList.size());
+    meanLight *= 1.0f / static_cast<float>(_lightList.size());
 
-    return lMeanLight;
+    return meanLight;
 }
 
 void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const
 {
     // Open file
-    ifstream lObjFile(objFilePath.c_str(), ifstream::in);
+    ifstream objFile(objFilePath.c_str(), ifstream::in);
 
-    if (lObjFile)
+    if (objFile)
     {
-        string lLine;
+        string line;
 
         // Read all the lines
-        while (getline(lObjFile, lLine))
+        while (getline(objFile, line))
         {
             // Check the first character
-            switch (lLine[0])
+            switch (line[0])
             {
                 // If it's a "v", increase the vertex count
                 case 'v':
-                    if (lLine[1] == ' ')
+                    if (line[1] == ' ')
                         parameters.vpp();
-                    else if (lLine[1] == 't')
+                    else if (line[1] == 't')
                         parameters.vtpp();
-                    else if (lLine[1] == 'n')
+                    else if (line[1] == 'n')
                         parameters.npp();
                     break;
 
@@ -454,7 +454,7 @@ void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters
                     break;
 
                 case 'g':
-                    if (lLine == "g default" && parameters.currentFaceCount() != 0)
+                    if (line == "g default" && parameters.currentFaceCount() != 0)
                         parameters.opp();
 
                 default:
@@ -466,7 +466,7 @@ void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters
         parameters.opp();
 
         // Close file
-        lObjFile.close();
+        objFile.close();
     }
     else
     {

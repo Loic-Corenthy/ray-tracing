@@ -37,8 +37,8 @@ CubeMap::CubeMap(const Point& center, double size)
 CubeMap::~CubeMap(void)
 {
     //    for_each(_images.begin(), _images.end(), [](vector<Image*>::iterator image){delete *image;});
-    for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
-        delete *lIt;
+    for (auto it = _images.begin(), end = _images.end(); it != end; it++)
+        delete *it;
 }
 
 void CubeMap::addImage(unsigned short face, const std::string& path)
@@ -56,51 +56,51 @@ void CubeMap::setLink(unsigned short face, unsigned int imageIdx)
 
 Color CubeMap::colorAt(const Ray& ray)
 {
-    unsigned short lFace(UNASSIGNED);
-    double         lI(0.0);
-    double         lJ(0.0);
+    unsigned short face(UNASSIGNED);
+    double         i(0.0);
+    double         j(0.0);
 
-    _intersect(ray, lFace, lI, lJ);
+    _intersect(ray, face, i, j);
 
-    unsigned int lImageIdx = _faceImageIDs[lFace];
+    unsigned int imageIdx = _faceImageIDs[face];
 
-    return _images[lImageIdx]->pixelColor(lI, lJ);
+    return _images[imageIdx]->pixelColor(i, j);
 }
 
 void CubeMap::setInterpolationMethod(unsigned short method)
 {
-    for (auto lIt = _images.begin(), lEnd = _images.end(); lIt != lEnd; lIt++)
-        (*lIt)->setInterpolation(method);
+    for (auto it = _images.begin(), end = _images.end(); it != end; it++)
+        (*it)->setInterpolation(method);
 }
 
 void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double& j) const
 {
-    double lRadius(_size * 0.5);
-    double lInvSize(1.0 / _size);
-    Vector lMax(_center.x() + lRadius, _center.y() + lRadius, _center.z() + lRadius);
-    Vector lMin(_center.x() - lRadius, _center.y() - lRadius, _center.z() - lRadius);
+    double radius(_size * 0.5);
+    double invSize(1.0 / _size);
+    Vector max(_center.x() + radius, _center.y() + radius, _center.z() + radius);
+    Vector min(_center.x() - radius, _center.y() - radius, _center.z() - radius);
 
-    // Need to add/substract an epsilon value to min and max because of numerical error when comparing them with lP coordinate values.
-    static Vector lEpsilon(0.00001);
+    // Need to add/substract an epsilon value to min and max because of numerical error when comparing them with p coordinate values.
+    static Vector epsilon(0.00001);
 
-    lMin -= lEpsilon;
-    lMax += lEpsilon;
+    min -= epsilon;
+    max += epsilon;
 
     // Check if ray is not parallel to the XY plane
     if (ray.direction().z() > 0.0)
     {
         // Front plane: Calculate the lenght the ray when intersecting the plane
-        double lLength = (lMax.z() - ray.origin().z()) / ray.direction().z();
+        double length = (max.z() - ray.origin().z()) / ray.direction().z();
 
         // Front plane: Calculate the coordinates of the intersection point
-        Point lP = ray.origin() + ray.direction() * lLength;
+        Point p = ray.origin() + ray.direction() * length;
 
         // Front plane: Check if the point in the plane is really inside the rectangle
-        if (lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.y() >= lMin.y() && lP.y() <= lMax.y())
+        if (p.x() >= min.x() && p.x() <= max.x() && p.y() >= min.y() && p.y() <= max.y())
         {
             face = FRONT;
-            i    = (lP.x() - lMin.x()) * lInvSize;
-            j    = (lP.y() - lMin.y()) * lInvSize;
+            i    = (p.x() - min.x()) * invSize;
+            j    = (p.y() - min.y()) * invSize;
             return;
         }
     }
@@ -108,13 +108,13 @@ void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double
     if (ray.direction().z() < 0.0)
     {
         // Same for back plane:
-        double lLength = (lMin.z() - ray.origin().z()) / ray.direction().z();
-        Point  lP      = ray.origin() + ray.direction() * lLength;
-        if (lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.y() >= lMin.y() && lP.y() <= lMax.y())
+        double length = (min.z() - ray.origin().z()) / ray.direction().z();
+        Point  p      = ray.origin() + ray.direction() * length;
+        if (p.x() >= min.x() && p.x() <= max.x() && p.y() >= min.y() && p.y() <= max.y())
         {
             face = BACK;
-            i    = (lP.x() - lMin.x()) * lInvSize;
-            j    = (lP.y() - lMin.y()) * lInvSize;
+            i    = (p.x() - min.x()) * invSize;
+            j    = (p.y() - min.y()) * invSize;
             return;
         }
     }
@@ -122,14 +122,14 @@ void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double
     if (ray.direction().y() > 0.0)  // Check if the ray is not parallel to the XZ plane
     {
         // Same for up plane:
-        double lLength = (lMax.y() - ray.origin().y()) / ray.direction().y();
-        Point  lP      = ray.origin() + ray.direction() * lLength;
+        double length = (max.y() - ray.origin().y()) / ray.direction().y();
+        Point  p      = ray.origin() + ray.direction() * length;
 
-        if (lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
+        if (p.x() >= min.x() && p.x() <= max.x() && p.z() >= min.z() && p.z() <= max.z())
         {
             face = UP;
-            i    = (lP.x() - lMin.x()) * lInvSize;
-            j    = (lP.z() - lMin.z()) * lInvSize;
+            i    = (p.x() - min.x()) * invSize;
+            j    = (p.z() - min.z()) * invSize;
             return;
         }
     }
@@ -137,13 +137,13 @@ void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double
     if (ray.direction().y() < 0.0)
     {
         // Same for down plane:
-        double lLength = (lMin.y() - ray.origin().y()) / ray.direction().y();
-        Point  lP      = ray.origin() + ray.direction() * lLength;
-        if (lP.x() >= lMin.x() && lP.x() <= lMax.x() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
+        double length = (min.y() - ray.origin().y()) / ray.direction().y();
+        Point  p      = ray.origin() + ray.direction() * length;
+        if (p.x() >= min.x() && p.x() <= max.x() && p.z() >= min.z() && p.z() <= max.z())
         {
             face = DOWN;
-            i    = (lP.x() - lMin.x()) * lInvSize;
-            j    = (lP.z() - lMin.z()) * lInvSize;
+            i    = (p.x() - min.x()) * invSize;
+            j    = (p.z() - min.z()) * invSize;
             return;
         }
     }
@@ -151,13 +151,13 @@ void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double
     if (ray.direction().x() > 0.0)  // Check if the ray is not parallel to the YZ plane
     {
         // Same for right plane:
-        double lLength = (lMax.x() - ray.origin().x()) / ray.direction().x();
-        Point  lP      = ray.origin() + ray.direction() * lLength;
-        if (lP.y() >= lMin.y() && lP.y() <= lMax.y() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
+        double length = (max.x() - ray.origin().x()) / ray.direction().x();
+        Point  p      = ray.origin() + ray.direction() * length;
+        if (p.y() >= min.y() && p.y() <= max.y() && p.z() >= min.z() && p.z() <= max.z())
         {
             face = RIGHT;
-            i    = (lP.z() - lMin.z()) * lInvSize;
-            j    = (lP.y() - lMin.y()) * lInvSize;
+            i    = (p.z() - min.z()) * invSize;
+            j    = (p.y() - min.y()) * invSize;
             return;
         }
     }
@@ -165,13 +165,13 @@ void CubeMap::_intersect(const Ray& ray, unsigned short& face, double& i, double
     if (ray.direction().x() < 0.0)
     {
         // Same for left plane:
-        double lLength = (lMin.x() - ray.origin().x()) / ray.direction().x();
-        Point  lP      = ray.origin() + ray.direction() * lLength;
-        if (lP.y() >= lMin.y() && lP.y() <= lMax.y() && lP.z() >= lMin.z() && lP.z() <= lMax.z())
+        double length = (min.x() - ray.origin().x()) / ray.direction().x();
+        Point  p      = ray.origin() + ray.direction() * length;
+        if (p.y() >= min.y() && p.y() <= max.y() && p.z() >= min.z() && p.z() <= max.z())
         {
             face = LEFT;
-            i    = (lP.z() - lMin.z()) * lInvSize;
-            j    = (lP.y() - lMin.y()) * lInvSize;
+            i    = (p.z() - min.z()) * invSize;
+            j    = (p.y() - min.y()) * invSize;
             return;
         }
     }

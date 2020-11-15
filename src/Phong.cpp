@@ -54,79 +54,79 @@ Phong::~Phong(void)
 Color Phong::reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection)
 {
     // Make local copy for modification
-    Vector lVecToLight(vecToLight);
-    Vector lVecToViewer(vecToViewer);
-    Vector lVecNormal(normal);
+    Vector vecToLightCopy(vecToLight);
+    Vector vecToViewerCopy(vecToViewer);
+    Vector vecNormal(normal);
 
     // Normalize vectors
-    lVecToLight.normalize();
-    lVecToViewer.normalize();
+    vecToLightCopy.normalize();
+    vecToViewerCopy.normalize();
 
     // Calculate diffusion coefficient
-    double lCosAlpha = lVecToLight * normal;
+    double cosAlpha = vecToLightCopy * normal;
 
     // Calculate specular coefficient
-    double lCosBeta   = (lVecToLight * normal) * 2.0;
-    Vector lReflexion = lVecNormal * lCosBeta - lVecToLight;
-    lCosBeta          = lReflexion * lVecToViewer;
+    double cosBeta   = (vecToLightCopy * normal) * 2.0;
+    Vector reflexion = vecNormal * cosBeta - vecToLightCopy;
+    cosBeta          = reflexion * vecToViewerCopy;
 
     // Set negative coefficents to zero
-    lCosAlpha = (lCosAlpha < 0.0) ? 0.0 : lCosAlpha;
-    lCosBeta  = (lCosBeta < 0.0) ? 0.0 : lCosBeta;
+    cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
+    cosBeta  = (cosBeta < 0.0) ? 0.0 : cosBeta;
 
-    const CubeMap* lCubeMap = cubeMap();
-    if (lCubeMap)
+    const CubeMap* cubeMap = BRDF::cubeMap();
+    if (cubeMap)
     {
-        Ray   lNormalRay(intersection, normal);
-        Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
-        return lDiffColor * lCosAlpha + _specularColor * pow(lCosBeta, _exponent);
+        Ray   normalRay(intersection, normal);
+        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        return diffColor * cosAlpha + _specularColor * pow(cosBeta, _exponent);
     }
     else
-        return _diffusionColor * lCosAlpha + _specularColor * pow(lCosBeta, _exponent);
+        return _diffusionColor * cosAlpha + _specularColor * pow(cosBeta, _exponent);
 }
 
 
 Color Phong::diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const
 {
     // Make local copy to normalize
-    Vector lVecToLight(vecToLight);
-    lVecToLight.normalize();
+    Vector vecToLightCopy(vecToLight);
+    vecToLightCopy.normalize();
 
     // Calculate diffusion coefficient
-    double lCosAlpha = lVecToLight * normal;
+    double cosAlpha = vecToLightCopy * normal;
 
     // Set negative coefficents to zero
-    lCosAlpha = (lCosAlpha < 0.0) ? 0.0 : lCosAlpha;
+    cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
 
-    const CubeMap* lCubeMap = cubeMap();
-    if (lCubeMap)
+    const CubeMap* cubeMap = BRDF::cubeMap();
+    if (cubeMap)
     {
-        Ray   lNormalRay(intersection, normal);
-        Color lDiffColor = const_cast<CubeMap*>(lCubeMap)->colorAt(lNormalRay);
-        return lDiffColor * lCosAlpha;
+        Ray   normalRay(intersection, normal);
+        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        return diffColor * cosAlpha;
     }
     else
-        return (_diffusionColor * lCosAlpha);
+        return (_diffusionColor * cosAlpha);
 }
 
 
 Color Phong::specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const
 {
-    Vector lVecToLight(vecToLight);
-    Vector lVecToViewer(vecToViewer);
-    Vector lVecNormal(normal);
+    Vector vecToLightCopy(vecToLight);
+    Vector vecToViewerCopy(vecToViewer);
+    Vector vecNormal(normal);
 
     // Normalize vectors
-    lVecToLight.normalize();
-    lVecToViewer.normalize();
+    vecToLightCopy.normalize();
+    vecToViewerCopy.normalize();
 
     // Calculate specular coefficient
-    double lCosBeta   = (lVecToLight * normal) * 2.0;
-    Vector lReflexion = lVecNormal * lCosBeta - lVecToLight;
-    lCosBeta          = lReflexion * lVecToViewer;
+    double cosBeta   = (vecToLightCopy * normal) * 2.0;
+    Vector reflexion = vecNormal * cosBeta - vecToLightCopy;
+    cosBeta          = reflexion * vecToViewerCopy;
 
     // Set negative coefficents to zero
-    lCosBeta = (lCosBeta < 0.0) ? 0.0 : lCosBeta;
+    cosBeta = (cosBeta < 0.0) ? 0.0 : cosBeta;
 
-    return (_specularColor * pow(lCosBeta, _exponent));
+    return (_specularColor * pow(cosBeta, _exponent));
 }

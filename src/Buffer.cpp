@@ -22,7 +22,7 @@ Buffer::Buffer(const Buffer& buffer)
     if (_height == buffer._height && _width == buffer._width)
     {
         // No need to re allocate memory, just overwrite the values
-        for (unsigned int i = 0, lEnd = 3 * _height * _width; i < lEnd; i++)
+        for (unsigned int i = 0, end = 3 * _height * _width; i < end; i++)
             _pixels[i] = (buffer._pixels)[i];
     }
     else
@@ -39,7 +39,7 @@ Buffer::Buffer(const Buffer& buffer)
 
         // Create a new array of pixels
         _pixels = new unsigned char[3 * _height * _width];
-        for (unsigned int i = 0, lEnd = 3 * _height * _width; i < lEnd; i++)
+        for (unsigned int i = 0, end = 3 * _height * _width; i < end; i++)
         {
             _pixels[i] = (buffer._pixels)[i];
         }
@@ -54,7 +54,7 @@ Buffer Buffer::operator=(const Buffer& buffer)
     if (_height == buffer._height && _width == buffer._width)
     {
         // No need to re allocate memory, just overwrite the values
-        for (unsigned int i = 0, lEnd = 3 * _height * _width; i < lEnd; i++)
+        for (unsigned int i = 0, end = 3 * _height * _width; i < end; i++)
             _pixels[i] = (buffer._pixels)[i];
     }
     else
@@ -71,7 +71,7 @@ Buffer Buffer::operator=(const Buffer& buffer)
 
         // Create a new array of pixels
         _pixels = new unsigned char[3 * _height * _width];
-        for (unsigned int i = 0, lEnd = 3 * _height * _width; i < lEnd; i++)
+        for (unsigned int i = 0, end = 3 * _height * _width; i < end; i++)
         {
             _pixels[i] = (buffer._pixels)[i];
         }
@@ -91,52 +91,52 @@ Buffer::~Buffer(void)
 void Buffer::setPixel(unsigned int i, unsigned int j, const Color& color)
 {
     assert(0 <= i && i <= _width && 0 <= j && j <= _height);
-    unsigned int lIndex = 3 * (_width * j + i);
+    unsigned int index = 3 * (_width * j + i);
 
-    Color lColor(color);
+    Color pixelColor(color);
 
-    if (lColor[0] < 0)
+    if (pixelColor[0] < 0)
     {
-        lColor[0] = 0;
+        pixelColor[0] = 0;
     }
-    if (1 < lColor[0])
+    if (1 < pixelColor[0])
     {
-        lColor[0] = 1;
-    }
-
-    if (lColor[1] < 0)
-    {
-        lColor[1] = 0;
-    }
-    if (1 < lColor[1])
-    {
-        lColor[1] = 1;
+        pixelColor[0] = 1;
     }
 
-    if (lColor[2] < 0)
+    if (pixelColor[1] < 0)
     {
-        lColor[2] = 0;
+        pixelColor[1] = 0;
     }
-    if (1 < lColor[2])
+    if (1 < pixelColor[1])
     {
-        lColor[2] = 1;
+        pixelColor[1] = 1;
     }
 
-    unsigned char r = static_cast<unsigned char>(lColor[0] * 255.f);
-    unsigned char g = static_cast<unsigned char>(lColor[1] * 255.f);
-    unsigned char b = static_cast<unsigned char>(lColor[2] * 255.f);
+    if (pixelColor[2] < 0)
+    {
+        pixelColor[2] = 0;
+    }
+    if (1 < pixelColor[2])
+    {
+        pixelColor[2] = 1;
+    }
 
-    _pixels[lIndex + 0] = r;
-    _pixels[lIndex + 1] = g;
-    _pixels[lIndex + 2] = b;
+    unsigned char r = static_cast<unsigned char>(pixelColor[0] * 255.f);
+    unsigned char g = static_cast<unsigned char>(pixelColor[1] * 255.f);
+    unsigned char b = static_cast<unsigned char>(pixelColor[2] * 255.f);
+
+    _pixels[index + 0] = r;
+    _pixels[index + 1] = g;
+    _pixels[index + 2] = b;
 }
 
 Color Buffer::pixel(unsigned int i, unsigned int j) const
 {
     assert(0 <= i && i <= _width && 0 <= j && j <= _height);
-    unsigned int lIndex = 3 * (_width * j + i);
+    unsigned int index = 3 * (_width * j + i);
 
-    return Color(_pixels[lIndex + 0], _pixels[lIndex + 1], _pixels[lIndex + 2]);
+    return Color(_pixels[index + 0], _pixels[index + 1], _pixels[index + 2]);
 }
 
 
@@ -176,6 +176,6 @@ void Buffer::reset(void)
 
     _pixels = new unsigned char[3 * _height * _width];
 
-    for (unsigned int i = 0, lEnd = 3 * _height * _width; i < lEnd; i++)
+    for (unsigned int i = 0, end = 3 * _height * _width; i < end; i++)
         _pixels[i] = 0;
 }

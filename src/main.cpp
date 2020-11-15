@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
         }
         else if (strcmp(argv[i], "--height") == 0)
         {
-            windowWidth = atoi(argv[i + 1]);
+            windowHeight = atoi(argv[i + 1]);
         }
         else if (strcmp(argv[i], "--xpos") == 0)
         {
@@ -94,58 +94,58 @@ int main(int argc, char* argv[])
 
     glutCreateWindow("Ray tracing window");
 
-    Scene* lScene = new Scene;
+    Scene* scene = new Scene;
 
     // Setup the scene
     switch (sceneIndex)
     {
         case 0:
-            createTestScene(lScene);
+            createTestScene(scene);
             break;
         case 1:
-            createScene01(lScene);
+            createScene01(scene);
             break;
         case 2:
-            createScene02(lScene);
+            createScene02(scene);
             break;
         case 3:
-            createScene03(lScene);
+            createScene03(scene);
             break;
         case 4:
-            createScene04(lScene);
+            createScene04(scene);
             break;
         case 5:
-            createScene04bis(lScene);
+            createScene04bis(scene);
             break;
         case 6:
-            createScene05(lScene);
+            createScene05(scene);
             break;
         case 7:
-            createScene06(lScene);
+            createScene06(scene);
             break;
         case 8:
-            createScene07(lScene);
+            createScene07(scene);
             break;
         case 9:
-            createScene08(lScene);
+            createScene08(scene);
             break;
         case 10:
-            createScene09(lScene);
+            createScene09(scene);
             break;
         case 11:
-            createScene10(lScene);
+            createScene10(scene);
             break;
         case 12:
-            createScene11(lScene);
+            createScene11(scene);
             break;
         case 13:
-            createScene12(lScene);
+            createScene12(scene);
             break;
         case 14:
-            createScene13(lScene);
+            createScene13(scene);
             break;
         case 15:
-            createScene14(lScene);
+            createScene14(scene);
             break;
         default:
             assert(false && "We should never reach here");
@@ -153,7 +153,7 @@ int main(int argc, char* argv[])
     }
 
     // Send the scene to the renderer
-    Renderer::setScene(lScene, windowWidth, windowHeight);
+    Renderer::setScene(scene, windowWidth, windowHeight);
 
     // Render the scene
     Renderer::render();
@@ -173,7 +173,7 @@ int main(int argc, char* argv[])
     // Display loop
     glutDisplayFunc(display);
 
-    delete lScene;
+    delete scene;
 
     glutMainLoop();
 

@@ -58,34 +58,34 @@ bool Mesh::intersect(LCNS::Ray& ray)
     // Check if the ray intersect the bounding box
     if (_bB.intersect(ray))
     {
-        float       lClosestDist   = std::numeric_limits<float>::max();
+        float       closestDist   = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
-        Renderable* lObjectFromRay = ray.intersected();
+        Renderable* objectFromRay = ray.intersected();
 
-        int  lI = 0;
-        bool lHasIntersection(false);
+        int  i = 0;
+        bool hasIntersection(false);
 
         // Look for the closest intersection point among the triangles
-        auto lIterator = _triangles.begin();
-        auto lEnd      = _triangles.end();
+        auto iterator = _triangles.begin();
+        auto end      = _triangles.end();
 
-        while (lIterator != lEnd)
+        while (iterator != end)
         {
-            lHasIntersection = lIterator->intersect(ray);
-            if (lHasIntersection && ray.length() < lClosestDist && lObjectFromRay != ray.intersected())
+            hasIntersection = iterator->intersect(ray);
+            if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
-                lClosestDist         = ray.length();
+                closestDist         = ray.length();
                 rClosestObject       = ray.intersected();
-                _intersectedTriangle = lI++;
+                _intersectedTriangle = i++;
             }
 
-            lIterator++;
+            iterator++;
         }
 
         // return the result
-        if (lI > 0)
+        if (i > 0)
         {
-            ray.setLength(lClosestDist);
+            ray.setLength(closestDist);
             ray.setIntersected(rClosestObject);
             return true;
         }
@@ -123,13 +123,13 @@ void Mesh::setShader(Shader* shader)
 {
     assert(shader != nullptr && "Shader not defined!!");
 
-    auto lIt  = _triangles.begin();
-    auto lEnd = _triangles.end();
+    auto it  = _triangles.begin();
+    auto end = _triangles.end();
 
-    while (lIt != lEnd)
+    while (it != end)
     {
-        lIt->setShader(shader);
-        lIt++;
+        it->setShader(shader);
+        it++;
     }
 }
 

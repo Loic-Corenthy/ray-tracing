@@ -72,7 +72,7 @@ Shader::~Shader(void)
 
 Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount)
 {
-    Color lMyColor(0.0f);
+    Color myColor(0.0f);
 
     if (reflectionCount > 0)
     {
@@ -83,113 +83,113 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
     else
         _currentReflectionCoeff = 1.0;
 
-    auto lIt  = _scene->lightList().begin();  //(c++11)
-    auto lEnd = _scene->lightList().end();
+    auto it  = _scene->lightList().begin();  //(c++11)
+    auto end = _scene->lightList().end();
 
-    Color  lLightIntensity(0.0);
-    double lNoiseCoeff(0.0f);
-    Noise  lNoise;
+    Color  lightIntensity(0.0);
+    double noiseCoeff(0.0f);
+    Noise  noise;
 
     switch (_material)
     {
         case MARBLE:
-            while (lIt != lEnd)
+            while (it != end)
             {
-                lLightIntensity = (*lIt)->intensityAt(point, *_scene, thisShader);
+                lightIntensity = (*it)->intensityAt(point, *_scene, thisShader);
 
-                if (!(lLightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0f)))
                 {
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity * _bRDF->diffuse((*lIt)->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
+                    myColor += lightIntensity * _bRDF->diffuse((*it)->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double lLevel = 1.0f; lLevel < 10.0f; lLevel += 1.0f)
-                        lNoiseCoeff += (1.0f / lLevel) * fabs(lNoise.perlinNoise(lLevel * point.x(), lLevel * point.y(), lLevel * point.z()));
+                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
+                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
 
-                    lMyColor *= lNoiseCoeff;
+                    myColor *= noiseCoeff;
 
                     // Add specular compoment
-                    lMyColor
-                    += lLightIntensity * _bRDF->specular((*lIt)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
+                    myColor
+                    += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
                 }
 
-                lIt++;
+                it++;
             }
             break;
 
         case TURBULANCE:
-            while (lIt != lEnd)
+            while (it != end)
             {
-                lLightIntensity = (*lIt)->intensityAt(point, *_scene, thisShader);
+                lightIntensity = (*it)->intensityAt(point, *_scene, thisShader);
 
-                if (!(lLightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0f)))
                 {
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity * _bRDF->diffuse((*lIt)->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
+                    myColor += lightIntensity * _bRDF->diffuse((*it)->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double lLevel = 1.0f; lLevel < 10.0f; lLevel += 1.0f)
-                        lNoiseCoeff += (1.0f / lLevel) * fabs(lNoise.perlinNoise(lLevel * point.x(), lLevel * point.y(), lLevel * point.z()));
+                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
+                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
 
-                    lNoiseCoeff = 0.5f * sin((point.x() + point.y()) + lNoiseCoeff) + 0.5f;
+                    noiseCoeff = 0.5f * sin((point.x() + point.y()) + noiseCoeff) + 0.5f;
 
-                    lMyColor *= lNoiseCoeff;
+                    myColor *= noiseCoeff;
 
                     // Add specular compoment
-                    lMyColor
-                    += lLightIntensity * _bRDF->specular((*lIt)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
+                    myColor
+                    += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
                 }
 
-                lIt++;
+                it++;
             }
             break;
 
         case BUMP:
-            while (lIt != lEnd)
+            while (it != end)
             {
-                lLightIntensity = (*lIt)->intensityAt(point, *_scene, thisShader);
+                lightIntensity = (*it)->intensityAt(point, *_scene, thisShader);
 
-                if (!(lLightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0f)))
                 {
-                    double lNoiseX = lNoise.perlinNoise(point.x(), point.y(), point.z());
-                    double lNoiseY = lNoise.perlinNoise(point.y(), point.z(), point.x());
-                    double lNoiseZ = lNoise.perlinNoise(point.z(), point.x(), point.y());
+                    double noiseX = noise.perlinNoise(point.x(), point.y(), point.z());
+                    double noiseY = noise.perlinNoise(point.y(), point.z(), point.x());
+                    double noiseZ = noise.perlinNoise(point.z(), point.x(), point.y());
 
-                    Vector lBumpNormal(normal.x() * lNoiseX, normal.y() * lNoiseY, normal.z() * lNoiseZ);
+                    Vector bumpNormal(normal.x() * noiseX, normal.y() * noiseY, normal.z() * noiseZ);
 
-                    lBumpNormal.normalize();
+                    bumpNormal.normalize();
 
                     // Calculate diffuse component
-                    lMyColor += lLightIntensity * _bRDF->diffuse((*lIt)->directionFrom(point), lBumpNormal, point);  //*_currentReflectionCoeff;
+                    myColor += lightIntensity * _bRDF->diffuse((*it)->directionFrom(point), bumpNormal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double lLevel = 1.0f; lLevel < 10.0f; lLevel += 1.0f)
-                        lNoiseCoeff += (1.0f / lLevel) * fabs(lNoise.perlinNoise(lLevel * point.x(), lLevel * point.y(), lLevel * point.z()));
+                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
+                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
 
                     // Add specular compoment
-                    lMyColor
-                    += lLightIntensity * _bRDF->specular((*lIt)->directionFrom(point), vecToViewer, lBumpNormal, point);  //*_currentReflectionCoeff;
+                    myColor
+                    += lightIntensity * _bRDF->specular((*it)->directionFrom(point), vecToViewer, bumpNormal, point);  //*_currentReflectionCoeff;
                 }
 
-                lIt++;
+                it++;
             }
 
         case NONE:
         default:
-            while (lIt != lEnd)
+            while (it != end)
             {
-                lLightIntensity = (*lIt)->intensityAt(point, *_scene, thisShader);
+                lightIntensity = (*it)->intensityAt(point, *_scene, thisShader);
 
-                if (!(lLightIntensity == Color(0.0f)))
-                    lMyColor
-                    += lLightIntensity * _bRDF->reflectance((*lIt)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
+                if (!(lightIntensity == Color(0.0f)))
+                    myColor
+                    += lightIntensity * _bRDF->reflectance((*it)->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
 
-                lIt++;
+                it++;
             }
             break;
     }
 
-    return (lMyColor * _currentReflectionCoeff);
+    return (myColor * _currentReflectionCoeff);
 }
 
 Color Shader::ambientColor(const Ray& ray) const

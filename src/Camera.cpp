@@ -96,24 +96,24 @@ void Camera::setAperture(unsigned short mode, unsigned short precision, double f
     //_focalPlane.setPosition(_position + _direction*_focalLength);
 
     // Calculate the coefficients for the color sampling
-    unsigned short lTotalCoeffCount(static_cast<unsigned short>(2.0 * _apertureStepMultiplier + 1.0));
-    lTotalCoeffCount *= lTotalCoeffCount;
+    unsigned short totalCoeffCount(static_cast<unsigned short>(2.0 * _apertureStepMultiplier + 1.0));
+    totalCoeffCount *= totalCoeffCount;
 
-    _apertureColorCoeffs.reserve(lTotalCoeffCount);
-    float lTmpTotal(0.0f);
+    _apertureColorCoeffs.reserve(totalCoeffCount);
+    float tmpTotal(0.0f);
 
     // Call the rand function once first to avoid a big disparity between the returned values
     rand();
 
-    for (unsigned short i = 0; i < lTotalCoeffCount; ++i)
+    for (unsigned short i = 0; i < totalCoeffCount; ++i)
     {
         _apertureColorCoeffs.push_back(static_cast<float>(rand()));
-        lTmpTotal += _apertureColorCoeffs[i];
+        tmpTotal += _apertureColorCoeffs[i];
     }
 
     // Divide all the coefficients by the their sum
-    float lInvSumCoeffs = 1.0f / lTmpTotal;
-    for_each(_apertureColorCoeffs.begin(), _apertureColorCoeffs.end(), [lInvSumCoeffs](float& lIt) { lIt *= lInvSumCoeffs; });  // (c++11)
+    float invSumCoeffs = 1.0f / tmpTotal;
+    for_each(_apertureColorCoeffs.begin(), _apertureColorCoeffs.end(), [invSumCoeffs](float& it) { it *= invSumCoeffs; });  // (c++11)
 
     switch (mode)
     {

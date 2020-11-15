@@ -47,21 +47,21 @@ PunctualLight::~PunctualLight(void)
 Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
 {
     // Direction between point on object and current light
-    Vector lDirection(_position - point);
+    Vector direction(_position - point);
 
     // Create the corresponding ray
-    Ray lMyRay(point, lDirection);
-    lMyRay.setIntersected(currentObject);
+    Ray myRay(point, direction);
+    myRay.setIntersected(currentObject);
 
     // Check if there is an object between them. Ask for at least 2 intersections points with the scene as the ray will always intersect with the
     // object containing the point point.
-    bool lHasIntersection = false;
-    lHasIntersection      = scene.intersect(lMyRay);
+    bool hasIntersection = false;
+    hasIntersection      = scene.intersect(myRay);
 
     // If an object is found, or if the light is inside the object, this light does not contribute on that point. Otherwise, calculate the amount of
     // light arriving at the point
-    if (lHasIntersection || (lDirection * currentObject->normal(point) <= 0.0))
+    if (hasIntersection || (direction * currentObject->normal(point) <= 0.0))
         return Color(0.0f);
     else
-        return _intensity * (1.0f / (1.0f + lDirection.length()));
+        return _intensity * (1.0f / (1.0f + direction.length()));
 }

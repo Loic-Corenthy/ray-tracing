@@ -9,13 +9,13 @@
 //===============================================================================================//
 
 #ifdef __linux__
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+    #include <GL/glut.h>
 #elif __APPLE__
-#include <OpenGL/gl.hpp>
-#include <OpenGL/glu.hpp>
-#include <GLUT/glut.hpp>
+    #include <OpenGL/gl.hpp>
+    #include <OpenGL/glu.hpp>
+    #include <GLUT/glut.hpp>
 #elif _WIN32
 // /*! \todo Add includes for Windows */
 #endif

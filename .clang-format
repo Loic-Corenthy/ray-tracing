@@ -32,6 +32,7 @@ ExperimentalAutoDetectBinPacking: true
 IndentCaseLabels: true
 IndentWidth: 4
 IndentWrappedFunctionNames: false
+IndentPPDirectives: BeforeHash
 IncludeBlocks: Merge
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'

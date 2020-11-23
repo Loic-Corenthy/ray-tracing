@@ -10,14 +10,15 @@
 
 #include "BoundingBox.hpp"
 
-#define BIG_POS_VALUE 1000000.0
-#define BIG_NEG_VALUE -1000000.0
+#include <limits>
 
-using namespace LCNS;
+using std::numeric_limits;
+
+using LCNS::BoundingBox;
 
 BoundingBox::BoundingBox(void)
-: _min(Point(BIG_POS_VALUE, BIG_POS_VALUE, BIG_POS_VALUE))
-, _max(Point(BIG_NEG_VALUE, BIG_NEG_VALUE, BIG_NEG_VALUE))
+: _min(Point(numeric_limits<double>::max(), numeric_limits<double>::max(), numeric_limits<double>::max()))
+, _max(Point(-numeric_limits<double>::max(), -numeric_limits<double>::max(), -numeric_limits<double>::max()))
 {
 }
 

@@ -20,7 +20,7 @@ using namespace std;
 void createTestScene(LCNS::Scene* scene)
 {
     LCNS::Point centerSphere1(0.0, 0.0, 0.0);
-    Renderable*       rSphere1 = new Sphere(centerSphere1, 2.3);
+    Renderable* rSphere1 = new Sphere(centerSphere1, 2.3);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere1(1.0f, 0.0f, 0.0f);
@@ -52,9 +52,9 @@ void createTestScene(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 7.0f, 10.0f);
-    Vector            directionCamera(0.00f, -0.4f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.00f, -0.4f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -76,7 +76,7 @@ void createScene01(Scene* scene)
     // RED SPHERE //
     ////////////////
     LCNS::Point centerSphere1(0.0, 2.0, 2.1);
-    Renderable*       rSphere1 = new Sphere(centerSphere1, 0.3);
+    Renderable* rSphere1 = new Sphere(centerSphere1, 0.3);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere1(1.0f, 0.0f, 0.0f);
@@ -96,7 +96,7 @@ void createScene01(Scene* scene)
     // GREEN SPHERE //
     //////////////////
     LCNS::Point centerSphere2(2.0, 0.5, 0.0);
-    Renderable*       rSphere2 = new Sphere(centerSphere2, 1.5);
+    Renderable* rSphere2 = new Sphere(centerSphere2, 1.5);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere2(0.0f, 1.0f, 0.0f);
@@ -116,7 +116,7 @@ void createScene01(Scene* scene)
     // BLUE SPHERE //
     /////////////////
     LCNS::Point centerSphere3(-1.8, 0.0, 0.0);
-    Renderable*       rSphere3 = new Sphere(centerSphere3, 1.0);
+    Renderable* rSphere3 = new Sphere(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere3(0.0f, 0.0f, 1.0f);
@@ -136,17 +136,17 @@ void createScene01(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 0.0f, 5.0f);
-    Color             light1Color(9.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(9.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 2.5f, 6.0f);
-    Vector            directionCamera(0.05f, -0.4f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.05f, -0.4f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -168,7 +168,7 @@ void createScene02(Scene* scene)
     // RED SPHERE //
     ////////////////
     LCNS::Point centerSphere1(-60.0, 0.0, 60.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 40.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 40.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
@@ -189,7 +189,7 @@ void createScene02(Scene* scene)
     // GREEN SPHERE //
     //////////////////
     LCNS::Point centerSphere2(60.0, 0.0, 50.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 40.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 40.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
@@ -210,7 +210,7 @@ void createScene02(Scene* scene)
     // BLUE SPHERE //
     /////////////////
     LCNS::Point centerSphere3(0.0, -10.0, 110.0);
-    Sphere*           rSphere3 = new Sphere(centerSphere3, 20.0f);
+    Sphere*     rSphere3 = new Sphere(centerSphere3, 20.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere3(0.6f, 0.6f, 1.0f);
@@ -231,7 +231,7 @@ void createScene02(Scene* scene)
     // CYAN SPHERE IN BACKGROUND //
     ///////////////////////////////
     LCNS::Point centerSphere4(-50.0, 0.0, -250.0);
-    Sphere*           rSphere4 = new Sphere(centerSphere4, 100.0f);
+    Sphere*     rSphere4 = new Sphere(centerSphere4, 100.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere4(0, 255, 255);
@@ -258,23 +258,23 @@ void createScene02(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(50.f, 130.f, 150.0f);
-    Color             light1Color(18.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(18.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     LCNS::Point light2Position(20.f, 150.f, 150.0f);
-    Color             light2Color(18.0f);
-    Light*            rLight2 = new PunctualLight(light2Position, light2Color);
+    Color       light2Color(18.0f);
+    Light*      rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
     LCNS::Point light3Position(-70.f, 50.f, 110.0f);
-    Color             light3Color(15.0f);
-    Light*            rLight3 = new PunctualLight(light3Position, light3Color);
+    Color       light3Color(15.0f);
+    Light*      rLight3 = new PunctualLight(light3Position, light3Color);
     scene->add(rLight3);
 
     LCNS::Point light4Position(-20.f, 50.f, 160.0f);
-    Color             light4Color(15.0f);
-    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
+    Color       light4Color(15.0f);
+    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -282,9 +282,9 @@ void createScene02(Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 100.0f, 250.0f);
-    Vector            directionCamera(0.0f, -0.6f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, -0.6f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setFocalPoint(centerSphere3);
@@ -309,7 +309,7 @@ void createScene03(Scene* scene)
     // SPHERE WITH A TURBULANCE TEXTURE //
     //////////////////////////////////////
     LCNS::Point center(-20.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(center, 3.0f);
+    Sphere*     rSphere1 = new Sphere(center, 3.0f);
 
     Color  diffusion(245, 222, 179);
     Color  specular(255, 255, 255);
@@ -328,7 +328,7 @@ void createScene03(Scene* scene)
     //////////////////////////////////
     // SPHERE WITH A MARBLE TEXTURE //
     //////////////////////////////////
-    center.setPoint(-10.0, 0.0, 0.0);
+    center.set(-10.0, 0.0, 0.0);
     Sphere* rSphere2 = new Sphere(center, 3.0f);
 
     diffusion.setColor(0, 255, 255);
@@ -370,7 +370,7 @@ void createScene03(Scene* scene)
     ////////////////////////////////
     // SPHERE WITH A BUMP TEXTURE //
     ////////////////////////////////
-    center.setPoint(8.0, 0.0, 0.0);
+    center.set(8.0, 0.0, 0.0);
     Sphere* rSphere3 = new Sphere(center, 3.0f);
 
     diffusion.setColor(127, 255, 0);
@@ -389,7 +389,7 @@ void createScene03(Scene* scene)
     ///////////////////////////
     // SPHERE WITH A TEXTURE //
     ///////////////////////////
-    center.setPoint(18.0, 0.0, 0.0);
+    center.set(18.0, 0.0, 0.0);
     Renderable* rSphere4 = new Sphere(center, 3.0);
 
     // Create a BRDF model for the sphere
@@ -422,7 +422,7 @@ void createScene03(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point lightPos(0.0, 20.0, 15.0);
-    Color             lightCol(18.0f);
+    Color       lightCol(18.0f);
 
     Light* rLight = new PunctualLight(lightPos, lightCol);
     scene->add(rLight);
@@ -432,9 +432,9 @@ void createScene03(Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(1.5f, 10.0f, 25.0f);
-    Vector            directionCamera(-0.05f, -0.4f, -1.0f);
-    Vector            cameraUp(0.f, 1.0f, 0.f);
-    float             FOV = 90.f * 3.141592 / 180.f;
+    Vector      directionCamera(-0.05f, -0.4f, -1.0f);
+    Vector      cameraUp(0.f, 1.0f, 0.f);
+    float       FOV = 90.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
@@ -463,7 +463,7 @@ void createScene04(Scene* scene)
 
     // Create a sphere
     LCNS::Point centerSphere1(-180.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 50.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 50.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
@@ -481,7 +481,7 @@ void createScene04(Scene* scene)
 
     // Create a second sphere
     LCNS::Point centerSphere2(0.0, 0.0, 0.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 50.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 50.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
@@ -499,7 +499,7 @@ void createScene04(Scene* scene)
 
     // Create a purple sphere
     LCNS::Point centerSphere3(180.0, 0.0, 0.0);
-    Sphere*           rSphere3 = new Sphere(centerSphere3, 50.0f);
+    Sphere*     rSphere3 = new Sphere(centerSphere3, 50.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
@@ -520,34 +520,34 @@ void createScene04(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 0.0f, 100.0f);
-    Color             lowLightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, lowLightColor);
+    Color       lowLightColor(20.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, lowLightColor);
     scene->add(rLight1);
 
     LCNS::Point light2Position(-200.f, 0.0f, 100.0f);
-    Light*            rLight2 = new PunctualLight(light2Position, lowLightColor);
+    Light*      rLight2 = new PunctualLight(light2Position, lowLightColor);
     scene->add(rLight2);
 
     LCNS::Point light3Position(200.f, 0.0f, 100.0f);
-    Light*            rLight3 = new PunctualLight(light3Position, lowLightColor);
+    Light*      rLight3 = new PunctualLight(light3Position, lowLightColor);
     scene->add(rLight3);
 
     LCNS::Point light4Position(90.f, 300.f, 200.0f);
-    Color             highLightColor(200.0f);
-    Light*            rLight4 = new PunctualLight(light4Position, highLightColor);
+    Color       highLightColor(200.0f);
+    Light*      rLight4 = new PunctualLight(light4Position, highLightColor);
     scene->add(rLight4);
 
     LCNS::Point light5Position(-90.f, 300.f, 200.0f);
-    Light*            rLight5 = new PunctualLight(light5Position, highLightColor);
+    Light*      rLight5 = new PunctualLight(light5Position, highLightColor);
     scene->add(rLight5);
 
     ////////////
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(-200.0f, 150.0f, 400.0f);
-    Vector            directionCamera(0.2f, -0.25f, -0.5f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.2f, -0.25f, -0.5f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP, 10.0);
@@ -575,7 +575,7 @@ void createScene04bis(LCNS::Scene* scene)
     // RED SPHERE //
     ////////////////
     LCNS::Point centerSphere1(-2.50, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 1.0f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 1.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
@@ -596,7 +596,7 @@ void createScene04bis(LCNS::Scene* scene)
     // GREEN SPHERE //
     //////////////////
     LCNS::Point centerSphere2(0.0, 0.0, 0.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 1.0f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 1.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
@@ -616,7 +616,7 @@ void createScene04bis(LCNS::Scene* scene)
     // PURPLE SPHERE //
     ///////////////////
     LCNS::Point centerSphere3(2.50, 0.0, 0.0);
-    Sphere*           rSphere3 = new Sphere(centerSphere3, 1.0f);
+    Sphere*     rSphere3 = new Sphere(centerSphere3, 1.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
@@ -637,12 +637,12 @@ void createScene04bis(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light4Position(1.15f, 4.f, 4.0f);
-    Color             lightColor(16.0f);
-    Light*            rLight4 = new PunctualLight(light4Position, lightColor);
+    Color       lightColor(16.0f);
+    Light*      rLight4 = new PunctualLight(light4Position, lightColor);
     scene->add(rLight4);
 
     LCNS::Point light5Position(-1.15f, 4.f, 4.0f);
-    Light*            rLight5 = new PunctualLight(light5Position, lightColor);
+    Light*      rLight5 = new PunctualLight(light5Position, lightColor);
     scene->add(rLight5);
 
 
@@ -650,9 +650,9 @@ void createScene04bis(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(-3.5f, 2.50f, 7.0f);
-    Vector            directionCamera(0.15f, -0.25f, -0.5f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.15f, -0.25f, -0.5f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -695,13 +695,13 @@ void createScene05(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color             light1Color(10.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(10.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     LCNS::Point light4Position(0.f, 10.f, 6.0f);
-    Color             light4Color(10.0f);
-    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
+    Color       light4Color(10.0f);
+    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -709,9 +709,9 @@ void createScene05(Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 3.0f, 12.0f);
-    Vector            directionCamera(0.01f, -0.3f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.01f, -0.3f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
@@ -737,7 +737,7 @@ void createScene06(Scene* scene)
 
     // SPHERE WITH REFRACTION
     LCNS::Point center(0.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(center, 5.f);
+    Sphere*     rSphere1 = new Sphere(center, 5.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.0f);
@@ -755,10 +755,10 @@ void createScene06(Scene* scene)
     // SPHERES IN THE BACKGROUND
     // Nearest spheres
     double size = 4.0;
-    center.setZ(-20);
+    center.z(-20);
 
     // BG 1, left
-    center.setX(-20.0);
+    center.x(-20.0);
     Sphere* rSphereL1 = new Sphere(center, size);
 
     Phong*  rBRDF_L1  = new Phong(Color(250, 240, 230) * 5.0, Color(1.0), 3);
@@ -771,7 +771,7 @@ void createScene06(Scene* scene)
     scene->add(rShaderL1, string("shader left 1"));
 
     // BG 1, right
-    center.setX(20.0);
+    center.x(20.0);
     Sphere* rSphereR1 = new Sphere(center, size);
 
     Phong*  rBRDFR1   = new Phong(Color(135, 206, 250) * 5.0, Color(1.0), 3);
@@ -784,8 +784,8 @@ void createScene06(Scene* scene)
     scene->add(rShaderR1, string("shader right 1"));
 
     // BG 1, down
-    center.setX(0.0);
-    center.setY(-20.0);
+    center.x(0.0);
+    center.y(-20.0);
     Sphere* rSphereD1 = new Sphere(center, size);
 
     Phong*  rBRDFD1   = new Phong(Color(250, 128, 114) * 5.0, Color(1.0), 3);
@@ -798,7 +798,7 @@ void createScene06(Scene* scene)
     scene->add(rShaderD1, string("shader down 1"));
 
     // BG 1, up
-    center.setY(20.0);
+    center.y(20.0);
     Sphere* rSphereU1 = new Sphere(center, size);
 
     Phong*  rBRDFU1   = new Phong(Color(255, 250, 205) * 5.0, Color(1.0), 3);
@@ -812,11 +812,11 @@ void createScene06(Scene* scene)
 
     // Furthest spheres
     size = 22.0;
-    center.setZ(-220);
+    center.z(-220);
 
     // BG 2, left down
-    center.setX(-85.0);
-    center.setY(-85.0);
+    center.x(-85.0);
+    center.y(-85.0);
     Sphere* rSphereLD2 = new Sphere(center, size);
 
     Phong*  rBRDFLD2   = new Phong(Color(127, 255, 212) * 5.0, Color(1.0), 3);
@@ -829,8 +829,8 @@ void createScene06(Scene* scene)
     scene->add(rShaderLD2, string("shader left down 2"));
 
     // BG 2, right down
-    center.setX(85.0);
-    center.setY(-85.0);
+    center.x(85.0);
+    center.y(-85.0);
     Sphere* rSphereRD2 = new Sphere(center, size);
 
     Phong*  rBRDFRD2   = new Phong(Color(240, 248, 255) * 5.0, Color(1.0), 3);
@@ -843,8 +843,8 @@ void createScene06(Scene* scene)
     scene->add(rShaderRD2, string("shader right down 2"));
 
     // BG 2, left up
-    center.setX(-85.0);
-    center.setY(85.0);
+    center.x(-85.0);
+    center.y(85.0);
     Sphere* rSphereLU2 = new Sphere(center, size);
 
     Phong*  rBRDFLU2   = new Phong(Color(255, 99, 71) * 5.0, Color(1.0), 3);
@@ -857,8 +857,8 @@ void createScene06(Scene* scene)
     scene->add(rShaderLU2, string("shader left up 2"));
 
     // BG2, right up
-    center.setX(85.0);
-    center.setY(85.0);
+    center.x(85.0);
+    center.y(85.0);
     Sphere* rSphereRU2 = new Sphere(center, size);
 
     Phong*  rBRDFRU2   = new Phong(Color(255, 255, 0) * 5.0, Color(1.0), 3);
@@ -904,8 +904,8 @@ void createScene06(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point lightPosition(0.0f, 0.0f, 20.0f);
-    Color             lightColor(6.0f);
-    Light*            rLight1 = new PunctualLight(lightPosition, lightColor);
+    Color       lightColor(6.0f);
+    Light*      rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
 
@@ -913,9 +913,9 @@ void createScene06(Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 0.0f, 15.0f);
-    Vector            directionCamera(0.0f, 0.0f, -1.01f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 90.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, 0.0f, -1.01f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 90.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setFocalPoint(LCNS::Point(4.0));
@@ -943,7 +943,7 @@ void createScene07(Scene* scene)
 {
     // Create a sphere (1)
     LCNS::Point centerSphere1(-30.f, 10.0f, 20.0f);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 13.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 13.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(229.0f / 255.0f, 51.0f / 255.0f, 163.0f / 255.0f);
@@ -960,7 +960,7 @@ void createScene07(Scene* scene)
 
     // Create a sphere (2)
     LCNS::Point centerSphere2(0.0f, 10.0f, 20.0f);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 13.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 13.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(220.0f / 255.0f, 210.0f / 255.0f, 120.0f / 255.0f);
@@ -977,7 +977,7 @@ void createScene07(Scene* scene)
 
     // Create a sphere (3)
     LCNS::Point centerSphere3(30.f, 10.0f, 20.0f);
-    Sphere*           rSphere3 = new Sphere(centerSphere3, 13.f);
+    Sphere*     rSphere3 = new Sphere(centerSphere3, 13.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere3(90.0f / 255.0f, 160.0f / 255.0f, 210.0f / 255.0f);
@@ -996,19 +996,19 @@ void createScene07(Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point lightPosition(0.0f, 90.0f, 0.0f);
-    Color             lightColor(5.0f);
-    Light*            rLight1 = new PunctualLight(lightPosition, lightColor);
+    Color       lightColor(5.0f);
+    Light*      rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
     //    lightPosition.setPoint(0.0f,15.0f,37.0f);
     //	Light* rLight2 = new PunctualLight(lightPosition,lLightColor);
     //    scene->add(rLight2);
 
-    lightPosition.setPoint(10.0f, 20.0f, 37.0f);
+    lightPosition.set(10.0f, 20.0f, 37.0f);
     Light* rLight3 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight3);
 
-    lightPosition.setPoint(-10.0f, 20.0f, 37.0f);
+    lightPosition.set(-10.0f, 20.0f, 37.0f);
     Light* rLight4 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight4);
 
@@ -1017,9 +1017,9 @@ void createScene07(Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 25.0f, 105.0f);
-    Vector            directionCamera(0.0f, -0.3f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, -0.3f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     //    rCamera->setAperture(Camera::F_SMALL,85.0,Camera::PRECISION::LOW);
@@ -1031,16 +1031,16 @@ void createScene07(Scene* scene)
 
     // ROOM
     RoomParameters roomParameters = { Color(1.0f, 0.18f, 0.17f),
-                                       Color(0.0f),
-                                       1.0,
-                                       1.0,
-                                       2,
-                                       50.0,
-                                       20.0,
-                                       string("./resources/textureLeaves_750x750.png"),
-                                       string("./resources/textureWall_400x400.png"),
-                                       string("./resources/textureWall_400x400_Right.png"),
-                                       string("./resources/textureWall_400x400.png") };
+                                      Color(0.0f),
+                                      1.0,
+                                      1.0,
+                                      2,
+                                      Point(50.0),
+                                      20.0,
+                                      string("./resources/textureLeaves_750x750.png"),
+                                      string("./resources/textureWall_400x400.png"),
+                                      string("./resources/textureWall_400x400_Right.png"),
+                                      string("./resources/textureWall_400x400.png") };
 
     //    RoomParameters roomParameters = {Color(1.0f,0.78f,0.17f),
     //    Color(0.0f,0.0f,0.79), 50.0, 20.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
@@ -1061,7 +1061,7 @@ void createScene08(LCNS::Scene* scene)
 
     // Create a red sphere
     LCNS::Point centerSphere1(00.0, 0.0, -5.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 2.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 2.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
@@ -1078,7 +1078,7 @@ void createScene08(LCNS::Scene* scene)
 
     // Create a green sphere
     LCNS::Point centerSphere2(10.0, 0.0, -100.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 30.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 30.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
@@ -1097,17 +1097,17 @@ void createScene08(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 10.f, 0.0f);
-    Color             light1Color(3.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(3.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 0.0f, 5.0f);
-    Vector            directionCamera(0.0f, -0.1f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, -0.1f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::F_SMALL, 1.0, Camera::Precision::SUPER_AWESOME);
@@ -1195,13 +1195,13 @@ void createScene09(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color             light1Color(10.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(10.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     LCNS::Point light4Position(0.f, 10.f, 6.0f);
-    Color             light4Color(10.0f);
-    Light*            rLight4 = new PunctualLight(light4Position, light4Color);
+    Color       light4Color(10.0f);
+    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -1209,9 +1209,9 @@ void createScene09(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 2.4f, 8.0f);
-    Vector            directionCamera(0.01f, -0.1f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.01f, -0.1f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP);
@@ -1238,7 +1238,7 @@ void createScene10(LCNS::Scene* scene)
     // Create a first blue sphere //
     ////////////////////////////////
     LCNS::Point centerSphere1(0.0, 0.0, 0.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 100.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 100.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(0.f, 0.0f, 0.1f);
@@ -1259,7 +1259,7 @@ void createScene10(LCNS::Scene* scene)
     // Create a second blue sphere //
     /////////////////////////////////
     LCNS::Point centerSphere2(50.0, -20.0, 230.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 60.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 60.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.0f, 0.0f, 0.1f);
@@ -1280,7 +1280,7 @@ void createScene10(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(-40.f, 150.f, 50.0f);
-    Color             light1Color(212.0f, 27.0f, 218.0f);
+    Color       light1Color(212.0f, 27.0f, 218.0f);
     light1Color *= 2.0;
 
     Light* rLight1 = new PunctualLight(light1Position, light1Color);
@@ -1288,7 +1288,7 @@ void createScene10(LCNS::Scene* scene)
 
 
     LCNS::Point light2Position(90.f, 150.f, 190.0f);
-    Color             light2Color(189.0f, 190.0f, 53.0f);
+    Color       light2Color(189.0f, 190.0f, 53.0f);
 
     light2Color *= 2.0f;
 
@@ -1296,7 +1296,7 @@ void createScene10(LCNS::Scene* scene)
     scene->add(rLight2);
 
     LCNS::Point light3Position(-190.f, 150.f, 90.0f);
-    Color             light3Color(255, 140, 0);
+    Color       light3Color(255, 140, 0);
 
     light3Color *= 200.0f;
 
@@ -1308,9 +1308,9 @@ void createScene10(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(-280.0f, 150.0f, 350.0f);
-    Vector            directionCamera(0.5f, -0.35f, -0.5f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.5f, -0.35f, -0.5f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setAperture(Camera::ALL_SHARP, 10.0);
@@ -1340,7 +1340,7 @@ void createScene11(LCNS::Scene* scene)
     // Create a yellow sphere //
     //////////////////////////
     LCNS::Point centerSphere1(-1.1, 0.0, 0.0);
-    Renderable*       rSphere1 = new Sphere(centerSphere1, 1.0);
+    Renderable* rSphere1 = new Sphere(centerSphere1, 1.0);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere1(255, 255, 0);
@@ -1363,7 +1363,7 @@ void createScene11(LCNS::Scene* scene)
     // Create a cyan sphere //
     ///////////////////////////
     LCNS::Point centerSphere2(1.1, 0.0, 0.0);
-    Renderable*       rSphere2 = new Sphere(centerSphere2, 1.0);
+    Renderable* rSphere2 = new Sphere(centerSphere2, 1.0);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere2(0, 255, 255);
@@ -1386,7 +1386,7 @@ void createScene11(LCNS::Scene* scene)
     // Create a pink sphere //
     //////////////////////////
     LCNS::Point centerSphere3(0.0, 1.8, 0.0);
-    Renderable*       rSphere3 = new Sphere(centerSphere3, 1.0);
+    Renderable* rSphere3 = new Sphere(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
     Color diffusionSphere3(255, 0, 255);
@@ -1409,13 +1409,13 @@ void createScene11(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color             light1Color(8.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(8.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     LCNS::Point light2Position(0.f, 1.0f, -10.0f);
-    Color             light2Color(5.0f);
-    Light*            rLight2 = new PunctualLight(light2Position, light2Color);
+    Color       light2Color(5.0f);
+    Light*      rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
 
@@ -1423,9 +1423,9 @@ void createScene11(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 0.7f, 2.0f);
-    Vector            directionCamera(0.0f, 0.0f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, 0.0f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -1445,7 +1445,7 @@ void createScene12(LCNS::Scene* scene)
 
     // Create a sphere
     LCNS::Point centerSphere1(0.0, 5.0, 5.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere1, 9.f);
+    Sphere*     rSphere1 = new Sphere(centerSphere1, 9.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.0f, 0.8f, 0.9f);
@@ -1476,7 +1476,7 @@ void createScene12(LCNS::Scene* scene)
 
     // Create a second sphere
     LCNS::Point centerSphere2(-21.0, -5.0, 8.0);
-    Sphere*           rSphere2 = new Sphere(centerSphere2, 9.f);
+    Sphere*     rSphere2 = new Sphere(centerSphere2, 9.f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere2(0.9f, 1.0f, 0.8f);
@@ -1494,7 +1494,7 @@ void createScene12(LCNS::Scene* scene)
 
     // Create a transparent sphere for refraction
     LCNS::Point centerSphere3(21.0, -5.0, 8.0);
-    Sphere*           rSphere3 = new Sphere(centerSphere3, 9.0f);
+    Sphere*     rSphere3 = new Sphere(centerSphere3, 9.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere3(0.95f, 0.88f, 0.60f);
@@ -1514,8 +1514,8 @@ void createScene12(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.f, 25.0f, 50.0f);
-    Color             light1Color(30.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, light1Color);
+    Color       light1Color(30.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     //    LCNS::Point light4Position(0.f,20.f,6.0f);
@@ -1528,9 +1528,9 @@ void createScene12(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(0.0f, 15.0f, 40.0f);
-    Vector            directionCamera(0.0f, -0.1f, -1.0f);
-    Vector            cameraUp(0.f, 1.f, 0.f);
-    float             FOV = 60.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.0f, -0.1f, -1.0f);
+    Vector      cameraUp(0.f, 1.f, 0.f);
+    float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     //    rCamera->setAperture(Camera::F_SMALL,45.0,Camera::LOW);
@@ -1540,7 +1540,8 @@ void createScene12(LCNS::Scene* scene)
 
     // ROOM
     RoomParameters parameters
-    = { Color(0.8f), Color(1.0f), 0.0, 1.0, 2, 35.0, 15.0, string("no_texture"), string("no_texture"), string("no_texture"), string("no_texture") };
+    = { Color(0.8f),          Color(1.0f),         0.0, 1.0, 2, Point(35.0), 15.0, string("no_texture"), string("no_texture"),
+        string("no_texture"), string("no_texture") };
     createRoom(scene, parameters);
 
 
@@ -1661,7 +1662,7 @@ void createScene13(LCNS::Scene* scene)
 
     // Sphere with texture
     LCNS::Point centerSphere(0.0, 6.7, 0.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere, 2.0f);
+    Sphere*     rSphere1 = new Sphere(centerSphere, 2.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(1.0f);
@@ -1695,10 +1696,8 @@ void createScene13(LCNS::Scene* scene)
 
     // Mirror on the right wall
     double    mirrorXPos = 10.0;
-    Triangle* rMirror1    = new Triangle(
-    LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0));
-    Triangle* rMirror2
-    = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0), LCNS::Point(mirrorXPos, 4.0, 18.0));
+    Triangle* rMirror1 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0));
+    Triangle* rMirror2 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0), LCNS::Point(mirrorXPos, 4.0, 18.0));
 
     Vector minusX(-1.0, 0.0, 0.0);
 
@@ -1730,8 +1729,8 @@ void createScene13(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(-3.0, 10.0, 20.0);
-    Color             lightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, lightColor);
+    Color       lightColor(20.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
 
 
@@ -1748,9 +1747,9 @@ void createScene13(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(-5.0, 8.0, 21.0);
-    Vector            directionCamera(0.4, -0.20, -1.0);
-    Vector            cameraUp(0.0, 1.0, 0.0);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.4, -0.20, -1.0);
+    Vector      cameraUp(0.0, 1.0, 0.0);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
@@ -1758,17 +1757,17 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rCamera);
 
     RoomParameters parameters = { Color(0.8f),
-                                   Color(0.8f),
-                                   0.0,
-                                   1.0,
-                                   1,
-                                   LCNS::Point(-28.0, 0.0, -20.0),
-                                   Vector(40.0, 15.0, 40.0),
-                                   string("./resources/floor.png"),
-                                   string("./resources/textureWall_400x400.png"),
-                                   string("./resources/textureWall_400x400_Right.png"),
-                                   string("./resources/textureWall_400x400.png"),
-                                   string("./resources/ceiling.png") };
+                                  Color(0.8f),
+                                  0.0,
+                                  1.0,
+                                  1,
+                                  LCNS::Point(-28.0, 0.0, -20.0),
+                                  Vector(40.0, 15.0, 40.0),
+                                  string("./resources/floor.png"),
+                                  string("./resources/textureWall_400x400.png"),
+                                  string("./resources/textureWall_400x400_Right.png"),
+                                  string("./resources/textureWall_400x400.png"),
+                                  string("./resources/ceiling.png") };
 
     createRoom(scene, parameters);
 
@@ -1892,7 +1891,7 @@ void createScene14(LCNS::Scene* scene)
 
     // Sphere with texture
     LCNS::Point centerSphere(.0, 6.7, 0.0);
-    Sphere*           rSphere1 = new Sphere(centerSphere, 2.0f);
+    Sphere*     rSphere1 = new Sphere(centerSphere, 2.0f);
 
     // Create a BRDF model for the sphere
     Color  diffusionSphere1(0.1f);
@@ -1913,17 +1912,17 @@ void createScene14(LCNS::Scene* scene)
     // LIGHTS //
     ////////////
     LCNS::Point light1Position(0.0, 20.0, 10.0);
-    Color             lightColor(20.0f);
-    Light*            rLight1 = new PunctualLight(light1Position, lightColor);
+    Color       lightColor(20.0f);
+    Light*      rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
 
 
     LCNS::Point light2Position(-5.0, 10.0, 10.0);
-    Light*            rLight2 = new PunctualLight(light2Position, lightColor);
+    Light*      rLight2 = new PunctualLight(light2Position, lightColor);
     scene->add(rLight2);
 
     LCNS::Point light3Position(5.0, 10.0, 10.0);
-    Light*            rLight3 = new PunctualLight(light3Position, lightColor);
+    Light*      rLight3 = new PunctualLight(light3Position, lightColor);
     scene->add(rLight3);
 
 
@@ -1931,9 +1930,9 @@ void createScene14(LCNS::Scene* scene)
     // CAMERA //
     ////////////
     LCNS::Point centreCamera(-2.0, 8.0, 14.0);
-    Vector            directionCamera(0.05, -0.05, -1.0);
-    Vector            cameraUp(0.0, 1.0, 0.0);
-    float             FOV = 80.f * 3.141592 / 180.f;
+    Vector      directionCamera(0.05, -0.05, -1.0);
+    Vector      cameraUp(0.0, 1.0, 0.0);
+    float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
@@ -1959,12 +1958,10 @@ void createFloor(Scene* scene, const FloorParameters& param)
 {
     double deep = -1.0 * param.deep;
 
-    Triangle* rTriangleZ1 = new Triangle(LCNS::Point(-param.size, deep, -param.size),
-                                         LCNS::Point(-param.size, deep, param.size),
-                                         LCNS::Point(param.size, deep, param.size));
-    Triangle* rTriangleZ2 = new Triangle(LCNS::Point(-param.size, deep, -param.size),
-                                         LCNS::Point(param.size, deep, param.size),
-                                         LCNS::Point(param.size, deep, -param.size));
+    Triangle* rTriangleZ1 = new Triangle(
+    LCNS::Point(-param.size, deep, -param.size), LCNS::Point(-param.size, deep, param.size), LCNS::Point(param.size, deep, param.size));
+    Triangle* rTriangleZ2 = new Triangle(
+    LCNS::Point(-param.size, deep, -param.size), LCNS::Point(param.size, deep, param.size), LCNS::Point(param.size, deep, -param.size));
 
     rTriangleZ1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
     rTriangleZ1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
@@ -2034,8 +2031,8 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriFloor2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
 
     LCNS::Point middleOfFace((zero.x() + one.x() + two.x() + three.x()) * 0.25,
-                                    (zero.y() + one.y() + two.y() + three.y()) * 0.25,
-                                    (zero.z() + one.z() + two.z() + three.z()) * 0.25);
+                             (zero.y() + one.y() + two.y() + three.y()) * 0.25,
+                             (zero.z() + one.z() + two.z() + three.z()) * 0.25);
 
     Phong* rBRDF_Floor = new Phong(param.diffusion, param.specular, 3);
     //    rBRDF_Floor->setAmbient(Color(0.0f));
@@ -2082,9 +2079,9 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriLeftWall2->setVertexNormal(1, Vector(1.0, 0.0, 0.0));
     rTriLeftWall2->setVertexNormal(2, Vector(1.0, 0.0, 0.0));
 
-    middleOfFace.setX((zero.x() + one.x() + four.x() + five.x()) * 0.25);
-    middleOfFace.setY((zero.y() + one.y() + four.y() + five.y()) * 0.25);
-    middleOfFace.setZ((zero.z() + one.z() + four.z() + five.z()) * 0.25);
+    middleOfFace.x((zero.x() + one.x() + four.x() + five.x()) * 0.25);
+    middleOfFace.y((zero.y() + one.y() + four.y() + five.y()) * 0.25);
+    middleOfFace.z((zero.z() + one.z() + four.z() + five.z()) * 0.25);
 
     Phong* rBRDFLeftWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFLeftWall->setAmbient(Color(0.1f));
@@ -2131,9 +2128,9 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriBackWall2->setVertexNormal(1, Vector(0.0, 0.0, 1.0));
     rTriBackWall2->setVertexNormal(2, Vector(0.0, 0.0, 1.0));
 
-    middleOfFace.setX((zero.x() + three.x() + four.x() + seven.x()) * 0.25);
-    middleOfFace.setY((zero.y() + three.y() + four.y() + seven.y()) * 0.25);
-    middleOfFace.setZ((zero.z() + three.z() + four.z() + seven.z()) * 0.25);
+    middleOfFace.x((zero.x() + three.x() + four.x() + seven.x()) * 0.25);
+    middleOfFace.y((zero.y() + three.y() + four.y() + seven.y()) * 0.25);
+    middleOfFace.z((zero.z() + three.z() + four.z() + seven.z()) * 0.25);
 
     Phong* rBRDFBackWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFBackWall->setAmbient(Color(0.1f));
@@ -2179,9 +2176,9 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriRightWall2->setVertexNormal(1, Vector(-1.0, 0.0, 0.0));
     rTriRightWall2->setVertexNormal(2, Vector(-1.0, 0.0, 0.0));
 
-    middleOfFace.setX((two.x() + three.x() + six.x() + seven.x()) * 0.25);
-    middleOfFace.setY((two.y() + three.y() + six.y() + seven.y()) * 0.25);
-    middleOfFace.setZ((two.z() + three.z() + six.z() + seven.z()) * 0.25);
+    middleOfFace.x((two.x() + three.x() + six.x() + seven.x()) * 0.25);
+    middleOfFace.y((two.y() + three.y() + six.y() + seven.y()) * 0.25);
+    middleOfFace.z((two.z() + three.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFRightWall = new Phong(param.diffusion, param.specular, 3);
     rBRDFRightWall->setAmbient(Color(0.1f));
@@ -2227,9 +2224,9 @@ void createRoom(Scene* scene, const RoomParameters& param)
     rTriCeiling2->setVertexNormal(1, Vector(0.0, -1.0, 0.0));
     rTriCeiling2->setVertexNormal(2, Vector(0.0, -1.0, 0.0));
 
-    middleOfFace.setX((four.x() + five.x() + six.x() + seven.x()) * 0.25);
-    middleOfFace.setY((four.y() + five.y() + six.y() + seven.y()) * 0.25);
-    middleOfFace.setZ((four.z() + five.z() + six.z() + seven.z()) * 0.25);
+    middleOfFace.x((four.x() + five.x() + six.x() + seven.x()) * 0.25);
+    middleOfFace.y((four.y() + five.y() + six.y() + seven.y()) * 0.25);
+    middleOfFace.z((four.z() + five.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFCeiling = new Phong(param.diffusion, param.specular, 13);
     rBRDFCeiling->setAmbient(Color(0.1f));

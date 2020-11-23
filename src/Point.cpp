@@ -10,14 +10,8 @@
 
 #include "Point.hpp"
 
-using namespace LCNS;
-
-Point::Point(void)
-{
-    _coords[0] = 0.0;
-    _coords[1] = 0.0;
-    _coords[2] = 0.0;
-}
+using LCNS::Point;
+using LCNS::Vector;
 
 Point::Point(double x, double y, double z)
 {
@@ -40,11 +34,7 @@ Point::Point(const Point& point)
     _coords[2] = point._coords[2];
 }
 
-Point::~Point(void)
-{
-}
-
-Point Point::operator=(const Point& point)
+Point& Point::operator=(const Point& point)
 {
     if (this == &point)
         return *this;
@@ -54,4 +44,63 @@ Point Point::operator=(const Point& point)
     _coords[2] = point._coords[2];
 
     return *this;
+}
+
+double Point::operator[](unsigned int index) const
+{
+    assert(0 <= index && index < 3 && "Point: index out of bounds");
+    return _coords[index];
+}
+
+double& Point::operator[](unsigned int index)
+{
+    assert(0 <= index && index < 3 && "Point: index out of bounds");
+    return _coords[index];
+}
+
+Vector Point::operator-(const Point point) const noexcept
+{
+    return Vector(_coords[0] - point._coords[0], _coords[1] - point._coords[1], _coords[2] - point._coords[2]);
+}
+
+Point Point::operator+(const Vector vector) const noexcept
+{
+    return Point(_coords[0] + vector[0], _coords[1] + vector[1], _coords[2] + vector[2]);
+}
+
+void Point::set(double x, double y, double z) noexcept
+{
+    _coords[0] = x;
+    _coords[1] = y;
+    _coords[2] = z;
+}
+
+void Point::x(double x) noexcept
+{
+    _coords[0] = x;
+}
+
+void Point::y(double y) noexcept
+{
+    _coords[1] = y;
+}
+
+void Point::z(double z) noexcept
+{
+    _coords[2] = z;
+}
+
+double Point::x(void) const noexcept
+{
+    return _coords[0];
+}
+
+double Point::y(void) const noexcept
+{
+    return _coords[1];
+}
+
+double Point::z(void) const noexcept
+{
+    return _coords[2];
 }

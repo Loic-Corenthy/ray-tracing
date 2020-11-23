@@ -135,9 +135,9 @@ void Scene::add(CubeMap* cubeMap)
 
 bool Scene::intersect(Ray& ray) const
 {
-    float       closestDist   = std::numeric_limits<float>::max();
+    float       closestDist    = std::numeric_limits<float>::max();
     Renderable* rClosestObject = nullptr;
-    Renderable* objectFromRay = ray.intersected();
+    Renderable* objectFromRay  = ray.intersected();
 
     int i = 0;
 
@@ -153,7 +153,7 @@ bool Scene::intersect(Ray& ray) const
             hasIntersection = (*iterator)->intersect(ray);
             if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
-                closestDist   = ray.length();
+                closestDist    = ray.length();
                 rClosestObject = ray.intersected();
                 i++;
             }
@@ -192,7 +192,7 @@ void Scene::createFromFile(const string& objFilePath)
 
     // Create a mesh containing all the triangle of a group
     unsigned int currentObjectIdx = 0;
-    Mesh*        rCurrentObject    = nullptr;
+    Mesh*        rCurrentObject   = nullptr;
 
     Point minPoint(1000000.0, 1000000.0, 1000000.0);
     Point maxPoint(-1000000.0, -1000000.0, -1000000.0);
@@ -232,8 +232,8 @@ void Scene::createFromFile(const string& objFilePath)
                         {
                             rCurrentObject->setBBLimits(minPoint, maxPoint);
                             rCurrentObject = nullptr;
-                            minPoint.setPoint(1000000.0, 1000000.0, 1000000.0);
-                            maxPoint.setPoint(-1000000.0, -1000000.0, -1000000.0);
+                            minPoint.set(1000000.0, 1000000.0, 1000000.0);
+                            maxPoint.set(-1000000.0, -1000000.0, -1000000.0);
 
                             currentObjectIdx++;
                         }
@@ -265,13 +265,13 @@ void Scene::createFromFile(const string& objFilePath)
 
                             // Read the x coordinate of the vertex
                             stringStream >> tmpDoubleValue;
-                            tmpPoint.setX(tmpDoubleValue);
+                            tmpPoint.x(tmpDoubleValue);
 
                             stringStream >> tmpDoubleValue;
-                            tmpPoint.setY(tmpDoubleValue);
+                            tmpPoint.y(tmpDoubleValue);
 
                             stringStream >> tmpDoubleValue;
-                            tmpPoint.setZ(tmpDoubleValue);
+                            tmpPoint.z(tmpDoubleValue);
 
                             vertices.push_back(tmpPoint);
 
@@ -370,22 +370,22 @@ void Scene::createFromFile(const string& objFilePath)
 
                                 // Update bounding box
                                 if (vertices[vertexIdx - 1].x() < minPoint.x())
-                                    minPoint.setX(vertices[vertexIdx - 1].x());
+                                    minPoint.x(vertices[vertexIdx - 1].x());
 
                                 if (vertices[vertexIdx - 1].y() < minPoint.y())
-                                    minPoint.setY(vertices[vertexIdx - 1].y());
+                                    minPoint.y(vertices[vertexIdx - 1].y());
 
                                 if (vertices[vertexIdx - 1].z() < minPoint.z())
-                                    minPoint.setZ(vertices[vertexIdx - 1].z());
+                                    minPoint.z(vertices[vertexIdx - 1].z());
 
                                 if (vertices[vertexIdx - 1].x() > maxPoint.x())
-                                    maxPoint.setX(vertices[vertexIdx - 1].x());
+                                    maxPoint.x(vertices[vertexIdx - 1].x());
 
                                 if (vertices[vertexIdx - 1].y() > maxPoint.y())
-                                    maxPoint.setY(vertices[vertexIdx - 1].y());
+                                    maxPoint.y(vertices[vertexIdx - 1].y());
 
                                 if (vertices[vertexIdx - 1].z() > maxPoint.z())
-                                    maxPoint.setZ(vertices[vertexIdx - 1].z());
+                                    maxPoint.z(vertices[vertexIdx - 1].z());
 
                                 triangle.setVertexNormal(i, normals[normalIdx - 1]);
                                 localNormals[i] = normals[normalIdx - 1];

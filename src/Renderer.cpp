@@ -128,8 +128,8 @@ void Renderer::_render(void)
                     for (double apertureJ = apertureRadius * (-1.0); apertureJ <= apertureRadius; apertureJ += apertureStep)
                     {
                         Point apertureOrigin(firstRay.origin());
-                        apertureOrigin.setX(apertureOrigin.x() + apertureI);
-                        apertureOrigin.setY(apertureOrigin.y() + apertureJ);
+                        apertureOrigin.x(apertureOrigin.x() + apertureI);
+                        apertureOrigin.y(apertureOrigin.y() + apertureJ);
 
                         Ray ray(apertureOrigin, (focalPt - apertureOrigin));
 
@@ -182,7 +182,7 @@ void Renderer::_render(void)
                                     reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
                                 else
                                     reflectionColor += _scene->backgroundColor(reflection)
-                                                        * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
+                                                       * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
 
                                 ray = reflection;
                                 _reflectionCount++;
@@ -288,7 +288,7 @@ void Renderer::_render(void)
                                     reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
                                 else
                                     reflectionColor += _scene->backgroundColor(reflection)
-                                                        * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
+                                                       * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
 
                                 ray = reflection;
                                 _reflectionCount++;

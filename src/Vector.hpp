@@ -93,7 +93,6 @@ namespace LCNS
         /// Divide a vector by it's length and return it.
         Vector normalize(void);
 
-
     private:
         double _coords[3];
 

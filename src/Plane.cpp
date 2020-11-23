@@ -123,5 +123,5 @@ void Plane::_updateNormal(void)
 void Plane::_updatePosition(void)
 {
     assert(_equationCoeffs[2] != 0.0 && "Problem in updating position in plane");
-    _position.setPoint(_equationCoeffs[1] * (-1.0), _equationCoeffs[0], _equationCoeffs[3] / _equationCoeffs[2] * (-1));
+    _position.set(_equationCoeffs[1] * (-1.0), _equationCoeffs[0], _equationCoeffs[3] / _equationCoeffs[2] * (-1.0));
 }

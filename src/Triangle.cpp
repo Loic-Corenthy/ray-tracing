@@ -109,7 +109,7 @@ bool Triangle::intersect(Ray& ray)
         return false;
 }
 
-Color Triangle::color(Ray& ray, unsigned int reflectionCount)
+Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
 {
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());

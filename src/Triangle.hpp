@@ -74,7 +74,7 @@ namespace LCNS
         bool intersect(Ray& ray);
 
         /// Virtual function from Renderable
-        Color color(Ray& ray, unsigned int reflectionCount = 0);
+        Color color(const Ray& ray, unsigned int reflectionCount = 0);
 
         /// Virtual function, get the normal at the intersection point (the position is not taken into account for the moment :p)
         Vector normal(const Point& position) const;

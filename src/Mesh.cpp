@@ -105,7 +105,7 @@ bool Mesh::intersect(LCNS::Ray& ray)
     }
 }
 
-Color Mesh::color(Ray& ray, unsigned int reflectionCount)
+Color Mesh::color(const Ray& ray, unsigned int reflectionCount)
 {
     return _triangles[_intersectedTriangle].color(ray, reflectionCount);
 }

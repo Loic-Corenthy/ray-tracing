@@ -40,7 +40,7 @@ namespace LCNS
         virtual bool intersect(Ray& ray) = 0;
 
         /// Get the color of the object at the intersection with the ray
-        virtual Color color(Ray& ray, unsigned int reflectionCount = 0) = 0;
+        virtual Color color(const Ray& ray, unsigned int reflectionCount = 0) = 0;
 
         /// Get the normal of the object at a specific position
         virtual Vector normal(const Point& position) const = 0;

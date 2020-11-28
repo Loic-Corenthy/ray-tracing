@@ -53,7 +53,7 @@ namespace LCNS
         bool intersect(Ray& ray);
 
         /// Virtual function from Renderable
-        Color color(Ray& ray, unsigned int reflectionCount = 0);
+        Color color(const Ray& ray, unsigned int reflectionCount = 0);
 
         /// Virtual function from Renderable
         Vector normal(const Point& position) const;

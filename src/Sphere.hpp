@@ -24,7 +24,7 @@ namespace LCNS
     {
     public:
         /// Default Constructor
-        Sphere(void);
+        Sphere(void) = default;
 
         /// Constructor with parameters
         Sphere(const Point& point, float radius);
@@ -36,7 +36,7 @@ namespace LCNS
         Sphere operator=(const Sphere& sphere);
 
         /// Destructor
-        ~Sphere(void);
+        ~Sphere(void) = default;
 
         /// Get the center of the sphere (read only)
         const LCNS::Point& center(void) const;
@@ -54,7 +54,7 @@ namespace LCNS
         bool intersect(Ray& ray);
 
         /// Virtual function, get the color at the intersection point
-        Color color(Ray& ray, unsigned int type = 0);
+        Color color(const Ray& ray, unsigned int type = 0);
 
         /// Virtual function, get the normal at the intersection point
         Vector normal(const Point& position) const;
@@ -71,38 +71,8 @@ namespace LCNS
 
     private:
         Point _center;
-        float _radius;
+        float _radius = 0.0f;
 
     };  // class Sphere
-
-    inline const LCNS::Point& Sphere::center(void) const
-    {
-        return _center;
-    }
-
-    inline void Sphere::setCenter(const LCNS::Point& point)
-    {
-        _center = point;
-    }
-
-    inline float Sphere::radius(void) const
-    {
-        return _radius;
-    }
-
-    inline void Sphere::setRadius(float radius)
-    {
-        _radius = radius;
-    }
-
-    inline Vector Sphere::normal(const Point& position) const
-    {
-        return ((position - _center).normalize());
-    }
-
-    inline Vector Sphere::interpolatedNormal(const Point& position) const
-    {
-        return ((position - _center).normalize());
-    }
 
 }  // namespace LCNS

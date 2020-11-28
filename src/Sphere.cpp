@@ -16,12 +16,6 @@
 
 using namespace LCNS;
 
-Sphere::Sphere(void)
-: _center(Point(0, 0, 0))
-, _radius(0)
-{
-}
-
 Sphere::Sphere(const Point& point, float radius)
 : _center(point)
 , _radius(radius)
@@ -46,10 +40,6 @@ Sphere Sphere::operator=(const Sphere& sphere)
     _radius = sphere._radius;
 
     return *this;
-}
-
-Sphere::~Sphere(void)
-{
 }
 
 bool Sphere::intersect(Ray& ray)
@@ -86,7 +76,7 @@ bool Sphere::intersect(Ray& ray)
         return false;
 }
 
-Color Sphere::color(Ray& ray, unsigned int reflectionCount)
+Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
 {
     // Calculate normal from vertex normals
     Vector normalAtPt = (ray.intersection() - _center);
@@ -99,9 +89,9 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
 {
     Vector incomingDirection = incomingRay.direction();
     incomingDirection.normalize();
-    Vector normalToIncomingRay             = normal(incomingRay.intersection());
-    double airIndex           = 1.0;
-    double currentObjectIndex = _shader->refractionCoeff();
+    Vector normalToIncomingRay = normal(incomingRay.intersection());
+    double airIndex            = 1.0;
+    double currentObjectIndex  = _shader->refractionCoeff();
 
     Vector refractedDirection;
 
@@ -117,8 +107,8 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
         Vector outRefractionDirection;
         incomingDirection = insideSphere.direction();
         incomingDirection.normalize();
-        bool secondRefraction = _refraction(
-        insideSphere.direction(), normal(insideSphere.intersection()) * (-1.0), currentObjectIndex, airIndex, outRefractionDirection);
+        bool secondRefraction
+        = _refraction(insideSphere.direction(), normal(insideSphere.intersection()) * (-1.0), currentObjectIndex, airIndex, outRefractionDirection);
 
         if (!secondRefraction)
             return false;
@@ -137,6 +127,35 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
     }
 }
 
+const LCNS::Point& Sphere::center(void) const
+{
+    return _center;
+}
+
+void Sphere::setCenter(const LCNS::Point& point)
+{
+    _center = point;
+}
+
+float Sphere::radius(void) const
+{
+    return _radius;
+}
+
+void Sphere::setRadius(float radius)
+{
+    _radius = radius;
+}
+
+Vector Sphere::normal(const Point& position) const
+{
+    return ((position - _center).normalize());
+}
+
+Vector Sphere::interpolatedNormal(const Point& position) const
+{
+    return ((position - _center).normalize());
+}
 
 bool Sphere::_solveSecDeg(float a, float b, float c, float& root1, float& root2)
 {

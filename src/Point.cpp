@@ -14,17 +14,13 @@ using LCNS::Point;
 using LCNS::Vector;
 
 Point::Point(double x, double y, double z)
+: _coords{ x, y, z }
 {
-    _coords[0] = x;
-    _coords[1] = y;
-    _coords[2] = z;
 }
 
 Point::Point(double commonValue)
+: _coords{ commonValue, commonValue, commonValue }
 {
-    _coords[0] = commonValue;
-    _coords[1] = commonValue;
-    _coords[2] = commonValue;
 }
 
 Point::Point(const Point& point)
@@ -48,13 +44,13 @@ Point& Point::operator=(const Point& point)
 
 double Point::operator[](unsigned int index) const
 {
-    assert(0 <= index && index < 3 && "Point: index out of bounds");
+    assert(index < 3 && "Point: index out of bounds");
     return _coords[index];
 }
 
 double& Point::operator[](unsigned int index)
 {
-    assert(0 <= index && index < 3 && "Point: index out of bounds");
+    assert(index < 3 && "Point: index out of bounds");
     return _coords[index];
 }
 
@@ -101,6 +97,21 @@ double Point::y(void) const noexcept
 }
 
 double Point::z(void) const noexcept
+{
+    return _coords[2];
+}
+
+double& Point::x(void) noexcept
+{
+    return _coords[0];
+}
+
+double& Point::y(void) noexcept
+{
+    return _coords[1];
+}
+
+double& Point::z(void) noexcept
 {
     return _coords[2];
 }

@@ -26,7 +26,7 @@ namespace LCNS
         /// Constructor with position parameters
         Point(double x, double y, double z);
 
-        /// Constructor with position parameters
+        /// Constructor with same value for all coordinates
         explicit Point(double commonValue);
 
         /// Copy constructor
@@ -62,14 +62,23 @@ namespace LCNS
         /// Set Z coordinate
         void z(double z) noexcept;
 
-        /// Get X coordinate
+        /// Get X coordinate (read only)
         double x(void) const noexcept;
 
-        /// Get X coordinate
+        /// Get X coordinate (read only)
         double y(void) const noexcept;
 
-        /// Get X coordinate
+        /// Get X coordinate (read only)
         double z(void) const noexcept;
+
+        /// Get X coordinate (read/write )
+        double& x(void) noexcept;
+
+        /// Get X coordinate (read/write)
+        double& y(void) noexcept;
+
+        /// Get X coordinate (read/write)
+        double& z(void) noexcept;
 
     private:
         double _coords[3] = { 0.0, 0.0, 0.0 };

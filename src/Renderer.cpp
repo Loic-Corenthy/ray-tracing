@@ -205,9 +205,9 @@ void Renderer::_render(void)
 
                 // Tone mapping
                 Color colorAfterToneMapping;
-                colorAfterToneMapping.setRed(1.0f - exp2f(apertureColor.red() * (-1.0f)));
-                colorAfterToneMapping.setGreen(1.0f - exp2f(apertureColor.green() * (-1.0f)));
-                colorAfterToneMapping.setBlue(1.0f - exp2f(apertureColor.blue() * (-1.0f)));
+                colorAfterToneMapping.red(1.0f - exp2f(apertureColor.red() * (-1.0f)));
+                colorAfterToneMapping.green(1.0f - exp2f(apertureColor.green() * (-1.0f)));
+                colorAfterToneMapping.blue(1.0f - exp2f(apertureColor.blue() * (-1.0f)));
 
                 _buffer.setPixel(i, j, colorAfterToneMapping);
             }
@@ -300,9 +300,9 @@ void Renderer::_render(void)
 
                             // Tone mapping
                             Color colorAfterToneMapping;
-                            colorAfterToneMapping.setRed(1.0f - exp2f(finalColor.red() * (-1.0f)));
-                            colorAfterToneMapping.setGreen(1.0f - exp2f(finalColor.green() * (-1.0f)));
-                            colorAfterToneMapping.setBlue(1.0f - exp2f(finalColor.blue() * (-1.0f)));
+                            colorAfterToneMapping.red(1.0f - exp2f(finalColor.red() * (-1.0f)));
+                            colorAfterToneMapping.green(1.0f - exp2f(finalColor.green() * (-1.0f)));
+                            colorAfterToneMapping.blue(1.0f - exp2f(finalColor.blue() * (-1.0f)));
 
                             superSampling += colorAfterToneMapping * contribution;
                         }
@@ -394,9 +394,9 @@ void Renderer::_render(void)
 
                     // Tone mapping
                     Color colorAfterToneMapping;
-                    colorAfterToneMapping.setRed(1.0f - exp2f(finalColor.red() * (-1.0f)));
-                    colorAfterToneMapping.setGreen(1.0f - exp2f(finalColor.green() * (-1.0f)));
-                    colorAfterToneMapping.setBlue(1.0f - exp2f(finalColor.blue() * (-1.0f)));
+                    colorAfterToneMapping.red(1.0f - exp2f(finalColor.red() * (-1.0f)));
+                    colorAfterToneMapping.green(1.0f - exp2f(finalColor.green() * (-1.0f)));
+                    colorAfterToneMapping.blue(1.0f - exp2f(finalColor.blue() * (-1.0f)));
 
                     _buffer.setPixel(i, j, colorAfterToneMapping);
                 }

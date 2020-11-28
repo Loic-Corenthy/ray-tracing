@@ -331,7 +331,7 @@ void createScene03(Scene* scene)
     center.set(-10.0, 0.0, 0.0);
     Sphere* rSphere2 = new Sphere(center, 3.0f);
 
-    diffusion.setColor(0, 255, 255);
+    diffusion.set(0, 255, 255);
     Phong* rBRDF2 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
@@ -351,7 +351,7 @@ void createScene03(Scene* scene)
     scene->createFromFile(path);
 
     // Create a BRDF model for the torus
-    diffusion.setColor(255, 105, 0);
+    diffusion.set(255, 105, 0);
     Phong* rBRDFTorus = new Phong(diffusion, specular, 3);
 
     // Create a shader for the torus
@@ -373,7 +373,7 @@ void createScene03(Scene* scene)
     center.set(8.0, 0.0, 0.0);
     Sphere* rSphere3 = new Sphere(center, 3.0f);
 
-    diffusion.setColor(127, 255, 0);
+    diffusion.set(127, 255, 0);
     Phong* rBRDF3 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
@@ -404,7 +404,7 @@ void createScene03(Scene* scene)
 
     scene->add(rCubeMapSphere);
 
-    diffusion.setColor(255, 255, 255);
+    diffusion.set(255, 255, 255);
     BRDF* rBRDF4 = new Phong(diffusion * 2.0, specular, 15);
     rBRDF4->setCubeMap(rCubeMapSphere);
 

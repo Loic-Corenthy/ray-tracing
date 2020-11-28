@@ -9,16 +9,18 @@
 //===============================================================================================//
 
 #include "BoundingBox.hpp"
+#include "Point.hpp"
 
 #include <limits>
 
 using std::numeric_limits;
 
 using LCNS::BoundingBox;
+using LCNS::Point;
 
 BoundingBox::BoundingBox(void)
-: _min(Point(numeric_limits<double>::max(), numeric_limits<double>::max(), numeric_limits<double>::max()))
-, _max(Point(-numeric_limits<double>::max(), -numeric_limits<double>::max(), -numeric_limits<double>::max()))
+: _min{ numeric_limits<double>::max(), numeric_limits<double>::max(), numeric_limits<double>::max() }
+, _max{ -numeric_limits<double>::max(), -numeric_limits<double>::max(), -numeric_limits<double>::max() }
 {
 }
 
@@ -109,4 +111,30 @@ bool BoundingBox::intersect(const Ray& ray) const
 
 
     return intersectFace[6];
+}
+
+Point BoundingBox::min(void) const noexcept
+{
+    return _min;
+}
+
+Point BoundingBox::max(void) const noexcept
+{
+    return _max;
+}
+
+void BoundingBox::min(const Point& minPoint) noexcept
+{
+    assert(minPoint.x() <= _min.x() && minPoint.y() <= _min.y() && minPoint.z() <= _min.z()
+           && "The point has at least one coordinate which is not minimum");
+
+    _min = minPoint;
+}
+
+void BoundingBox::max(const Point& maxPoint) noexcept
+{
+    assert(maxPoint.x() >= _max.x() && maxPoint.y() >= _max.y() && maxPoint.z() >= _max.z()
+           && "The point has at least one coordinate which is not maximum");
+
+    _max = maxPoint;
 }

@@ -81,8 +81,8 @@ namespace LCNS
 
     inline void Mesh::setBBLimits(const Point& min, const Point& max)
     {
-        _bB.setMin(min);
-        _bB.setMax(max);
+        _bB.min(min);
+        _bB.max(max);
     }
 
     inline const BoundingBox& Mesh::boundingBox(void) const

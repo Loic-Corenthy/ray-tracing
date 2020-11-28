@@ -59,9 +59,9 @@ bool Mesh::intersect(LCNS::Ray& ray)
     // Check if the ray intersect the bounding box
     if (_bB.intersect(ray))
     {
-        float       closestDist   = std::numeric_limits<float>::max();
+        float       closestDist    = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
-        Renderable* objectFromRay = ray.intersected();
+        Renderable* objectFromRay  = ray.intersected();
 
         int  i = 0;
         bool hasIntersection(false);
@@ -75,7 +75,7 @@ bool Mesh::intersect(LCNS::Ray& ray)
             hasIntersection = iterator->intersect(ray);
             if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
-                closestDist         = ray.length();
+                closestDist          = ray.length();
                 rClosestObject       = ray.intersected();
                 _intersectedTriangle = i++;
             }

@@ -41,43 +41,21 @@ namespace LCNS
         bool intersect(const Ray& ray) const;
 
         /// Get the more left, down, back point
-        Point min(void) const;
+        Point min(void) const noexcept;
 
         /// Get the more right, up, front point
-        Point max(void) const;
+        Point max(void) const noexcept;
 
         /// Set the point with the minimum coordinate values
-        void setMin(const Point& min);
+        void min(const Point& min) noexcept;
 
         /// Set the more right, up, front point
-        void setMax(const Point& max);
+        void max(const Point& max) noexcept;
 
     private:
         Point _min;
         Point _max;
 
     };  // class BoundingBox
-
-    inline Point BoundingBox::min(void) const
-    {
-        return _min;
-    }
-
-    inline Point BoundingBox::max(void) const
-    {
-        return _max;
-    }
-
-    inline void BoundingBox::setMin(const Point& min)
-    {
-        assert(min.x() <= _min.x() && min.y() <= _min.y() && min.z() <= _min.z() && "The point has at least one coordinate which is not minimum");
-        _min = min;
-    }
-
-    inline void BoundingBox::setMax(const Point& max)
-    {
-        assert(max.x() >= _max.x() && max.y() >= _max.y() && max.z() >= _max.z() && "The point has at least one coordinate which is not maximum");
-        _max = max;
-    }
 
 }  // namespace LCNS

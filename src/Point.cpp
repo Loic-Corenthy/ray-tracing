@@ -54,12 +54,12 @@ double& Point::operator[](unsigned int index)
     return _coords[index];
 }
 
-Vector Point::operator-(const Point point) const noexcept
+Vector Point::operator-(const Point& point) const noexcept
 {
     return Vector(_coords[0] - point._coords[0], _coords[1] - point._coords[1], _coords[2] - point._coords[2]);
 }
 
-Point Point::operator+(const Vector vector) const noexcept
+Point Point::operator+(const Vector& vector) const noexcept
 {
     return Point(_coords[0] + vector[0], _coords[1] + vector[1], _coords[2] + vector[2]);
 }

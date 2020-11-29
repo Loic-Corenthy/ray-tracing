@@ -45,10 +45,10 @@ namespace LCNS
         double& operator[](unsigned int index);
 
         /// Create a vector by subtracting 2 points
-        Vector operator-(const Point point) const noexcept;
+        Vector operator-(const Point& point) const noexcept;
 
         /// Translate a point by a vector
-        Point operator+(const Vector vector) const noexcept;
+        Point operator+(const Vector& vector) const noexcept;
 
         /// Set 3 coordinates
         void set(double x, double y, double z) noexcept;

@@ -209,7 +209,7 @@ void Renderer::_render(void)
                 colorAfterToneMapping.green(1.0f - exp2f(apertureColor.green() * (-1.0f)));
                 colorAfterToneMapping.blue(1.0f - exp2f(apertureColor.blue() * (-1.0f)));
 
-                _buffer.setPixel(i, j, colorAfterToneMapping);
+                _buffer.pixel(i, j, colorAfterToneMapping);
             }
             // Display progress in the console
             cout << "Progress: " << static_cast<float>(i) / static_cast<float>(bufferWidth) * 100.0f << " %" << endl;
@@ -313,7 +313,7 @@ void Renderer::_render(void)
                     }
                 }
 
-                _buffer.setPixel(i, j, superSampling);
+                _buffer.pixel(i, j, superSampling);
             }
             // Display progress in the console
             cout << "Progress: " << static_cast<float>(i) / static_cast<float>(bufferWidth) * 100.0f << " %" << endl;
@@ -398,11 +398,11 @@ void Renderer::_render(void)
                     colorAfterToneMapping.green(1.0f - exp2f(finalColor.green() * (-1.0f)));
                     colorAfterToneMapping.blue(1.0f - exp2f(finalColor.blue() * (-1.0f)));
 
-                    _buffer.setPixel(i, j, colorAfterToneMapping);
+                    _buffer.pixel(i, j, colorAfterToneMapping);
                 }
                 else
                 {
-                    _buffer.setPixel(i, j, _scene->backgroundColor(ray));
+                    _buffer.pixel(i, j, _scene->backgroundColor(ray));
                 }
                 _reflectionCount = 1;
             }

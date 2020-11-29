@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
         glClear(GL_COLOR_BUFFER_BIT);
 
         const Buffer& buffer = Renderer::getBuffer();
-        glDrawPixels(buffer.width(), buffer.height(), GL_RGB, GL_UNSIGNED_BYTE, buffer.allPixels());
+        glDrawPixels(buffer.width(), buffer.height(), GL_RGB, GL_UNSIGNED_BYTE, buffer.allPixels().get());
 
         glutSwapBuffers();
     };

@@ -11,6 +11,8 @@
 #pragma once
 
 #include <cassert>
+#include <optional>
+#include <tuple>
 
 #include "Point.hpp"
 #include "Ray.hpp"
@@ -38,36 +40,36 @@ namespace LCNS
         /// Destructor
         ~Sphere(void) = default;
 
-        /// Get the center of the sphere (read only)
-        const LCNS::Point& center(void) const;
-
-        /// Set the center of the sphere
-        void setCenter(const LCNS::Point& point);
-
-        /// Get the radius of the sphere (read only)
-        float radius(void) const;
-
-        /// Set the radius of the sphere
-        void setRadius(float radius);
-
         /// Virtual function, determine if a ray intersect the sphere
-        bool intersect(Ray& ray);
+        bool intersect(Ray& ray) override;
 
         /// Virtual function, get the color at the intersection point
-        Color color(const Ray& ray, unsigned int type = 0);
+        Color color(const Ray& ray, unsigned int type = 0) override;
 
         /// Virtual function, get the normal at the intersection point
-        Vector normal(const Point& position) const;
+        Vector normal(const Point& position) const override;
 
         /// Virtual function, get the normal at the intersection point (interpolating from other vectors)
-        Vector interpolatedNormal(const Point& position) const;
+        Vector interpolatedNormal(const Point& position) const override;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray& incomingRay, Ray& refractedRay);
+        bool refractedRay(const Ray& incomingRay, Ray& refractedRay) override;
+
+        /// Get the center of the sphere (read only)
+        const LCNS::Point& center(void) const noexcept;
+
+        /// Set the center of the sphere
+        void center(const LCNS::Point& point) noexcept;
+
+        /// Get the radius of the sphere (read only)
+        float radius(void) const noexcept;
+
+        /// Set the radius of the sphere
+        void radius(float value) noexcept;
 
     private:
-        /// Calculate roots of a second order polynom.
-        bool _solveSecDeg(float a, float b, float c, float& root1, float& root2);
+        /// Calculate roots of a second order polynomial.
+        std::optional<std::tuple<float, float>> _solveSecDeg(float a, float b, float c);
 
     private:
         Point _center;

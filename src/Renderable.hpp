@@ -48,11 +48,11 @@ namespace LCNS
         /// Get the normal of the object at a specific position as the interpolation of close other parts of the object
         virtual Vector interpolatedNormal(const Point& position) const = 0;
 
-        /// Set a pointer on a shader
-        virtual void setShader(Shader* shader);
-
         /// Calculate refracted ray from incoming ray
         virtual bool refractedRay(const Ray& incomingRay, Ray& refractedRay) = 0;
+
+        /// Set a pointer on a shader
+        virtual void setShader(Shader* shader);
 
         /// Set a pointer on the name of the object
         void setName(const std::string& name);

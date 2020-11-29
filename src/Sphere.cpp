@@ -11,10 +11,20 @@
 #include "Sphere.hpp"
 
 #include <cmath>
+#include <tuple>
 
+#include "Color.hpp"
 #include "Shader.hpp"
 
-using namespace LCNS;
+using std::get;
+using std::make_tuple;
+using std::nullopt;
+using std::optional;
+using std::tuple;
+
+using LCNS::Color;
+using LCNS::Sphere;
+using LCNS::Vector;
 
 Sphere::Sphere(const Point& point, float radius)
 : _center(point)
@@ -45,20 +55,18 @@ Sphere Sphere::operator=(const Sphere& sphere)
 bool Sphere::intersect(Ray& ray)
 {
     float a = ray.direction()[0] * ray.direction()[0] + ray.direction()[1] * ray.direction()[1] + ray.direction()[2] * ray.direction()[2];
-    float b = 2
+    float b = 2.0f
               * (ray.direction()[0] * (ray.origin()[0] - _center[0]) + ray.direction()[1] * (ray.origin()[1] - _center[1])
                  + ray.direction()[2] * (ray.origin()[2] - _center[2]));
     float c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
               + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
 
-    float root1(0.0f);
-    float root2(0.0f);
-    bool  rootOk(false);
+    auto roots = _solveSecDeg(a, b, c);
 
-    rootOk = _solveSecDeg(a, b, c, root1, root2);
-
-    if (rootOk == false)
+    if (!roots)
         return false;
+
+    auto [root1, root2] = roots.value();
 
     if (root1 > 0.0 && root2 > 0.0)
     {
@@ -127,26 +135,6 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
     }
 }
 
-const LCNS::Point& Sphere::center(void) const
-{
-    return _center;
-}
-
-void Sphere::setCenter(const LCNS::Point& point)
-{
-    _center = point;
-}
-
-float Sphere::radius(void) const
-{
-    return _radius;
-}
-
-void Sphere::setRadius(float radius)
-{
-    _radius = radius;
-}
-
 Vector Sphere::normal(const Point& position) const
 {
     return ((position - _center).normalize());
@@ -157,27 +145,43 @@ Vector Sphere::interpolatedNormal(const Point& position) const
     return ((position - _center).normalize());
 }
 
-bool Sphere::_solveSecDeg(float a, float b, float c, float& root1, float& root2)
+optional<tuple<float, float>> Sphere::_solveSecDeg(float a, float b, float c)
 {
-    float delta = 0;
-    delta       = b * b - 4 * a * c;
+    if (a == 0.0f)
+        return nullopt;
 
-    if (delta < 0)
+    auto delta = b * b - 4.0f * a * c;
+
+    if (delta < 0.0f)
     {
-        root1 = 0;
-        root2 = 0;
-        return false;
+        return nullopt;
     }
     else if (delta == 0)
     {
-        root1 = -b / (2 * a);
-        root2 = -b / (2 * a);
-        return true;
+        return make_tuple(-b / (2.0f * a), -b / (2.0f * a));
     }
     else
     {
-        root1 = (-b - sqrt(delta)) / (2 * a);
-        root2 = (-b + sqrt(delta)) / (2 * a);
-        return true;
+        return make_tuple((-b - sqrt(delta)) / (2.0f * a), (-b + sqrt(delta)) / (2.0f * a));
     }
+}
+
+const LCNS::Point& Sphere::center(void) const noexcept
+{
+    return _center;
+}
+
+void Sphere::center(const LCNS::Point& point) noexcept
+{
+    _center = point;
+}
+
+float Sphere::radius(void) const noexcept
+{
+    return _radius;
+}
+
+void Sphere::radius(float value) noexcept
+{
+    _radius = value;
 }

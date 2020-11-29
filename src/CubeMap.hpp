@@ -10,9 +10,11 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <map>
 #include <string>
+#include <tuple>
 
 #include "Point.hpp"
 #include "Image.hpp"
@@ -25,7 +27,7 @@ namespace LCNS
     class CubeMap
     {
     public:
-        enum Faces : unsigned short
+        enum class Faces : unsigned short
         {
             UNASSIGNED,
             UP,
@@ -43,77 +45,55 @@ namespace LCNS
         /// Constructor with parameters
         CubeMap(const Point& center, double size);
 
+        /// Copy constructor (prevent copy)
+        CubeMap(const CubeMap& cubeMap) = delete;
+
+        /// Copy operator (prevent copy)
+        CubeMap operator=(const CubeMap& cubeMap) = delete;
+
         /// Destructor
-        ~CubeMap(void);
+        ~CubeMap(void) = default;
 
         /// Add an image to a face of the cube
-        void addImage(unsigned short face, const std::string& path);
+        void addImage(Faces face, const std::string& path);
 
         /// Specify which image correspond to each face
-        void setLink(unsigned short face, unsigned int imageIdx);
+        void setLink(Faces face, unsigned int imageIdx);
 
         /// Get the color corresponding to the intersection point of a ray with one of the faces of the cube
         Color colorAt(const Ray& ray);
 
         /// Set the center of the cube
-        void setCenter(const Point& center);
+        void center(const Point& center) noexcept;
 
         /// Set the size of the cube
-        void setSize(double size);
-
-        /// Set the interpolation method for the images
-        void setInterpolationMethod(unsigned short method);
+        void size(double size) noexcept;
 
         /// Get the center of the cube
-        Point center(void) const;
+        Point center(void) const noexcept;
 
         /// Get the size of the cube
-        double size(void) const;
+        double size(void) const noexcept;
+
+        /// Set the interpolation method for the images
+        void interpolationMethod(Image::InterpolationMethod value) noexcept;
 
         /// Get the interpolation method used for the images
-        unsigned short interpolationMethod(void) const;
+        Image::InterpolationMethod interpolationMethod(void) const;
 
     private:
-        /// Copy constructor (prevent copy)
-        CubeMap(const CubeMap& cubeMap);
-
-        /// Copy operator (prevent copy)
-        CubeMap operator=(const CubeMap& cubeMap);
-
         /// Calculate the intersection of a ray with the cube, return the intersected face and the coordinates of the intersection point in the face
-        void _intersect(const Ray& ray, unsigned short& face, double& i, double& j) const;
+        std::tuple<Faces, double, double> _intersect(const Ray& ray) const;
 
     private:
-        std::vector<Image*>                    _images;
-        std::map<unsigned short, unsigned int> _faceImageIDs;
-        Point                                  _center;
-        double                                 _size;
+        std::vector<std::unique_ptr<Image>> _images;
+
+        std::map<Faces, unsigned int> _faceImageIDs
+        = { { Faces::UP, 0 }, { Faces::DOWN, 1 }, { Faces::LEFT, 2 }, { Faces::RIGHT, 3 }, { Faces::BACK, 4 }, { Faces::FRONT, 5 } };
+
+        Point  _center;
+        double _size = 0.0;
 
     };  // class CubeMap
-
-    inline void CubeMap::setCenter(const Point& center)
-    {
-        _center = center;
-    }
-
-    inline void CubeMap::setSize(double size)
-    {
-        _size = size;
-    }
-
-    inline unsigned short CubeMap::interpolationMethod(void) const
-    {
-        return _images[0]->interpolation();
-    }
-
-    inline Point CubeMap::center(void) const
-    {
-        return _center;
-    }
-
-    inline double CubeMap::size(void) const
-    {
-        return _size;
-    }
 
 }  // namespace LCNS

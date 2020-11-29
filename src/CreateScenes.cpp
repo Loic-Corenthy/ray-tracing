@@ -394,13 +394,13 @@ void createScene03(Scene* scene)
 
     // Create a BRDF model for the sphere
     CubeMap* rCubeMapSphere = new CubeMap(center, 104);
-    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/earth_back.png");
-    rCubeMapSphere->addImage(CubeMap::FRONT, "./resources/earth_front.png");
-    rCubeMapSphere->addImage(CubeMap::UP, "./resources/earth_up.png");
-    rCubeMapSphere->addImage(CubeMap::DOWN, "./resources/earth_down.png");
-    rCubeMapSphere->addImage(CubeMap::LEFT, "./resources/earth_left.png");
-    rCubeMapSphere->addImage(CubeMap::RIGHT, "./resources/earth_right.png");
-    rCubeMapSphere->setInterpolationMethod(Image::Interpolation::LINEAR);
+    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/earth_back.png");
+    rCubeMapSphere->addImage(CubeMap::Faces::FRONT, "./resources/earth_front.png");
+    rCubeMapSphere->addImage(CubeMap::Faces::UP, "./resources/earth_up.png");
+    rCubeMapSphere->addImage(CubeMap::Faces::DOWN, "./resources/earth_down.png");
+    rCubeMapSphere->addImage(CubeMap::Faces::LEFT, "./resources/earth_left.png");
+    rCubeMapSphere->addImage(CubeMap::Faces::RIGHT, "./resources/earth_right.png");
+    rCubeMapSphere->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
     scene->add(rCubeMapSphere);
 
@@ -879,12 +879,12 @@ void createScene06(Scene* scene)
     //    Color diffusionSphere2(1.0f);
     //	Color specularSphere2(0.1);
     //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere2, 520);
-    //    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/Desert_back.png");
-    //    rCubeMapSphere->addImage(CubeMap::FRONT,"./resources/Desert_front.png");
-    //    rCubeMapSphere->addImage(CubeMap::UP, "./resources/Desert_up.png");
-    //    rCubeMapSphere->addImage(CubeMap::DOWN,"./resources/Desert_down.png");
-    //    rCubeMapSphere->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
-    //    rCubeMapSphere->addImage(CubeMap::RIGHT,"./resources/Desert_right.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::FRONT,"./resources/Desert_front.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::UP, "./resources/Desert_up.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::DOWN,"./resources/Desert_down.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::LEFT, "./resources/Desert_left.png");
+    //    rCubeMapSphere->addImage(CubeMap::Faces::RIGHT,"./resources/Desert_right.png");
     //
     //    scene->add(rCubeMapSphere);
     //
@@ -927,14 +927,14 @@ void createScene06(Scene* scene)
     // BACKGROUND
     CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
-    rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/River_back.png");
-    rCubeMapBckGrd->addImage(CubeMap::FRONT, "./resources/River_front.png");
-    rCubeMapBckGrd->addImage(CubeMap::UP, "./resources/River_up.png");
-    rCubeMapBckGrd->addImage(CubeMap::DOWN, "./resources/River_down.png");
-    rCubeMapBckGrd->addImage(CubeMap::LEFT, "./resources/River_left.png");
-    rCubeMapBckGrd->addImage(CubeMap::RIGHT, "./resources/River_right.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/River_back.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/River_front.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::UP, "./resources/River_up.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::DOWN, "./resources/River_down.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::LEFT, "./resources/River_left.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::RIGHT, "./resources/River_right.png");
 
-    rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
+    rCubeMapBckGrd->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
     scene->setBackgroundCubeMap(rCubeMapBckGrd);
 }
@@ -1454,12 +1454,12 @@ void createScene12(LCNS::Scene* scene)
 
     // Create a BRDF model for the sphere
     //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere1, 720);
-    //    rCubeMapSphere->addImage(CubeMap::BACK, "./resources/nightSky2.png");
-    //    rCubeMapSphere->setLink(CubeMap::FRONT, 0);
-    //    rCubeMapSphere->setLink(CubeMap::UP, 0);
-    //    rCubeMapSphere->setLink(CubeMap::DOWN, 0);
-    //    rCubeMapSphere->setLink(CubeMap::LEFT, 0);
-    //    rCubeMapSphere->setLink(CubeMap::RIGHT, 0);
+    //    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/nightSky2.png");
+    //    rCubeMapSphere->setLink(CubeMap::Faces::FRONT, 0);
+    //    rCubeMapSphere->setLink(CubeMap::Faces::UP, 0);
+    //    rCubeMapSphere->setLink(CubeMap::Faces::DOWN, 0);
+    //    rCubeMapSphere->setLink(CubeMap::Faces::LEFT, 0);
+    //    rCubeMapSphere->setLink(CubeMap::Faces::RIGHT, 0);
     //
     //    scene->add(rCubeMapSphere);
     //
@@ -1550,12 +1550,12 @@ void createScene12(LCNS::Scene* scene)
     ////////////////
     //    CubeMap* rCubeMap = new CubeMap(centerSphere1, 750);
     //
-    //    rCubeMap->addImage(CubeMap::BACK, "./resources/nightSky2.png");
-    //    rCubeMap->setLink(CubeMap::FRONT, 0);
-    //    rCubeMap->setLink(CubeMap::UP, 0);
-    //    rCubeMap->setLink(CubeMap::DOWN, 0);
-    //    rCubeMap->setLink(CubeMap::LEFT, 0);
-    //    rCubeMap->setLink(CubeMap::RIGHT, 0);
+    //    rCubeMap->addImage(CubeMap::Faces::BACK, "./resources/nightSky2.png");
+    //    rCubeMap->setLink(CubeMap::Faces::FRONT, 0);
+    //    rCubeMap->setLink(CubeMap::Faces::UP, 0);
+    //    rCubeMap->setLink(CubeMap::Faces::DOWN, 0);
+    //    rCubeMap->setLink(CubeMap::Faces::LEFT, 0);
+    //    rCubeMap->setLink(CubeMap::Faces::RIGHT, 0);
     //
     //    scene->setBackgroundCubeMap(rCubeMap);
 
@@ -1672,14 +1672,14 @@ void createScene13(LCNS::Scene* scene)
 
     CubeMap* rCubeMapDesert = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
-    rCubeMapDesert->addImage(CubeMap::BACK, "./resources/Desert_back.png");
-    rCubeMapDesert->addImage(CubeMap::FRONT, "./resources/Desert_front.png");
-    rCubeMapDesert->addImage(CubeMap::UP, "./resources/Desert_up.png");
-    rCubeMapDesert->addImage(CubeMap::DOWN, "./resources/Desert_down.png");
-    rCubeMapDesert->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
-    rCubeMapDesert->addImage(CubeMap::RIGHT, "./resources/Desert_right.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::UP, "./resources/Desert_up.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::DOWN, "./resources/Desert_down.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::LEFT, "./resources/Desert_left.png");
+    rCubeMapDesert->addImage(CubeMap::Faces::RIGHT, "./resources/Desert_right.png");
 
-    rCubeMapDesert->setInterpolationMethod(Image::Interpolation::LINEAR);
+    rCubeMapDesert->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
     scene->add(rCubeMapDesert);
 
@@ -1942,14 +1942,14 @@ void createScene14(LCNS::Scene* scene)
 
     CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
 
-    rCubeMapBckGrd->addImage(CubeMap::BACK, "./resources/Desert_back.png");
-    rCubeMapBckGrd->addImage(CubeMap::FRONT, "./resources/Desert_front.png");
-    rCubeMapBckGrd->addImage(CubeMap::UP, "./resources/Desert_up.png");
-    rCubeMapBckGrd->addImage(CubeMap::DOWN, "./resources/Desert_down.png");
-    rCubeMapBckGrd->addImage(CubeMap::LEFT, "./resources/Desert_left.png");
-    rCubeMapBckGrd->addImage(CubeMap::RIGHT, "./resources/Desert_right.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::UP, "./resources/Desert_up.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::DOWN, "./resources/Desert_down.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::LEFT, "./resources/Desert_left.png");
+    rCubeMapBckGrd->addImage(CubeMap::Faces::RIGHT, "./resources/Desert_right.png");
 
-    rCubeMapBckGrd->setInterpolationMethod(Image::Interpolation::LINEAR);
+    rCubeMapBckGrd->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
     scene->setBackgroundCubeMap(rCubeMapBckGrd);
 }
@@ -1979,14 +1979,14 @@ void createFloor(Scene* scene, const FloorParameters& param)
     {
         CubeMap* rCubeMapFloor = new CubeMap(LCNS::Point(0.0, -4.0, 0.0), param.size * 2.0);
 
-        rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
-        rCubeMapFloor->setLink(CubeMap::FRONT, 0);
-        rCubeMapFloor->setLink(CubeMap::UP, 0);
-        rCubeMapFloor->setLink(CubeMap::DOWN, 0);
-        rCubeMapFloor->setLink(CubeMap::LEFT, 0);
-        rCubeMapFloor->setLink(CubeMap::RIGHT, 0);
+        rCubeMapFloor->addImage(CubeMap::Faces::BACK, param.floorTexturePath);
+        rCubeMapFloor->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::DOWN, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapFloor->setInterpolationMethod(Image::Interpolation::NEAREST);
+        rCubeMapFloor->interpolationMethod(Image::InterpolationMethod::NEAREST);
 
         scene->add(rCubeMapFloor);
 
@@ -2041,14 +2041,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     {
         CubeMap* rCubeMapFloor = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
-        rCubeMapFloor->addImage(CubeMap::BACK, param.floorTexturePath);
-        rCubeMapFloor->setLink(CubeMap::FRONT, 0);
-        rCubeMapFloor->setLink(CubeMap::UP, 0);
-        rCubeMapFloor->setLink(CubeMap::DOWN, 0);
-        rCubeMapFloor->setLink(CubeMap::LEFT, 0);
-        rCubeMapFloor->setLink(CubeMap::RIGHT, 0);
+        rCubeMapFloor->addImage(CubeMap::Faces::BACK, param.floorTexturePath);
+        rCubeMapFloor->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::DOWN, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapFloor->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapFloor->setInterpolationMethod(Image::Interpolation::LINEAR);
+        rCubeMapFloor->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
         scene->add(rCubeMapFloor);
 
@@ -2090,14 +2090,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     {
         CubeMap* rCubeMapLeftWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
-        rCubeMapLeftWall->addImage(CubeMap::BACK, param.wallLeftTexturePath);
-        rCubeMapLeftWall->setLink(CubeMap::FRONT, 0);
-        rCubeMapLeftWall->setLink(CubeMap::UP, 0);
-        rCubeMapLeftWall->setLink(CubeMap::DOWN, 0);
-        rCubeMapLeftWall->setLink(CubeMap::LEFT, 0);
-        rCubeMapLeftWall->setLink(CubeMap::RIGHT, 0);
+        rCubeMapLeftWall->addImage(CubeMap::Faces::BACK, param.wallLeftTexturePath);
+        rCubeMapLeftWall->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapLeftWall->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapLeftWall->setLink(CubeMap::Faces::DOWN, 0);
+        rCubeMapLeftWall->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapLeftWall->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapLeftWall->setInterpolationMethod(Image::Interpolation::LINEAR);
+        rCubeMapLeftWall->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
         scene->add(rCubeMapLeftWall);
 
@@ -2139,14 +2139,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     {
         CubeMap* rCubeMapBackWall = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.y()));
 
-        rCubeMapBackWall->addImage(CubeMap::BACK, param.wallBackTexturePath);
-        rCubeMapBackWall->setLink(CubeMap::FRONT, 0);
-        rCubeMapBackWall->setLink(CubeMap::UP, 0);
-        rCubeMapBackWall->setLink(CubeMap::DOWN, 0);
-        rCubeMapBackWall->setLink(CubeMap::LEFT, 0);
-        rCubeMapBackWall->setLink(CubeMap::RIGHT, 0);
+        rCubeMapBackWall->addImage(CubeMap::Faces::BACK, param.wallBackTexturePath);
+        rCubeMapBackWall->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapBackWall->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapBackWall->setLink(CubeMap::Faces::DOWN, 0);
+        rCubeMapBackWall->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapBackWall->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapBackWall->setInterpolationMethod(Image::Interpolation::LINEAR);
+        rCubeMapBackWall->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
         scene->add(rCubeMapBackWall);
 
@@ -2187,14 +2187,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     {
         CubeMap* rCubeMapRightWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
-        rCubeMapRightWall->addImage(CubeMap::BACK, param.wallRightTexturePath);
-        rCubeMapRightWall->setLink(CubeMap::FRONT, 0);
-        rCubeMapRightWall->setLink(CubeMap::UP, 0);
-        rCubeMapRightWall->setLink(CubeMap::DOWN, 0);
-        rCubeMapRightWall->setLink(CubeMap::LEFT, 0);
-        rCubeMapRightWall->setLink(CubeMap::RIGHT, 0);
+        rCubeMapRightWall->addImage(CubeMap::Faces::BACK, param.wallRightTexturePath);
+        rCubeMapRightWall->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapRightWall->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapRightWall->setLink(CubeMap::Faces::DOWN, 0);
+        rCubeMapRightWall->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapRightWall->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapRightWall->setInterpolationMethod(Image::Interpolation::LINEAR);
+        rCubeMapRightWall->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
         scene->add(rCubeMapRightWall);
 
@@ -2235,14 +2235,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     {
         CubeMap* rCubeMapCeiling = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
-        rCubeMapCeiling->addImage(CubeMap::DOWN, param.ceilingTexturePath);
-        rCubeMapCeiling->setLink(CubeMap::FRONT, 0);
-        rCubeMapCeiling->setLink(CubeMap::UP, 0);
-        rCubeMapCeiling->setLink(CubeMap::BACK, 0);
-        rCubeMapCeiling->setLink(CubeMap::LEFT, 0);
-        rCubeMapCeiling->setLink(CubeMap::RIGHT, 0);
+        rCubeMapCeiling->addImage(CubeMap::Faces::DOWN, param.ceilingTexturePath);
+        rCubeMapCeiling->setLink(CubeMap::Faces::FRONT, 0);
+        rCubeMapCeiling->setLink(CubeMap::Faces::UP, 0);
+        rCubeMapCeiling->setLink(CubeMap::Faces::BACK, 0);
+        rCubeMapCeiling->setLink(CubeMap::Faces::LEFT, 0);
+        rCubeMapCeiling->setLink(CubeMap::Faces::RIGHT, 0);
 
-        rCubeMapCeiling->setInterpolationMethod(Image::Interpolation::LINEAR);
+        rCubeMapCeiling->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
         scene->add(rCubeMapCeiling);
 

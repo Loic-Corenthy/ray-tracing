@@ -10,6 +10,9 @@
 
 #include "Image.hpp"
 
+#include <memory>
+
+using std::make_unique;
 using std::string;
 
 using LCNS::Color;
@@ -19,94 +22,9 @@ using OIIO::ImageInput;
 using OIIO::ImageSpec;
 using OIIO::TypeDesc;
 
-Image::Image(void)
-: _image(nullptr)
-, _rawData(nullptr)
-, _width(0)
-, _height(0)
-, _bytesPerPixel(4)
-, _bytesPerRow(0)
-, _bitsPerComponent(8)
-, _interpolation(NEAREST)
-, _imageLoaded(false)
-{
-}
-
 Image::Image(const string& path)
-: _image(nullptr)
-, _rawData(nullptr)
-, _width(0)
-, _height(0)
-, _bytesPerPixel(4)
-, _bytesPerRow(0)
-, _bitsPerComponent(8)
-, _interpolation(NEAREST)
-, _imageLoaded(false)
 {
     _createImageFromFile(path);
-}
-
-Image::Image(const Image& image)
-: _width(0)
-, _height(0)
-, _bytesPerPixel(4)
-, _bytesPerRow(0)
-, _bitsPerComponent(8)
-, _imageLoaded(false)
-{
-    // If an image has already been loaded
-    if (image._imageLoaded)
-    {
-#ifdef __linux__
-
-#elif __APPLE__
-        // Copy the image
-        _image = CGImageCreateCopy(_image);
-#elif _WIN32
-
-#endif
-        // Copy the raw data
-        unsigned int dataSize = image._width * image._height * image._bytesPerPixel;
-        _rawData               = new unsigned char[dataSize];
-        memcpy(_rawData, image._rawData, dataSize);
-    }
-}
-
-Image Image::operator=(const Image& image)
-{
-    if (this == &image)
-        return *this;
-
-    _width            = image._width;
-    _height           = image._height;
-    _bytesPerPixel    = image._bytesPerPixel;
-    _bytesPerRow      = image._bytesPerRow;
-    _bitsPerComponent = image._bitsPerComponent;
-    _interpolation    = image._interpolation;
-    _imageLoaded      = image._imageLoaded;
-
-    // If an image has already been loaded
-    if (_imageLoaded)
-    {
-#ifdef __linux__
-
-#elif __APPLE__
-        // Copy the image
-        _image = CGImageCreateCopy(_image);
-#elif _WIN32
-
-#endif
-        // Copy the raw data
-        unsigned int dataSize = image._width * image._height * image._bytesPerPixel;
-        _rawData               = new unsigned char[dataSize];
-        memcpy(_rawData, image._rawData, dataSize);
-    }
-    return *this;
-}
-
-Image::~Image(void)
-{
-    delete[] _rawData;
 }
 
 bool Image::loadFromFile(const string& path)
@@ -121,63 +39,90 @@ Color Image::pixelColor(double i, double j) const
     assert(-0.000001 <= i && i <= 1.000001 && "Index out of image's bounds");
     assert(-0.000001 <= j && j <= 1.000001 && "Index out of image's bounds");
 
-    if (_interpolation == NEAREST)
+    const double inv255 = 1.0 / 255.0;
+
+    if (_interpolation == InterpolationMethod::NEAREST)
     {
-        unsigned int i = static_cast<unsigned int>(i * _width);
-        unsigned int j = static_cast<unsigned int>(j * _height);
+        auto ii = static_cast<unsigned int>(i * _width);
+        auto jj = static_cast<unsigned int>(j * _height);
 
-        //        unsigned int byteIndex = _width*_height*_bytesPerPixel - (_bytesPerRow * j) + i * _bytesPerPixel;
-        unsigned int byteIndex = (_bytesPerRow * j) + i * _bytesPerPixel;
-        float        inv255    = 0.00392157f;
+        // unsigned int byteIndex = _width*_height*_bytesPerPixel - (_bytesPerRow * j) + i * _bytesPerPixel;
+        unsigned int byteIndex = (_bytesPerRow * jj) + ii * _bytesPerPixel;
 
-        return Color(static_cast<float>(_rawData[byteIndex]) * inv255,
-                     static_cast<float>(_rawData[byteIndex + 1]) * inv255,
-                     static_cast<float>(_rawData[byteIndex + 2]) * inv255);
+        return Color(static_cast<double>(_rawData[byteIndex]) * inv255,
+                     static_cast<double>(_rawData[byteIndex + 1]) * inv255,
+                     static_cast<double>(_rawData[byteIndex + 2]) * inv255);
     }
     else
     {
         // Get the decimal part
-        double decimalPI = i - floor(i);
-        double decimalPJ = j - floor(j);
+        double decimalPartI = i - floor(i);
+        double decimalPartJ = j - floor(j);
 
-        unsigned int i = static_cast<unsigned int>(i * _width);
-        unsigned int j = static_cast<unsigned int>(j * _height);
+        auto ii = static_cast<unsigned int>(i * _width);
+        auto jj = static_cast<unsigned int>(j * _height);
 
-        if (i >= _width - 1)
-            i--;
+        if (ii >= _width - 1)
+            ii--;
 
-        if (j >= _height - 1)
-            j--;
+        if (jj >= _height - 1)
+            jj--;
 
-        float inv255 = 0.00392157f;
+        unsigned int byteIndex = (_bytesPerRow * jj) + ii * _bytesPerPixel;
 
-        unsigned int byteIndex = (_bytesPerRow * j) + i * _bytesPerPixel;
-        Color        c0(static_cast<float>(_rawData[byteIndex]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 1]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 2]) * inv255);
+        Color c0(static_cast<double>(_rawData[byteIndex]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 1]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 2]) * inv255);
 
-        byteIndex = (_bytesPerRow * j) + (i + 1) * _bytesPerPixel;
-        Color c1(static_cast<float>(_rawData[byteIndex]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 1]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 2]) * inv255);
+        byteIndex = (_bytesPerRow * jj) + (ii + 1) * _bytesPerPixel;
 
-        byteIndex = (_bytesPerRow * (j + 1)) + (i) *_bytesPerPixel;
-        Color c2(static_cast<float>(_rawData[byteIndex]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 1]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 2]) * inv255);
+        Color c1(static_cast<double>(_rawData[byteIndex]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 1]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 2]) * inv255);
 
-        byteIndex = (_bytesPerRow * (j + 1)) + (i + 1) * _bytesPerPixel;
-        Color c3(static_cast<float>(_rawData[byteIndex]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 1]) * inv255,
-                  static_cast<float>(_rawData[byteIndex + 2]) * inv255);
+        byteIndex = (_bytesPerRow * (jj + 1)) + (ii) *_bytesPerPixel;
 
-        Color cLine1 = c0 * decimalPI + c1 * (1.0 - decimalPI);
-        Color cLine2 = c2 * decimalPI + c3 * (1.0 - decimalPI);
+        Color c2(static_cast<double>(_rawData[byteIndex]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 1]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 2]) * inv255);
 
-        return (cLine1 * decimalPJ + cLine2 * (1.0 - decimalPJ));
+        byteIndex = (_bytesPerRow * (jj + 1)) + (ii + 1) * _bytesPerPixel;
+
+        Color c3(static_cast<double>(_rawData[byteIndex]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 1]) * inv255,
+                 static_cast<double>(_rawData[byteIndex + 2]) * inv255);
+
+        Color cLine1 = c0 * decimalPartI + c1 * (1.0 - decimalPartI);
+        Color cLine2 = c2 * decimalPartI + c3 * (1.0 - decimalPartI);
+
+        return (cLine1 * decimalPartJ + cLine2 * (1.0 - decimalPartJ));
     }
 }
 
+void Image::interpolation(InterpolationMethod name) noexcept
+{
+    _interpolation = name;
+}
+
+Image::InterpolationMethod Image::interpolation(void) const noexcept
+{
+    return _interpolation;
+}
+
+unsigned int Image::width(void) const noexcept
+{
+    return _width;
+}
+
+unsigned int Image::height(void) const noexcept
+{
+    return _height;
+}
+
+bool Image::imageLoaded(void) const noexcept
+{
+    return _imageLoaded;
+}
 
 #ifdef __linux__
 bool Image::_createImageFromFile(const string& path)
@@ -188,14 +133,14 @@ bool Image::_createImageFromFile(const string& path)
         return false;
 
     const ImageSpec& spec = _image->spec();
-    _width                = spec.width;
-    _height               = spec.height;
-    _bytesPerPixel        = spec.nchannels;
+    _width                = static_cast<unsigned int>(spec.width);
+    _height               = static_cast<unsigned int>(spec.height);
+    _bytesPerPixel        = static_cast<unsigned int>(spec.nchannels);
 
-    _rawData     = new unsigned char[_width * _height * _bytesPerPixel];
+    _rawData     = make_unique<unsigned char[]>(_width * _height * _bytesPerPixel);
     _bytesPerRow = _bytesPerPixel * _width;
 
-    _image->read_image(TypeDesc::UINT8, _rawData);
+    _image->read_image(TypeDesc::UINT8, _rawData.get());
     _image->close();
 
     _imageLoaded = true;
@@ -206,8 +151,8 @@ bool Image::_createImageFromFile(const string& path)
 {
     // Set up options. The options here are for caching the image in a decoded form and for using floating-point values if the image format supports
     // them.
-    CFStringRef keys[2] = { kCGImageSourceShouldCache, kCGImageSourceShouldAllowFloat };
-    CFTypeRef values[2] = { (CFTypeRef) kCFBooleanTrue, (CFTypeRef) kCFBooleanTrue };
+    CFStringRef keys[2]   = { kCGImageSourceShouldCache, kCGImageSourceShouldAllowFloat };
+    CFTypeRef   values[2] = { (CFTypeRef) kCFBooleanTrue, (CFTypeRef) kCFBooleanTrue };
 
     // Create the dictionary
     CFDictionaryRef options
@@ -218,7 +163,7 @@ bool Image::_createImageFromFile(const string& path)
     filePath.append(path);
 
     CFStringRef baseStr = CFStringCreateWithCString(kCFAllocatorDefault, filePath.c_str(), kCFStringEncodingASCII);
-    CFURLRef baseURL = CFURLCreateWithString(NULL, baseStr, NULL);
+    CFURLRef    baseURL = CFURLCreateWithString(NULL, baseStr, NULL);
 
     // Create an image source from the URL
     CGImageSourceRef _imageSource = CGImageSourceCreateWithURL(baseURL, options);
@@ -243,20 +188,20 @@ bool Image::_createImageFromFile(const string& path)
         return false;
 
     // Save image parameters
-    _height = static_cast<unsigned int>(CGImageGetHeight(_image));
-    _width = static_cast<unsigned int>(CGImageGetWidth(_image));
+    _height           = static_cast<unsigned int>(CGImageGetHeight(_image));
+    _width            = static_cast<unsigned int>(CGImageGetWidth(_image));
     _bitsPerComponent = static_cast<unsigned int>(CGImageGetBitsPerComponent(_image));
-    _bytesPerPixel = static_cast<unsigned int>(CGImageGetBitsPerPixel(_image) / 8);
-    _bytesPerRow = static_cast<unsigned int>(CGImageGetBytesPerRow(_image));
+    _bytesPerPixel    = static_cast<unsigned int>(CGImageGetBitsPerPixel(_image) / 8);
+    _bytesPerRow      = static_cast<unsigned int>(CGImageGetBytesPerRow(_image));
 
     // Create a context to have acces to the raw data
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
-    _rawData = new unsigned char[_height * _width * _bytesPerPixel];
+    _rawData     = make_unique<unsigned char[]>(_height * _width * _bytesPerPixel);
     _bytesPerRow = _bytesPerPixel * _width;
 
     CGContextRef context = CGBitmapContextCreate(
-    _rawData, _width, _height, _bitsPerComponent, _bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    _rawData.get(), _width, _height, _bitsPerComponent, _bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
 
     CGColorSpaceRelease(colorSpace);
 

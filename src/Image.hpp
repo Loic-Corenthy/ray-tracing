@@ -14,8 +14,8 @@
 #include <cassert>
 
 #ifdef __linux__
-#include <OpenImageIO/imageio.h>
-#include <OpenImageIO/typedesc.h>
+    #include <OpenImageIO/imageio.h>
+    #include <OpenImageIO/typedesc.h>
 #elif __APPLE__
 /*! \todo Add appropriate includes */
 #elif _WIN32
@@ -29,7 +29,7 @@ namespace LCNS
     class Image
     {
     public:
-        enum Interpolation : unsigned short
+        enum class InterpolationMethod : unsigned short
         {
             NEAREST,
             LINEAR
@@ -37,42 +37,42 @@ namespace LCNS
 
     public:
         /// Default constructor
-        Image(void);
+        Image(void) = default;
 
         /// Constructor with parameters
-        Image(const std::string& path);
+        explicit Image(const std::string& path);
+
+        /// Copy constructor (prevent copy)
+        Image(const Image& image) = delete;
+
+        /// Copy operator
+        Image operator=(const Image& image) = delete;
 
         /// Destructor
-        ~Image(void);
+        ~Image(void) = default;
 
         /// Load an image from a file
         bool loadFromFile(const std::string& path);
 
         /// Set the interpolation method used to return the pixel value
-        void setInterpolation(unsigned short method);
+        void interpolation(InterpolationMethod value) noexcept;
 
         /// Set the interpolation method used to return the pixel value
-        unsigned short interpolation(void) const;
+        InterpolationMethod interpolation(void) const noexcept;
 
         /// Get the color of a pixel
         Color pixelColor(double i, double j) const;
 
         /// Get the width of the image
-        unsigned int width(void) const;
+        unsigned int width(void) const noexcept;
 
         /// Get the height of the image
-        unsigned int height(void) const;
+        unsigned int height(void) const noexcept;
 
         /// Check if the image has been loaded or not
-        bool imageLoaded(void) const;
+        bool imageLoaded(void) const noexcept;
 
     private:
-        /// Copy constructor (prevent copy)
-        Image(const Image& image);
-
-        /// Copy operator
-        Image operator=(const Image& image);
-
         /// Implementation of the method loading an image from the file system
         bool _createImageFromFile(const std::string& path);
 
@@ -84,41 +84,15 @@ namespace LCNS
 #elif _WIN32
 
 #endif
-        unsigned char* _rawData;
-        unsigned int   _width;
-        unsigned int   _height;
-        unsigned int   _bytesPerPixel;
-        unsigned int   _bytesPerRow;
-        unsigned int   _bitsPerComponent;
-        unsigned short _interpolation;
-        bool           _imageLoaded;
+        std::unique_ptr<unsigned char[]> _rawData;
+        unsigned int                     _width            = 0u;
+        unsigned int                     _height           = 0u;
+        unsigned int                     _bytesPerPixel    = 4u;
+        unsigned int                     _bytesPerRow      = 0u;
+        unsigned int                     _bitsPerComponent = 8u;
+        InterpolationMethod              _interpolation    = InterpolationMethod::NEAREST;
+        bool                             _imageLoaded      = false;
 
     };  // Class Image
-
-
-    inline void Image::setInterpolation(unsigned short method)
-    {
-        _interpolation = method;
-    }
-
-    inline unsigned short Image::interpolation(void) const
-    {
-        return _interpolation;
-    }
-
-    inline unsigned int Image::width(void) const
-    {
-        return _width;
-    }
-
-    inline unsigned int Image::height(void) const
-    {
-        return _height;
-    }
-
-    inline bool Image::imageLoaded(void) const
-    {
-        return _imageLoaded;
-    }
 
 }  // namespace LCNS

@@ -12,12 +12,12 @@
 
 using namespace LCNS;
 
-Color::Color(float commonValue)
+Color::Color(double commonValue)
 : _components{ commonValue, commonValue, commonValue }
 {
 }
 
-Color::Color(float red, float green, float blue)
+Color::Color(double red, double green, double blue)
 : _components{ red, green, blue }
 {
 }
@@ -48,18 +48,18 @@ Color Color::operator=(const Color& color)
 
 constexpr void Color::_componentsIn0to1Range(int red, int green, int blue)
 {
-    _components[0] = static_cast<float>(red) / 255.0f;
-    _components[1] = static_cast<float>(green) / 255.0f;
-    _components[2] = static_cast<float>(blue) / 255.0f;
+    _components[0] = static_cast<double>(red) / 255.0;
+    _components[1] = static_cast<double>(green) / 255.0;
+    _components[2] = static_cast<double>(blue) / 255.0;
 }
 
-float& Color::operator[](unsigned int index)
+double& Color::operator[](unsigned int index)
 {
     assert(index <= 2 && "error index out of bounds");
     return _components[index];
 }
 
-float Color::operator[](unsigned int index) const
+double Color::operator[](unsigned int index) const
 {
     assert(index <= 2 && "error index out of bounds");
     return _components[index];
@@ -93,12 +93,12 @@ Color Color::operator*=(const LCNS::Color& color)
     return *this;
 }
 
-Color Color::operator*(float scale) const
+Color Color::operator*(double scale) const
 {
     return Color(_components[0] * scale, _components[1] * scale, _components[2] * scale);
 }
 
-void Color::operator*=(float scale)
+void Color::operator*=(double scale)
 {
     _components[0] *= scale;
     _components[1] *= scale;
@@ -112,10 +112,10 @@ bool Color::operator==(const Color& color) const
 
 bool Color::isZero(void) const noexcept
 {
-    return (_components[0] == 0.0f && _components[1] == 0.0f && _components[2] == 0.0f);
+    return (_components[0] == 0.0 && _components[1] == 0.0 && _components[2] == 0.0);
 }
 
-void Color::set(float red, float green, float blue) noexcept
+void Color::set(double red, double green, double blue) noexcept
 {
     _components[0] = red;
     _components[1] = green;
@@ -127,47 +127,47 @@ void Color::set(int red, int green, int blue) noexcept
     _componentsIn0to1Range(red, green, blue);
 }
 
-void Color::red(float value) noexcept
+void Color::red(double value) noexcept
 {
     _components[0] = value;
 }
 
-void Color::green(float value) noexcept
+void Color::green(double value) noexcept
 {
     _components[1] = value;
 }
 
-void Color::blue(float value) noexcept
+void Color::blue(double value) noexcept
 {
     _components[2] = value;
 }
 
 void Color::red(int value) noexcept
 {
-    _components[0] = static_cast<float>(value) / 255.0f;
+    _components[0] = static_cast<double>(value) / 255.0;
 }
 
 void Color::green(int value) noexcept
 {
-    _components[1] = static_cast<float>(value) / 255.0f;
+    _components[1] = static_cast<double>(value) / 255.0;
 }
 
 void Color::blue(int value) noexcept
 {
-    _components[2] = static_cast<float>(value) / 255.0f;
+    _components[2] = static_cast<double>(value) / 255.0;
 }
 
-float Color::red(void) noexcept
+double Color::red(void) noexcept
 {
     return _components[0];
 }
 
-float Color::green(void) noexcept
+double Color::green(void) noexcept
 {
     return _components[1];
 }
 
-float Color::blue(void) noexcept
+double Color::blue(void) noexcept
 {
     return _components[2];
 }

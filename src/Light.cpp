@@ -9,32 +9,22 @@
 //===============================================================================================//
 
 #include "Light.hpp"
+#include "Color.hpp"
 
-using namespace LCNS;
-
-Light::Light(void)
-: _intensity(Color(0.0f))
-{
-}
+using LCNS::Color;
+using LCNS::Light;
 
 Light::Light(const Color& color)
 : _intensity(color)
 {
 }
 
-Light::Light(const Light& light)
+void Light::intensity(const LCNS::Color& color)
 {
-    _intensity = light._intensity;
+    _intensity = color;
 }
 
-void Light::operator=(const Light& light)
+Color Light::intensity(void) const
 {
-    if (this == &light)
-        return;
-
-    _intensity = light._intensity;
-}
-
-Light::~Light(void)
-{
+    return _intensity;
 }

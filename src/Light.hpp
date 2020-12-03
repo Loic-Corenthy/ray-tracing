@@ -24,19 +24,19 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Light(void);
+        Light(void) = default;
 
         /// Constructor with parameters
         Light(const Color& color);
 
         /// Copy constructor
-        Light(const Light& light);
+        Light(const Light& light) = default;
 
         /// Copy operator
-        void operator=(const Light& light);
+        Light& operator=(const Light& light) = default;
 
         /// Destructor
-        virtual ~Light(void);
+        virtual ~Light(void) = default;
 
         /// Get the intensity of the light on a point of an object in the scene
         virtual Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const = 0;
@@ -45,7 +45,7 @@ namespace LCNS
         virtual Vector directionFrom(const Point& point) const = 0;
 
         /// Set the intensity (color) of the light
-        void setIntensity(const Color& color);
+        void intensity(const Color& color);
 
         /// Get the intensity (color) of the light
         Color intensity(void) const;
@@ -54,15 +54,5 @@ namespace LCNS
         Color _intensity;
 
     };  // class Light
-
-    inline void Light::setIntensity(const LCNS::Color& color)
-    {
-        _intensity = color;
-    }
-
-    inline Color Light::intensity(void) const
-    {
-        return _intensity;
-    }
 
 }  // namespace LCNS

@@ -22,7 +22,7 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Plane(void);
+        Plane(void) = default;
 
         /// Constructor with equation coefficients
         Plane(double a, double b, double c, double d);
@@ -34,22 +34,22 @@ namespace LCNS
         Plane(const Plane& plane);
 
         /// Copy operator
-        Plane operator=(const Plane& plane);
+        Plane& operator=(const Plane& plane);
 
         /// Destructor
-        ~Plane(void);
+        ~Plane(void) = default;
 
         /// Calculate the intersection with a ray
         bool intersect(Ray& ray);
 
         /// Set the coefficients of the equation
-        void setCoefficient(unsigned int index, double value);
+        void coefficient(unsigned int index, double value);
 
         /// Set the normal vector
-        void setNormal(const Vector& normal);
+        void normal(const Vector& normal);
 
         /// Set the position in space
-        void setPosition(const Point& position);
+        void position(const Point& position);
 
         /// Get the coefficients of the equation
         double coefficient(unsigned int index) const;
@@ -71,27 +71,10 @@ namespace LCNS
         void _updatePosition(void);
 
     private:
-        double _equationCoeffs[4];
+        double _equationCoeffs[4] = { 0.0, 0.0, 0.0, 0.0 };
         Point  _position;
         Vector _normal;
 
     };  // class Plane
-
-    inline double Plane::coefficient(unsigned int index) const
-    {
-        assert(0 <= index && index < 4 && "index out of boundaries for the coefficients");
-        return _equationCoeffs[index];
-    }
-
-    inline Vector Plane::normal(void) const
-    {
-        return _normal;
-    }
-
-    inline Point Plane::position(void) const
-    {
-        return _position;
-    }
-
 
 }  // namespace LCNS

@@ -287,8 +287,8 @@ void createScene02(Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setFocalPoint(centerSphere3);
-    rCamera->setAperture(Camera::F_SMALL, Camera::SUPER_AWESOME);
+    rCamera->focalPoint(centerSphere3);
+    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
 
     scene->add(rCamera);
 
@@ -437,7 +437,7 @@ void createScene03(Scene* scene)
     float       FOV = 90.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::ALL_SHARP);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(rCamera);
 
@@ -550,7 +550,7 @@ void createScene04(Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::ALL_SHARP, 10.0);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
 
     scene->add(rCamera);
 
@@ -714,7 +714,7 @@ void createScene05(Scene* scene)
     float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::ALL_SHARP);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(rCamera);
 
@@ -918,9 +918,9 @@ void createScene06(Scene* scene)
     float       FOV = 90.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setFocalPoint(LCNS::Point(4.0));
-    rCamera->setAperture(Camera::F_SMALL, Camera::Precision::EXCELLENT);
-    //    rCamera->setAperture(Camera::ALL_SHARP);
+    rCamera->focalPoint(LCNS::Point(4.0));
+    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::EXCELLENT);
+    //    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(rCamera);
 
@@ -1022,9 +1022,7 @@ void createScene07(Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    //    rCamera->setAperture(Camera::F_SMALL,85.0,Camera::PRECISION::LOW);
-    //    rCamera->setFocalPoint(centerSphere2);
-    rCamera->setAperture(Camera::Aperture::ALL_SHARP);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
 
     scene->add(rCamera);
@@ -1041,9 +1039,6 @@ void createScene07(Scene* scene)
                                       string("./resources/textureWall_400x400.png"),
                                       string("./resources/textureWall_400x400_Right.png"),
                                       string("./resources/textureWall_400x400.png") };
-
-    //    RoomParameters roomParameters = {Color(1.0f,0.78f,0.17f),
-    //    Color(0.0f,0.0f,0.79), 50.0, 20.0,string("no_texture"),string("no_texture"),string("no_texture"),string("no_texture")};
 
     createRoom(scene, roomParameters);
 
@@ -1110,8 +1105,8 @@ void createScene08(LCNS::Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::F_SMALL, 1.0, Camera::Precision::SUPER_AWESOME);
-    rCamera->setFocalPoint(centerSphere1);
+    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME, 1.0);
+    rCamera->focalPoint(centerSphere1);
     scene->add(rCamera);
 
 
@@ -1214,7 +1209,7 @@ void createScene09(LCNS::Scene* scene)
     float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::ALL_SHARP);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(rCamera);
 
@@ -1313,7 +1308,7 @@ void createScene10(LCNS::Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setAperture(Camera::ALL_SHARP, 10.0);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
 
     scene->add(rCamera);
 
@@ -1533,8 +1528,8 @@ void createScene12(LCNS::Scene* scene)
     float       FOV = 60.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    //    rCamera->setAperture(Camera::F_SMALL,45.0,Camera::LOW);
-    rCamera->setAperture(Camera::ALL_SHARP);
+    //    rCamera->aperture(Camera::Aperture::F_SMALL,45.0,Camera::LOW);
+    rCamera->aperture(Camera::Aperture::ALL_SHARP);
     scene->add(rCamera);
 
 
@@ -1752,8 +1747,8 @@ void createScene13(LCNS::Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
-    rCamera->setAperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
+    rCamera->focalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
+    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
     RoomParameters parameters = { Color(0.8f),
@@ -1935,8 +1930,8 @@ void createScene14(LCNS::Scene* scene)
     float       FOV = 80.f * 3.141592 / 180.f;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->setFocalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
-    rCamera->setAperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
+    rCamera->focalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
+    rCamera->aperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
 

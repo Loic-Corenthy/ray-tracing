@@ -67,8 +67,8 @@ Renderer::Renderer(void)
 
 Renderer::Renderer(Scene* scene, int width, int height)
 : _scene(scene)
-, _reflectionCount(1)
 , _buffer(height, width)
+, _reflectionCount(1)
 , _superSampling(false)
 {
 }
@@ -102,7 +102,8 @@ void Renderer::_render(void)
 {
     Camera* camera = _scene->cameraList().front();
 
-    if (camera->aperture() == Camera::F_SMALL || camera->aperture() == Camera::F_MEDIUM || camera->aperture() == Camera::F_BIG)
+    if (camera->aperture() == Camera::Aperture::F_SMALL || camera->aperture() == Camera::Aperture::F_MEDIUM
+        || camera->aperture() == Camera::Aperture::F_BIG)
     {
         Color meanLight = _scene->meanAmbiantLight();
 
@@ -111,7 +112,7 @@ void Renderer::_render(void)
             for (unsigned int j = 0, bufferHeight = _buffer.height(); j < bufferHeight; j++)
             {
                 // It's possible to use only one camera (front())
-                Vector rayDirection = camera->pixelDirection(i, j, &_buffer);
+                Vector rayDirection = camera->pixelDirection(i, j, _buffer);
                 Point  rayOrigin    = camera->position();
 
                 // Calculate current focal point
@@ -236,7 +237,7 @@ void Renderer::_render(void)
                     for (float fragmentY = jj; fragmentY < jj + 1.0f; fragmentY += 0.5f)
                     {
                         // It's possible to use only one camera (front())
-                        Vector rayDirection = camera->pixelDirection(fragmentX, fragmentY, &_buffer);
+                        Vector rayDirection = camera->pixelDirection(fragmentX, fragmentY, _buffer);
                         Point  rayOrigin    = camera->position();
                         Ray    ray(rayOrigin, rayDirection);
 
@@ -330,7 +331,7 @@ void Renderer::_render(void)
             for (unsigned int i = 0, bufferWidth = _buffer.width(); i < bufferWidth; ++i)
             {
                 // It's possible to use only one camera (front())
-                Vector rayDirection = camera->pixelDirection(i, j, &_buffer);
+                Vector rayDirection = camera->pixelDirection(i, j, _buffer);
                 Point  rayOrigin    = camera->position();
                 Ray    ray(rayOrigin, rayDirection);
 

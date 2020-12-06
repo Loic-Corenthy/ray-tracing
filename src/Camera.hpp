@@ -24,14 +24,14 @@ namespace LCNS
     class Camera
     {
     public:
-        enum Aperture : unsigned short
+        enum class Aperture
         {
             ALL_SHARP,
             F_SMALL,
             F_MEDIUM,
             F_BIG
         };
-        enum Precision : unsigned short
+        enum class Precision
         {
             LOW           = 1,
             MEDIUM        = 2,
@@ -42,174 +42,89 @@ namespace LCNS
 
     public:
         /// Default constructor
-        Camera(void);
+        Camera(void) = default;
 
         /// Constructor with parameters
-        Camera(Point position, Vector direction, Vector up, float fOV);
+        Camera(const Point& position, const Vector& direction, const Vector& up, double fOV);
 
         /// Copy constructor
         Camera(const Camera& camera);
 
         /// Copy operator
-        Camera operator=(const Camera& camera);
+        Camera& operator=(const Camera& camera);
 
         /// Destructor
-        ~Camera(void);
+        ~Camera(void) = default;
 
         /// Get the direction of a pixel in the buffer
-        template <typename NumType>
-        Vector pixelDirection(NumType x, NumType y, Buffer* buffer) const;
+        Vector pixelDirection(double x, double y, const Buffer& buffer) const;
 
         /// Set the position of the camera
-        void setPosition(const Point& position);
+        void position(const Point& position) noexcept;
 
         /// Set the direction of the camera
-        void setDirection(const Vector& direction);
+        void direction(const Vector& direction);
 
         /// Set the upward direction of the camera
-        void setUp(const Vector& up);
+        void up(const Vector& up);
 
         /// Set the field of view of the camera
-        void setFOV(float fOV);
+        void FOV(double fOV) noexcept;
 
         /// Set the aperture type of the camera. If not using the ALL_SHARP mode, specify the focal length (distance between the focal plane and the
         /// buffer
-        void setAperture(unsigned short mode, unsigned short precision = LOW, double focalLength = 0.0);
+        void aperture(Aperture mode, Precision precision = Precision::LOW, double focalLength = 0.0);
 
         /// Set the focal length
-        void setFocalLength(double focalLength);
+        void focalLength(double focalLength) noexcept;
 
         /// Set the point contained by the focal plane
-        void setFocalPoint(const Point& focalPoint);
+        void focalPoint(const Point& focalPoint);
 
         /// Get the position of the camera (read only)
-        const Point& position(void) const;
+        const Point& position(void) const noexcept;
 
         /// Get the direction of the camera (read only)
-        const Vector& direction(void) const;
+        const Vector& direction(void) const noexcept;
 
         /// Get the upward direction of the camera (read only)
-        const Vector& up(void) const;
+        const Vector& up(void) const noexcept;
 
         /// Get the field of view of the camera
-        float FOV(void) const;
+        double FOV(void) const noexcept;
 
         /// Get the aperture mode
-        unsigned short aperture(void) const;
+        Aperture aperture(void) const noexcept;
 
         /// Get the radius of the matrix superposed on a pixel to simulate the aperture
-        double apertureRadius(void) const;
+        double apertureRadius(void) const noexcept;
 
         /// Get the displacement step in the matrix
-        double apertureStep(void) const;
+        double apertureStep(void) const noexcept;
 
         /// Get the coefficent corresponding to the color sampling when simulating the aperture
-        float apertureColorCoeff(double i, double j) const;
+        double apertureColorCoeff(double i, double j) const;
 
         /// Get the focal length
-        double focalLength(void) const;
+        double focalLength(void) const noexcept;
 
-        /// Get the focal plane
-        Plane& focalPlane(void);
+        /// Get the focal plane (read/write)
+        Plane& focalPlane(void) noexcept;
 
     private:
-        Plane              _focalPlane;
-        std::vector<float> _apertureColorCoeffs;
-        double             _apertureRadius;
-        double             _apertureStep;
-        Point              _position;
-        Vector             _direction;
-        Vector             _up;
-        Vector             _right;
-        float              _fOV;
-        unsigned short     _aperture;
-        double             _focalLength;
-        double             _apertureStepMultiplier;
+        Plane               _focalPlane;
+        Point               _position;
+        Vector              _direction;
+        Vector              _up;
+        Vector              _right;
+        std::vector<double> _apertureColorCoeffs;
+        double              _apertureRadius         = 0.0;
+        double              _apertureStep           = 1.0;
+        double              _apertureStepMultiplier = 1.0;
+        double              _focalLength            = 1.0;
+        Aperture            _aperture               = Aperture::ALL_SHARP;
+        double              _fOV                    = 1.0f;
 
     };  // class Camera
 
-    template <typename NumType>
-    Vector Camera::pixelDirection(NumType x, NumType y, Buffer* buffer) const
-    {
-        Vector pixelDirection(0.0, 0.0, 0.0);
-
-        float rightValue = (2 * tan(_fOV / 2) / (buffer->width())) * (buffer->width() / 2.f - x);
-        float upValue    = (2 * tan(_fOV / 2) / (buffer->width())) * (y - buffer->height() / 2.f);
-
-        pixelDirection = _right * rightValue + _up * upValue + _direction;
-
-        return pixelDirection;
-    }
-
-    inline void Camera::setPosition(const Point& position)
-    {
-        _position = position;
-    }
-
-    inline void Camera::setFOV(float fOV)
-    {
-        _fOV = fOV;
-    }
-
-    inline void Camera::setFocalLength(double focalLength)
-    {
-        _focalLength = focalLength;
-    }
-
-    inline void Camera::setFocalPoint(const Point& focalPoint)
-    {
-        _focalPlane.setPosition(focalPoint);
-    }
-
-    inline const Point& Camera::position(void) const
-    {
-        return _position;
-    }
-
-    inline const Vector& Camera::direction(void) const
-    {
-        return _direction;
-    }
-
-    inline const Vector& Camera::up(void) const
-    {
-        return _up;
-    }
-
-    inline float Camera::FOV(void) const
-    {
-        return _fOV;
-    }
-
-    inline unsigned short Camera::aperture(void) const
-    {
-        return _aperture;
-    }
-
-    inline double Camera::apertureRadius(void) const
-    {
-        return _apertureRadius;
-    }
-
-    inline double Camera::apertureStep(void) const
-    {
-        return _apertureStep;
-    }
-
-    inline float Camera::apertureColorCoeff(double i, double j) const
-    {
-        static double slCoeffCount = _apertureStepMultiplier * 2.0 + 1.0;
-        return _apertureColorCoeffs[static_cast<unsigned int>((i / _apertureStep + _apertureStepMultiplier) * slCoeffCount + j / _apertureStep
-                                                              + _apertureStepMultiplier)];
-    }
-
-    inline double Camera::focalLength(void) const
-    {
-        return _focalLength;
-    }
-
-    inline Plane& Camera::focalPlane(void)
-    {
-        return _focalPlane;
-    }
 }  // namespace LCNS

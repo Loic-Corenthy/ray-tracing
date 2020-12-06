@@ -17,6 +17,7 @@
 #include <cassert>
 #include <vector>
 
+#include "Color.hpp"
 #include "Renderable.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
@@ -28,8 +29,30 @@
 #include "Light.hpp"
 #include "CubeMap.hpp"
 
-using namespace std;
-using namespace LCNS;
+using std::cerr;
+using std::cout;
+using std::end;
+using std::endl;
+using std::ifstream;
+using std::iterator;
+using std::list;
+using std::shared_ptr;
+using std::stoi;
+using std::string;
+using std::stringstream;
+using std::vector;
+
+using LCNS::BRDF;
+using LCNS::Camera;
+using LCNS::Color;
+using LCNS::CubeMap;
+using LCNS::Light;
+using LCNS::Mesh;
+using LCNS::Ray;
+using LCNS::Renderable;
+using LCNS::Scene;
+using LCNS::Shader;
+using LCNS::Triangle;
 
 Scene::Scene(void)
 : _backgroundType(BACKGRD_UNDEFINED)
@@ -72,16 +95,12 @@ Scene::~Scene(void)
     for_each(_cameraList.begin(), _cameraList.end(), DeleteObject());
     for_each(_lightList.begin(), _lightList.end(), DeleteObject());
     for_each(_renderableList.begin(), _renderableList.end(), DeleteObject());
-    for_each(_cubeMapList.begin(), _cubeMapList.end(), DeleteObject());
 
     for (auto it = _shaderMap.begin(), end = _shaderMap.end(); it != end; it++)
         delete it->second;
 
     for (auto it = _bRDFMap.begin(), end = _bRDFMap.end(); it != end; it++)
         delete it->second;
-
-    if (_backgroundCubeMap)
-        delete _backgroundCubeMap;
 }
 
 Renderable* Scene::objectNamed(const std::string& name)
@@ -127,7 +146,7 @@ void Scene::add(BRDF* bRDF, const std::string& name)
     _bRDFMap.insert(std::pair<std::string, BRDF*>(name, bRDF));
 }
 
-void Scene::add(CubeMap* cubeMap)
+void Scene::add(shared_ptr<CubeMap> cubeMap)
 {
     assert(cubeMap && "cubeMap added to the scene is not valid");
     _cubeMapList.push_back(cubeMap);

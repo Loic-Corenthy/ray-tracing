@@ -18,13 +18,6 @@
 // Namespaces
 using namespace LCNS;
 
-Phong::Phong(void)
-: _diffusionColor(Color(0.0))
-, _specularColor(Color(0.0))
-, _exponent(0)
-{
-}
-
 Phong::Phong(const Color& diffusionColor, const Color& specularColor, int exponent)
 : BRDF(diffusionColor * 0.2)
 , _diffusionColor(diffusionColor)
@@ -33,33 +26,40 @@ Phong::Phong(const Color& diffusionColor, const Color& specularColor, int expone
 {
 }
 
-Phong::Phong(const Phong& phong)
-: BRDF(phong)
-, _diffusionColor(phong._diffusionColor)
-, _specularColor(phong._specularColor)
-, _exponent(phong._exponent)
+void Phong::diffusionColor(const Color& diffusionColor) noexcept
 {
+    _diffusionColor = diffusionColor;
 }
 
-Phong Phong::operator=(const Phong& phong)
+Color Phong::diffusionColor(void) const noexcept
 {
-    if (this == &phong)
-        return *this;
-
-    BRDF::operator=(phong);
-
-    _diffusionColor = phong._diffusionColor;
-    _specularColor  = phong._specularColor;
-    _exponent       = phong._exponent;
-
-    return *this;
+    return _diffusionColor;
 }
 
-Phong::~Phong(void)
+void Phong::specularColor(const Color& specularColor) noexcept
 {
+    _specularColor = specularColor;
 }
 
-Color Phong::reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection)
+Color Phong::specularColor(void) const noexcept
+{
+    return _specularColor;
+}
+
+void Phong::exponent(int exponent) noexcept
+{
+    _exponent = exponent;
+}
+
+int Phong::exponent(void) const noexcept
+{
+    return _exponent;
+}
+
+Color Phong::reflectance([[maybe_unused]] const Vector& vecToLight,
+                         [[maybe_unused]] const Vector& vecToViewer,
+                         [[maybe_unused]] const Vector& normal,
+                         [[maybe_unused]] const Point&  intersection)
 {
     // Make local copy for modification
     Vector vecToLightCopy(vecToLight);
@@ -76,17 +76,18 @@ Color Phong::reflectance(const Vector& vecToLight, const Vector& vecToViewer, co
     // Calculate specular coefficient
     double cosBeta   = (vecToLightCopy * normal) * 2.0;
     Vector reflexion = vecNormal * cosBeta - vecToLightCopy;
-    cosBeta          = reflexion * vecToViewerCopy;
+
+    cosBeta = reflexion * vecToViewerCopy;
 
     // Set negative coefficents to zero
     cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
     cosBeta  = (cosBeta < 0.0) ? 0.0 : cosBeta;
 
-    const CubeMap* cubeMap = BRDF::cubeMap();
+    const auto cubeMap = BRDF::cubeMap();
     if (cubeMap)
     {
         Ray   normalRay(intersection, normal);
-        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        Color diffColor = cubeMap->colorAt(normalRay);
         return diffColor * cosAlpha + _specularColor * pow(cosBeta, _exponent);
     }
     else
@@ -94,7 +95,9 @@ Color Phong::reflectance(const Vector& vecToLight, const Vector& vecToViewer, co
 }
 
 
-Color Phong::diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const
+Color Phong::diffuse([[maybe_unused]] const Vector& vecToLight,
+                     [[maybe_unused]] const Vector& normal,
+                     [[maybe_unused]] const Point&  intersection) const
 {
     // Make local copy to normalize
     Vector vecToLightCopy(vecToLight);
@@ -106,11 +109,11 @@ Color Phong::diffuse(const Vector& vecToLight, const Vector& normal, const Point
     // Set negative coefficents to zero
     cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
 
-    const CubeMap* cubeMap = BRDF::cubeMap();
+    const auto cubeMap = BRDF::cubeMap();
     if (cubeMap)
     {
         Ray   normalRay(intersection, normal);
-        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        Color diffColor = cubeMap->colorAt(normalRay);
         return diffColor * cosAlpha;
     }
     else
@@ -118,7 +121,10 @@ Color Phong::diffuse(const Vector& vecToLight, const Vector& normal, const Point
 }
 
 
-Color Phong::specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const
+Color Phong::specular([[maybe_unused]] const Vector& vecToLight,
+                      [[maybe_unused]] const Vector& vecToViewer,
+                      [[maybe_unused]] const Vector& normal,
+                      [[maybe_unused]] const Point&  intersection) const
 {
     Vector vecToLightCopy(vecToLight);
     Vector vecToViewerCopy(vecToViewer);

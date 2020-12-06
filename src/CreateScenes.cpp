@@ -12,10 +12,13 @@
 
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 using namespace LCNS;
-using namespace std;
 
+using std::make_shared;
+using std::max;
+using std::string;
 
 void createTestScene(LCNS::Scene* scene)
 {
@@ -393,7 +396,7 @@ void createScene03(Scene* scene)
     Renderable* rSphere4 = new Sphere(center, 3.0);
 
     // Create a BRDF model for the sphere
-    CubeMap* rCubeMapSphere = new CubeMap(center, 104);
+    auto rCubeMapSphere = make_shared<CubeMap>(center, 104);
     rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/earth_back.png");
     rCubeMapSphere->addImage(CubeMap::Faces::FRONT, "./resources/earth_front.png");
     rCubeMapSphere->addImage(CubeMap::Faces::UP, "./resources/earth_up.png");
@@ -406,7 +409,7 @@ void createScene03(Scene* scene)
 
     diffusion.set(255, 255, 255);
     BRDF* rBRDF4 = new Phong(diffusion * 2.0, specular, 15);
-    rBRDF4->setCubeMap(rCubeMapSphere);
+    rBRDF4->cubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
     Shader* rShader4 = new Shader(rBRDF4, reflection, refraction, scene);
@@ -878,7 +881,7 @@ void createScene06(Scene* scene)
     //    // Create a BRDF model for the sphere
     //    Color diffusionSphere2(1.0f);
     //	Color specularSphere2(0.1);
-    //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere2, 520);
+    //    auto rCubeMapSphere = make_shared<CubeMap>(centerSphere2, 520);
     //    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
     //    rCubeMapSphere->addImage(CubeMap::Faces::FRONT,"./resources/Desert_front.png");
     //    rCubeMapSphere->addImage(CubeMap::Faces::UP, "./resources/Desert_up.png");
@@ -889,7 +892,7 @@ void createScene06(Scene* scene)
     //    scene->add(rCubeMapSphere);
     //
     //	Phong* rBRDFSphere2 = new Phong(diffusionSphere2,lSpecularSphere2,3);
-    //    rBRDFSphere2->setCubeMap(rCubeMapSphere);
+    //    rBRDFSphere2->cubeMap(rCubeMapSphere);
     //
     //    // Create a shader for the second sphere
     //	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,1.0,scene);
@@ -925,7 +928,7 @@ void createScene06(Scene* scene)
     scene->add(rCamera);
 
     // BACKGROUND
-    CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapBckGrd = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/River_back.png");
     rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/River_front.png");
@@ -936,7 +939,7 @@ void createScene06(Scene* scene)
 
     rCubeMapBckGrd->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
-    scene->setBackgroundCubeMap(rCubeMapBckGrd);
+    scene->backgroundCubeMap(rCubeMapBckGrd);
 }
 
 void createScene07(Scene* scene)
@@ -1448,7 +1451,7 @@ void createScene12(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a BRDF model for the sphere
-    //    CubeMap* rCubeMapSphere = new CubeMap(centerSphere1, 720);
+    //    auto rCubeMapSphere = make_shared<CubeMap>(centerSphere1, 720);
     //    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/nightSky2.png");
     //    rCubeMapSphere->setLink(CubeMap::Faces::FRONT, 0);
     //    rCubeMapSphere->setLink(CubeMap::Faces::UP, 0);
@@ -1458,7 +1461,7 @@ void createScene12(LCNS::Scene* scene)
     //
     //    scene->add(rCubeMapSphere);
     //
-    //    rBRDFSphere1->setCubeMap(rCubeMapSphere);
+    //    rBRDFSphere1->cubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
     Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -1543,7 +1546,7 @@ void createScene12(LCNS::Scene* scene)
     ////////////////
     // BACKGROUND //
     ////////////////
-    //    CubeMap* rCubeMap = new CubeMap(centerSphere1, 750);
+    //    auto rCubeMap = make_shared<CubeMap>(centerSphere1, 750);
     //
     //    rCubeMap->addImage(CubeMap::Faces::BACK, "./resources/nightSky2.png");
     //    rCubeMap->setLink(CubeMap::Faces::FRONT, 0);
@@ -1552,7 +1555,7 @@ void createScene12(LCNS::Scene* scene)
     //    rCubeMap->setLink(CubeMap::Faces::LEFT, 0);
     //    rCubeMap->setLink(CubeMap::Faces::RIGHT, 0);
     //
-    //    scene->setBackgroundCubeMap(rCubeMap);
+    //    scene->backgroundCubeMap(rCubeMap);
 
     scene->setBackgroundColor(Color(220, 240, 250));
 }
@@ -1665,7 +1668,7 @@ void createScene13(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
 
-    CubeMap* rCubeMapDesert = new CubeMap(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapDesert = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapDesert->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
     rCubeMapDesert->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
@@ -1678,7 +1681,7 @@ void createScene13(LCNS::Scene* scene)
 
     scene->add(rCubeMapDesert);
 
-    rBRDFSphere1->setCubeMap(rCubeMapDesert);
+    rBRDFSphere1->cubeMap(rCubeMapDesert);
 
     // Create a shader for the sphere
     Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 1.0, scene);
@@ -1935,7 +1938,7 @@ void createScene14(LCNS::Scene* scene)
     scene->add(rCamera);
 
 
-    CubeMap* rCubeMapBckGrd = new CubeMap(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapBckGrd = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
     rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
@@ -1946,7 +1949,7 @@ void createScene14(LCNS::Scene* scene)
 
     rCubeMapBckGrd->interpolationMethod(Image::InterpolationMethod::LINEAR);
 
-    scene->setBackgroundCubeMap(rCubeMapBckGrd);
+    scene->backgroundCubeMap(rCubeMapBckGrd);
 }
 
 void createFloor(Scene* scene, const FloorParameters& param)
@@ -1968,11 +1971,11 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
     // Create BRDF model for the triangle
     Phong* bRDFTriangle = new Phong(param.diffusion, param.specular, 3);
-    bRDFTriangle->setAmbient(Color(0.0f));
+    bRDFTriangle->ambient(Color(0.0f));
 
     if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(LCNS::Point(0.0, -4.0, 0.0), param.size * 2.0);
+        auto rCubeMapFloor = make_shared<CubeMap>(LCNS::Point(0.0, -4.0, 0.0), param.size * 2.0);
 
         rCubeMapFloor->addImage(CubeMap::Faces::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::Faces::FRONT, 0);
@@ -1985,7 +1988,7 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
         scene->add(rCubeMapFloor);
 
-        bRDFTriangle->setCubeMap(rCubeMapFloor);
+        bRDFTriangle->cubeMap(rCubeMapFloor);
     }
 
 
@@ -2030,11 +2033,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
                              (zero.z() + one.z() + two.z() + three.z()) * 0.25);
 
     Phong* rBRDF_Floor = new Phong(param.diffusion, param.specular, 3);
-    //    rBRDF_Floor->setAmbient(Color(0.0f));
+    //    rBRDF_Floor->ambient(Color(0.0f));
 
     if (param.floorTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapFloor = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
+        auto rCubeMapFloor = make_shared<CubeMap>(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
         rCubeMapFloor->addImage(CubeMap::Faces::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::Faces::FRONT, 0);
@@ -2047,7 +2050,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
         scene->add(rCubeMapFloor);
 
-        rBRDF_Floor->setCubeMap(rCubeMapFloor);
+        rBRDF_Floor->cubeMap(rCubeMapFloor);
     }
 
     Shader* rShaderFloor = new Shader(rBRDF_Floor, param.reflectionCoeff, param.refractionCoeff, scene);
@@ -2079,11 +2082,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
     middleOfFace.z((zero.z() + one.z() + four.z() + five.z()) * 0.25);
 
     Phong* rBRDFLeftWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFLeftWall->setAmbient(Color(0.1f));
+    rBRDFLeftWall->ambient(Color(0.1f));
 
     if (param.wallLeftTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapLeftWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
+        auto rCubeMapLeftWall = make_shared<CubeMap>(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
         rCubeMapLeftWall->addImage(CubeMap::Faces::BACK, param.wallLeftTexturePath);
         rCubeMapLeftWall->setLink(CubeMap::Faces::FRONT, 0);
@@ -2096,7 +2099,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
         scene->add(rCubeMapLeftWall);
 
-        rBRDFLeftWall->setCubeMap(rCubeMapLeftWall);
+        rBRDFLeftWall->cubeMap(rCubeMapLeftWall);
     }
 
     Shader* rShaderLeftWall = new Shader(rBRDFLeftWall, param.reflectionCoeff, param.refractionCoeff, scene);
@@ -2128,11 +2131,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
     middleOfFace.z((zero.z() + three.z() + four.z() + seven.z()) * 0.25);
 
     Phong* rBRDFBackWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFBackWall->setAmbient(Color(0.1f));
+    rBRDFBackWall->ambient(Color(0.1f));
 
     if (param.wallBackTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapBackWall = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.y()));
+        auto rCubeMapBackWall = make_shared<CubeMap>(middleOfFace, max(param.dimensions.x(), param.dimensions.y()));
 
         rCubeMapBackWall->addImage(CubeMap::Faces::BACK, param.wallBackTexturePath);
         rCubeMapBackWall->setLink(CubeMap::Faces::FRONT, 0);
@@ -2145,7 +2148,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
         scene->add(rCubeMapBackWall);
 
-        rBRDFBackWall->setCubeMap(rCubeMapBackWall);
+        rBRDFBackWall->cubeMap(rCubeMapBackWall);
     }
 
     Shader* rShaderBackWall = new Shader(rBRDFBackWall, param.reflectionCoeff, param.refractionCoeff, scene);
@@ -2176,11 +2179,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
     middleOfFace.z((two.z() + three.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFRightWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFRightWall->setAmbient(Color(0.1f));
+    rBRDFRightWall->ambient(Color(0.1f));
 
     if (param.wallRightTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapRightWall = new CubeMap(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
+        auto rCubeMapRightWall = make_shared<CubeMap>(middleOfFace, max(param.dimensions.y(), param.dimensions.z()));
 
         rCubeMapRightWall->addImage(CubeMap::Faces::BACK, param.wallRightTexturePath);
         rCubeMapRightWall->setLink(CubeMap::Faces::FRONT, 0);
@@ -2193,7 +2196,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
         scene->add(rCubeMapRightWall);
 
-        rBRDFRightWall->setCubeMap(rCubeMapRightWall);
+        rBRDFRightWall->cubeMap(rCubeMapRightWall);
     }
 
     Shader* rShaderRightWall = new Shader(rBRDFRightWall, param.reflectionCoeff, param.refractionCoeff, scene);
@@ -2224,11 +2227,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
     middleOfFace.z((four.z() + five.z() + six.z() + seven.z()) * 0.25);
 
     Phong* rBRDFCeiling = new Phong(param.diffusion, param.specular, 13);
-    rBRDFCeiling->setAmbient(Color(0.1f));
+    rBRDFCeiling->ambient(Color(0.1f));
 
     if (param.ceilingTexturePath.compare("no_texture"))
     {
-        CubeMap* rCubeMapCeiling = new CubeMap(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
+        auto rCubeMapCeiling = make_shared<CubeMap>(middleOfFace, max(param.dimensions.x(), param.dimensions.z()));
 
         rCubeMapCeiling->addImage(CubeMap::Faces::DOWN, param.ceilingTexturePath);
         rCubeMapCeiling->setLink(CubeMap::Faces::FRONT, 0);
@@ -2241,7 +2244,7 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
         scene->add(rCubeMapCeiling);
 
-        rBRDFCeiling->setCubeMap(rCubeMapCeiling);
+        rBRDFCeiling->cubeMap(rCubeMapCeiling);
     }
 
 

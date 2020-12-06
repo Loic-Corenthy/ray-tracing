@@ -202,7 +202,7 @@ Color Shader::ambientColor(const Ray& ray) const
     if (_bRDF->ambient() == Color(0.0))
         return Color(0.0f);
     else if (_bRDF->cubeMap())
-        return const_cast<CubeMap*>(_bRDF->cubeMap())->colorAt(ray);
+        return _bRDF->cubeMap()->colorAt(ray);
     else
         return _bRDF->ambient();
 }

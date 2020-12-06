@@ -13,6 +13,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <memory>
 
 #include "Color.hpp"
 #include "OBJParameters.hpp"
@@ -84,7 +85,7 @@ namespace LCNS
         void add(BRDF* bRDF, const std::string& name);
 
         /// Add a pointer on a CubeMap used as texture for an object
-        void add(CubeMap* cubeMap);
+        void add(std::shared_ptr<CubeMap> cubeMap);
 
         /// Check if a ray intersect one of the object of the scene
         bool intersect(Ray& ray) const;
@@ -96,7 +97,7 @@ namespace LCNS
         void setBackgroundColor(const Color& color);
 
         /// Set a cubemap all around the scene
-        void setBackgroundCubeMap(CubeMap* cubeMap);
+        void backgroundCubeMap(std::shared_ptr<CubeMap> cubeMap);
 
         /// Get the color of the background
         Color backgroundColor(const Ray& ray) const;
@@ -115,15 +116,15 @@ namespace LCNS
         void _countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const;
 
     private:
-        std::list<Camera*>             _cameraList;
-        std::list<Light*>              _lightList;
-        std::list<Renderable*>         _renderableList;
-        std::list<CubeMap*>            _cubeMapList;
-        std::map<std::string, Shader*> _shaderMap;
-        std::map<std::string, BRDF*>   _bRDFMap;
-        short                          _backgroundType;
-        Color                          _backgroundColor;
-        CubeMap*                       _backgroundCubeMap;
+        std::list<Camera*>                  _cameraList;
+        std::list<Light*>                   _lightList;
+        std::list<Renderable*>              _renderableList;
+        std::list<std::shared_ptr<CubeMap>> _cubeMapList;
+        std::map<std::string, Shader*>      _shaderMap;
+        std::map<std::string, BRDF*>        _bRDFMap;
+        short                               _backgroundType;
+        Color                               _backgroundColor;
+        std::shared_ptr<CubeMap>            _backgroundCubeMap;
 
 
     };  // class Scene
@@ -149,7 +150,7 @@ namespace LCNS
         _backgroundColor = color;
     }
 
-    inline void Scene::setBackgroundCubeMap(CubeMap* cubeMap)
+    inline void Scene::backgroundCubeMap(std::shared_ptr<CubeMap> cubeMap)
     {
         _backgroundType    = BACKGRD_CUBEMAP;
         _backgroundCubeMap = cubeMap;

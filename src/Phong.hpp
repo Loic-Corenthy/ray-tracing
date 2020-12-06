@@ -19,82 +19,60 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Phong(void);
+        Phong(void) = default;
 
         /// Constructor with parameters
         Phong(const Color& diffusionColor, const Color& specularColor, int exponent);
 
         /// Copy constructor
-        Phong(const Phong& phong);
+        Phong(const Phong& phong) = delete;
 
         /// Copy operator
-        Phong operator=(const Phong& phong);
+        Phong operator=(const Phong& phong) = delete;
 
         /// Destructor
-        ~Phong(void);
+        ~Phong(void) = default;
+
+        /// Implementation of virtual method from BRDF
+        Color reflectance([[maybe_unused]] const Vector& vecToLight,
+                          [[maybe_unused]] const Vector& vecToViewer,
+                          [[maybe_unused]] const Vector& normal,
+                          [[maybe_unused]] const Point&  intersection) override final;
+
+        /// Implementation of virtual method from BRDF
+        Color diffuse([[maybe_unused]] const Vector& vecToLight,
+                      [[maybe_unused]] const Vector& normal,
+                      [[maybe_unused]] const Point&  intersection) const override final;
+
+        /// Implementation of virtual method from BRDF
+        Color specular([[maybe_unused]] const Vector& vecToLight,
+                       [[maybe_unused]] const Vector& vecToViewer,
+                       [[maybe_unused]] const Vector& normal,
+                       [[maybe_unused]] const Point&  intersection) const override final;
 
         /// Set the diffusion color coefficient
-        void setDiffusionColor(const Color& diffusionColor);
-
-        /// Set the specular color coefficient
-        void setSpecularColor(const Color& specularColor);
-
-        /// Set the exponent
-        void setExponent(int exponent);
+        void diffusionColor(const Color& diffusionColor) noexcept;
 
         /// Get the DiffusionColor coefficient
-        Color diffusionColor(void) const;
+        Color diffusionColor(void) const noexcept;
+
+        /// Set the specular color coefficient
+        void specularColor(const Color& specularColor) noexcept;
 
         /// Get the SpecularColor coefficient
-        Color specularColor(void) const;
+        Color specularColor(void) const noexcept;
 
         /// Get the exponent
-        int exponent(void) const;
+        int exponent(void) const noexcept;
 
-        /// Implementation of virtual method from BRDF
-        Color reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection);
-
-        /// Implementation of virtual method from BRDF
-        Color diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const final;
-
-        /// Implementation of virtual method from BRDF
-        Color specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const final;
+        /// Set the exponent
+        void exponent(int exponent) noexcept;
 
     private:
         Color _diffusionColor;
         Color _specularColor;
-        int   _exponent;
+        int   _exponent = 0;
 
     };  // class Phong
-
-    inline void Phong::setDiffusionColor(const Color& diffusionColor)
-    {
-        _diffusionColor = diffusionColor;
-    }
-
-    inline void Phong::setSpecularColor(const Color& specularColor)
-    {
-        _specularColor = specularColor;
-    }
-
-    inline void Phong::setExponent(int exponent)
-    {
-        _exponent = exponent;
-    }
-
-    inline Color Phong::diffusionColor(void) const
-    {
-        return _diffusionColor;
-    }
-
-    inline Color Phong::specularColor(void) const
-    {
-        return _specularColor;
-    }
-
-    inline int Phong::exponent(void) const
-    {
-        return _exponent;
-    }
 
 }  // namespace LCNS

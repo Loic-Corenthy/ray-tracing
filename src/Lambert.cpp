@@ -10,56 +10,49 @@
 
 #include "Lambert.hpp"
 
+#include <cassert>
 #include <cmath>
+#include <memory>
 
+#include "Color.hpp"
 #include "Vector.hpp"
 #include "Ray.hpp"
 
-using namespace LCNS;
+using std::shared_ptr;
 
-Lambert::Lambert(void)
-: BRDF()
-, _diffusionColor(0.0)
-{
-}
+using LCNS::Color;
+using LCNS::Lambert;
+using LCNS::Vector;
 
 Lambert::Lambert(const Color& diffusionColor)
-: BRDF(diffusionColor * 0.1)
-, _diffusionColor(diffusionColor)
+: _diffusionColor(diffusionColor)
 {
 }
 
-Lambert::Lambert(const Lambert& lambert)
-: BRDF(lambert)
-, _diffusionColor(lambert._diffusionColor)
+void Lambert::diffusionColor(const Color& kd) noexcept
 {
+    _diffusionColor = kd;
 }
 
-Lambert Lambert::operator=(const Lambert& lambert)
+Color Lambert::diffusionColor(void) const noexcept
 {
-    if (this == &lambert)
-        return *this;
-
-    BRDF::operator=(lambert);
-
-    _diffusionColor = lambert._diffusionColor;
-
-    return *this;
+    return _diffusionColor;
 }
 
-Lambert::~Lambert(void)
-{
-}
-
-Color Lambert::reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection)
+Color Lambert::reflectance([[maybe_unused]] const Vector& vecToLight,
+                           [[maybe_unused]] const Vector& vecToViewer,
+                           [[maybe_unused]] const Vector& normal,
+                           [[maybe_unused]] const Point&  intersection)
 {
     return diffuse(vecToLight, normal, intersection);
 }
 
-Color Lambert::diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const
+Color Lambert::diffuse([[maybe_unused]] const Vector& vecToLight,
+                       [[maybe_unused]] const Vector& normal,
+                       [[maybe_unused]] const Point&  intersection) const
 {
     // Make local copy to normalize
-    Vector vecToLightCopy(vecToLight);
+    auto vecToLightCopy = Vector(vecToLight);
     vecToLightCopy.normalize();
 
     // Calculate diffusion coefficient
@@ -68,21 +61,22 @@ Color Lambert::diffuse(const Vector& vecToLight, const Vector& normal, const Poi
     // Set negative coefficents to zero
     cosAlpha = (cosAlpha < 0.0) ? 0.0 : cosAlpha;
 
-    const CubeMap* cubeMap = BRDF::cubeMap();
+    const auto cubeMap = BRDF::cubeMap();
     if (cubeMap)
     {
-        Ray   normalRay(intersection, normal);
-        Color diffColor = const_cast<CubeMap*>(cubeMap)->colorAt(normalRay);
+        const auto normalRay = Ray(intersection, normal);
+        const auto diffColor = cubeMap->colorAt(normalRay);
         return diffColor * cosAlpha;
     }
     else
         return (_diffusionColor * cosAlpha);
 }
 
-Color Lambert::specular(const LCNS::Vector& vecToLight,
-                        const LCNS::Vector& vecToViewer,
-                        const LCNS::Vector& normal,
-                        const LCNS::Point&  intersection) const
+Color Lambert::specular([[maybe_unused]] const LCNS::Vector& vecToLight,
+                        [[maybe_unused]] const LCNS::Vector& vecToViewer,
+                        [[maybe_unused]] const LCNS::Vector& normal,
+                        [[maybe_unused]] const LCNS::Point&  intersection) const
 {
+    assert(false && "Not implemented yet");
     return Color(0.0f);
 }

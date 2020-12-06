@@ -10,39 +10,40 @@
 
 #include "BRDF.hpp"
 
-using namespace LCNS;
+#include <memory>
 
+#include "Color.hpp"
+#include "CubeMap.hpp"
+#include "Point.hpp"
 
-BRDF::BRDF(void)
-: _ambientColor(Color(0.0f))
-, _cubeMap(nullptr)
-{
-}
+using std::shared_ptr;
 
+using LCNS::BRDF;
+using LCNS::Color;
+using LCNS::CubeMap;
+using LCNS::Point;
 
 BRDF::BRDF(const Color& ambient)
 : _ambientColor(ambient)
-, _cubeMap(nullptr)
 {
 }
 
-
-BRDF::BRDF(const BRDF& bRDF)
-: _ambientColor(bRDF._ambientColor)
-, _cubeMap(bRDF._cubeMap)
+void BRDF::ambient(const Color& ambient)
 {
+    _ambientColor = ambient;
 }
 
-
-void BRDF::operator=(const BRDF& brdf)
+Color BRDF::ambient(void) const
 {
-    if (this == &brdf)
-        return;
-
-    _ambientColor = brdf._ambientColor;
-    _cubeMap      = brdf._cubeMap;
+    return _ambientColor;
 }
 
-BRDF::~BRDF(void)
+void BRDF::cubeMap(shared_ptr<CubeMap> cubeMap)
 {
+    _cubeMap = cubeMap;
+}
+
+const shared_ptr<CubeMap> BRDF::cubeMap(void) const
+{
+    return _cubeMap;
 }

@@ -19,48 +19,46 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Lambert(void);
+        Lambert(void) = default;
 
         /// Constructor with parameters
-        Lambert(const Color& diffusionColor);
+        explicit Lambert(const Color& diffusionColor);
 
         /// Copy constructor
-        Lambert(const Lambert& lambert);
+        Lambert(const Lambert& lambert) = delete;
 
         /// Copy operator
-        Lambert operator=(const Lambert& lambert);
+        Lambert operator=(const Lambert& lambert) = delete;
 
         /// Destructor
-        ~Lambert(void);
+        ~Lambert(void) = default;
 
         /// Set the Kd coefficient
-        void setDiffusionColor(Color kd);
+        void diffusionColor(const Color& kd) noexcept;
 
         /// Get the Kd coefficient
-        Color diffusionColor(void) const;
+        Color diffusionColor(void) const noexcept;
 
         /// Implementation of virtual method from BRDF
-        Color reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection);
+        Color reflectance([[maybe_unused]] const Vector& vecToLight,
+                          [[maybe_unused]] const Vector& vecToViewer,
+                          [[maybe_unused]] const Vector& normal,
+                          [[maybe_unused]] const Point&  intersection) override final;
 
         /// Implementation of virtual method from BRDF
-        Color diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const final;  //(c++11)
+        Color diffuse([[maybe_unused]] const Vector& vecToLight,
+                      [[maybe_unused]] const Vector& normal,
+                      [[maybe_unused]] const Point&  intersection) const override final;
 
         /// Implementation of virtual method from BRDF
-        Color specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const final;  //(c++11)
+        Color specular([[maybe_unused]] const Vector& vecToLight,
+                       [[maybe_unused]] const Vector& vecToViewer,
+                       [[maybe_unused]] const Vector& normal,
+                       [[maybe_unused]] const Point&  intersection) const override final;
 
     private:
         Color _diffusionColor;
 
     };  // class Lambert
-
-    inline void Lambert::setDiffusionColor(Color diffusionColor)
-    {
-        _diffusionColor = diffusionColor;
-    }
-
-    inline Color Lambert::diffusionColor(void) const
-    {
-        return _diffusionColor;
-    }
 
 }  // namespace LCNS

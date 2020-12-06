@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include "Color.hpp"
 #include "CubeMap.hpp"
 
@@ -23,67 +25,55 @@ namespace LCNS
     {
     public:
         /// Destructor
-        virtual ~BRDF(void);
+        virtual ~BRDF(void) = default;
 
         /// Implement how the reflectance is calculated
-        virtual Color reflectance(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) = 0;
+        virtual Color reflectance([[maybe_unused]] const Vector& vecToLight,
+                                  [[maybe_unused]] const Vector& vecToViewer,
+                                  [[maybe_unused]] const Vector& normal,
+                                  [[maybe_unused]] const Point&  intersection)
+        = 0;
+
+        /// Implement how the diffuse color is calculated
+        virtual Color diffuse([[maybe_unused]] const Vector& vecToLight,
+                              [[maybe_unused]] const Vector& normal,
+                              [[maybe_unused]] const Point&  intersection) const = 0;
+
+        /// Implement how the specular effect is calculated
+        virtual Color specular([[maybe_unused]] const Vector& vecToLight,
+                               [[maybe_unused]] const Vector& vecToViewer,
+                               [[maybe_unused]] const Vector& normal,
+                               [[maybe_unused]] const Point&  intersection) const = 0;
 
         /// Set ambient color
-        void setAmbient(const Color& ambient);
+        void ambient(const Color& ambient);
 
         /// Get ambient color
         Color ambient(void) const;
 
         /// Set a pointer on a CubeMap
-        void setCubeMap(CubeMap* cubeMap);
+        void cubeMap(std::shared_ptr<CubeMap> cubeMap);
 
         /// Get the pointer on the associated CubeMap
-        const CubeMap* cubeMap(void) const;
-
-        /// Implement how the diffuse color is calculated
-        virtual Color diffuse(const Vector& vecToLight, const Vector& normal, const Point& intersection) const = 0;
-
-        /// Implement how the specular effect is calculated
-        virtual Color specular(const Vector& vecToLight, const Vector& vecToViewer, const Vector& normal, const Point& intersection) const = 0;
+        const std::shared_ptr<CubeMap> cubeMap(void) const;
 
     protected:
         /// Default constructor
-        BRDF(void);
+        BRDF(void) = default;
 
         /// Constructor with parameter
         BRDF(const Color& ambiant);
 
         /// Copy constructor
-        BRDF(const BRDF& brdf);
+        BRDF(const BRDF& brdf) = delete;
 
         /// Copy operator
-        void operator=(const BRDF& brdf);
+        void operator=(const BRDF& brdf) = delete;
 
     private:
-        Color    _ambientColor;
-        CubeMap* _cubeMap;
+        Color                    _ambientColor;
+        std::shared_ptr<CubeMap> _cubeMap;
 
     };  // class BRDF
-
-    inline void BRDF::setAmbient(const Color& ambient)
-    {
-        _ambientColor = ambient;
-    }
-
-    inline Color BRDF::ambient(void) const
-    {
-        return _ambientColor;
-    }
-
-    inline void BRDF::setCubeMap(CubeMap* cubeMap)
-    {
-        _cubeMap = cubeMap;
-    }
-
-    inline const CubeMap* BRDF::cubeMap(void) const
-    {
-        return _cubeMap;
-    }
-
 
 }  // namespace LCNS

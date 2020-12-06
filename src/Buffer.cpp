@@ -83,9 +83,6 @@ Buffer Buffer::operator=(const Buffer& buffer)
 
 void Buffer::pixel(unsigned int i, unsigned int j, const Color& color)
 {
-    assert(0 <= i && i <= _width && 0 <= j && j <= _height);
-    unsigned int index = 3 * (_width * j + i);
-
     Color pixelColor(color);
 
     if (pixelColor[0] < 0)
@@ -115,6 +112,9 @@ void Buffer::pixel(unsigned int i, unsigned int j, const Color& color)
         pixelColor[2] = 1;
     }
 
+    assert(i <= _width && j <= _height);
+    const unsigned int index = 3 * (_width * j + i);
+
     _pixels[index + 0] = static_cast<unsigned char>(pixelColor[0] * 255.0);  // red
     _pixels[index + 1] = static_cast<unsigned char>(pixelColor[1] * 255.0);  // green
     _pixels[index + 2] = static_cast<unsigned char>(pixelColor[2] * 255.0);  // blue
@@ -122,8 +122,8 @@ void Buffer::pixel(unsigned int i, unsigned int j, const Color& color)
 
 Color Buffer::pixel(unsigned int i, unsigned int j) const
 {
-    assert(0 <= i && i <= _width && 0 <= j && j <= _height);
-    unsigned int index = 3 * (_width * j + i);
+    assert(i <= _width && j <= _height);
+    const unsigned int index = 3 * (_width * j + i);
 
     return Color(_pixels[index + 0], _pixels[index + 1], _pixels[index + 2]);
 }

@@ -203,11 +203,11 @@ void Scene::createFromFile(const string& objFilePath)
 
     // Create containers for the vertices and normals
     vector<Point> vertices;
-    vertices.reserve(parameters.vertexCount());
+    vertices.reserve(parameters.vertexCount);
 
     vector<Vector> normals;
-    if (parameters.normalCount() > 0)
-        normals.reserve(parameters.normalCount());
+    if (parameters.normalCount > 0)
+        normals.reserve(parameters.normalCount);
 
     // Create a mesh containing all the triangle of a group
     unsigned int currentObjectIdx = 0;
@@ -259,7 +259,7 @@ void Scene::createFromFile(const string& objFilePath)
                     }
                     else
                     {
-                        rCurrentObject = new Mesh(parameters.faceCount(currentObjectIdx));
+                        rCurrentObject = new Mesh(parameters.faceCount.at(currentObjectIdx));
 
                         // Read the "g"
                         stringStream >> word;
@@ -322,7 +322,7 @@ void Scene::createFromFile(const string& objFilePath)
                     break;
 
                 case 'f':
-                    if (parameters.textureCoordinatesCount() == 0 && parameters.normalCount() == 0)
+                    if (parameters.textureCount == 0 && parameters.normalCount == 0)
                     {
                         while (stringStream.good() && lineNotProcessed)
                         {
@@ -345,7 +345,7 @@ void Scene::createFromFile(const string& objFilePath)
 
 
                             // Calculate the normal
-                            if (parameters.normalCount() > 0)
+                            if (parameters.normalCount > 0)
                                 triangle->setNormal(normals[vertexIdx - 1]);
                             else
                                 triangle->updateNormal();
@@ -468,21 +468,25 @@ void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters
                 // If it's a "v", increase the vertex count
                 case 'v':
                     if (line[1] == ' ')
-                        parameters.vpp();
+                        ++parameters.vertexCount;
                     else if (line[1] == 't')
-                        parameters.vtpp();
+                        ++parameters.textureCount;
                     else if (line[1] == 'n')
-                        parameters.npp();
+                        ++parameters.normalCount;
                     break;
 
                 // If it's a "f", increase the face count
                 case 'f':
-                    parameters.fpp();
+                    ++parameters.currentFaceCount;
                     break;
 
                 case 'g':
-                    if (line == "g default" && parameters.currentFaceCount() != 0)
-                        parameters.opp();
+                    if (line == "g default" && parameters.currentFaceCount != 0)
+                    {
+                        parameters.faceCount.push_back(parameters.currentFaceCount);
+                        parameters.currentFaceCount = 0u;
+                    }
+                    break;
 
                 default:
                     break;
@@ -490,7 +494,8 @@ void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters
         }
 
         // Save the number of faces of the last object
-        parameters.opp();
+        parameters.faceCount.push_back(parameters.currentFaceCount);
+        parameters.currentFaceCount = 0u;
 
         // Close file
         objFile.close();

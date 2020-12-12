@@ -11,6 +11,9 @@
 #pragma once
 
 #include <cassert>
+#include <array>
+#include <type_traits>
+#include <optional>
 
 #include "Renderable.hpp"
 #include "Point.hpp"
@@ -26,7 +29,7 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Triangle(void);
+        Triangle(void) = default;
 
         /// Constructor with vertices parameters
         Triangle(const Point& point0, const Point& point1, const Point& point2);
@@ -34,59 +37,44 @@ namespace LCNS
         /// Copy constructor
         Triangle(const Triangle& triangle);
 
+        /// Copy operator
+        Triangle& operator=(const Triangle& triangle);
+
         /// Destructor
-        ~Triangle(void);
+        ~Triangle(void) = default;
 
-        /// Vertex operator (read only)
-        Point operator[](unsigned int index) const;
+        /// Get the position of the vertices (read only)
+        const std::array<Point, 3>& vertexPositions(void) const;
 
-        /// Vertex operator (read, write)
-        Point& operator[](unsigned int index);
+        /// Get the position of the vertices (read / write)
+        std::array<Point, 3>& vertexPositions(void);
 
-        /// Get vertex 0, (read only)
-        const Point& v0(void) const;
+        /// Get the normal of the vertices (read only)
+        const std::array<Vector, 3>& vertexNormals(void) const;
 
-        /// Get vertex 1, (read only)
-        const Point& v1(void) const;
+        /// Get the normal of the vertices (read / write)
+        std::array<Vector, 3>& vertexNormals(void);
 
-        /// Get vertex 2, (read only)
-        const Point& v2(void) const;
-
-        /// Set vertex 0
-        void setV0(const Point& point);
-
-        /// Set vertex 1
-        void setV1(const Point& point);
-
-        /// Set vertex 2
-        void setV2(const Point& point);
-
-        /// Set vertex with index
-        void setVI(unsigned int index, const Point& point);
-
-        /// Set the normal of each vertex with index
-        void setVertexNormal(unsigned int index, const Vector& vertexNormal);
+        /// Set the normal of the triangle
+        void normal(const Vector& normal);
 
         /// Calculate the normal vector of the triangle
         void updateNormal(void);
 
         /// Virtual function from Renderable
-        bool intersect(Ray& ray);
+        bool intersect(Ray& ray) override;
 
         /// Virtual function from Renderable
-        Color color(const Ray& ray, unsigned int reflectionCount = 0);
+        Color color(const Ray& ray, unsigned int reflectionCount = 0) override;
 
-        /// Virtual function, get the normal at the intersection point (the position is not taken into account for the moment :p)
-        Vector normal(const Point& position) const;
+        /// Virtual function, get the normal at the intersection point
+        Vector normal(const Point& position) const override;
 
         /// Virtual function, get the normal at the intersection point (interpolating from other vectors)
-        Vector interpolatedNormal(const Point& position) const;
+        Vector interpolatedNormal(const Point& position) const override;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray& incomingRay, Ray& refractedRay);
-
-        /// Set the normal of the triangle
-        void setNormal(const Vector& normal);
+        std::optional<Ray> refractedRay(const Ray& incomingRay) override;
 
     private:
         /// Calculate determinant of a 2x2 matrix
@@ -96,78 +84,10 @@ namespace LCNS
         Vector _barycentricNormal(const Point& positionInTriangle) const;
 
     private:
-        Point  _vertice[3];
-        Vector _vertexNormal[3];
-        Vector _normal;
+        std::array<Point, 3>  _vertexPosition;
+        std::array<Vector, 3> _vertexNormal;
+        Vector                _normal;
 
     };  // class Triangle
-
-    inline Point Triangle::operator[](unsigned int index) const
-    {
-        return _vertice[index];
-    }
-
-    inline Point& Triangle::operator[](unsigned int index)
-    {
-        return _vertice[index];
-    }
-
-    inline const Point& Triangle::v0(void) const
-    {
-        return _vertice[0];
-    }
-
-    inline const Point& Triangle::v1(void) const
-    {
-        return _vertice[1];
-    }
-
-    inline const Point& Triangle::v2(void) const
-    {
-        return _vertice[2];
-    }
-
-    inline void Triangle::setV0(const Point& point)
-    {
-        _vertice[0] = point;
-    }
-
-    inline void Triangle::setV1(const Point& point)
-    {
-        _vertice[1] = point;
-    }
-
-    inline void Triangle::setV2(const Point& point)
-    {
-        _vertice[2] = point;
-    }
-
-    inline void Triangle::setVI(unsigned int index, const LCNS::Point& point)
-    {
-        assert(index == 0 || index == 1 || index == 2 && "Index must be 0,1 or 2");
-        _vertice[index] = point;
-    }
-
-    inline void Triangle::setVertexNormal(unsigned int index, const LCNS::Vector& vertexNormal)
-    {
-        assert(index == 0 || index == 1 || index == 2 && "Index must be 0,1 or 2");
-        _vertexNormal[index] = vertexNormal;
-    }
-
-    inline float Triangle::_det(float a1, float a2, float b1, float b2)
-    {
-        return (a1 * b2 - a2 * b1);
-    }
-
-    inline Vector Triangle::normal(const Point& position) const
-    {
-        return _barycentricNormal(position);
-        return _normal;
-    }
-
-    inline void Triangle::setNormal(const Vector& normal)
-    {
-        _normal = normal;
-    }
 
 }  // namespace LCNS

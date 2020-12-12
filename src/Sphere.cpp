@@ -14,6 +14,7 @@
 #include <tuple>
 
 #include "Color.hpp"
+#include "Ray.hpp"
 #include "Shader.hpp"
 
 using std::get;
@@ -23,6 +24,7 @@ using std::optional;
 using std::tuple;
 
 using LCNS::Color;
+using LCNS::Ray;
 using LCNS::Sphere;
 using LCNS::Vector;
 
@@ -30,26 +32,6 @@ Sphere::Sphere(const Point& point, float radius)
 : _center(point)
 , _radius(radius)
 {
-}
-
-Sphere::Sphere(const Sphere& sphere)
-: Renderable(sphere)
-, _center(sphere._center)
-, _radius(sphere._radius)
-{
-}
-
-Sphere Sphere::operator=(const Sphere& sphere)
-{
-    if (this == &sphere)
-        return *this;
-
-    Renderable::operator=(sphere);
-
-    _center = sphere._center;
-    _radius = sphere._radius;
-
-    return *this;
 }
 
 bool Sphere::intersect(Ray& ray)
@@ -93,14 +75,14 @@ Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
     return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
 }
 
-bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
+optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
 {
     Vector incomingDirection = incomingRay.direction();
     incomingDirection.normalize();
+
     Vector normalToIncomingRay = normal(incomingRay.intersection());
     double airIndex            = 1.0;
     double currentObjectIndex  = _shader->refractionCoeff();
-
     Vector refractedDirection;
 
     bool firstRefraction = _refraction(incomingDirection, normalToIncomingRay, airIndex, currentObjectIndex, refractedDirection);
@@ -119,19 +101,18 @@ bool Sphere::refractedRay(const Ray& incomingRay, Ray& refractedRay)
         = _refraction(insideSphere.direction(), normal(insideSphere.intersection()) * (-1.0), currentObjectIndex, airIndex, outRefractionDirection);
 
         if (!secondRefraction)
-            return false;
+            return nullopt;
 
         assert(secondRefraction && "Ray cannot get find its way out of the sphere :p ");
 
-        refractedRay.setOrigin(insideSphere.intersection());
-        refractedRay.setDirection(outRefractionDirection);
+        auto refractedRay = Ray(insideSphere.intersection(), outRefractionDirection);
         refractedRay.setIntersected(this);
 
-        return true;
+        return refractedRay;
     }
     else
     {
-        return false;
+        return nullopt;
     }
 }
 

@@ -10,61 +10,93 @@
 
 #include "Triangle.hpp"
 
+#include "Point.hpp"
 #include "Ray.hpp"
 #include "Color.hpp"
 #include "Scene.hpp"
 #include "Shader.hpp"
+#include "Vector.hpp"
+#include <optional>
 
-using namespace LCNS;
+using std::array;
+using std::nullopt;
+using std::optional;
 
-Triangle::Triangle(void)
-: _normal(Vector(0.0, 0.0, 0.0))
-{
-    _vertice[0] = Point(0.0);
-    _vertice[1] = Point(0.0);
-    _vertice[2] = Point(0.0);
-
-    _vertexNormal[0] = Vector(0.0);
-    _vertexNormal[1] = Vector(0.0);
-    _vertexNormal[2] = Vector(0.0);
-}
+using LCNS::Color;
+using LCNS::Point;
+using LCNS::Ray;
+using LCNS::Triangle;
+using LCNS::Vector;
 
 Triangle::Triangle(const Point& point0, const Point& point1, const Point& point2)
 {
-    _vertice[0] = point0;
-    _vertice[1] = point1;
-    _vertice[2] = point2;
-
-    _vertexNormal[0] = Vector(0.0);
-    _vertexNormal[1] = Vector(0.0);
-    _vertexNormal[2] = Vector(0.0);
+    _vertexPosition[0] = point0;
+    _vertexPosition[1] = point1;
+    _vertexPosition[2] = point2;
 
     updateNormal();
 }
 
 Triangle::Triangle(const Triangle& triangle)
+: _vertexPosition(triangle._vertexPosition)
+, _vertexNormal(triangle._vertexNormal)
+, _normal(triangle._normal)
 {
-    _vertice[0] = triangle._vertice[0];
-    _vertice[1] = triangle._vertice[1];
-    _vertice[2] = triangle._vertice[2];
+}
+
+Triangle& Triangle::operator=(const Triangle& triangle)
+{
+    if (this == &triangle)
+    {
+        return *this;
+    }
+
+    _vertexPosition[0] = triangle._vertexPosition[0];
+    _vertexPosition[1] = triangle._vertexPosition[1];
+    _vertexPosition[2] = triangle._vertexPosition[2];
 
     _vertexNormal[0] = triangle._vertexNormal[0];
     _vertexNormal[1] = triangle._vertexNormal[1];
     _vertexNormal[2] = triangle._vertexNormal[2];
 
     _normal = triangle._normal;
+
+    return *this;
 }
 
-Triangle::~Triangle(void)
+const std::array<Point, 3>& Triangle::vertexPositions(void) const
 {
+    return _vertexPosition;
+}
+std::array<Point, 3>& Triangle::vertexPositions(void)
+{
+    return _vertexPosition;
+}
+const std::array<Vector, 3>& Triangle::vertexNormals(void) const
+{
+    return _vertexNormal;
+}
+std::array<Vector, 3>& Triangle::vertexNormals(void)
+{
+    return _vertexNormal;
+}
+
+float Triangle::_det(float a1, float a2, float b1, float b2)
+{
+    return (a1 * b2 - a2 * b1);
+}
+
+void Triangle::normal(const Vector& normal)
+{
+    _normal = normal;
 }
 
 void Triangle::updateNormal(void)
 {
-    Vector aB(_vertice[1] - _vertice[0]);
-    Vector aC(_vertice[2] - _vertice[0]);
+    const auto AB = Vector(_vertexPosition[1] - _vertexPosition[0]);
+    const auto AC = Vector(_vertexPosition[2] - _vertexPosition[0]);
 
-    _normal = aB ^ aC;
+    _normal = AB ^ AC;
     _normal.normalize();
 }
 
@@ -75,7 +107,7 @@ bool Triangle::intersect(Ray& ray)
     // Check if ray is not parallel to triangle
     if (scalarProd != 0.0)
     {
-        Vector pointInTriangle(_vertice[0][0], _vertice[0][1], _vertice[0][2]);
+        Vector pointInTriangle(_vertexPosition[0][0], _vertexPosition[0][1], _vertexPosition[0][2]);
         Vector origin(ray.origin().x(), ray.origin().y(), ray.origin().z());
 
         // Calculate coeffient in the equation of the plane containing the triangle
@@ -88,13 +120,13 @@ bool Triangle::intersect(Ray& ray)
         Point p = ray.origin() + ray.direction() * length;
 
         // Check if the point in the plane is really inside the triangle
-        Vector aB = _vertice[1] - _vertice[0];
-        Vector bC = _vertice[2] - _vertice[1];
-        Vector cA = _vertice[0] - _vertice[2];
+        Vector aB = _vertexPosition[1] - _vertexPosition[0];
+        Vector bC = _vertexPosition[2] - _vertexPosition[1];
+        Vector cA = _vertexPosition[0] - _vertexPosition[2];
 
-        Vector aP = p - _vertice[0];
-        Vector bP = p - _vertice[1];
-        Vector cP = p - _vertice[2];
+        Vector aP = p - _vertexPosition[0];
+        Vector bP = p - _vertexPosition[1];
+        Vector cP = p - _vertexPosition[2];
 
         if ((aB ^ aP) * _normal >= 0.0 && (bC ^ bP) * _normal >= 0.0 && (cA ^ cP) * _normal >= 0.0 && length > 0.0)
         {
@@ -117,32 +149,34 @@ Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
     return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
 }
 
+Vector Triangle::normal(const Point& position) const
+{
+    return _barycentricNormal(position);
+}
+
 Vector Triangle::interpolatedNormal(const LCNS::Point& position) const
 {
     return _barycentricNormal(position);
 }
 
-bool Triangle::refractedRay(const Ray& incomingRay, Ray& refractedRay)
+optional<Ray> Triangle::refractedRay(const Ray& incomingRay)
 {
     assert(false && "Not implemented yet :)");
-    return false;
+    return nullopt;
 }
 
 Vector Triangle::_barycentricNormal(const LCNS::Point& positionInTriangle) const
 {
-    Vector aB(_vertice[1] - _vertice[0]);
-    Vector aC(_vertice[2] - _vertice[0]);
+    const auto AB = Vector(_vertexPosition[1] - _vertexPosition[0]);
+    const auto AC = Vector(_vertexPosition[2] - _vertexPosition[0]);
 
-    Vector normal             = aB ^ aC;
-    double invNormalLengthSqr = 1.0 / (normal * normal);
+    const Vector normal          = AB ^ AC;
+    const double normalLengthSqr = normal * normal;
 
-    double alpha = normal * ((_vertice[2] - _vertice[1]) ^ (positionInTriangle - _vertice[1]));
-    alpha *= invNormalLengthSqr;
+    const double alpha = (normal * ((_vertexPosition[2] - _vertexPosition[1]) ^ (positionInTriangle - _vertexPosition[1]))) / normalLengthSqr;
+    const double beta  = (normal * ((_vertexPosition[0] - _vertexPosition[2]) ^ (positionInTriangle - _vertexPosition[2]))) / normalLengthSqr;
 
-    double beta = normal * ((_vertice[0] - _vertice[2]) ^ (positionInTriangle - _vertice[2]));
-    beta *= invNormalLengthSqr;
-
-    double gamma = 1.0 - alpha - beta;
+    const double gamma = 1.0 - alpha - beta;
 
     assert(alpha + beta + gamma > 0.999 && alpha + beta + gamma < 1.001);
 

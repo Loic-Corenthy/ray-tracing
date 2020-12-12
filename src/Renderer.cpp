@@ -150,11 +150,12 @@ void Renderer::_render(void)
                             Color refractionColor(0.0);
                             if (ray.intersected()->shader()->refractionCoeff() > 1.0)
                             {
-                                Ray  refractionRay;
-                                bool hasRefraction = ray.intersected()->refractedRay(ray, refractionRay);
+                                auto checkRefractionRay = ray.intersected()->refractedRay(ray);
 
-                                if (hasRefraction)
+                                if (checkRefractionRay)
                                 {
+                                    auto refractionRay = checkRefractionRay.value();
+
                                     if (_scene->intersect(refractionRay))
                                         refractionColor = refractionRay.intersected()->color(refractionRay, 0);
                                     else
@@ -257,11 +258,12 @@ void Renderer::_render(void)
                             Color refractionColor(0.0);
                             if (ray.intersected()->shader()->refractionCoeff() > 1.0)
                             {
-                                Ray  refractionRay;
-                                bool hasRefraction = ray.intersected()->refractedRay(ray, refractionRay);
+                                auto checkRefractionRay = ray.intersected()->refractedRay(ray);
 
-                                if (hasRefraction)
+                                if (checkRefractionRay)
                                 {
+                                    auto refractionRay = checkRefractionRay.value();
+
                                     if (_scene->intersect(refractionRay))
                                         refractionColor = refractionRay.intersected()->color(refractionRay, 0);
                                     else
@@ -351,11 +353,12 @@ void Renderer::_render(void)
                     Color refractionColor(0.0);
                     if (ray.intersected()->shader()->refractionCoeff() > 1.0)
                     {
-                        Ray  refractionRay;
-                        bool hasRefraction = ray.intersected()->refractedRay(ray, refractionRay);
+                        auto checkRefractionRay = ray.intersected()->refractedRay(ray);
 
-                        if (hasRefraction)
+                        if (checkRefractionRay)
                         {
+                            auto refractionRay = checkRefractionRay.value();
+
                             if (_scene->intersect(refractionRay))
                                 refractionColor = refractionRay.intersected()->color(refractionRay, 0);
                             else

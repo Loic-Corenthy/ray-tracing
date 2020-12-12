@@ -32,10 +32,10 @@ namespace LCNS
         Sphere(const Point& point, float radius);
 
         /// Copy constructor
-        Sphere(const Sphere& sphere);
+        Sphere(const Sphere& sphere) = delete;
 
         /// Copy operator
-        Sphere operator=(const Sphere& sphere);
+        Sphere& operator=(const Sphere& sphere) = delete;
 
         /// Destructor
         ~Sphere(void) = default;
@@ -53,7 +53,7 @@ namespace LCNS
         Vector interpolatedNormal(const Point& position) const override;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray& incomingRay, Ray& refractedRay) override;
+        std::optional<Ray> refractedRay(const Ray& incomingRay) override;
 
         /// Get the center of the sphere (read only)
         const LCNS::Point& center(void) const noexcept;

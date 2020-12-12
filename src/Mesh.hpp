@@ -10,7 +10,10 @@
 
 #pragma once
 
+#include <c++/10.2.0/optional>
 #include <cassert>
+#include <memory>
+#include <optional>
 #include <vector>
 
 #include "Renderable.hpp"
@@ -29,64 +32,49 @@ namespace LCNS
         Mesh(void);
 
         /// Constructor with parameters
-        Mesh(unsigned int triangleCount);
+        explicit Mesh(unsigned int triangleCount);
 
         /// Copy constructor
-        Mesh(const Mesh& mesh);
+        Mesh(const Mesh& mesh) = delete;
 
         /// Copy operator
-        Mesh operator=(const Mesh& mesh);
+        Mesh operator=(const Mesh& mesh) = delete;
 
         /// Destructor
-        ~Mesh(void);
+        ~Mesh(void) = default;
 
         /// Add a triangle to the mesh
         void addTriangle(const Triangle& triangle);
 
         /// Set min and max point in bounding box
-        void setBBLimits(const Point& min, const Point& max);
+        void boundingBoxLimits(const Point& min, const Point& max);
 
         /// Get bounding box (read only)
         const BoundingBox& boundingBox(void) const;
 
         /// Virtual function from Renderable
-        bool intersect(Ray& ray);
+        bool intersect(Ray& ray) override;
 
         /// Virtual function from Renderable
-        Color color(const Ray& ray, unsigned int reflectionCount = 0);
+        Color color(const Ray& ray, unsigned int reflectionCount = 0) override;
 
         /// Virtual function from Renderable
-        Vector normal(const Point& position) const;
+        Vector normal(const Point& position) const override;
 
         /// Virtual function from Renderable
-        Vector interpolatedNormal(const Point& position) const;
+        Vector interpolatedNormal(const Point& position) const override;
 
         /// Redefine function in Renderable
-        void setShader(Shader* shader);
+        void shader(std::shared_ptr<Shader> shader) override;
 
         /// Virtual function from Renderable
-        bool refractedRay(const Ray& incomingRay, Ray& refractedRay);
+        std::optional<Ray> refractedRay(const Ray& incomingRay) override;
 
     private:
         std::vector<Triangle> _triangles;
-        BoundingBox           _bB;
-        int                   _intersectedTriangle;
+        BoundingBox           _boundingBox;
+        int                   _intersectedTriangle = -1;
 
     };  // class Mesh
 
-    inline void Mesh::addTriangle(const Triangle& triangle)
-    {
-        _triangles.push_back(triangle);
-    }
-
-    inline void Mesh::setBBLimits(const Point& min, const Point& max)
-    {
-        _bB.min(min);
-        _bB.max(max);
-    }
-
-    inline const BoundingBox& Mesh::boundingBox(void) const
-    {
-        return _bB;
-    }
 }  // namespace LCNS

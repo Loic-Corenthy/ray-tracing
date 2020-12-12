@@ -31,9 +31,9 @@ void createTestScene(LCNS::Scene* scene)
     BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 1.0, scene, Shader::NONE);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 1.0, 1.0, scene, Shader::NONE);
     rShaderSphere1->setReflectionCountMax(2);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -87,9 +87,9 @@ void createScene01(Scene* scene)
     BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere1->setReflectionCountMax(2);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -107,9 +107,9 @@ void createScene01(Scene* scene)
     BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere2->setReflectionCountMax(2);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -127,9 +127,9 @@ void createScene01(Scene* scene)
     BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
     rShaderSphere3->setReflectionCountMax(2);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -179,9 +179,9 @@ void createScene02(Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1 * 2.0, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(3);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -200,9 +200,9 @@ void createScene02(Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2 * 2.0, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(3);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -221,9 +221,9 @@ void createScene02(Scene* scene)
     Phong* rBRDFSphere3 = new Phong(diffusionSphere3 * 2.0, specularSphere3, 3);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, 1.0, scene);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, 1.0, scene);
     rShaderSphere3->setReflectionCountMax(3);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -242,8 +242,8 @@ void createScene02(Scene* scene)
     Phong* rBRDFSphere4 = new Phong(diffusionSphere4 * 6, specularSphere4, 3);
 
     // Create a shader for the fourth sphere
-    Shader* rShaderSphere4 = new Shader(rBRDFSphere4, 0.0, 1.0, scene);
-    rSphere4->setShader(rShaderSphere4);
+    auto rShaderSphere4 = make_shared<Shader>(rBRDFSphere4, 0.0, 1.0, scene);
+    rSphere4->shader(rShaderSphere4);
 
     scene->add(rSphere4);
     scene->add(rBRDFSphere4, string("brdf of sphere 4"));
@@ -319,10 +319,10 @@ void createScene03(Scene* scene)
     Phong* rBRDF1 = new Phong(diffusion * 2.0, specular, 15);
 
     // Create a shader for the turbulance sphere
-    Shader* rShader1 = new Shader(rBRDF1, reflection, refraction, scene, Shader::Material::TURBULANCE);
+    auto rShader1 = make_shared<Shader>(rBRDF1, reflection, refraction, scene, Shader::Material::TURBULANCE);
     rShader1->setReflectionCountMax(2);
 
-    rSphere1->setShader(rShader1);
+    rSphere1->shader(rShader1);
 
     scene->add(rSphere1);
     scene->add(rBRDF1, string("brdf of sphere 1"));
@@ -338,10 +338,10 @@ void createScene03(Scene* scene)
     Phong* rBRDF2 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
-    Shader* rShader2 = new Shader(rBRDF2, reflection, refraction, scene, Shader::Material::MARBLE);
+    auto rShader2 = make_shared<Shader>(rBRDF2, reflection, refraction, scene, Shader::Material::MARBLE);
     rShader2->setReflectionCountMax(2);
 
-    rSphere2->setShader(rShader2);
+    rSphere2->shader(rShader2);
 
     scene->add(rSphere2);
     scene->add(rBRDF2, string("brdf of sphere 2"));
@@ -358,14 +358,14 @@ void createScene03(Scene* scene)
     Phong* rBRDFTorus = new Phong(diffusion, specular, 3);
 
     // Create a shader for the torus
-    Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::NONE);
+    auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::NONE);
 
     // Get an iterator on the object of the scene and displace it until refers to the torus
     auto it = scene->renderableList().begin();
     it++;
     it++;
 
-    (*it)->setShader(rShaderTorus);
+    (*it)->shader(rShaderTorus);
 
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
@@ -380,10 +380,10 @@ void createScene03(Scene* scene)
     Phong* rBRDF3 = new Phong(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
-    Shader* rShader3 = new Shader(rBRDF3, reflection, refraction, scene, Shader::Material::BUMP);
+    auto rShader3 = make_shared<Shader>(rBRDF3, reflection, refraction, scene, Shader::Material::BUMP);
     rShader3->setReflectionCountMax(2);
 
-    rSphere3->setShader(rShader3);
+    rSphere3->shader(rShader3);
 
     scene->add(rSphere3);
     scene->add(rBRDF3, string("brdf of sphere 2"));
@@ -412,9 +412,9 @@ void createScene03(Scene* scene)
     rBRDF4->cubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
-    Shader* rShader4 = new Shader(rBRDF4, reflection, refraction, scene);
+    auto rShader4 = make_shared<Shader>(rBRDF4, reflection, refraction, scene);
     rShader4->setReflectionCountMax(1);
-    rSphere4->setShader(rShader4);
+    rSphere4->shader(rShader4);
 
     scene->add(rSphere4);
     scene->add(rBRDF4, string("brdf of sphere 4"));
@@ -474,9 +474,9 @@ void createScene04(Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(2);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -492,9 +492,9 @@ void createScene04(Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(2);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -510,9 +510,9 @@ void createScene04(Scene* scene)
     Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere3->setReflectionCountMax(2);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -586,9 +586,9 @@ void createScene04bis(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(4);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -607,9 +607,9 @@ void createScene04bis(LCNS::Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(4);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -627,9 +627,9 @@ void createScene04bis(LCNS::Scene* scene)
     Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere3->setReflectionCountMax(4);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -685,10 +685,10 @@ void createScene05(Scene* scene)
     Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::BUMP);
+    auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::BUMP);
 
     auto it = scene->renderableList().begin();
-    (*it)->setShader(rShaderTorus);
+    (*it)->shader(rShaderTorus);
 
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
@@ -748,8 +748,8 @@ void createScene06(Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, 2.0, scene);
-    rSphere1->setShader(rShaderSphere1);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, 2.0, scene);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -764,10 +764,10 @@ void createScene06(Scene* scene)
     center.x(-20.0);
     Sphere* rSphereL1 = new Sphere(center, size);
 
-    Phong*  rBRDF_L1  = new Phong(Color(250, 240, 230) * 5.0, Color(1.0), 3);
-    Shader* rShaderL1 = new Shader(rBRDF_L1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    Phong* rBRDF_L1  = new Phong(Color(250, 240, 230) * 5.0, Color(1.0), 3);
+    auto   rShaderL1 = make_shared<Shader>(rBRDF_L1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
-    rSphereL1->setShader(rShaderL1);
+    rSphereL1->shader(rShaderL1);
 
     scene->add(rSphereL1);
     scene->add(rBRDF_L1, string("brdf left 1"));
@@ -777,10 +777,10 @@ void createScene06(Scene* scene)
     center.x(20.0);
     Sphere* rSphereR1 = new Sphere(center, size);
 
-    Phong*  rBRDFR1   = new Phong(Color(135, 206, 250) * 5.0, Color(1.0), 3);
-    Shader* rShaderR1 = new Shader(rBRDFR1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    Phong* rBRDFR1   = new Phong(Color(135, 206, 250) * 5.0, Color(1.0), 3);
+    auto   rShaderR1 = make_shared<Shader>(rBRDFR1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
-    rSphereR1->setShader(rShaderR1);
+    rSphereR1->shader(rShaderR1);
 
     scene->add(rSphereR1);
     scene->add(rBRDFR1, string("brdf right 1"));
@@ -791,10 +791,10 @@ void createScene06(Scene* scene)
     center.y(-20.0);
     Sphere* rSphereD1 = new Sphere(center, size);
 
-    Phong*  rBRDFD1   = new Phong(Color(250, 128, 114) * 5.0, Color(1.0), 3);
-    Shader* rShaderD1 = new Shader(rBRDFD1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    Phong* rBRDFD1   = new Phong(Color(250, 128, 114) * 5.0, Color(1.0), 3);
+    auto   rShaderD1 = make_shared<Shader>(rBRDFD1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
-    rSphereD1->setShader(rShaderD1);
+    rSphereD1->shader(rShaderD1);
 
     scene->add(rSphereD1);
     scene->add(rBRDFD1, string("brdf down 1"));
@@ -804,10 +804,10 @@ void createScene06(Scene* scene)
     center.y(20.0);
     Sphere* rSphereU1 = new Sphere(center, size);
 
-    Phong*  rBRDFU1   = new Phong(Color(255, 250, 205) * 5.0, Color(1.0), 3);
-    Shader* rShaderU1 = new Shader(rBRDFU1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    Phong* rBRDFU1   = new Phong(Color(255, 250, 205) * 5.0, Color(1.0), 3);
+    auto   rShaderU1 = make_shared<Shader>(rBRDFU1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
-    rSphereU1->setShader(rShaderU1);
+    rSphereU1->shader(rShaderU1);
 
     scene->add(rSphereU1);
     scene->add(rBRDFU1, string("brdf up 1"));
@@ -822,10 +822,10 @@ void createScene06(Scene* scene)
     center.y(-85.0);
     Sphere* rSphereLD2 = new Sphere(center, size);
 
-    Phong*  rBRDFLD2   = new Phong(Color(127, 255, 212) * 5.0, Color(1.0), 3);
-    Shader* rShaderLD2 = new Shader(rBRDFLD2, reflectionCoeff, 1.0, scene);
+    Phong* rBRDFLD2   = new Phong(Color(127, 255, 212) * 5.0, Color(1.0), 3);
+    auto   rShaderLD2 = make_shared<Shader>(rBRDFLD2, reflectionCoeff, 1.0, scene);
 
-    rSphereLD2->setShader(rShaderLD2);
+    rSphereLD2->shader(rShaderLD2);
 
     scene->add(rSphereLD2);
     scene->add(rBRDFLD2, string("brdf left down 2"));
@@ -836,10 +836,10 @@ void createScene06(Scene* scene)
     center.y(-85.0);
     Sphere* rSphereRD2 = new Sphere(center, size);
 
-    Phong*  rBRDFRD2   = new Phong(Color(240, 248, 255) * 5.0, Color(1.0), 3);
-    Shader* rShaderRD2 = new Shader(rBRDFRD2, reflectionCoeff, 1.0, scene);
+    Phong* rBRDFRD2   = new Phong(Color(240, 248, 255) * 5.0, Color(1.0), 3);
+    auto   rShaderRD2 = make_shared<Shader>(rBRDFRD2, reflectionCoeff, 1.0, scene);
 
-    rSphereRD2->setShader(rShaderRD2);
+    rSphereRD2->shader(rShaderRD2);
 
     scene->add(rSphereRD2);
     scene->add(rBRDFRD2, string("brdf right down 2"));
@@ -850,10 +850,10 @@ void createScene06(Scene* scene)
     center.y(85.0);
     Sphere* rSphereLU2 = new Sphere(center, size);
 
-    Phong*  rBRDFLU2   = new Phong(Color(255, 99, 71) * 5.0, Color(1.0), 3);
-    Shader* rShaderLU2 = new Shader(rBRDFLU2, reflectionCoeff, 1.0, scene);
+    Phong* rBRDFLU2   = new Phong(Color(255, 99, 71) * 5.0, Color(1.0), 3);
+    auto   rShaderLU2 = make_shared<Shader>(rBRDFLU2, reflectionCoeff, 1.0, scene);
 
-    rSphereLU2->setShader(rShaderLU2);
+    rSphereLU2->shader(rShaderLU2);
 
     scene->add(rSphereLU2);
     scene->add(rBRDFLU2, string("brdf left up 2"));
@@ -864,10 +864,10 @@ void createScene06(Scene* scene)
     center.y(85.0);
     Sphere* rSphereRU2 = new Sphere(center, size);
 
-    Phong*  rBRDFRU2   = new Phong(Color(255, 255, 0) * 5.0, Color(1.0), 3);
-    Shader* rShaderRU2 = new Shader(rBRDFRU2, reflectionCoeff, 1.0, scene);
+    Phong* rBRDFRU2   = new Phong(Color(255, 255, 0) * 5.0, Color(1.0), 3);
+    auto   rShaderRU2 = make_shared<Shader>(rBRDFRU2, reflectionCoeff, 1.0, scene);
 
-    rSphereRU2->setShader(rShaderRU2);
+    rSphereRU2->shader(rShaderRU2);
 
     scene->add(rSphereRU2);
     scene->add(rBRDFRU2, string("brdf right up 2"));
@@ -895,8 +895,8 @@ void createScene06(Scene* scene)
     //    rBRDFSphere2->cubeMap(rCubeMapSphere);
     //
     //    // Create a shader for the second sphere
-    //	Shader* rShaderSphere2 = new Shader(rBRDFSphere2,lReflectionCoeff,1.0,scene);
-    //    rSphere2->setShader(rShaderSphere2);
+    //	auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2,lReflectionCoeff,1.0,scene);
+    //    rSphere2->shader(rShaderSphere2);
     //
     //    scene->add(rSphere2);
     //    scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -954,8 +954,8 @@ void createScene07(Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 0.8, 1.0, scene, Shader::TURBULANCE);
-    rSphere1->setShader(rShaderSphere1);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 0.8, 1.0, scene, Shader::TURBULANCE);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -971,8 +971,8 @@ void createScene07(Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, 0.8, 1.0, scene, Shader::MARBLE);
-    rSphere2->setShader(rShaderSphere2);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, 0.8, 1.0, scene, Shader::MARBLE);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -988,8 +988,8 @@ void createScene07(Scene* scene)
     Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, 0.8, 1.0, scene, Shader::BUMP);
-    rSphere3->setShader(rShaderSphere3);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, 0.8, 1.0, scene, Shader::BUMP);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -1067,8 +1067,8 @@ void createScene08(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
-    rSphere1->setShader(rShaderSphere1);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1084,8 +1084,8 @@ void createScene08(LCNS::Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
-    rSphere2->setShader(rShaderSphere2);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -1131,14 +1131,14 @@ void createScene09(LCNS::Scene* scene)
     Phong* rBRDFShpere = new Phong(diffusionSphere, specularSphere, 5);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere = new Shader(rBRDFShpere, 0.8, 1.0, scene);
+    auto rShaderSphere = make_shared<Shader>(rBRDFShpere, 0.8, 1.0, scene);
 
     scene->add(rBRDFShpere, string("brdf of the sphere"));
     scene->add(rShaderSphere, string("shader of the sphere"));
 
     auto it = scene->renderableList().begin();
 
-    (*it)->setShader(rShaderSphere);
+    (*it)->shader(rShaderSphere);
     it++;
 
 
@@ -1148,15 +1148,15 @@ void createScene09(LCNS::Scene* scene)
     Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 5);
 
     // Create a shader for the torus
-    Shader* rShaderTorus = new Shader(rBRDFTorus, 0.8, 1.0, scene, Shader::Material::MARBLE);
+    auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::Material::MARBLE);
 
     scene->add(rBRDFTorus, string("brdf of the torus"));
     scene->add(rShaderTorus, string("shader of the torus"));
 
-    (*it)->setShader(rShaderTorus);
+    (*it)->shader(rShaderTorus);
     it++;
 
-    (*it)->setShader(rShaderTorus);
+    (*it)->shader(rShaderTorus);
     it++;
 
 
@@ -1166,12 +1166,12 @@ void createScene09(LCNS::Scene* scene)
     Phong* rBRDFPipe = new Phong(diffusionPipe, specularPipe, 5);
 
     // Create a shader for the torus
-    Shader* rShaderPipe = new Shader(rBRDFPipe, 0.8, 1.0, scene);
+    auto rShaderPipe = make_shared<Shader>(rBRDFPipe, 0.8, 1.0, scene);
 
     scene->add(rBRDFPipe, string("brdf of the pipe"));
     scene->add(rShaderPipe, string("shader of the pipe"));
 
-    (*it)->setShader(rShaderPipe);
+    (*it)->shader(rShaderPipe);
     it++;
 
 
@@ -1181,12 +1181,12 @@ void createScene09(LCNS::Scene* scene)
     Phong* rBRDFCone = new Phong(diffusionCone, specularCone, 5);
 
     // Create a shader for the torus
-    Shader* rShaderCone = new Shader(rBRDFCone, 0.8, 1.0, scene, Shader::TURBULANCE);
+    auto rShaderCone = make_shared<Shader>(rBRDFCone, 0.8, 1.0, scene, Shader::TURBULANCE);
 
     scene->add(rBRDFCone, string("brdf of the cone"));
     scene->add(rShaderCone, string("shader of the cone"));
 
-    (*it)->setShader(rShaderCone);
+    (*it)->shader(rShaderCone);
 
 
     ////////////
@@ -1244,9 +1244,9 @@ void createScene10(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(2);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1265,9 +1265,9 @@ void createScene10(LCNS::Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(2);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -1346,11 +1346,11 @@ void createScene11(LCNS::Scene* scene)
     BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 15);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 4
     rShaderSphere1->setReflectionCountMax(4);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1369,11 +1369,11 @@ void createScene11(LCNS::Scene* scene)
     BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 3
     rShaderSphere2->setReflectionCountMax(3);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -1392,11 +1392,11 @@ void createScene11(LCNS::Scene* scene)
     BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 15);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
 
     // Set the max number of reflections to 5
     rShaderSphere3->setReflectionCountMax(5);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -1464,9 +1464,9 @@ void createScene12(LCNS::Scene* scene)
     //    rBRDFSphere1->cubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere1->setReflectionCountMax(4);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1482,9 +1482,9 @@ void createScene12(LCNS::Scene* scene)
     Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
-    Shader* rShaderSphere2 = new Shader(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
+    auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
     rShaderSphere2->setReflectionCountMax(4);
-    rSphere2->setShader(rShaderSphere2);
+    rSphere2->shader(rShaderSphere2);
 
     scene->add(rSphere2);
     scene->add(rBRDFSphere2, string("brdf of sphere 2"));
@@ -1500,9 +1500,9 @@ void createScene12(LCNS::Scene* scene)
     Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the third sphere
-    Shader* rShaderSphere3 = new Shader(rBRDFSphere3, 0.6, 1.0, scene);
+    auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, 0.6, 1.0, scene);
     rShaderSphere3->setReflectionCountMax(4);
-    rSphere3->setShader(rShaderSphere3);
+    rSphere3->shader(rShaderSphere3);
 
     scene->add(rSphere3);
     scene->add(rBRDFSphere3, string("brdf of sphere 3"));
@@ -1570,49 +1570,49 @@ void createScene13(LCNS::Scene* scene)
     Phong* rBRDFCones = new Phong(diffusion, specular, 3);
 
     // Create a shader for the cones
-    Shader* rShaderCones = new Shader(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
+    auto rShaderCones = make_shared<Shader>(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
 
     scene->add(rBRDFCones, "BRDF cones ");
     scene->add(rShaderCones, "Shader cones ");
 
     auto it = scene->objectNamed("pCone1");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone2");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone3");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone4");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     // Create BRDF model for the torus
     Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
 
     // Create a shader for the torus
-    Shader* rShaderTorus = new Shader(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
+    auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
 
     scene->add(rBRDFTorus, "BRDF torus ");
     scene->add(rShaderTorus, "Shader torus ");
 
     it = scene->objectNamed("pTorus1");
     if (it)
-        it->setShader(rShaderTorus);
+        it->shader(rShaderTorus);
 
     it = scene->objectNamed("pTorus2");
     if (it)
-        it->setShader(rShaderTorus);
+        it->shader(rShaderTorus);
 
     // Create a BRDF model for the table
     Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
+    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
 
     scene->add(rBRDFPyramid, "BRDF pyramid ");
     scene->add(rShaderPyramid, "Shader pyramid ");
@@ -1620,18 +1620,18 @@ void createScene13(LCNS::Scene* scene)
     // Set shaders for the table
     it = scene->objectNamed("pPyramid1");
     if (it)
-        it->setShader(rShaderPyramid);
+        it->shader(rShaderPyramid);
 
     it = scene->objectNamed("pPyramid2");
     if (it)
-        it->setShader(rShaderPyramid);
+        it->shader(rShaderPyramid);
 
 
     // Create a BRDF model for the table
     Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
+    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
 
     scene->add(rBRDFTable, "BRDF table ");
     scene->add(rShaderTable, "Shader table ");
@@ -1639,23 +1639,23 @@ void createScene13(LCNS::Scene* scene)
     // Set shaders for the table
     it = scene->objectNamed("pCylinder1");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder2");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder3");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder4");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCube1");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
 
     // Sphere with texture
@@ -1684,9 +1684,9 @@ void createScene13(LCNS::Scene* scene)
     rBRDFSphere1->cubeMap(rCubeMapDesert);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 1.0, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 1.0, 1.0, scene);
     rShaderSphere1->setReflectionCountMax(1);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1697,25 +1697,25 @@ void createScene13(LCNS::Scene* scene)
     Triangle* rMirror1 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0));
     Triangle* rMirror2 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0), LCNS::Point(mirrorXPos, 4.0, 18.0));
 
-    Vector minusX(-1.0, 0.0, 0.0);
+    const auto minusX = Vector(-1.0, 0.0, 0.0);
 
-    rMirror1->setVertexNormal(0, minusX);
-    rMirror1->setVertexNormal(1, minusX);
-    rMirror1->setVertexNormal(2, minusX);
+    rMirror1->vertexNormals()[0] = minusX;
+    rMirror1->vertexNormals()[1] = minusX;
+    rMirror1->vertexNormals()[2] = minusX;
 
-    rMirror2->setVertexNormal(0, minusX);
-    rMirror2->setVertexNormal(1, minusX);
-    rMirror2->setVertexNormal(2, minusX);
+    rMirror2->vertexNormals()[0] = minusX;
+    rMirror2->vertexNormals()[1] = minusX;
+    rMirror2->vertexNormals()[2] = minusX;
 
     // Create a BRDF model for the mirror
     Phong* rBRDFMirror = new Phong(Color(0.4f, 0.4f, 0.6f), Color(1.0f), 8);
 
     // Create a shader for the mirror
-    Shader* rShaderMirror = new Shader(rBRDFMirror, 20.0, 1.0, scene);
+    auto rShaderMirror = make_shared<Shader>(rBRDFMirror, 20.0, 1.0, scene);
     rShaderMirror->setReflectionCountMax(2);
 
-    rMirror1->setShader(rShaderMirror);
-    rMirror2->setShader(rShaderMirror);
+    rMirror1->shader(rShaderMirror);
+    rMirror2->shader(rShaderMirror);
 
     scene->add(rMirror1);
     scene->add(rMirror2);
@@ -1786,49 +1786,49 @@ void createScene14(LCNS::Scene* scene)
     Phong* rBRDFCones = new Phong(diffusion, specular, 3);
 
     // Create a shader for the cones
-    Shader* rShaderCones = new Shader(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
+    auto rShaderCones = make_shared<Shader>(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
 
     scene->add(rBRDFCones, "BRDF cones ");
     scene->add(rShaderCones, "Shader cones ");
 
     auto it = scene->objectNamed("pCone1");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone2");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone3");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     it = scene->objectNamed("pCone4");
     if (it)
-        it->setShader(rShaderCones);
+        it->shader(rShaderCones);
 
     // Create BRDF model for the torus
     Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
 
     // Create a shader for the torus
-    Shader* rShaderTorus = new Shader(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
+    auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
 
     scene->add(rBRDFTorus, "BRDF torus ");
     scene->add(rShaderTorus, "Shader torus ");
 
     it = scene->objectNamed("pTorus1");
     if (it)
-        it->setShader(rShaderTorus);
+        it->shader(rShaderTorus);
 
     it = scene->objectNamed("pTorus2");
     if (it)
-        it->setShader(rShaderTorus);
+        it->shader(rShaderTorus);
 
     // Create a BRDF model for the table
     Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderPyramid = new Shader(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
+    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
 
     scene->add(rBRDFPyramid, "BRDF pyramid ");
     scene->add(rShaderPyramid, "Shader pyramid ");
@@ -1836,31 +1836,31 @@ void createScene14(LCNS::Scene* scene)
     // Set shaders for the table
     it = scene->objectNamed("pPyramid1");
     if (it)
-        it->setShader(rShaderPyramid);
+        it->shader(rShaderPyramid);
 
     it = scene->objectNamed("pPyramid2");
     if (it)
-        it->setShader(rShaderPyramid);
+        it->shader(rShaderPyramid);
 
 
     Phong* rBRDFBackPyramid = new Phong(Color(0, 255, 255), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderBackPyramid = new Shader(rBRDFBackPyramid, 1.0f, 1.0f, scene, Shader::Material::BUMP);
+    auto rShaderBackPyramid = make_shared<Shader>(rBRDFBackPyramid, 1.0f, 1.0f, scene, Shader::Material::BUMP);
 
     scene->add(rBRDFBackPyramid, "BRDF pyramid in the background ");
     scene->add(rShaderBackPyramid, "Shader pyramid in the background ");
 
     it = scene->objectNamed("pPyramid3");
     if (it)
-        it->setShader(rShaderBackPyramid);
+        it->shader(rShaderBackPyramid);
 
 
     // Create a BRDF model for the table
     Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
 
     // Create a shader for the table
-    Shader* rShaderTable = new Shader(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
+    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
 
     scene->add(rBRDFTable, "BRDF table ");
     scene->add(rShaderTable, "Shader table ");
@@ -1868,23 +1868,23 @@ void createScene14(LCNS::Scene* scene)
     // Set shaders for the table
     it = scene->objectNamed("pCylinder1");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder2");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder3");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCylinder4");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
     it = scene->objectNamed("pCube1");
     if (it)
-        it->setShader(rShaderTable);
+        it->shader(rShaderTable);
 
 
     // Sphere with texture
@@ -1897,9 +1897,9 @@ void createScene14(LCNS::Scene* scene)
     Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
-    Shader* rShaderSphere1 = new Shader(rBRDFSphere1, 1.0, 2.4, scene);
+    auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 1.0, 2.4, scene);
     rShaderSphere1->setReflectionCountMax(1);
-    rSphere1->setShader(rShaderSphere1);
+    rSphere1->shader(rShaderSphere1);
 
     scene->add(rSphere1);
     scene->add(rBRDFSphere1, string("brdf of sphere 1"));
@@ -1961,13 +1961,14 @@ void createFloor(Scene* scene, const FloorParameters& param)
     Triangle* rTriangleZ2 = new Triangle(
     LCNS::Point(-param.size, deep, -param.size), LCNS::Point(param.size, deep, param.size), LCNS::Point(param.size, deep, -param.size));
 
-    rTriangleZ1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
-    rTriangleZ1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
-    rTriangleZ1->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
+    const auto up                   = Vector(0.0, 1.0, 0.0);
+    rTriangleZ1->vertexNormals()[0] = up;
+    rTriangleZ1->vertexNormals()[1] = up;
+    rTriangleZ1->vertexNormals()[2] = up;
 
-    rTriangleZ2->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
-    rTriangleZ2->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
-    rTriangleZ2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
+    rTriangleZ2->vertexNormals()[0] = up;
+    rTriangleZ2->vertexNormals()[1] = up;
+    rTriangleZ2->vertexNormals()[2] = up;
 
     // Create BRDF model for the triangle
     Phong* bRDFTriangle = new Phong(param.diffusion, param.specular, 3);
@@ -1993,11 +1994,11 @@ void createFloor(Scene* scene, const FloorParameters& param)
 
 
     // Create a shader for the triangle
-    Shader* shaderTriangle = new Shader(bRDFTriangle, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto shaderTriangle = make_shared<Shader>(bRDFTriangle, param.reflectionCoeff, param.refractionCoeff, scene);
     shaderTriangle->setReflectionCountMax(param.maxReflection);
 
-    rTriangleZ1->setShader(shaderTriangle);
-    rTriangleZ2->setShader(shaderTriangle);
+    rTriangleZ1->shader(shaderTriangle);
+    rTriangleZ2->shader(shaderTriangle);
 
     scene->add(rTriangleZ1);
     scene->add(rTriangleZ2);
@@ -2020,13 +2021,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     Triangle* rTriFloor1 = new Triangle(zero, one, two);
     Triangle* rTriFloor2 = new Triangle(zero, two, three);
 
-    rTriFloor1->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
-    rTriFloor1->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
-    rTriFloor1->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
+    const auto up                  = Vector(0.0, 1.0, 0.0);
+    rTriFloor1->vertexNormals()[0] = up;
+    rTriFloor1->vertexNormals()[1] = up;
+    rTriFloor1->vertexNormals()[2] = up;
 
-    rTriFloor2->setVertexNormal(0, Vector(0.0, 1.0, 0.0));
-    rTriFloor2->setVertexNormal(1, Vector(0.0, 1.0, 0.0));
-    rTriFloor2->setVertexNormal(2, Vector(0.0, 1.0, 0.0));
+    rTriFloor2->vertexNormals()[0] = up;
+    rTriFloor2->vertexNormals()[1] = up;
+    rTriFloor2->vertexNormals()[2] = up;
 
     LCNS::Point middleOfFace((zero.x() + one.x() + two.x() + three.x()) * 0.25,
                              (zero.y() + one.y() + two.y() + three.y()) * 0.25,
@@ -2053,11 +2055,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
         rBRDF_Floor->cubeMap(rCubeMapFloor);
     }
 
-    Shader* rShaderFloor = new Shader(rBRDF_Floor, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto rShaderFloor = make_shared<Shader>(rBRDF_Floor, param.reflectionCoeff, param.refractionCoeff, scene);
     rShaderFloor->setReflectionCountMax(param.maxReflection);
 
-    rTriFloor1->setShader(rShaderFloor);
-    rTriFloor2->setShader(rShaderFloor);
+    rTriFloor1->shader(rShaderFloor);
+    rTriFloor2->shader(rShaderFloor);
 
     scene->add(rTriFloor1);
     scene->add(rTriFloor2);
@@ -2069,13 +2071,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     Triangle* rTriLeftWall1 = new Triangle(zero, four, five);
     Triangle* rTriLeftWall2 = new Triangle(zero, five, one);
 
-    rTriLeftWall1->setVertexNormal(0, Vector(1.0, 0.0, 0.0));
-    rTriLeftWall1->setVertexNormal(1, Vector(1.0, 0.0, 0.0));
-    rTriLeftWall1->setVertexNormal(2, Vector(1.0, 0.0, 0.0));
+    const auto right                  = Vector(1.0, 0.0, 0.0);
+    rTriLeftWall1->vertexNormals()[0] = right;
+    rTriLeftWall1->vertexNormals()[1] = right;
+    rTriLeftWall1->vertexNormals()[2] = right;
 
-    rTriLeftWall2->setVertexNormal(0, Vector(1.0, 0.0, 0.0));
-    rTriLeftWall2->setVertexNormal(1, Vector(1.0, 0.0, 0.0));
-    rTriLeftWall2->setVertexNormal(2, Vector(1.0, 0.0, 0.0));
+    rTriLeftWall2->vertexNormals()[0] = right;
+    rTriLeftWall2->vertexNormals()[1] = right;
+    rTriLeftWall2->vertexNormals()[2] = right;
 
     middleOfFace.x((zero.x() + one.x() + four.x() + five.x()) * 0.25);
     middleOfFace.y((zero.y() + one.y() + four.y() + five.y()) * 0.25);
@@ -2102,11 +2105,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
         rBRDFLeftWall->cubeMap(rCubeMapLeftWall);
     }
 
-    Shader* rShaderLeftWall = new Shader(rBRDFLeftWall, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto rShaderLeftWall = make_shared<Shader>(rBRDFLeftWall, param.reflectionCoeff, param.refractionCoeff, scene);
     rShaderLeftWall->setReflectionCountMax(param.maxReflection);
 
-    rTriLeftWall1->setShader(rShaderLeftWall);
-    rTriLeftWall2->setShader(rShaderLeftWall);
+    rTriLeftWall1->shader(rShaderLeftWall);
+    rTriLeftWall2->shader(rShaderLeftWall);
 
     scene->add(rTriLeftWall1);
     scene->add(rTriLeftWall2);
@@ -2118,13 +2121,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     Triangle* rTriBackWall1 = new Triangle(zero, three, four);
     Triangle* rTriBackWall2 = new Triangle(four, three, seven);
 
-    rTriBackWall1->setVertexNormal(0, Vector(0.0, 0.0, 1.0));
-    rTriBackWall1->setVertexNormal(1, Vector(0.0, 0.0, 1.0));
-    rTriBackWall1->setVertexNormal(2, Vector(0.0, 0.0, 1.0));
+    const auto forward                = Vector(0.0, 0.0, 1.0);
+    rTriBackWall1->vertexNormals()[0] = forward;
+    rTriBackWall1->vertexNormals()[1] = forward;
+    rTriBackWall1->vertexNormals()[2] = forward;
 
-    rTriBackWall2->setVertexNormal(0, Vector(0.0, 0.0, 1.0));
-    rTriBackWall2->setVertexNormal(1, Vector(0.0, 0.0, 1.0));
-    rTriBackWall2->setVertexNormal(2, Vector(0.0, 0.0, 1.0));
+    rTriBackWall2->vertexNormals()[0] = forward;
+    rTriBackWall2->vertexNormals()[1] = forward;
+    rTriBackWall2->vertexNormals()[2] = forward;
 
     middleOfFace.x((zero.x() + three.x() + four.x() + seven.x()) * 0.25);
     middleOfFace.y((zero.y() + three.y() + four.y() + seven.y()) * 0.25);
@@ -2151,11 +2155,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
         rBRDFBackWall->cubeMap(rCubeMapBackWall);
     }
 
-    Shader* rShaderBackWall = new Shader(rBRDFBackWall, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto rShaderBackWall = make_shared<Shader>(rBRDFBackWall, param.reflectionCoeff, param.refractionCoeff, scene);
     rShaderBackWall->setReflectionCountMax(param.maxReflection);
 
-    rTriBackWall1->setShader(rShaderBackWall);
-    rTriBackWall2->setShader(rShaderBackWall);
+    rTriBackWall1->shader(rShaderBackWall);
+    rTriBackWall2->shader(rShaderBackWall);
 
     scene->add(rTriBackWall1);
     scene->add(rTriBackWall2);
@@ -2166,13 +2170,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     Triangle* rTriRightWall1 = new Triangle(three, two, six);
     Triangle* rTriRightWall2 = new Triangle(three, six, seven);
 
-    rTriRightWall1->setVertexNormal(0, Vector(-1.0, 0.0, 0.0));
-    rTriRightWall1->setVertexNormal(1, Vector(-1.0, 0.0, 0.0));
-    rTriRightWall1->setVertexNormal(2, Vector(-1.0, 0.0, 0.0));
+    const auto left                    = Vector(-1.0, 0.0, 0.0);
+    rTriRightWall1->vertexNormals()[0] = left;
+    rTriRightWall1->vertexNormals()[1] = left;
+    rTriRightWall1->vertexNormals()[2] = left;
 
-    rTriRightWall2->setVertexNormal(0, Vector(-1.0, 0.0, 0.0));
-    rTriRightWall2->setVertexNormal(1, Vector(-1.0, 0.0, 0.0));
-    rTriRightWall2->setVertexNormal(2, Vector(-1.0, 0.0, 0.0));
+    rTriRightWall2->vertexNormals()[0] = left;
+    rTriRightWall2->vertexNormals()[1] = left;
+    rTriRightWall2->vertexNormals()[2] = left;
 
     middleOfFace.x((two.x() + three.x() + six.x() + seven.x()) * 0.25);
     middleOfFace.y((two.y() + three.y() + six.y() + seven.y()) * 0.25);
@@ -2199,11 +2204,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
         rBRDFRightWall->cubeMap(rCubeMapRightWall);
     }
 
-    Shader* rShaderRightWall = new Shader(rBRDFRightWall, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto rShaderRightWall = make_shared<Shader>(rBRDFRightWall, param.reflectionCoeff, param.refractionCoeff, scene);
     rShaderRightWall->setReflectionCountMax(param.maxReflection);
 
-    rTriRightWall1->setShader(rShaderRightWall);
-    rTriRightWall2->setShader(rShaderRightWall);
+    rTriRightWall1->shader(rShaderRightWall);
+    rTriRightWall2->shader(rShaderRightWall);
 
     scene->add(rTriRightWall1);
     scene->add(rTriRightWall2);
@@ -2214,13 +2219,14 @@ void createRoom(Scene* scene, const RoomParameters& param)
     Triangle* rTriCeiling1 = new Triangle(four, five, six);
     Triangle* rTriCeiling2 = new Triangle(four, six, seven);
 
-    rTriCeiling1->setVertexNormal(0, Vector(0.0, -1.0, 0.0));
-    rTriCeiling1->setVertexNormal(1, Vector(0.0, -1.0, 0.0));
-    rTriCeiling1->setVertexNormal(2, Vector(0.0, -1.0, 0.0));
+    const auto down                  = Vector(0.0, -1.0, 0.0);
+    rTriCeiling1->vertexNormals()[0] = down;
+    rTriCeiling1->vertexNormals()[1] = down;
+    rTriCeiling1->vertexNormals()[2] = down;
 
-    rTriCeiling2->setVertexNormal(0, Vector(0.0, -1.0, 0.0));
-    rTriCeiling2->setVertexNormal(1, Vector(0.0, -1.0, 0.0));
-    rTriCeiling2->setVertexNormal(2, Vector(0.0, -1.0, 0.0));
+    rTriCeiling2->vertexNormals()[0] = down;
+    rTriCeiling2->vertexNormals()[1] = down;
+    rTriCeiling2->vertexNormals()[2] = down;
 
     middleOfFace.x((four.x() + five.x() + six.x() + seven.x()) * 0.25);
     middleOfFace.y((four.y() + five.y() + six.y() + seven.y()) * 0.25);
@@ -2248,11 +2254,11 @@ void createRoom(Scene* scene, const RoomParameters& param)
     }
 
 
-    Shader* rShaderCeiling = new Shader(rBRDFCeiling, param.reflectionCoeff, param.refractionCoeff, scene);
+    auto rShaderCeiling = make_shared<Shader>(rBRDFCeiling, param.reflectionCoeff, param.refractionCoeff, scene);
     rShaderCeiling->setReflectionCountMax(param.maxReflection);
 
-    rTriCeiling1->setShader(rShaderCeiling);
-    rTriCeiling2->setShader(rShaderCeiling);
+    rTriCeiling1->shader(rShaderCeiling);
+    rTriCeiling2->shader(rShaderCeiling);
 
     scene->add(rTriCeiling1);
     scene->add(rTriCeiling2);

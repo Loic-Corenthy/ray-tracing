@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <cassert>
@@ -36,6 +37,7 @@ using std::endl;
 using std::ifstream;
 using std::iterator;
 using std::list;
+using std::runtime_error;
 using std::shared_ptr;
 using std::stoi;
 using std::string;
@@ -96,9 +98,6 @@ Scene::~Scene(void)
     for_each(_lightList.begin(), _lightList.end(), DeleteObject());
     for_each(_renderableList.begin(), _renderableList.end(), DeleteObject());
 
-    for (auto it = _shaderMap.begin(), end = _shaderMap.end(); it != end; it++)
-        delete it->second;
-
     for (auto it = _bRDFMap.begin(), end = _bRDFMap.end(); it != end; it++)
         delete it->second;
 }
@@ -134,10 +133,19 @@ void Scene::add(Renderable* renderable)
     _renderableList.push_back(renderable);
 }
 
-void Scene::add(Shader* shader, const std::string& name)
+void Scene::add(shared_ptr<Shader> shader, const std::string& name)
 {
     assert(shader && "shader added to the scene is not valid");
-    _shaderMap.insert(std::pair<std::string, Shader*>(name, shader));
+    auto success = _shaderMap.try_emplace(name, move(shader));
+
+    if (!success.second)
+    {
+        auto errorMessage = string("Count not save ");
+        errorMessage.append(name);
+        errorMessage.append(" shader");
+
+        throw runtime_error(move(errorMessage));
+    }
 }
 
 void Scene::add(BRDF* bRDF, const std::string& name)
@@ -221,11 +229,11 @@ void Scene::createFromFile(const string& objFilePath)
     Vector tmpNormal(0.0, 0.0, 0.0);
     double tmpDoubleValue(0.0);
 
-    unsigned int vertexIdx(0);
-    unsigned int textureIdx(0);
-    unsigned int normalIdx(0);
-    bool         lineNotProcessed(true);
-    bool         firstGDefault(true);
+    unsigned int vertexIdx        = 0;
+    unsigned int textureIdx       = 0;
+    unsigned int normalIdx        = 0;
+    bool         lineNotProcessed = true;
+    bool         firstGDefault    = true;
 
     // Create the triangles
     ifstream objFile(objFilePath.c_str(), ifstream::in);
@@ -249,7 +257,7 @@ void Scene::createFromFile(const string& objFilePath)
                             firstGDefault = false;
                         else
                         {
-                            rCurrentObject->setBBLimits(minPoint, maxPoint);
+                            rCurrentObject->boundingBoxLimits(minPoint, maxPoint);
                             rCurrentObject = nullptr;
                             minPoint.set(1000000.0, 1000000.0, 1000000.0);
                             maxPoint.set(-1000000.0, -1000000.0, -1000000.0);
@@ -267,7 +275,7 @@ void Scene::createFromFile(const string& objFilePath)
                         // Read the name of the object
                         stringStream >> word;
 
-                        rCurrentObject->setName(word);
+                        rCurrentObject->name(word);
 
                         _renderableList.push_back(rCurrentObject);
                     }
@@ -333,20 +341,20 @@ void Scene::createFromFile(const string& objFilePath)
 
                             // Read the first vertex index
                             stringStream >> vertexIdx;
-                            triangle->setV0(vertices[vertexIdx - 1]);
+                            triangle->vertexPositions()[0] = vertices[vertexIdx - 1];
 
                             // Read the second vertex index
                             stringStream >> vertexIdx;
-                            triangle->setV1(vertices[vertexIdx - 1]);
+                            triangle->vertexPositions()[1] = vertices[vertexIdx - 1];
 
                             // Read the third vertex index
                             stringStream >> vertexIdx;
-                            triangle->setV2(vertices[vertexIdx - 1]);
+                            triangle->vertexPositions()[2] = vertices[vertexIdx - 1];
 
 
                             // Calculate the normal
                             if (parameters.normalCount > 0)
-                                triangle->setNormal(normals[vertexIdx - 1]);
+                                triangle->normal(normals[vertexIdx - 1]);
                             else
                                 triangle->updateNormal();
 
@@ -375,17 +383,17 @@ void Scene::createFromFile(const string& objFilePath)
                                 strcpy(str, word.c_str());
 
                                 char* subStr = strtok(str, "/");
-                                vertexIdx    = stoi(subStr);
+                                vertexIdx    = static_cast<unsigned int>(stoi(subStr));
 
                                 subStr     = strtok(NULL, "/");
-                                textureIdx = stoi(subStr);
+                                textureIdx = static_cast<unsigned int>(stoi(subStr));
 
                                 subStr    = strtok(NULL, "/");
-                                normalIdx = stoi(subStr);
+                                normalIdx = static_cast<unsigned int>(stoi(subStr));
 
                                 delete[] str;
 
-                                triangle.setVI(i, vertices[vertexIdx - 1]);
+                                triangle.vertexPositions()[i] = vertices[vertexIdx - 1];
 
                                 // Update bounding box
                                 if (vertices[vertexIdx - 1].x() < minPoint.x())
@@ -406,8 +414,8 @@ void Scene::createFromFile(const string& objFilePath)
                                 if (vertices[vertexIdx - 1].z() > maxPoint.z())
                                     maxPoint.z(vertices[vertexIdx - 1].z());
 
-                                triangle.setVertexNormal(i, normals[normalIdx - 1]);
-                                localNormals[i] = normals[normalIdx - 1];
+                                triangle.vertexNormals()[i] = normals[normalIdx - 1];
+                                localNormals[i]             = normals[normalIdx - 1];
                             }
 
                             // Calculate the normal
@@ -426,7 +434,7 @@ void Scene::createFromFile(const string& objFilePath)
         }
 
         // Set the bouning box of the last object
-        rCurrentObject->setBBLimits(minPoint, maxPoint);
+        rCurrentObject->boundingBoxLimits(minPoint, maxPoint);
 
         objFile.close();
     }

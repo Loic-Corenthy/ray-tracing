@@ -79,7 +79,7 @@ namespace LCNS
         void add(Renderable* renderable);
 
         /// Add a pointer on a shader, must also provide a name for the shader
-        void add(Shader* shader, const std::string& name);
+        void add(std::shared_ptr<Shader> shader, const std::string& name);
 
         /// Add a pointer on a BRDF, must also provide a name for the shader
         void add(BRDF* bRDF, const std::string& name);
@@ -116,15 +116,15 @@ namespace LCNS
         void _countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const;
 
     private:
-        std::list<Camera*>                  _cameraList;
-        std::list<Light*>                   _lightList;
-        std::list<Renderable*>              _renderableList;
-        std::list<std::shared_ptr<CubeMap>> _cubeMapList;
-        std::map<std::string, Shader*>      _shaderMap;
-        std::map<std::string, BRDF*>        _bRDFMap;
-        short                               _backgroundType;
-        Color                               _backgroundColor;
-        std::shared_ptr<CubeMap>            _backgroundCubeMap;
+        std::list<Camera*>                             _cameraList;
+        std::list<Light*>                              _lightList;
+        std::list<Renderable*>                         _renderableList;
+        std::list<std::shared_ptr<CubeMap>>            _cubeMapList;
+        std::map<std::string, std::shared_ptr<Shader>> _shaderMap;
+        std::map<std::string, BRDF*>                   _bRDFMap;
+        short                                          _backgroundType;
+        Color                                          _backgroundColor;
+        std::shared_ptr<CubeMap>                       _backgroundCubeMap;
 
 
     };  // class Scene

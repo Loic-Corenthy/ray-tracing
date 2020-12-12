@@ -11,42 +11,45 @@
 #include "Renderable.hpp"
 
 #include "Ray.hpp"
+#include "Shader.hpp"
 
-using namespace LCNS;
-using namespace std;
+using std::shared_ptr;
 
-Renderable::Renderable(void)
-: _shader(nullptr)
-, _name(" ")
+using LCNS::Renderable;
+using LCNS::Shader;
+
+void Renderable::shader(shared_ptr<Shader> shader)
 {
+    _shader = shader;
 }
 
-Renderable::Renderable(const Renderable& renderable)
-: _shader(renderable._shader)
-, _name(renderable._name)
+shared_ptr<Shader> Renderable::shader(void)
 {
+    return _shader;
 }
 
-void Renderable::operator=(const Renderable& renderable)
+void Renderable::name(const std::string& name)
 {
-    if (this == &renderable)
-        return;
-
-    _shader = renderable._shader;
-    _name   = renderable._name;
+    _name = name;
 }
 
-Renderable::~Renderable(void)
+std::string Renderable::name(void) const
 {
+    return _name;
 }
 
 bool Renderable::_refraction(const Vector& incomingDirection, const Vector& normal, double n1, double n2, Vector& refractedDirection) const
 {
-    double minusCosTheta1 = incomingDirection * normal;
-    double n              = n1 / n2;
+    if (n2 == 0.0)
+    {
+        return false;
+    }
+
+    const double minusCosTheta1 = incomingDirection * normal;
+    const double n              = n1 / n2;
 
     // Test for total reflection
-    double sqrSinTheta2 = n * n * (1.0 - minusCosTheta1 * minusCosTheta1);
+    const double sqrSinTheta2 = n * n * (1.0 - minusCosTheta1 * minusCosTheta1);
 
     if (sqrSinTheta2 > 1.0)
     {
@@ -54,8 +57,9 @@ bool Renderable::_refraction(const Vector& incomingDirection, const Vector& norm
     }
     else
     {
-        double cosTheta2  = sqrt(1.0 - sqrSinTheta2);
-        refractedDirection = (incomingDirection - normal * minusCosTheta1) * n - normal * cosTheta2;
+        const double cosTheta2 = sqrt(1.0 - sqrSinTheta2);
+        refractedDirection     = (incomingDirection - normal * minusCosTheta1) * n - normal * cosTheta2;
+
         return true;
     }
 }

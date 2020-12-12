@@ -17,7 +17,7 @@
 #include "Vector.hpp"
 
 #ifndef MAXFLOAT
-#define MAXFLOAT std::numeric_limits<float>::max()
+    #define MAXFLOAT std::numeric_limits<float>::max()
 #endif
 
 namespace LCNS

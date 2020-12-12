@@ -9,78 +9,75 @@
 //===============================================================================================//
 
 #include "Mesh.hpp"
+#include "BoundingBox.hpp"
+#include "Color.hpp"
+#include "Ray.hpp"
+#include "Renderable.hpp"
+#include "Triangle.hpp"
+#include "Vector.hpp"
+#include <optional>
 
-using namespace LCNS;
+using std::nullopt;
+using std::optional;
+using std::shared_ptr;
+
+using LCNS::BoundingBox;
+using LCNS::Color;
+using LCNS::Mesh;
+using LCNS::Ray;
+using LCNS::Renderable;
+using LCNS::Vector;
 
 Mesh::Mesh(void)
 : Renderable()
-, _bB()
-, _intersectedTriangle(-1)
+, _boundingBox()
 {
 }
 
 Mesh::Mesh(unsigned int triangleCount)
 : Renderable()
-, _bB()
-, _intersectedTriangle(-1)
+, _boundingBox()
 {
     // Allocate memory in vector for the triangles
     _triangles.reserve(triangleCount);
 }
 
-Mesh::Mesh(const Mesh& mesh)
-: Renderable(mesh)
-, _triangles(mesh._triangles)
-, _bB(mesh._bB)
-, _intersectedTriangle(mesh._intersectedTriangle)
+void Mesh::addTriangle(const Triangle& triangle)
 {
+    _triangles.push_back(triangle);
 }
 
-Mesh::~Mesh(void)
+void Mesh::boundingBoxLimits(const Point& min, const Point& max)
 {
+    _boundingBox.min(min);
+    _boundingBox.max(max);
 }
 
-Mesh Mesh::operator=(const Mesh& mesh)
+const BoundingBox& Mesh::boundingBox(void) const
 {
-    if (this == &mesh)
-        return *this;
-
-    Renderable::operator=(mesh);
-
-    _triangles           = mesh._triangles;
-    _bB                  = mesh._bB;
-    _intersectedTriangle = mesh._intersectedTriangle;
-
-    return *this;
+    return _boundingBox;
 }
 
 bool Mesh::intersect(LCNS::Ray& ray)
 {
     // Check if the ray intersect the bounding box
-    if (_bB.intersect(ray))
+    if (_boundingBox.intersect(ray))
     {
-        float       closestDist    = std::numeric_limits<float>::max();
+        auto        closestDist    = std::numeric_limits<float>::max();
         Renderable* rClosestObject = nullptr;
         Renderable* objectFromRay  = ray.intersected();
 
-        int  i = 0;
-        bool hasIntersection(false);
+        int i = 0;
 
-        // Look for the closest intersection point among the triangles
-        auto iterator = _triangles.begin();
-        auto end      = _triangles.end();
-
-        while (iterator != end)
+        for (auto& triangle : _triangles)
         {
-            hasIntersection = iterator->intersect(ray);
+            const bool hasIntersection = triangle.intersect(ray);
             if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
                 closestDist          = ray.length();
                 rClosestObject       = ray.intersected();
                 _intersectedTriangle = i++;
             }
-
-            iterator++;
         }
 
         // return the result
@@ -120,22 +117,18 @@ Vector Mesh::interpolatedNormal(const Point& position) const
     return _triangles[_intersectedTriangle].interpolatedNormal(position);
 }
 
-void Mesh::setShader(Shader* shader)
+void Mesh::shader(shared_ptr<Shader> shader)
 {
     assert(shader != nullptr && "Shader not defined!!");
 
-    auto it  = _triangles.begin();
-    auto end = _triangles.end();
-
-    while (it != end)
+    for (auto& triangle : _triangles)
     {
-        it->setShader(shader);
-        it++;
+        triangle.shader(shader);
     }
 }
 
-bool Mesh::refractedRay(const Ray& incomingRay, Ray& refractedRay)
+optional<Ray> Mesh::refractedRay(const Ray& incomingRay)
 {
     assert(false && "Not implemented yet :)");
-    return false;
+    return nullopt;
 }

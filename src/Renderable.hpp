@@ -10,8 +10,10 @@
 
 #pragma once
 
+#include <optional>
 #include <string>
 #include <cassert>
+#include <memory>
 
 namespace LCNS
 {
@@ -25,16 +27,16 @@ namespace LCNS
     class Renderable
     {
     public:
-        enum ColorType : unsigned short
+        enum class ColorType
         {
             REFLECTANCE = 0,
             DIFFUSE     = 1,
             SPECULAR    = 2
-        };  // (c++11)
+        };
 
     public:
         /// Destructor
-        virtual ~Renderable(void);
+        virtual ~Renderable(void) = default;
 
         /// Calculate the intersection with a ray
         virtual bool intersect(Ray& ray) = 0;
@@ -49,58 +51,37 @@ namespace LCNS
         virtual Vector interpolatedNormal(const Point& position) const = 0;
 
         /// Calculate refracted ray from incoming ray
-        virtual bool refractedRay(const Ray& incomingRay, Ray& refractedRay) = 0;
+        virtual std::optional<Ray> refractedRay(const Ray& incomingRay) = 0;
 
-        /// Set a pointer on a shader
-        virtual void setShader(Shader* shader);
+        /// Set a shader
+        virtual void shader(std::shared_ptr<Shader> shader);
 
-        /// Set a pointer on the name of the object
-        void setName(const std::string& name);
+        /// Get the shader
+        std::shared_ptr<Shader> shader(void);
 
-        /// Get the pointer on the shader
-        Shader* shader(void) const;
+        /// Set the object name
+        void name(const std::string& name);
 
-        /// Get the pointer on the name
+        /// Get the object name
         std::string name(void) const;
 
     protected:
         /// Default constructor
-        Renderable(void);
+        Renderable(void) = default;
 
         /// Copy constructor
-        Renderable(const Renderable& renderable);
+        Renderable(const Renderable& renderable) = delete;
 
         /// Copy operator (to be used by derived classes)
-        void operator=(const Renderable& renderable);
+        void operator=(const Renderable& renderable) = delete;
 
         /// Calculate the refraction on the surface of an object
         bool _refraction(const Vector& incomingDirection, const Vector& normal, double n1, double n2, Vector& refractedDirection) const;
 
     protected:
-        Shader*     _shader;
-        std::string _name;
-
+        std::shared_ptr<Shader> _shader;
+        std::string             _name = "";
 
     };  // class Renderable
-
-    inline void Renderable::setShader(Shader* shader)
-    {
-        _shader = shader;
-    }
-
-    inline void Renderable::setName(const std::string& name)
-    {
-        _name = name;
-    }
-
-    inline Shader* Renderable::shader(void) const
-    {
-        return _shader;
-    }
-
-    inline std::string Renderable::name(void) const
-    {
-        return _name;
-    }
 
 }  // namespace LCNS

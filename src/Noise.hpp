@@ -22,62 +22,40 @@ namespace LCNS
         Noise(void);
 
         /// Copy constructor
-        Noise(const Noise& noise);
+        Noise(const Noise& noise) = default;
 
         /// Copy operator
-        Noise operator=(const Noise& noise);
+        Noise& operator=(const Noise& noise) = default;
 
         /// Destructor
-        ~Noise(void);
+        ~Noise(void) = default;
 
         /// Perlin noise
         double perlinNoise(double x, double y, double z) const;
 
     private:
         /// Initialize the array of permutations
-        void _init(void);
+        void _init(void) noexcept;
 
         /// Return the value of a polynom for parameter t : t
-        double _fade(double t) const;
+        double _fade(double t) const noexcept;
 
         /// Position of a point in segment [AB] (1D) in fonction of parameter t
-        double _lerp(double t, double a, double b) const;
+        constexpr double _lerp(double t, double a, double b) const noexcept;
 
         /// Some gradient?
-        double _grad(int hash, double x, double y, double z) const;
+        double _grad(int hash, double x, double y, double z) const noexcept;
 
         /// Pseudo random number generator
-        double _prandFromInt(int value) const;
+        double _prandFromInt(int value) const noexcept;
 
         /// Interpolation with cosine function
-        double _cerp(double a, double b, double t) const;
+        double _cerp(double a, double b, double t) const noexcept;
 
     private:
         static const int    smPermutations[256];
-        std::vector<int>    _permutations;
         static const double _pi;
+        std::vector<int>    _permutations;
     };  // class Noise
-
-    inline double Noise::_fade(double t) const
-    {
-        return (t * t * t * (t * (t * 6.0 - 15.0) + 10.0));
-    }
-
-    inline double Noise::_lerp(double t, double a, double b) const
-    {
-        return (a + t * (b - a));
-    }
-
-    inline double Noise::_prandFromInt(int value) const
-    {
-        value = (value << 13) ^ value;
-        return (1.0 - ((value * (value * value * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0);
-    }
-
-    inline double Noise::_cerp(double a, double b, double t) const
-    {
-        double f = (1.0f - cosf(t * _pi)) * 0.5f;
-        return (a * (1.0 - f) + b * f);
-    }
 
 }  // namespace LCNS

@@ -29,7 +29,7 @@ namespace LCNS
         Sphere(void) = default;
 
         /// Constructor with parameters
-        Sphere(const Point& point, float radius);
+        Sphere(const Point& point, double radius);
 
         /// Copy constructor
         Sphere(const Sphere& sphere) = delete;
@@ -62,18 +62,18 @@ namespace LCNS
         void center(const LCNS::Point& point) noexcept;
 
         /// Get the radius of the sphere (read only)
-        float radius(void) const noexcept;
+        double radius(void) const noexcept;
 
         /// Set the radius of the sphere
-        void radius(float value) noexcept;
+        void radius(double value) noexcept;
 
     private:
         /// Calculate roots of a second order polynomial.
-        std::optional<std::tuple<float, float>> _solveSecDeg(float a, float b, float c);
+        std::optional<std::tuple<double, double>> _solveSecDeg(double a, double b, double c);
 
     private:
-        Point _center;
-        float _radius = 0.0f;
+        Point  _center;
+        double _radius = 0.0f;
 
     };  // class Sphere
 

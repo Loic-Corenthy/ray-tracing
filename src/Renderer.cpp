@@ -12,7 +12,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <memory>
 
+#include "Buffer.hpp"
 #include "Scene.hpp"
 #include "Camera.hpp"
 #include "Vector.hpp"
@@ -23,15 +25,20 @@
 #include "Phong.hpp"
 #include "Noise.hpp"
 
-using namespace LCNS;
-using namespace std;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::shared_ptr;
+
+using LCNS::Buffer;
+using LCNS::Renderer;
 
 const Buffer& Renderer::getBuffer(void)
 {
     return _instance()._buffer;
 }
 
-void Renderer::setScene(Scene* scene, int width, int height)
+void Renderer::setScene(shared_ptr<Scene> scene, unsigned int width, unsigned int height)
 {
     _instance()._setScene(scene, width, height);
 }
@@ -58,10 +65,8 @@ Renderer& Renderer::_instance(void)
 }
 
 Renderer::Renderer(void)
-: _scene(nullptr)
-, _buffer()
+: _buffer()
 , _reflectionCount(0)
-, _superSampling(false)
 {
 }
 
@@ -69,32 +74,6 @@ Renderer::Renderer(Scene* scene, int width, int height)
 : _scene(scene)
 , _buffer(height, width)
 , _reflectionCount(1)
-, _superSampling(false)
-{
-}
-
-Renderer::Renderer(const Renderer& renderer)
-: _scene(renderer._scene)
-, _buffer(renderer._buffer)
-, _reflectionCount(renderer._reflectionCount)
-, _superSampling(renderer._superSampling)
-{
-}
-
-Renderer Renderer::operator=(const Renderer& renderer)
-{
-    if (this == &renderer)
-        return *this;
-
-    _scene           = renderer._scene;
-    _buffer          = renderer._buffer;
-    _reflectionCount = renderer._reflectionCount;
-    _superSampling   = renderer._superSampling;
-
-    return *this;
-}
-
-Renderer::~Renderer(void)
 {
 }
 
@@ -418,16 +397,11 @@ void Renderer::_render(void)
     }
 }
 
-void Renderer::_setScene(Scene* scene, int width, int height)
+void Renderer::_setScene(shared_ptr<Scene> scene, unsigned int width, unsigned int height)
 {
     assert(scene != nullptr && "The scene assigned to the Renderer is not valid");
     _buffer.dimensions(width, height);
     _scene = scene;
-}
-
-const Buffer& Renderer::_getBuffer(void) const
-{
-    return _buffer;
 }
 
 void Renderer::_setSuperSampling(bool activate)

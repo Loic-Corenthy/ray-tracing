@@ -62,55 +62,55 @@ struct RoomParameters
 };
 
 /// Create a test scene
-void createTestScene(LCNS::Scene* scene);
+void createTestScene(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a basic scene with 3 spheres (reflection coeff: 2)
-void createScene01(LCNS::Scene* scene);
+void createScene01(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: red, green and blue sphere + damier floor. Pink sphere in the back to illustrate the blur (reflection coeff: 3)
-void createScene02(LCNS::Scene* scene);
+void createScene02(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a room and 3 spheres
-void createScene03(LCNS::Scene* scene);
+void createScene03(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a red, green and blue sphere + damier floor. All sharp scene, illustrate multiple reflections
-void createScene04(LCNS::Scene* scene);
+void createScene04(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a red, green and blue sphere + small damier floor. All sharp scene
-void createScene04bis(LCNS::Scene* scene);
+void createScene04bis(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: an object loaded from a .obj file (the torus)
-void createScene05(LCNS::Scene* scene);
+void createScene05(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a transparent sphere with refraction and a background using a cubemap
-void createScene06(LCNS::Scene* scene);
+void createScene06(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a room containing sphere with the different noise effects
-void createScene07(LCNS::Scene* scene);
+void createScene07(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a scene with: a sphere close and a sphere far from the camera (test the aperture efects)
-void createScene08(LCNS::Scene* scene);
+void createScene08(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: several objects loaded from an .obj file (the head)
-void createScene09(LCNS::Scene* scene);
+void createScene09(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: 2 spheres + a floor and lights of different colors
-void createScene10(LCNS::Scene* scene);
+void createScene10(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: 3 spheres with different max reflection counts
-void createScene11(LCNS::Scene* scene);
+void createScene11(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: a room and 3 spheres
-void createScene12(LCNS::Scene* scene);
+void createScene12(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: a table in a room, mirrors and a sphere with a texture
-void createScene13(LCNS::Scene* scene);
+void createScene13(std::shared_ptr<LCNS::Scene> scene);
 
 /// Create a scene with: a table with a refractive sphere on top of it, use a cubemap as the background
-void createScene14(LCNS::Scene* scene);
+void createScene14(std::shared_ptr<LCNS::Scene> scene);
 
 // Create a square (2 triangles) to symbolise a floor
-void createFloor(LCNS::Scene* scene, const FloorParameters& param);
+void createFloor(std::shared_ptr<LCNS::Scene> scene, const FloorParameters& param);
 
 // Create a "room" with a floor and 3 walls
-void createRoom(LCNS::Scene* scene, const RoomParameters& param);
+void createRoom(std::shared_ptr<LCNS::Scene> scene, const RoomParameters& param);

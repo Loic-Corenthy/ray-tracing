@@ -52,3 +52,48 @@ Ray Ray::operator=(const Ray& ray)
 Ray::~Ray(void)
 {
 }
+
+void Ray::setOrigin(const Point& point)
+{
+    _origin = point;
+}
+
+void Ray::setDirection(const Vector& vector)
+{
+    _direction = vector;
+}
+
+void Ray::setLength(double length)
+{
+    _length = length;
+}
+
+void Ray::setIntersected(Renderable* intersected)
+{
+    _intersected = intersected;
+}
+
+const Point& Ray::origin(void) const
+{
+    return _origin;
+}
+
+const Vector& Ray::direction(void) const
+{
+    return _direction;
+}
+
+double Ray::length(void) const
+{
+    return _length;
+}
+
+Renderable* Ray::intersected(void) const
+{
+    return _intersected;
+}
+
+Point Ray::intersection(void) const
+{
+    return (_origin + _direction * _length);
+}

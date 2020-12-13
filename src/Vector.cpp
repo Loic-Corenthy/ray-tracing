@@ -121,7 +121,7 @@ Vector Vector::operator^(const Vector& vector) const
 
 Vector Vector::normalize(void)
 {
-    double invLengthVector = 1.0 / (this->length());
+    const double invLengthVector = 1.0 / (this->length());
 
     _coords[0] *= invLengthVector;
     _coords[1] *= invLengthVector;

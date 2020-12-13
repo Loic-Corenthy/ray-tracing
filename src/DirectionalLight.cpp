@@ -10,17 +10,15 @@
 
 #include "DirectionalLight.hpp"
 
+#include "Color.hpp"
 #include "Renderable.hpp"
 #include "Ray.hpp"
 #include "Scene.hpp"
+#include "Vector.hpp"
 
-using namespace LCNS;
-
-DirectionalLight::DirectionalLight(void)
-: Light()
-, _direction(Vector(0.0))
-{
-}
+using LCNS::Color;
+using LCNS::DirectionalLight;
+using LCNS::Vector;
 
 DirectionalLight::DirectionalLight(const Vector& direction, const Color& intensity)
 : Light(intensity)
@@ -30,8 +28,8 @@ DirectionalLight::DirectionalLight(const Vector& direction, const Color& intensi
 
 DirectionalLight::DirectionalLight(const DirectionalLight& directionalLight)
 : Light(directionalLight)
+, _direction(directionalLight._direction)
 {
-    _direction = directionalLight._direction;
 }
 
 DirectionalLight DirectionalLight::operator=(const LCNS::DirectionalLight& directionalLight)
@@ -46,17 +44,27 @@ DirectionalLight DirectionalLight::operator=(const LCNS::DirectionalLight& direc
     return *this;
 }
 
-DirectionalLight::~DirectionalLight(void)
+void DirectionalLight::direction(const Vector& direction) noexcept
 {
+    _direction = direction;
 }
 
+const Vector& DirectionalLight::direction(void) const noexcept
+{
+    return _direction;
+}
+
+Vector DirectionalLight::directionFrom([[maybe_unused]] const Point& point) const
+{
+    return _direction * -1.0;
+}
 
 Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, LCNS::Renderable* currentObject) const
 {
     Ray myRay;
 
     myRay.setOrigin(point);
-    myRay.setDirection(_direction * (-1));
+    myRay.setDirection(_direction * (-1.0));
     myRay.setIntersected(currentObject);
 
     bool hasIntersection = scene.intersect(myRay);
@@ -65,7 +73,7 @@ Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, LCNS
         return Color(0.0f);
     else
     {
-        double cos = currentObject->normal(point) * (_direction * (-1.0));
+        const double cos = currentObject->normal(point) * (_direction * (-1.0));
         return _intensity * cos;
     }
 }

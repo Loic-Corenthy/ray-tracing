@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 
 #include "Buffer.hpp"
 
@@ -26,7 +27,7 @@ namespace LCNS
         static const Buffer& getBuffer(void);
 
         /// Copy a pointer to the scene to render
-        static void setScene(Scene* scene, int width, int height);
+        static void setScene(std::shared_ptr<Scene> scene, unsigned int width, unsigned int height);
 
         /// Render the specified scene
         static void render(void);
@@ -37,8 +38,14 @@ namespace LCNS
         /// Activate of not the super sampling as an antialiazing method
         static void setSuperSampling(bool activate);
 
+        /// Copy constructor (copy not allowed)
+        Renderer(const Renderer& renderer) = delete;
+
+        /// Copy operator (copy not allowed)
+        Renderer operator=(const Renderer& renderer) = delete;
+
         /// Destructor
-        ~Renderer(void);
+        ~Renderer(void) = default;
 
     private:
         /// Default constructor
@@ -47,20 +54,11 @@ namespace LCNS
         /// Constructor with parameters
         Renderer(Scene* scene, int width, int height);
 
-        /// Copy constructor (copy not allowed)
-        Renderer(const Renderer& renderer);
-
-        /// Copy operator (copy not allowed)
-        Renderer operator=(const Renderer& renderer);
-
         /// Get a reference on the instance
         static Renderer& _instance(void);
 
-        /// Get buffer (read only)
-        const Buffer& _getBuffer(void) const;
-
         /// Copy a pointer to the scene to render
-        void _setScene(Scene* scene, int width, int height);
+        void _setScene(std::shared_ptr<Scene> scene, unsigned int width, unsigned int height);
 
         /// Render the specified scene
         void _render(void);
@@ -72,10 +70,10 @@ namespace LCNS
         void _setSuperSampling(bool activate);
 
     private:
-        Scene*         _scene;
-        Buffer         _buffer;
-        unsigned short _reflectionCount;
-        bool           _superSampling;
+        std::shared_ptr<Scene> _scene;
+        Buffer                 _buffer;
+        unsigned short         _reflectionCount;
+        bool                   _superSampling = false;
 
     };  // class Renderer
 

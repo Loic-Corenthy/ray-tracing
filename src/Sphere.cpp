@@ -28,7 +28,7 @@ using LCNS::Ray;
 using LCNS::Sphere;
 using LCNS::Vector;
 
-Sphere::Sphere(const Point& point, float radius)
+Sphere::Sphere(const Point& point, double radius)
 : _center(point)
 , _radius(radius)
 {
@@ -36,12 +36,12 @@ Sphere::Sphere(const Point& point, float radius)
 
 bool Sphere::intersect(Ray& ray)
 {
-    float a = ray.direction()[0] * ray.direction()[0] + ray.direction()[1] * ray.direction()[1] + ray.direction()[2] * ray.direction()[2];
-    float b = 2.0f
-              * (ray.direction()[0] * (ray.origin()[0] - _center[0]) + ray.direction()[1] * (ray.origin()[1] - _center[1])
-                 + ray.direction()[2] * (ray.origin()[2] - _center[2]));
-    float c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
-              + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
+    double a = ray.direction()[0] * ray.direction()[0] + ray.direction()[1] * ray.direction()[1] + ray.direction()[2] * ray.direction()[2];
+    double b = 2.0
+               * (ray.direction()[0] * (ray.origin()[0] - _center[0]) + ray.direction()[1] * (ray.origin()[1] - _center[1])
+                  + ray.direction()[2] * (ray.origin()[2] - _center[2]));
+    double c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
+               + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
 
     auto roots = _solveSecDeg(a, b, c);
 
@@ -126,24 +126,24 @@ Vector Sphere::interpolatedNormal(const Point& position) const
     return ((position - _center).normalize());
 }
 
-optional<tuple<float, float>> Sphere::_solveSecDeg(float a, float b, float c)
+optional<tuple<double, double>> Sphere::_solveSecDeg(double a, double b, double c)
 {
-    if (a == 0.0f)
+    if (a == 0.0)
         return nullopt;
 
-    auto delta = b * b - 4.0f * a * c;
+    auto delta = b * b - 4.0 * a * c;
 
-    if (delta < 0.0f)
+    if (delta < 0.0)
     {
         return nullopt;
     }
-    else if (delta == 0)
+    else if (delta == 0.0)
     {
-        return make_tuple(-b / (2.0f * a), -b / (2.0f * a));
+        return make_tuple(-b / (2.0 * a), -b / (2.0 * a));
     }
     else
     {
-        return make_tuple((-b - sqrt(delta)) / (2.0f * a), (-b + sqrt(delta)) / (2.0f * a));
+        return make_tuple((-b - sqrt(delta)) / (2.0 * a), (-b + sqrt(delta)) / (2.0 * a));
     }
 }
 
@@ -157,12 +157,12 @@ void Sphere::center(const LCNS::Point& point) noexcept
     _center = point;
 }
 
-float Sphere::radius(void) const noexcept
+double Sphere::radius(void) const noexcept
 {
     return _radius;
 }
 
-void Sphere::radius(float value) noexcept
+void Sphere::radius(double value) noexcept
 {
     _radius = value;
 }

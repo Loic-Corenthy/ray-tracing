@@ -13,17 +13,17 @@
 #include <cassert>
 #include <cmath>
 
+#include "Color.hpp"
+#include "Point.hpp"
 #include "Ray.hpp"
 #include "Scene.hpp"
 #include "Renderable.hpp"
+#include "Vector.hpp"
 
-using namespace LCNS;
-
-PunctualLight::PunctualLight(void)
-: Light()
-, _position(Point(0.0, 0.0, 0.0))
-{
-}
+using LCNS::Color;
+using LCNS::Point;
+using LCNS::PunctualLight;
+using LCNS::Vector;
 
 PunctualLight::PunctualLight(const LCNS::Point& position, const Color& intensity)
 : Light(intensity)
@@ -35,7 +35,6 @@ PunctualLight::PunctualLight(const PunctualLight& punctualLight)
 : Light(punctualLight)
 , _position(punctualLight._position)
 {
-    _position = punctualLight._position;
 }
 
 PunctualLight PunctualLight::operator=(const PunctualLight& punctualLight)
@@ -50,14 +49,25 @@ PunctualLight PunctualLight::operator=(const PunctualLight& punctualLight)
     return *this;
 }
 
-PunctualLight::~PunctualLight(void)
+void PunctualLight::position(const Point& position) noexcept
 {
+    _position = position;
+}
+
+const Point& PunctualLight::position(void) const noexcept
+{
+    return _position;
+}
+
+Vector PunctualLight::directionFrom(const LCNS::Point& point) const
+{
+    return (_position - point);
 }
 
 Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
 {
     // Direction between point on object and current light
-    Vector direction(_position - point);
+    const auto direction = Vector(_position - point);
 
     // Create the corresponding ray
     Ray myRay(point, direction);
@@ -65,8 +75,7 @@ Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, R
 
     // Check if there is an object between them. Ask for at least 2 intersections points with the scene as the ray will always intersect with the
     // object containing the point point.
-    bool hasIntersection = false;
-    hasIntersection      = scene.intersect(myRay);
+    bool hasIntersection = scene.intersect(myRay);
 
     // If an object is found, or if the light is inside the object, this light does not contribute on that point. Otherwise, calculate the amount of
     // light arriving at the point

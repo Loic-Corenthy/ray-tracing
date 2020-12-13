@@ -43,16 +43,22 @@ namespace LCNS
     class Scene
     {
     private:
-        enum BackgroundType : short
+        enum class BackgroundType
         {
-            BACKGRD_UNDEFINED,
-            BACKGRD_COLOR,
-            BACKGRD_CUBEMAP
+            UNDEFINED,
+            COLOR,
+            CUBEMAP
         };
 
     public:
         /// Default constructor
-        Scene(void);
+        Scene(void) = default;
+
+        /// Copy constructor (copy is not allowed)
+        Scene(const Scene& scene) = delete;
+
+        /// Copy constructor (copy is not allowed)
+        Scene operator=(const Scene& scene) = delete;
 
         /// Destructor, the scene is responsable to free ALL the memory allocated to create the scene
         ~Scene(void);
@@ -64,10 +70,10 @@ namespace LCNS
         std::list<Light*>& lightList(void);
 
         /// Get the list of object in the scene
-        std::list<Renderable*>& renderableList(void);
+        std::list<std::shared_ptr<Renderable>>& renderableList(void);
 
         /// Get an object of the list of renderables with its name
-        Renderable* objectNamed(const std::string& name);
+        std::shared_ptr<Renderable> objectNamed(const std::string& name);
 
         /// Add a pointer on a camera to the scene
         void add(Camera* camera);
@@ -76,13 +82,13 @@ namespace LCNS
         void add(Light* light);
 
         /// Add a pointer on an object to render to the scene
-        void add(Renderable* renderable);
+        void add(std::shared_ptr<Renderable> renderable);
 
         /// Add a pointer on a shader, must also provide a name for the shader
         void add(std::shared_ptr<Shader> shader, const std::string& name);
 
         /// Add a pointer on a BRDF, must also provide a name for the shader
-        void add(BRDF* bRDF, const std::string& name);
+        void add(std::shared_ptr<BRDF> bRDF, const std::string& name);
 
         /// Add a pointer on a CubeMap used as texture for an object
         void add(std::shared_ptr<CubeMap> cubeMap);
@@ -106,62 +112,20 @@ namespace LCNS
         Color meanAmbiantLight(void) const;
 
     private:
-        /// Copy constructor (copy is not allowed)
-        Scene(const Scene& scene);
-
-        /// Copy constructor (copy is not allowed)
-        Scene operator=(const Scene& scene);
-
         /// Utility function to count the number of vertices and faces in a .obj file
         void _countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const;
 
     private:
         std::list<Camera*>                             _cameraList;
         std::list<Light*>                              _lightList;
-        std::list<Renderable*>                         _renderableList;
+        std::list<std::shared_ptr<Renderable>>         _renderableList;
         std::list<std::shared_ptr<CubeMap>>            _cubeMapList;
         std::map<std::string, std::shared_ptr<Shader>> _shaderMap;
-        std::map<std::string, BRDF*>                   _bRDFMap;
-        short                                          _backgroundType;
+        std::map<std::string, std::shared_ptr<BRDF>>   _bRDFMap;
+        BackgroundType                                 _backgroundType = BackgroundType::UNDEFINED;
         Color                                          _backgroundColor;
         std::shared_ptr<CubeMap>                       _backgroundCubeMap;
 
-
     };  // class Scene
-
-    inline std::list<Camera*>& Scene::cameraList(void)
-    {
-        return _cameraList;
-    }
-
-    inline std::list<Light*>& Scene::lightList(void)
-    {
-        return _lightList;
-    }
-
-    inline std::list<Renderable*>& Scene::renderableList(void)
-    {
-        return _renderableList;
-    }
-
-    inline void Scene::setBackgroundColor(const Color& color)
-    {
-        _backgroundType  = BACKGRD_COLOR;
-        _backgroundColor = color;
-    }
-
-    inline void Scene::backgroundCubeMap(std::shared_ptr<CubeMap> cubeMap)
-    {
-        _backgroundType    = BACKGRD_CUBEMAP;
-        _backgroundCubeMap = cubeMap;
-    }
-
-    inline Color Scene::backgroundColor(const Ray& ray) const
-    {
-        if (_backgroundType == BACKGRD_COLOR)
-            return _backgroundColor;
-        else
-            return _backgroundCubeMap->colorAt(ray);
-    }
 
 }  // namespace LCNS

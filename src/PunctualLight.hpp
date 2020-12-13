@@ -12,14 +12,19 @@
 
 #include "Light.hpp"
 #include "Color.hpp"
+#include "Vector.hpp"
+#include "Point.hpp"
 
 namespace LCNS
 {
+    // Forward declaration
+    class Renderable;
+
     class PunctualLight : public Light
     {
     public:
         /// Default constructor
-        PunctualLight(void);
+        PunctualLight(void) = default;
 
         /// Constructor with parameters
         PunctualLight(const Point& position, const Color& intensity);
@@ -31,38 +36,23 @@ namespace LCNS
         PunctualLight operator=(const PunctualLight& punctualLight);
 
         /// Destructor
-        ~PunctualLight(void);
+        ~PunctualLight(void) = default;
 
         /// Set the light position
-        void setPosition(const Point& position);
+        void position(const Point& position) noexcept;
 
         /// Get the light position
-        const Point& position(void) const;
+        const Point& position(void) const noexcept;
 
         /// Implementation of virtual function from Light
-        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const;
+        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const override;
 
         /// Implementation of virtual function from Light
-        Vector directionFrom(const Point& point) const;
+        Vector directionFrom(const Point& point) const override;
 
     private:
         Point _position;
 
     };  // class PunctualLight
-
-    inline void PunctualLight::setPosition(const Point& position)
-    {
-        _position = position;
-    }
-
-    inline const Point& PunctualLight::position(void) const
-    {
-        return _position;
-    }
-
-    inline LCNS::Vector PunctualLight::directionFrom(const LCNS::Point& point) const
-    {
-        return (_position - point);
-    }
 
 }  // namespace LCNS

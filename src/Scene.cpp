@@ -12,11 +12,14 @@
 
 #include <iostream>
 #include <fstream>
+#include <limits>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <sstream>
 #include <cassert>
 #include <vector>
+#include <algorithm>
 
 #include "Color.hpp"
 #include "Renderable.hpp"
@@ -34,11 +37,16 @@ using std::cerr;
 using std::cout;
 using std::end;
 using std::endl;
+using std::find_if;
 using std::ifstream;
 using std::iterator;
 using std::list;
+using std::make_shared;
+using std::numeric_limits;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
+using std::static_pointer_cast;
 using std::stoi;
 using std::string;
 using std::stringstream;
@@ -56,63 +64,59 @@ using LCNS::Scene;
 using LCNS::Shader;
 using LCNS::Triangle;
 
-Scene::Scene(void)
-: _backgroundType(BACKGRD_UNDEFINED)
-, _backgroundColor(Color(0.0))
-, _backgroundCubeMap(nullptr)
-{
-}
-
-Scene::Scene(const Scene& scene)
-: _cameraList(scene._cameraList)
-, _lightList(scene._lightList)
-, _renderableList(scene._renderableList)
-, _shaderMap(scene._shaderMap)
-, _bRDFMap(scene._bRDFMap)
-, _backgroundType(scene._backgroundType)
-, _backgroundColor(scene._backgroundColor)
-, _backgroundCubeMap(scene._backgroundCubeMap)
-{
-}
-
-Scene Scene::operator=(const Scene& scene)
-{
-    if (this == &scene)
-        return *this;
-
-    _cameraList        = scene._cameraList;
-    _lightList         = scene._lightList;
-    _renderableList    = scene._renderableList;
-    _shaderMap         = scene._shaderMap;
-    _bRDFMap           = scene._bRDFMap;
-    _backgroundType    = scene._backgroundType;
-    _backgroundColor   = scene._backgroundColor;
-    _backgroundCubeMap = scene._backgroundCubeMap;
-
-    return *this;
-}
-
 Scene::~Scene(void)
 {
     for_each(_cameraList.begin(), _cameraList.end(), DeleteObject());
     for_each(_lightList.begin(), _lightList.end(), DeleteObject());
-    for_each(_renderableList.begin(), _renderableList.end(), DeleteObject());
-
-    for (auto it = _bRDFMap.begin(), end = _bRDFMap.end(); it != end; it++)
-        delete it->second;
 }
 
-Renderable* Scene::objectNamed(const std::string& name)
+list<Camera*>& Scene::cameraList(void)
 {
-    for (auto it = _renderableList.begin(), end = _renderableList.end(); it != end; it++)
-    {
-        if ((*it)->name() == name)
-        {
-            return (*it);
-        }
-    }
+    return _cameraList;
+}
 
-    return nullptr;
+list<Light*>& Scene::lightList(void)
+{
+    return _lightList;
+}
+
+list<shared_ptr<Renderable>>& Scene::renderableList(void)
+{
+    return _renderableList;
+}
+
+void Scene::setBackgroundColor(const Color& color)
+{
+    _backgroundType  = BackgroundType::COLOR;
+    _backgroundColor = color;
+}
+
+void Scene::backgroundCubeMap(shared_ptr<CubeMap> cubeMap)
+{
+    _backgroundType    = BackgroundType::CUBEMAP;
+    _backgroundCubeMap = cubeMap;
+}
+
+Color Scene::backgroundColor(const Ray& ray) const
+{
+    if (_backgroundType == BackgroundType::COLOR)
+        return _backgroundColor;
+    else
+        return _backgroundCubeMap->colorAt(ray);
+}
+
+shared_ptr<Renderable> Scene::objectNamed(const string& name)
+{
+    auto result = find_if(_renderableList.begin(), _renderableList.end(), [&name](shared_ptr<Renderable> object) { return object->name() == name; });
+
+    if (result == end(_renderableList))
+    {
+        return nullptr;
+    }
+    else
+    {
+        return *result;
+    }
 }
 
 void Scene::add(Camera* camera)
@@ -127,13 +131,13 @@ void Scene::add(Light* light)
     _lightList.push_back(light);
 }
 
-void Scene::add(Renderable* renderable)
+void Scene::add(shared_ptr<Renderable> renderable)
 {
     assert(renderable && "object added to the scene is not valid");
     _renderableList.push_back(renderable);
 }
 
-void Scene::add(shared_ptr<Shader> shader, const std::string& name)
+void Scene::add(shared_ptr<Shader> shader, const string& name)
 {
     assert(shader && "shader added to the scene is not valid");
     auto success = _shaderMap.try_emplace(name, move(shader));
@@ -148,10 +152,20 @@ void Scene::add(shared_ptr<Shader> shader, const std::string& name)
     }
 }
 
-void Scene::add(BRDF* bRDF, const std::string& name)
+void Scene::add(shared_ptr<BRDF> bRDF, const string& name)
 {
     assert(bRDF && "brdf added to the scene is not valid");
-    _bRDFMap.insert(std::pair<std::string, BRDF*>(name, bRDF));
+
+    auto success = _bRDFMap.try_emplace(name, move(bRDF));
+
+    if (!success.second)
+    {
+        auto errorMessage = string("Count not save ");
+        errorMessage.append(name);
+        errorMessage.append(" BRDF");
+
+        throw runtime_error(move(errorMessage));
+    }
 }
 
 void Scene::add(shared_ptr<CubeMap> cubeMap)
@@ -162,7 +176,7 @@ void Scene::add(shared_ptr<CubeMap> cubeMap)
 
 bool Scene::intersect(Ray& ray) const
 {
-    float       closestDist    = std::numeric_limits<float>::max();
+    float       closestDist    = numeric_limits<float>::max();
     Renderable* rClosestObject = nullptr;
     Renderable* objectFromRay  = ray.intersected();
 
@@ -197,7 +211,7 @@ bool Scene::intersect(Ray& ray) const
     }
     else
     {
-        ray.setLength(std::numeric_limits<float>::max());
+        ray.setLength(numeric_limits<float>::max());
         ray.setIntersected(nullptr);
         return false;
     }
@@ -218,8 +232,8 @@ void Scene::createFromFile(const string& objFilePath)
         normals.reserve(parameters.normalCount);
 
     // Create a mesh containing all the triangle of a group
-    unsigned int currentObjectIdx = 0;
-    Mesh*        rCurrentObject   = nullptr;
+    unsigned int           currentObjectIdx = 0;
+    shared_ptr<Renderable> rCurrentObject;
 
     Point minPoint(1000000.0, 1000000.0, 1000000.0);
     Point maxPoint(-1000000.0, -1000000.0, -1000000.0);
@@ -257,7 +271,8 @@ void Scene::createFromFile(const string& objFilePath)
                             firstGDefault = false;
                         else
                         {
-                            rCurrentObject->boundingBoxLimits(minPoint, maxPoint);
+                            throw std::runtime_error("This is suspicious code");
+                            static_pointer_cast<Mesh>(rCurrentObject)->boundingBoxLimits(minPoint, maxPoint);
                             rCurrentObject = nullptr;
                             minPoint.set(1000000.0, 1000000.0, 1000000.0);
                             maxPoint.set(-1000000.0, -1000000.0, -1000000.0);
@@ -267,7 +282,7 @@ void Scene::createFromFile(const string& objFilePath)
                     }
                     else
                     {
-                        rCurrentObject = new Mesh(parameters.faceCount.at(currentObjectIdx));
+                        rCurrentObject = make_shared<Mesh>(parameters.faceCount.at(currentObjectIdx));
 
                         // Read the "g"
                         stringStream >> word;
@@ -334,29 +349,29 @@ void Scene::createFromFile(const string& objFilePath)
                     {
                         while (stringStream.good() && lineNotProcessed)
                         {
-                            Triangle* triangle = new Triangle;
+                            shared_ptr<Renderable> triangle = make_shared<Triangle>();
 
                             // Read the "f"
                             stringStream >> word;
 
                             // Read the first vertex index
                             stringStream >> vertexIdx;
-                            triangle->vertexPositions()[0] = vertices[vertexIdx - 1];
+                            static_pointer_cast<Triangle>(triangle)->vertexPositions()[0] = vertices[vertexIdx - 1];
 
                             // Read the second vertex index
                             stringStream >> vertexIdx;
-                            triangle->vertexPositions()[1] = vertices[vertexIdx - 1];
+                            static_pointer_cast<Triangle>(triangle)->vertexPositions()[1] = vertices[vertexIdx - 1];
 
                             // Read the third vertex index
                             stringStream >> vertexIdx;
-                            triangle->vertexPositions()[2] = vertices[vertexIdx - 1];
+                            static_pointer_cast<Triangle>(triangle)->vertexPositions()[2] = vertices[vertexIdx - 1];
 
 
                             // Calculate the normal
                             if (parameters.normalCount > 0)
-                                triangle->normal(normals[vertexIdx - 1]);
+                                static_pointer_cast<Triangle>(triangle)->normal(normals[vertexIdx - 1]);
                             else
-                                triangle->updateNormal();
+                                static_pointer_cast<Triangle>(triangle)->updateNormal();
 
                             _renderableList.push_back(triangle);
 
@@ -421,7 +436,7 @@ void Scene::createFromFile(const string& objFilePath)
                             // Calculate the normal
                             triangle.updateNormal();
 
-                            rCurrentObject->addTriangle(triangle);
+                            static_pointer_cast<Mesh>(rCurrentObject)->addTriangle(triangle);
 
                             lineNotProcessed = false;
                         }
@@ -434,7 +449,7 @@ void Scene::createFromFile(const string& objFilePath)
         }
 
         // Set the bouning box of the last object
-        rCurrentObject->boundingBoxLimits(minPoint, maxPoint);
+        static_pointer_cast<Mesh>(rCurrentObject)->boundingBoxLimits(minPoint, maxPoint);
 
         objFile.close();
     }
@@ -458,7 +473,7 @@ Color Scene::meanAmbiantLight(void) const
     return meanLight;
 }
 
-void Scene::_countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const
+void Scene::_countVerticesAndFaces(const string& objFilePath, OBJParameters& parameters) const
 {
     // Open file
     ifstream objFile(objFilePath.c_str(), ifstream::in);

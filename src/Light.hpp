@@ -42,7 +42,7 @@ namespace LCNS
         virtual Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const = 0;
 
         /// Get the direction of the light from a point of an object in the scene
-        virtual Vector directionFrom(const Point& point) const = 0;
+        virtual Vector directionFrom([[maybe_unused]] const Point& point) const = 0;
 
         /// Set the intensity (color) of the light
         void intensity(const Color& color);

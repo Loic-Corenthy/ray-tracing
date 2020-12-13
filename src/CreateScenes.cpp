@@ -14,21 +14,23 @@
 #include <algorithm>
 #include <memory>
 
-using namespace LCNS;
-
 using std::make_shared;
 using std::max;
+using std::shared_ptr;
+using std::static_pointer_cast;
 using std::string;
 
-void createTestScene(LCNS::Scene* scene)
+using namespace LCNS;
+
+void createTestScene(shared_ptr<Scene> scene)
 {
-    LCNS::Point centerSphere1(0.0, 0.0, 0.0);
-    Renderable* rSphere1 = new Sphere(centerSphere1, 2.3);
+    Point                  centerSphere1(0.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 2.3);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere1(1.0f, 0.0f, 0.0f);
-    Color specularSphere1(0.7f, 0.3f, 0.3f);
-    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
+    Color            diffusionSphere1(1.0, 0.0, 0.0);
+    Color            specularSphere1(0.7, 0.3, 0.3);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 1.0, 1.0, scene, Shader::NONE);
@@ -47,17 +49,17 @@ void createTestScene(LCNS::Scene* scene)
     scene->add(rLight1);
 
 
-    //    LCNS::Point light2Position(0.f,1.0f,0.0f);
+    //    Point light2Position(0.,1.0,0.0);
     //	Light* rLight2 = new PunctualLight(light2Position,lLight1Color);
     //    scene->add(rLight2);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 7.0f, 10.0f);
-    Vector      directionCamera(0.00f, -0.4f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 7.0, 10.0);
+    Vector directionCamera(0.00, -0.4, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -66,10 +68,10 @@ void createTestScene(LCNS::Scene* scene)
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.3f));
+    scene->setBackgroundColor(Color(0.3));
 }
 
-void createScene01(Scene* scene)
+void createScene01(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for all the spheres
     double reflectionCoeff(2.0);
@@ -78,13 +80,13 @@ void createScene01(Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point centerSphere1(0.0, 2.0, 2.1);
-    Renderable* rSphere1 = new Sphere(centerSphere1, 0.3);
+    Point                  centerSphere1(0.0, 2.0, 2.1);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 0.3);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere1(1.0f, 0.0f, 0.0f);
-    Color specularSphere1(0.7f, 0.3f, 0.3f);
-    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 5);
+    Color            diffusionSphere1(1.0, 0.0, 0.0);
+    Color            specularSphere1(0.7, 0.3, 0.3);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 5);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
@@ -98,13 +100,13 @@ void createScene01(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point centerSphere2(2.0, 0.5, 0.0);
-    Renderable* rSphere2 = new Sphere(centerSphere2, 1.5);
+    Point                  centerSphere2(2.0, 0.5, 0.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 1.5);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere2(0.0f, 1.0f, 0.0f);
-    Color specularSphere2(1.0f);
-    BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
+    Color            diffusionSphere2(0.0, 1.0, 0.0);
+    Color            specularSphere2(1.0);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
@@ -118,13 +120,13 @@ void createScene01(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    LCNS::Point centerSphere3(-1.8, 0.0, 0.0);
-    Renderable* rSphere3 = new Sphere(centerSphere3, 1.0);
+    Point                  centerSphere3(-1.8, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere3(0.0f, 0.0f, 1.0f);
-    Color specularSphere3(0.8f, 0.8f, 1.0f);
-    BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
+    Color            diffusionSphere3(0.0, 0.0, 1.0);
+    Color            specularSphere3(0.8, 0.8, 1.0);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::MARBLE);
@@ -138,18 +140,18 @@ void createScene01(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 0.0f, 5.0f);
-    Color       light1Color(9.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 0.0, 5.0);
+    Color  light1Color(9.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 2.5f, 6.0f);
-    Vector      directionCamera(0.05f, -0.4f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 2.5, 6.0);
+    Vector directionCamera(0.05, -0.4, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -161,7 +163,7 @@ void createScene01(Scene* scene)
 }
 
 
-void createScene02(Scene* scene)
+void createScene02(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
     double reflectionCoeff(5.8);
@@ -170,13 +172,13 @@ void createScene02(Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point centerSphere1(-60.0, 0.0, 60.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 40.f);
+    Point                  centerSphere1(-60.0, 0.0, 60.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 40.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
-    Color  specularSphere1(0.9f, 0.4f, 0.4f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1 * 2.0, specularSphere1, 3);
+    Color            diffusionSphere1(1.0, 0.6, 0.6);
+    Color            specularSphere1(0.9, 0.4, 0.4);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1 * 2.0, specularSphere1, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -191,13 +193,13 @@ void createScene02(Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point centerSphere2(60.0, 0.0, 50.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 40.f);
+    Point                  centerSphere2(60.0, 0.0, 50.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 40.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
-    Color  specularSphere2(0.4, 1.0f, 0.4f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2 * 2.0, specularSphere2, 3);
+    Color            diffusionSphere2(0.6, 1.0, 0.6);
+    Color            specularSphere2(0.4, 1.0, 0.4);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2 * 2.0, specularSphere2, 3);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -212,13 +214,13 @@ void createScene02(Scene* scene)
     /////////////////
     // BLUE SPHERE //
     /////////////////
-    LCNS::Point centerSphere3(0.0, -10.0, 110.0);
-    Sphere*     rSphere3 = new Sphere(centerSphere3, 20.0f);
+    Point                  centerSphere3(0.0, -10.0, 110.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 20.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere3(0.6f, 0.6f, 1.0f);
-    Color  specularSphere3(0.4f, 0.4f, 0.9f);
-    Phong* rBRDFSphere3 = new Phong(diffusionSphere3 * 2.0, specularSphere3, 3);
+    Color            diffusionSphere3(0.6, 0.6, 1.0);
+    Color            specularSphere3(0.4, 0.4, 0.9);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3 * 2.0, specularSphere3, 3);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, 1.0, scene);
@@ -233,13 +235,13 @@ void createScene02(Scene* scene)
     ///////////////////////////////
     // CYAN SPHERE IN BACKGROUND //
     ///////////////////////////////
-    LCNS::Point centerSphere4(-50.0, 0.0, -250.0);
-    Sphere*     rSphere4 = new Sphere(centerSphere4, 100.0f);
+    Point                  centerSphere4(-50.0, 0.0, -250.0);
+    shared_ptr<Renderable> rSphere4 = make_shared<Sphere>(centerSphere4, 100.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere4(0, 255, 255);
-    Color  specularSphere4(0.0f);
-    Phong* rBRDFSphere4 = new Phong(diffusionSphere4 * 6, specularSphere4, 3);
+    Color            diffusionSphere4(0, 255, 255);
+    Color            specularSphere4(0.0);
+    shared_ptr<BRDF> rBRDFSphere4 = make_shared<Phong>(diffusionSphere4 * 6, specularSphere4, 3);
 
     // Create a shader for the fourth sphere
     auto rShaderSphere4 = make_shared<Shader>(rBRDFSphere4, 0.0, 1.0, scene);
@@ -260,34 +262,34 @@ void createScene02(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(50.f, 130.f, 150.0f);
-    Color       light1Color(18.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(50., 130., 150.0);
+    Color  light1Color(18.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point light2Position(20.f, 150.f, 150.0f);
-    Color       light2Color(18.0f);
-    Light*      rLight2 = new PunctualLight(light2Position, light2Color);
+    Point  light2Position(20., 150., 150.0);
+    Color  light2Color(18.0);
+    Light* rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
-    LCNS::Point light3Position(-70.f, 50.f, 110.0f);
-    Color       light3Color(15.0f);
-    Light*      rLight3 = new PunctualLight(light3Position, light3Color);
+    Point  light3Position(-70., 50., 110.0);
+    Color  light3Color(15.0);
+    Light* rLight3 = new PunctualLight(light3Position, light3Color);
     scene->add(rLight3);
 
-    LCNS::Point light4Position(-20.f, 50.f, 160.0f);
-    Color       light4Color(15.0f);
-    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
+    Point  light4Position(-20., 50., 160.0);
+    Color  light4Color(15.0);
+    Light* rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 100.0f, 250.0f);
-    Vector      directionCamera(0.0f, -0.6f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 100.0, 250.0);
+    Vector directionCamera(0.0, -0.6, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->focalPoint(centerSphere3);
@@ -302,7 +304,7 @@ void createScene02(Scene* scene)
     scene->setBackgroundColor(Color(2, 6, 13));
 }
 
-void createScene03(Scene* scene)
+void createScene03(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
     double reflection(1.0);
@@ -311,12 +313,12 @@ void createScene03(Scene* scene)
     //////////////////////////////////////
     // SPHERE WITH A TURBULANCE TEXTURE //
     //////////////////////////////////////
-    LCNS::Point center(-20.0, 0.0, 0.0);
-    Sphere*     rSphere1 = new Sphere(center, 3.0f);
+    Point                  center(-20.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(center, 3.0);
 
-    Color  diffusion(245, 222, 179);
-    Color  specular(255, 255, 255);
-    Phong* rBRDF1 = new Phong(diffusion * 2.0, specular, 15);
+    Color            diffusion(245, 222, 179);
+    Color            specular(255, 255, 255);
+    shared_ptr<BRDF> rBRDF1 = make_shared<Phong>(diffusion * 2.0, specular, 15);
 
     // Create a shader for the turbulance sphere
     auto rShader1 = make_shared<Shader>(rBRDF1, reflection, refraction, scene, Shader::Material::TURBULANCE);
@@ -332,10 +334,10 @@ void createScene03(Scene* scene)
     // SPHERE WITH A MARBLE TEXTURE //
     //////////////////////////////////
     center.set(-10.0, 0.0, 0.0);
-    Sphere* rSphere2 = new Sphere(center, 3.0f);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(center, 3.0);
 
     diffusion.set(0, 255, 255);
-    Phong* rBRDF2 = new Phong(diffusion, specular, 15);
+    shared_ptr<BRDF> rBRDF2 = make_shared<Phong>(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
     auto rShader2 = make_shared<Shader>(rBRDF2, reflection, refraction, scene, Shader::Material::MARBLE);
@@ -355,7 +357,7 @@ void createScene03(Scene* scene)
 
     // Create a BRDF model for the torus
     diffusion.set(255, 105, 0);
-    Phong* rBRDFTorus = new Phong(diffusion, specular, 3);
+    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(diffusion, specular, 3);
 
     // Create a shader for the torus
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::NONE);
@@ -374,10 +376,10 @@ void createScene03(Scene* scene)
     // SPHERE WITH A BUMP TEXTURE //
     ////////////////////////////////
     center.set(8.0, 0.0, 0.0);
-    Sphere* rSphere3 = new Sphere(center, 3.0f);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(center, 3.0);
 
     diffusion.set(127, 255, 0);
-    Phong* rBRDF3 = new Phong(diffusion, specular, 15);
+    shared_ptr<BRDF> rBRDF3 = make_shared<Phong>(diffusion, specular, 15);
 
     // Create a shader for the marble sphere
     auto rShader3 = make_shared<Shader>(rBRDF3, reflection, refraction, scene, Shader::Material::BUMP);
@@ -393,7 +395,7 @@ void createScene03(Scene* scene)
     // SPHERE WITH A TEXTURE //
     ///////////////////////////
     center.set(18.0, 0.0, 0.0);
-    Renderable* rSphere4 = new Sphere(center, 3.0);
+    shared_ptr<Renderable> rSphere4 = make_shared<Sphere>(center, 3.0);
 
     // Create a BRDF model for the sphere
     auto rCubeMapSphere = make_shared<CubeMap>(center, 104);
@@ -408,7 +410,7 @@ void createScene03(Scene* scene)
     scene->add(rCubeMapSphere);
 
     diffusion.set(255, 255, 255);
-    BRDF* rBRDF4 = new Phong(diffusion * 2.0, specular, 15);
+    shared_ptr<BRDF> rBRDF4 = make_shared<Phong>(diffusion * 2.0, specular, 15);
     rBRDF4->cubeMap(rCubeMapSphere);
 
     // Create a shader for the sphere
@@ -424,8 +426,8 @@ void createScene03(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lightPos(0.0, 20.0, 15.0);
-    Color       lightCol(18.0f);
+    Point lightPos(0.0, 20.0, 15.0);
+    Color lightCol(18.0);
 
     Light* rLight = new PunctualLight(lightPos, lightCol);
     scene->add(rLight);
@@ -434,10 +436,10 @@ void createScene03(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(1.5f, 10.0f, 25.0f);
-    Vector      directionCamera(-0.05f, -0.4f, -1.0f);
-    Vector      cameraUp(0.f, 1.0f, 0.f);
-    float       FOV = 90.f * 3.141592 / 180.f;
+    Point  centreCamera(1.5, 10.0, 25.0);
+    Vector directionCamera(-0.05, -0.4, -1.0);
+    Vector cameraUp(0., 1.0, 0.);
+    double FOV = 90. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP);
@@ -447,31 +449,31 @@ void createScene03(Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters floorParameters = { Color(0.0f), Color(0.0f), 1.0f, 1.0f, 2, 40.0, 3.0, string("no_texture") };
+    FloorParameters floorParameters = { Color(0.0), Color(0.0), 1.0, 1.0, 2, 40.0, 3.0, string("no_texture") };
     createFloor(scene, floorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
 
-void createScene04(Scene* scene)
+void createScene04(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
     double reflectionCoeff(8.0);
     double refractionCoeff(1.0);
 
     // Create a sphere
-    LCNS::Point centerSphere1(-180.0, 0.0, 0.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 50.f);
+    Point                  centerSphere1(-180.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 50.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
-    Color  specularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
+    Color            diffusionSphere1(1.3, 0.0, 0.0);
+    Color            specularSphere1(1.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -483,13 +485,13 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    LCNS::Point centerSphere2(0.0, 0.0, 0.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 50.f);
+    Point                  centerSphere2(0.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 50.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
-    Color  specularSphere2(0.8f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
+    Color            diffusionSphere2(0.0, 1.2, 0.0);
+    Color            specularSphere2(0.8);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -501,13 +503,13 @@ void createScene04(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a purple sphere
-    LCNS::Point centerSphere3(180.0, 0.0, 0.0);
-    Sphere*     rSphere3 = new Sphere(centerSphere3, 50.0f);
+    Point                  centerSphere3(180.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 50.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
-    Color  specularSphere3(0.8);
-    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
+    Color            diffusionSphere3(0.24, 0.34, 1.97);
+    Color            specularSphere3(0.8);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
@@ -522,35 +524,35 @@ void createScene04(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 0.0f, 100.0f);
-    Color       lowLightColor(20.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, lowLightColor);
+    Point  light1Position(0., 0.0, 100.0);
+    Color  lowLightColor(20.0);
+    Light* rLight1 = new PunctualLight(light1Position, lowLightColor);
     scene->add(rLight1);
 
-    LCNS::Point light2Position(-200.f, 0.0f, 100.0f);
-    Light*      rLight2 = new PunctualLight(light2Position, lowLightColor);
+    Point  light2Position(-200., 0.0, 100.0);
+    Light* rLight2 = new PunctualLight(light2Position, lowLightColor);
     scene->add(rLight2);
 
-    LCNS::Point light3Position(200.f, 0.0f, 100.0f);
-    Light*      rLight3 = new PunctualLight(light3Position, lowLightColor);
+    Point  light3Position(200., 0.0, 100.0);
+    Light* rLight3 = new PunctualLight(light3Position, lowLightColor);
     scene->add(rLight3);
 
-    LCNS::Point light4Position(90.f, 300.f, 200.0f);
-    Color       highLightColor(200.0f);
-    Light*      rLight4 = new PunctualLight(light4Position, highLightColor);
+    Point  light4Position(90., 300., 200.0);
+    Color  highLightColor(200.0);
+    Light* rLight4 = new PunctualLight(light4Position, highLightColor);
     scene->add(rLight4);
 
-    LCNS::Point light5Position(-90.f, 300.f, 200.0f);
-    Light*      rLight5 = new PunctualLight(light5Position, highLightColor);
+    Point  light5Position(-90., 300., 200.0);
+    Light* rLight5 = new PunctualLight(light5Position, highLightColor);
     scene->add(rLight5);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(-200.0f, 150.0f, 400.0f);
-    Vector      directionCamera(0.2f, -0.25f, -0.5f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(-200.0, 150.0, 400.0);
+    Vector directionCamera(0.2, -0.25, -0.5);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
@@ -558,17 +560,17 @@ void createScene04(Scene* scene)
     scene->add(rCamera);
 
     // FLOOR
-    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
+    FloorParameters floorParameters = { Color(1.0), Color(0.3), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
 
     createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
-void createScene04bis(LCNS::Scene* scene)
+void createScene04bis(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
     double reflectionCoeff(8.0);
@@ -577,13 +579,13 @@ void createScene04bis(LCNS::Scene* scene)
     ////////////////
     // RED SPHERE //
     ////////////////
-    LCNS::Point centerSphere1(-2.50, 0.0, 0.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 1.0f);
+    Point                  centerSphere1(-2.50, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 1.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.3f, 0.0f, 0.0f);
-    Color  specularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 25);
+    Color            diffusionSphere1(1.3, 0.0, 0.0);
+    Color            specularSphere1(1.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 25);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -598,13 +600,13 @@ void createScene04bis(LCNS::Scene* scene)
     //////////////////
     // GREEN SPHERE //
     //////////////////
-    LCNS::Point centerSphere2(0.0, 0.0, 0.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 1.0f);
+    Point                  centerSphere2(0.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 1.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.0f, 1.2f, 0.0f);
-    Color  specularSphere2(0.8f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 25);
+    Color            diffusionSphere2(0.0, 1.2, 0.0);
+    Color            specularSphere2(0.8);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 25);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -618,13 +620,13 @@ void createScene04bis(LCNS::Scene* scene)
     ///////////////////
     // PURPLE SPHERE //
     ///////////////////
-    LCNS::Point centerSphere3(2.50, 0.0, 0.0);
-    Sphere*     rSphere3 = new Sphere(centerSphere3, 1.0f);
+    Point                  centerSphere3(2.50, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere3(0.24f, 0.34f, 1.97f);
-    Color  specularSphere3(0.8);
-    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 25);
+    Color            diffusionSphere3(0.24, 0.34, 1.97);
+    Color            specularSphere3(0.8);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 25);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene);
@@ -639,23 +641,23 @@ void createScene04bis(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light4Position(1.15f, 4.f, 4.0f);
-    Color       lightColor(16.0f);
-    Light*      rLight4 = new PunctualLight(light4Position, lightColor);
+    Point  light4Position(1.15, 4., 4.0);
+    Color  lightColor(16.0);
+    Light* rLight4 = new PunctualLight(light4Position, lightColor);
     scene->add(rLight4);
 
-    LCNS::Point light5Position(-1.15f, 4.f, 4.0f);
-    Light*      rLight5 = new PunctualLight(light5Position, lightColor);
+    Point  light5Position(-1.15, 4., 4.0);
+    Light* rLight5 = new PunctualLight(light5Position, lightColor);
     scene->add(rLight5);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(-3.5f, 2.50f, 7.0f);
-    Vector      directionCamera(0.15f, -0.25f, -0.5f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(-3.5, 2.50, 7.0);
+    Vector directionCamera(0.15, -0.25, -0.5);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -663,26 +665,26 @@ void createScene04bis(LCNS::Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0f, 1.0f, 2, 20.0, 2.0, string("./resources/small_damier.png") };
+    FloorParameters floorParameters = { Color(1.0), Color(0.3), 1.0, 1.0, 2, 20.0, 2.0, string("./resources/small_damier.png") };
     createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
 
-void createScene05(Scene* scene)
+void createScene05(shared_ptr<Scene> scene)
 {
     // TORUS
     string path = "./resources/torus.obj";
     scene->createFromFile(path);
 
     // Create a BRDF model for the torus
-    Color  diffusionTorus(0.76f, 0.33f, 0.12f);
-    Color  specularTorus(0.9f, 0.8f, 0.8f);
-    Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 3);
+    Color            diffusionTorus(0.76, 0.33, 0.12);
+    Color            specularTorus(0.9, 0.8, 0.8);
+    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(diffusionTorus, specularTorus, 3);
 
     // Create a shader for the sphere
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::BUMP);
@@ -697,24 +699,24 @@ void createScene05(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color       light1Color(10.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 1.0, 10.0);
+    Color  light1Color(10.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point light4Position(0.f, 10.f, 6.0f);
-    Color       light4Color(10.0f);
-    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
+    Point  light4Position(0., 10., 6.0);
+    Color  light4Color(10.0);
+    Light* rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 3.0f, 12.0f);
-    Vector      directionCamera(0.01f, -0.3f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 3.0, 12.0);
+    Vector directionCamera(0.01, -0.3, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP);
@@ -723,29 +725,29 @@ void createScene05(Scene* scene)
 
 
     // FLOOR
-    FloorParameters floorParameters = { Color(0.6f), Color(0.7f), 1.0, 1.0, 2, 200.0, 50.0, string("no_texture") };
+    FloorParameters floorParameters = { Color(0.6), Color(0.7), 1.0, 1.0, 2, 200.0, 50.0, string("no_texture") };
     createFloor(scene, floorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.7f, 0.72f, 0.2f));
+    scene->setBackgroundColor(Color(0.7, 0.72, 0.2));
 }
 
-void createScene06(Scene* scene)
+void createScene06(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
     double reflectionCoeff(0.8);
 
     // SPHERE WITH REFRACTION
-    LCNS::Point center(0.0, 0.0, 0.0);
-    Sphere*     rSphere1 = new Sphere(center, 5.f);
+    Point                  center(0.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(center, 5.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.0f);
-    Color  specularSphere1(0.1f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
+    Color            diffusionSphere1(1.0);
+    Color            specularSphere1(0.1);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, 2.0, scene);
@@ -762,10 +764,10 @@ void createScene06(Scene* scene)
 
     // BG 1, left
     center.x(-20.0);
-    Sphere* rSphereL1 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereL1 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDF_L1  = new Phong(Color(250, 240, 230) * 5.0, Color(1.0), 3);
-    auto   rShaderL1 = make_shared<Shader>(rBRDF_L1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    shared_ptr<BRDF> rBRDF_L1  = make_shared<Phong>(Color(250, 240, 230) * 5.0, Color(1.0), 3);
+    auto             rShaderL1 = make_shared<Shader>(rBRDF_L1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereL1->shader(rShaderL1);
 
@@ -775,10 +777,10 @@ void createScene06(Scene* scene)
 
     // BG 1, right
     center.x(20.0);
-    Sphere* rSphereR1 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereR1 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFR1   = new Phong(Color(135, 206, 250) * 5.0, Color(1.0), 3);
-    auto   rShaderR1 = make_shared<Shader>(rBRDFR1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    shared_ptr<BRDF> rBRDFR1   = make_shared<Phong>(Color(135, 206, 250) * 5.0, Color(1.0), 3);
+    auto             rShaderR1 = make_shared<Shader>(rBRDFR1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereR1->shader(rShaderR1);
 
@@ -789,10 +791,10 @@ void createScene06(Scene* scene)
     // BG 1, down
     center.x(0.0);
     center.y(-20.0);
-    Sphere* rSphereD1 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereD1 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFD1   = new Phong(Color(250, 128, 114) * 5.0, Color(1.0), 3);
-    auto   rShaderD1 = make_shared<Shader>(rBRDFD1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    shared_ptr<BRDF> rBRDFD1   = make_shared<Phong>(Color(250, 128, 114) * 5.0, Color(1.0), 3);
+    auto             rShaderD1 = make_shared<Shader>(rBRDFD1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereD1->shader(rShaderD1);
 
@@ -802,10 +804,10 @@ void createScene06(Scene* scene)
 
     // BG 1, up
     center.y(20.0);
-    Sphere* rSphereU1 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereU1 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFU1   = new Phong(Color(255, 250, 205) * 5.0, Color(1.0), 3);
-    auto   rShaderU1 = make_shared<Shader>(rBRDFU1, reflectionCoeff, 1.0, scene, Shader::BUMP);
+    shared_ptr<BRDF> rBRDFU1   = make_shared<Phong>(Color(255, 250, 205) * 5.0, Color(1.0), 3);
+    auto             rShaderU1 = make_shared<Shader>(rBRDFU1, reflectionCoeff, 1.0, scene, Shader::BUMP);
 
     rSphereU1->shader(rShaderU1);
 
@@ -820,10 +822,10 @@ void createScene06(Scene* scene)
     // BG 2, left down
     center.x(-85.0);
     center.y(-85.0);
-    Sphere* rSphereLD2 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereLD2 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFLD2   = new Phong(Color(127, 255, 212) * 5.0, Color(1.0), 3);
-    auto   rShaderLD2 = make_shared<Shader>(rBRDFLD2, reflectionCoeff, 1.0, scene);
+    shared_ptr<BRDF> rBRDFLD2   = make_shared<Phong>(Color(127, 255, 212) * 5.0, Color(1.0), 3);
+    auto             rShaderLD2 = make_shared<Shader>(rBRDFLD2, reflectionCoeff, 1.0, scene);
 
     rSphereLD2->shader(rShaderLD2);
 
@@ -834,10 +836,10 @@ void createScene06(Scene* scene)
     // BG 2, right down
     center.x(85.0);
     center.y(-85.0);
-    Sphere* rSphereRD2 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereRD2 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFRD2   = new Phong(Color(240, 248, 255) * 5.0, Color(1.0), 3);
-    auto   rShaderRD2 = make_shared<Shader>(rBRDFRD2, reflectionCoeff, 1.0, scene);
+    shared_ptr<BRDF> rBRDFRD2   = make_shared<Phong>(Color(240, 248, 255) * 5.0, Color(1.0), 3);
+    auto             rShaderRD2 = make_shared<Shader>(rBRDFRD2, reflectionCoeff, 1.0, scene);
 
     rSphereRD2->shader(rShaderRD2);
 
@@ -848,10 +850,10 @@ void createScene06(Scene* scene)
     // BG 2, left up
     center.x(-85.0);
     center.y(85.0);
-    Sphere* rSphereLU2 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereLU2 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFLU2   = new Phong(Color(255, 99, 71) * 5.0, Color(1.0), 3);
-    auto   rShaderLU2 = make_shared<Shader>(rBRDFLU2, reflectionCoeff, 1.0, scene);
+    shared_ptr<BRDF> rBRDFLU2   = make_shared<Phong>(Color(255, 99, 71) * 5.0, Color(1.0), 3);
+    auto             rShaderLU2 = make_shared<Shader>(rBRDFLU2, reflectionCoeff, 1.0, scene);
 
     rSphereLU2->shader(rShaderLU2);
 
@@ -862,10 +864,10 @@ void createScene06(Scene* scene)
     // BG2, right up
     center.x(85.0);
     center.y(85.0);
-    Sphere* rSphereRU2 = new Sphere(center, size);
+    shared_ptr<Renderable> rSphereRU2 = make_shared<Sphere>(center, size);
 
-    Phong* rBRDFRU2   = new Phong(Color(255, 255, 0) * 5.0, Color(1.0), 3);
-    auto   rShaderRU2 = make_shared<Shader>(rBRDFRU2, reflectionCoeff, 1.0, scene);
+    shared_ptr<BRDF> rBRDFRU2   = make_shared<Phong>(Color(255, 255, 0) * 5.0, Color(1.0), 3);
+    auto             rShaderRU2 = make_shared<Shader>(rBRDFRU2, reflectionCoeff, 1.0, scene);
 
     rSphereRU2->shader(rShaderRU2);
 
@@ -875,11 +877,11 @@ void createScene06(Scene* scene)
 
 
     //    // SPHERE WITH TEXTURE
-    //    LCNS::Point centerSphere2(12.0,0.0,0.0);
-    //	Sphere* rSphere2 = new Sphere(centerSphere2,5.f);
+    //    Point centerSphere2(12.0,0.0,0.0);
+    //	shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2,5.);
     //
     //    // Create a BRDF model for the sphere
-    //    Color diffusionSphere2(1.0f);
+    //    Color diffusionSphere2(1.0);
     //	Color specularSphere2(0.1);
     //    auto rCubeMapSphere = make_shared<CubeMap>(centerSphere2, 520);
     //    rCubeMapSphere->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
@@ -891,7 +893,7 @@ void createScene06(Scene* scene)
     //
     //    scene->add(rCubeMapSphere);
     //
-    //	Phong* rBRDFSphere2 = new Phong(diffusionSphere2,lSpecularSphere2,3);
+    //	shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2,lSpecularSphere2,3);
     //    rBRDFSphere2->cubeMap(rCubeMapSphere);
     //
     //    // Create a shader for the second sphere
@@ -906,29 +908,29 @@ void createScene06(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lightPosition(0.0f, 0.0f, 20.0f);
-    Color       lightColor(6.0f);
-    Light*      rLight1 = new PunctualLight(lightPosition, lightColor);
+    Point  lightPosition(0.0, 0.0, 20.0);
+    Color  lightColor(6.0);
+    Light* rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 0.0f, 15.0f);
-    Vector      directionCamera(0.0f, 0.0f, -1.01f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 90.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 0.0, 15.0);
+    Vector directionCamera(0.0, 0.0, -1.01);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 90. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(LCNS::Point(4.0));
+    rCamera->focalPoint(Point(4.0));
     rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::EXCELLENT);
     //    rCamera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(rCamera);
 
     // BACKGROUND
-    auto rCubeMapBckGrd = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapBckGrd = make_shared<CubeMap>(Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/River_back.png");
     rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/River_front.png");
@@ -942,16 +944,16 @@ void createScene06(Scene* scene)
     scene->backgroundCubeMap(rCubeMapBckGrd);
 }
 
-void createScene07(Scene* scene)
+void createScene07(shared_ptr<Scene> scene)
 {
     // Create a sphere (1)
-    LCNS::Point centerSphere1(-30.f, 10.0f, 20.0f);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 13.f);
+    Point                  centerSphere1(-30., 10.0, 20.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 13.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(229.0f / 255.0f, 51.0f / 255.0f, 163.0f / 255.0f);
-    Color  specularSphere1(0.0f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
+    Color            diffusionSphere1(229.0 / 255.0, 51.0 / 255.0, 163.0 / 255.0);
+    Color            specularSphere1(0.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 0.8, 1.0, scene, Shader::TURBULANCE);
@@ -962,13 +964,13 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a sphere (2)
-    LCNS::Point centerSphere2(0.0f, 10.0f, 20.0f);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 13.f);
+    Point                  centerSphere2(0.0, 10.0, 20.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 13.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(220.0f / 255.0f, 210.0f / 255.0f, 120.0f / 255.0f);
-    Color  specularSphere2(0.0f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
+    Color            diffusionSphere2(220.0 / 255.0, 210.0 / 255.0, 120.0 / 255.0);
+    Color            specularSphere2(0.0);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, 0.8, 1.0, scene, Shader::MARBLE);
@@ -979,13 +981,13 @@ void createScene07(Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a sphere (3)
-    LCNS::Point centerSphere3(30.f, 10.0f, 20.0f);
-    Sphere*     rSphere3 = new Sphere(centerSphere3, 13.f);
+    Point                  centerSphere3(30., 10.0, 20.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 13.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere3(90.0f / 255.0f, 160.0f / 255.0f, 210.0f / 255.0f);
-    Color  specularSphere3(0.0f);
-    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
+    Color            diffusionSphere3(90.0 / 255.0, 160.0 / 255.0, 210.0 / 255.0);
+    Color            specularSphere3(0.0);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, 0.8, 1.0, scene, Shader::BUMP);
@@ -998,20 +1000,20 @@ void createScene07(Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point lightPosition(0.0f, 90.0f, 0.0f);
-    Color       lightColor(5.0f);
-    Light*      rLight1 = new PunctualLight(lightPosition, lightColor);
+    Point  lightPosition(0.0, 90.0, 0.0);
+    Color  lightColor(5.0);
+    Light* rLight1 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight1);
 
-    //    lightPosition.setPoint(0.0f,15.0f,37.0f);
+    //    lightPosition.setPoint(0.0,15.0,37.0);
     //	Light* rLight2 = new PunctualLight(lightPosition,lLightColor);
     //    scene->add(rLight2);
 
-    lightPosition.set(10.0f, 20.0f, 37.0f);
+    lightPosition.set(10.0, 20.0, 37.0);
     Light* rLight3 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight3);
 
-    lightPosition.set(-10.0f, 20.0f, 37.0f);
+    lightPosition.set(-10.0, 20.0, 37.0);
     Light* rLight4 = new PunctualLight(lightPosition, lightColor);
     scene->add(rLight4);
 
@@ -1019,10 +1021,10 @@ void createScene07(Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 25.0f, 105.0f);
-    Vector      directionCamera(0.0f, -0.3f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 25.0, 105.0);
+    Vector directionCamera(0.0, -0.3, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP);
@@ -1031,8 +1033,8 @@ void createScene07(Scene* scene)
     scene->add(rCamera);
 
     // ROOM
-    RoomParameters roomParameters = { Color(1.0f, 0.18f, 0.17f),
-                                      Color(0.0f),
+    RoomParameters roomParameters = { Color(1.0, 0.18, 0.17),
+                                      Color(0.0),
                                       1.0,
                                       1.0,
                                       2,
@@ -1048,23 +1050,23 @@ void createScene07(Scene* scene)
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.2f));
+    scene->setBackgroundColor(Color(0.2));
 }
 
-void createScene08(LCNS::Scene* scene)
+void createScene08(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
     double reflectionCoeff(0.8);
     double refractionCoeff(1.0);
 
     // Create a red sphere
-    LCNS::Point centerSphere1(00.0, 0.0, -5.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 2.f);
+    Point                  centerSphere1(00.0, 0.0, -5.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 2.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.0f, 0.6f, 0.6f);
-    Color  specularSphere1(0.9f, 0.4f, 0.4f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
+    Color            diffusionSphere1(1.0, 0.6, 0.6);
+    Color            specularSphere1(0.9, 0.4, 0.4);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -1075,13 +1077,13 @@ void createScene08(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a green sphere
-    LCNS::Point centerSphere2(10.0, 0.0, -100.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 30.f);
+    Point                  centerSphere2(10.0, 0.0, -100.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 30.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.6f, 1.0f, 0.6f);
-    Color  specularSphere2(0.4, 1.0f, 0.4f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
+    Color            diffusionSphere2(0.6, 1.0, 0.6);
+    Color            specularSphere2(0.4, 1.0, 0.4);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -1094,18 +1096,18 @@ void createScene08(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 10.f, 0.0f);
-    Color       light1Color(3.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 10., 0.0);
+    Color  light1Color(3.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 0.0f, 5.0f);
-    Vector      directionCamera(0.0f, -0.1f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 0.0, 5.0);
+    Vector directionCamera(0.0, -0.1, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME, 1.0);
@@ -1119,16 +1121,16 @@ void createScene08(LCNS::Scene* scene)
     scene->setBackgroundColor(Color(188, 236, 253));
 }
 
-void createScene09(LCNS::Scene* scene)
+void createScene09(shared_ptr<Scene> scene)
 {
     // Load the "torus"
     string path = "./resources/head_4.obj";
     scene->createFromFile(path);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere(0.76f, 0.33f, 0.12f);
-    Color  specularSphere(1.0f);
-    Phong* rBRDFShpere = new Phong(diffusionSphere, specularSphere, 5);
+    Color            diffusionSphere(0.76, 0.33, 0.12);
+    Color            specularSphere(1.0);
+    shared_ptr<BRDF> rBRDFShpere = make_shared<Phong>(diffusionSphere, specularSphere, 5);
 
     // Create a shader for the sphere
     auto rShaderSphere = make_shared<Shader>(rBRDFShpere, 0.8, 1.0, scene);
@@ -1143,9 +1145,9 @@ void createScene09(LCNS::Scene* scene)
 
 
     // Create a BRDF model for the torus
-    Color  diffusionTorus(0.96f, 0.40f, 0.40f);
-    Color  specularTorus(0.9f, 0.8f, 0.8f);
-    Phong* rBRDFTorus = new Phong(diffusionTorus, specularTorus, 5);
+    Color            diffusionTorus(0.96, 0.40, 0.40);
+    Color            specularTorus(0.9, 0.8, 0.8);
+    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(diffusionTorus, specularTorus, 5);
 
     // Create a shader for the torus
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::Material::MARBLE);
@@ -1161,9 +1163,9 @@ void createScene09(LCNS::Scene* scene)
 
 
     // Create a BRDF model for the pipe
-    Color  diffusionPipe(0.16f, 0.89f, 0.0f);
-    Color  specularPipe(0.4f, 0.8f, 0.4f);
-    Phong* rBRDFPipe = new Phong(diffusionPipe, specularPipe, 5);
+    Color            diffusionPipe(0.16, 0.89, 0.0);
+    Color            specularPipe(0.4, 0.8, 0.4);
+    shared_ptr<BRDF> rBRDFPipe = make_shared<Phong>(diffusionPipe, specularPipe, 5);
 
     // Create a shader for the torus
     auto rShaderPipe = make_shared<Shader>(rBRDFPipe, 0.8, 1.0, scene);
@@ -1176,9 +1178,9 @@ void createScene09(LCNS::Scene* scene)
 
 
     // Create a BRDF model for the cone
-    Color  diffusionCone(0.06f, 0.10f, 0.90f);
-    Color  specularCone(0.3f, 0.2f, 0.8f);
-    Phong* rBRDFCone = new Phong(diffusionCone, specularCone, 5);
+    Color            diffusionCone(0.06, 0.10, 0.90);
+    Color            specularCone(0.3, 0.2, 0.8);
+    shared_ptr<BRDF> rBRDFCone = make_shared<Phong>(diffusionCone, specularCone, 5);
 
     // Create a shader for the torus
     auto rShaderCone = make_shared<Shader>(rBRDFCone, 0.8, 1.0, scene, Shader::TURBULANCE);
@@ -1192,24 +1194,24 @@ void createScene09(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color       light1Color(10.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 1.0, 10.0);
+    Color  light1Color(10.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point light4Position(0.f, 10.f, 6.0f);
-    Color       light4Color(10.0f);
-    Light*      rLight4 = new PunctualLight(light4Position, light4Color);
+    Point  light4Position(0., 10., 6.0);
+    Color  light4Color(10.0);
+    Light* rLight4 = new PunctualLight(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 2.4f, 8.0f);
-    Vector      directionCamera(0.01f, -0.1f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 2.4, 8.0);
+    Vector directionCamera(0.01, -0.1, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP);
@@ -1217,16 +1219,16 @@ void createScene09(LCNS::Scene* scene)
     scene->add(rCamera);
 
     // FLOOR
-    //    FloorParameters floorParameters = {Color(0.6f), Color(0.7f),200.0,50.0, string("no_texture")};
+    //    FloorParameters floorParameters = {Color(0.6), Color(0.7),200.0,50.0, string("no_texture")};
     //    createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.2f, 0.32f, 0.8f));
+    scene->setBackgroundColor(Color(0.2, 0.32, 0.8));
 }
 
-void createScene10(LCNS::Scene* scene)
+void createScene10(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
     double reflectionCoeff(5.0);
@@ -1235,13 +1237,13 @@ void createScene10(LCNS::Scene* scene)
     ////////////////////////////////
     // Create a first blue sphere //
     ////////////////////////////////
-    LCNS::Point centerSphere1(0.0, 0.0, 0.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 100.f);
+    Point                  centerSphere1(0.0, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 100.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(0.f, 0.0f, 0.1f);
-    Color  specularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
+    Color            diffusionSphere1(0., 0.0, 0.1);
+    Color            specularSphere1(1.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene);
@@ -1256,13 +1258,13 @@ void createScene10(LCNS::Scene* scene)
     /////////////////////////////////
     // Create a second blue sphere //
     /////////////////////////////////
-    LCNS::Point centerSphere2(50.0, -20.0, 230.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 60.f);
+    Point                  centerSphere2(50.0, -20.0, 230.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 60.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.0f, 0.0f, 0.1f);
-    Color  specularSphere2(0, 250, 154);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
+    Color            diffusionSphere2(0.0, 0.0, 0.1);
+    Color            specularSphere2(0, 250, 154);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -1277,26 +1279,26 @@ void createScene10(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(-40.f, 150.f, 50.0f);
-    Color       light1Color(212.0f, 27.0f, 218.0f);
+    Point light1Position(-40., 150., 50.0);
+    Color light1Color(212.0, 27.0, 218.0);
     light1Color *= 2.0;
 
     Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
 
-    LCNS::Point light2Position(90.f, 150.f, 190.0f);
-    Color       light2Color(189.0f, 190.0f, 53.0f);
+    Point light2Position(90., 150., 190.0);
+    Color light2Color(189.0, 190.0, 53.0);
 
-    light2Color *= 2.0f;
+    light2Color *= 2.0;
 
     Light* rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
-    LCNS::Point light3Position(-190.f, 150.f, 90.0f);
-    Color       light3Color(255, 140, 0);
+    Point light3Position(-190., 150., 90.0);
+    Color light3Color(255, 140, 0);
 
-    light3Color *= 200.0f;
+    light3Color *= 200.0;
 
     Light* rLight3 = new PunctualLight(light3Position, light3Color);
     scene->add(rLight3);
@@ -1305,10 +1307,10 @@ void createScene10(LCNS::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(-280.0f, 150.0f, 350.0f);
-    Vector      directionCamera(0.5f, -0.35f, -0.5f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(-280.0, 150.0, 350.0);
+    Vector directionCamera(0.5, -0.35, -0.5);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
@@ -1319,17 +1321,17 @@ void createScene10(LCNS::Scene* scene)
     ///////////
     // FLOOR //
     ///////////
-    FloorParameters floorParameters = { Color(1.0f), Color(0.3f), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
+    FloorParameters floorParameters = { Color(1.0), Color(0.3), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
     createFloor(scene, floorParameters);
 
 
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
-void createScene11(LCNS::Scene* scene)
+void createScene11(shared_ptr<Scene> scene)
 {
     double reflectionCoeff(2.0);
     double refractionCoeff(1.0);
@@ -1337,13 +1339,13 @@ void createScene11(LCNS::Scene* scene)
     //////////////////////////
     // Create a yellow sphere //
     //////////////////////////
-    LCNS::Point centerSphere1(-1.1, 0.0, 0.0);
-    Renderable* rSphere1 = new Sphere(centerSphere1, 1.0);
+    Point                  centerSphere1(-1.1, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 1.0);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere1(255, 255, 0);
-    Color specularSphere1(230, 230, 250);
-    BRDF* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 15);
+    Color            diffusionSphere1(255, 255, 0);
+    Color            specularSphere1(230, 230, 250);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 15);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1360,13 +1362,13 @@ void createScene11(LCNS::Scene* scene)
     ///////////////////////////
     // Create a cyan sphere //
     ///////////////////////////
-    LCNS::Point centerSphere2(1.1, 0.0, 0.0);
-    Renderable* rSphere2 = new Sphere(centerSphere2, 1.0);
+    Point                  centerSphere2(1.1, 0.0, 0.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 1.0);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere2(0, 255, 255);
-    Color specularSphere2(255, 160, 122);
-    BRDF* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 15);
+    Color            diffusionSphere2(0, 255, 255);
+    Color            specularSphere2(255, 160, 122);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1383,13 +1385,13 @@ void createScene11(LCNS::Scene* scene)
     //////////////////////////
     // Create a pink sphere //
     //////////////////////////
-    LCNS::Point centerSphere3(0.0, 1.8, 0.0);
-    Renderable* rSphere3 = new Sphere(centerSphere3, 1.0);
+    Point                  centerSphere3(0.0, 1.8, 0.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color diffusionSphere3(255, 0, 255);
-    Color specularSphere3(127, 255, 212);
-    BRDF* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 15);
+    Color            diffusionSphere3(255, 0, 255);
+    Color            specularSphere3(127, 255, 212);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1406,24 +1408,24 @@ void createScene11(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 1.0f, 10.0f);
-    Color       light1Color(8.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 1.0, 10.0);
+    Color  light1Color(8.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    LCNS::Point light2Position(0.f, 1.0f, -10.0f);
-    Color       light2Color(5.0f);
-    Light*      rLight2 = new PunctualLight(light2Position, light2Color);
+    Point  light2Position(0., 1.0, -10.0);
+    Color  light2Color(5.0);
+    Light* rLight2 = new PunctualLight(light2Position, light2Color);
     scene->add(rLight2);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 0.7f, 2.0f);
-    Vector      directionCamera(0.0f, 0.0f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 0.7, 2.0);
+    Vector directionCamera(0.0, 0.0, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(rCamera);
@@ -1432,23 +1434,23 @@ void createScene11(LCNS::Scene* scene)
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
-void createScene12(LCNS::Scene* scene)
+void createScene12(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
     double reflectionCoeff(2.0);
     double refractionCoeff(1.0);
 
     // Create a sphere
-    LCNS::Point centerSphere1(0.0, 5.0, 5.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere1, 9.f);
+    Point                  centerSphere1(0.0, 5.0, 5.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 9.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.0f, 0.8f, 0.9f);
-    Color  specularSphere1(1.0);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 3);
+    Color            diffusionSphere1(1.0, 0.8, 0.9);
+    Color            specularSphere1(1.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
 
     // Create a BRDF model for the sphere
     //    auto rCubeMapSphere = make_shared<CubeMap>(centerSphere1, 720);
@@ -1473,13 +1475,13 @@ void createScene12(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    LCNS::Point centerSphere2(-21.0, -5.0, 8.0);
-    Sphere*     rSphere2 = new Sphere(centerSphere2, 9.f);
+    Point                  centerSphere2(-21.0, -5.0, 8.0);
+    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 9.);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere2(0.9f, 1.0f, 0.8f);
-    Color  specularSphere2(1.0f);
-    Phong* rBRDFSphere2 = new Phong(diffusionSphere2, specularSphere2, 3);
+    Color            diffusionSphere2(0.9, 1.0, 0.8);
+    Color            specularSphere2(1.0);
+    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -1491,13 +1493,13 @@ void createScene12(LCNS::Scene* scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a transparent sphere for refraction
-    LCNS::Point centerSphere3(21.0, -5.0, 8.0);
-    Sphere*     rSphere3 = new Sphere(centerSphere3, 9.0f);
+    Point                  centerSphere3(21.0, -5.0, 8.0);
+    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 9.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere3(0.95f, 0.88f, 0.60f);
-    Color  specularSphere3(1.0f);
-    Phong* rBRDFSphere3 = new Phong(diffusionSphere3, specularSphere3, 3);
+    Color            diffusionSphere3(0.95, 0.88, 0.60);
+    Color            specularSphere3(1.0);
+    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, 0.6, 1.0, scene);
@@ -1511,13 +1513,13 @@ void createScene12(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.f, 25.0f, 50.0f);
-    Color       light1Color(30.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, light1Color);
+    Point  light1Position(0., 25.0, 50.0);
+    Color  light1Color(30.0);
+    Light* rLight1 = new PunctualLight(light1Position, light1Color);
     scene->add(rLight1);
 
-    //    LCNS::Point light4Position(0.f,20.f,6.0f);
-    //	Color light4Color(10.0f);
+    //    Point light4Position(0.,20.,6.0);
+    //	Color light4Color(10.0);
     //	Light* rLight4 = new PunctualLight(light4Position,lLight4Color);
     //    scene->add(rLight4);
 
@@ -1525,10 +1527,10 @@ void createScene12(LCNS::Scene* scene)
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(0.0f, 15.0f, 40.0f);
-    Vector      directionCamera(0.0f, -0.1f, -1.0f);
-    Vector      cameraUp(0.f, 1.f, 0.f);
-    float       FOV = 60.f * 3.141592 / 180.f;
+    Point  centreCamera(0.0, 15.0, 40.0);
+    Vector directionCamera(0.0, -0.1, -1.0);
+    Vector cameraUp(0., 1., 0.);
+    double FOV = 60. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
     //    rCamera->aperture(Camera::Aperture::F_SMALL,45.0,Camera::LOW);
@@ -1537,9 +1539,9 @@ void createScene12(LCNS::Scene* scene)
 
 
     // ROOM
-    RoomParameters parameters
-    = { Color(0.8f),          Color(1.0f),         0.0, 1.0, 2, Point(35.0), 15.0, string("no_texture"), string("no_texture"),
-        string("no_texture"), string("no_texture") };
+    RoomParameters parameters = {
+        Color(0.8), Color(1.0), 0.0, 1.0, 2, Point(35.0), 15.0, string("no_texture"), string("no_texture"), string("no_texture"), string("no_texture")
+    };
     createRoom(scene, parameters);
 
 
@@ -1560,14 +1562,14 @@ void createScene12(LCNS::Scene* scene)
     scene->setBackgroundColor(Color(220, 240, 250));
 }
 
-void createScene13(LCNS::Scene* scene)
+void createScene13(shared_ptr<Scene> scene)
 {
     scene->createFromFile("./resources/tableAndStatue3_bis.obj");
 
     // Create BRDF model for the cones
-    Color  diffusion(255, 105, 0);
-    Color  specular(1.0f);
-    Phong* rBRDFCones = new Phong(diffusion, specular, 3);
+    Color            diffusion(255, 105, 0);
+    Color            specular(1.0);
+    shared_ptr<BRDF> rBRDFCones = make_shared<Phong>(diffusion, specular, 3);
 
     // Create a shader for the cones
     auto rShaderCones = make_shared<Shader>(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
@@ -1592,7 +1594,7 @@ void createScene13(LCNS::Scene* scene)
         it->shader(rShaderCones);
 
     // Create BRDF model for the torus
-    Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
+    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(Color(255, 99, 71), Color(1.0), 3);
 
     // Create a shader for the torus
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
@@ -1609,10 +1611,10 @@ void createScene13(LCNS::Scene* scene)
         it->shader(rShaderTorus);
 
     // Create a BRDF model for the table
-    Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
+    shared_ptr<BRDF> rBRDFPyramid = make_shared<Phong>(Color(128, 128, 0), Color(1.0), 10);
 
     // Create a shader for the table
-    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
+    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0, 1.0, scene, Shader::Material::TURBULANCE);
 
     scene->add(rBRDFPyramid, "BRDF pyramid ");
     scene->add(rShaderPyramid, "Shader pyramid ");
@@ -1628,10 +1630,10 @@ void createScene13(LCNS::Scene* scene)
 
 
     // Create a BRDF model for the table
-    Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
+    shared_ptr<BRDF> rBRDFTable = make_shared<Phong>(Color(1.0), Color(1.0), 10);
 
     // Create a shader for the table
-    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
+    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0, 1.0, scene, Shader::Material::MARBLE);
 
     scene->add(rBRDFTable, "BRDF table ");
     scene->add(rShaderTable, "Shader table ");
@@ -1659,16 +1661,16 @@ void createScene13(LCNS::Scene* scene)
 
 
     // Sphere with texture
-    LCNS::Point centerSphere(0.0, 6.7, 0.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere, 2.0f);
+    Point                  centerSphere(0.0, 6.7, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere, 2.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(1.0f);
-    Color  specularSphere1(1.0f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
+    Color            diffusionSphere1(1.0);
+    Color            specularSphere1(1.0);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 8);
 
 
-    auto rCubeMapDesert = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapDesert = make_shared<CubeMap>(Point(0.0), 260);  // 260
 
     rCubeMapDesert->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
     rCubeMapDesert->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
@@ -1693,22 +1695,24 @@ void createScene13(LCNS::Scene* scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Mirror on the right wall
-    double    mirrorXPos = 10.0;
-    Triangle* rMirror1 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0));
-    Triangle* rMirror2 = new Triangle(LCNS::Point(mirrorXPos, 4.0, -10.0), LCNS::Point(mirrorXPos, 12.0, 18.0), LCNS::Point(mirrorXPos, 4.0, 18.0));
+    double                 mirrorXPos = 10.0;
+    shared_ptr<Renderable> rMirror1
+    = make_shared<Triangle>(Point(mirrorXPos, 4.0, -10.0), Point(mirrorXPos, 12.0, -10.0), Point(mirrorXPos, 12.0, 18.0));
+    shared_ptr<Renderable> rMirror2
+    = make_shared<Triangle>(Point(mirrorXPos, 4.0, -10.0), Point(mirrorXPos, 12.0, 18.0), Point(mirrorXPos, 4.0, 18.0));
 
     const auto minusX = Vector(-1.0, 0.0, 0.0);
 
-    rMirror1->vertexNormals()[0] = minusX;
-    rMirror1->vertexNormals()[1] = minusX;
-    rMirror1->vertexNormals()[2] = minusX;
+    static_pointer_cast<Triangle>(rMirror1)->vertexNormals()[0] = minusX;
+    static_pointer_cast<Triangle>(rMirror1)->vertexNormals()[1] = minusX;
+    static_pointer_cast<Triangle>(rMirror1)->vertexNormals()[2] = minusX;
 
-    rMirror2->vertexNormals()[0] = minusX;
-    rMirror2->vertexNormals()[1] = minusX;
-    rMirror2->vertexNormals()[2] = minusX;
+    static_pointer_cast<Triangle>(rMirror2)->vertexNormals()[0] = minusX;
+    static_pointer_cast<Triangle>(rMirror2)->vertexNormals()[1] = minusX;
+    static_pointer_cast<Triangle>(rMirror2)->vertexNormals()[2] = minusX;
 
     // Create a BRDF model for the mirror
-    Phong* rBRDFMirror = new Phong(Color(0.4f, 0.4f, 0.6f), Color(1.0f), 8);
+    shared_ptr<BRDF> rBRDFMirror = make_shared<Phong>(Color(0.4, 0.4, 0.6), Color(1.0), 8);
 
     // Create a shader for the mirror
     auto rShaderMirror = make_shared<Shader>(rBRDFMirror, 20.0, 1.0, scene);
@@ -1726,40 +1730,31 @@ void createScene13(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(-3.0, 10.0, 20.0);
-    Color       lightColor(20.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, lightColor);
+    Point  light1Position(-3.0, 10.0, 20.0);
+    Color  lightColor(20.0);
+    Light* rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
-
-
-    //    LCNS::Point light2Position(-5.0,10.0,10.0);
-    //	Light* rLight2 = new PunctualLight(light2Position,lLightColor);
-    //    scene->add(rLight2);
-
-    //    LCNS::Point light3Position(-4.0,7.0,-9.0);
-    //	Light* rLight3 = new PunctualLight(light3Position,lLightColor);
-    //    scene->add(rLight3);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(-5.0, 8.0, 21.0);
-    Vector      directionCamera(0.4, -0.20, -1.0);
-    Vector      cameraUp(0.0, 1.0, 0.0);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(-5.0, 8.0, 21.0);
+    Vector directionCamera(0.4, -0.20, -1.0);
+    Vector cameraUp(0.0, 1.0, 0.0);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
+    rCamera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
     rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
-    RoomParameters parameters = { Color(0.8f),
-                                  Color(0.8f),
+    RoomParameters parameters = { Color(0.8),
+                                  Color(0.8),
                                   0.0,
                                   1.0,
                                   1,
-                                  LCNS::Point(-28.0, 0.0, -20.0),
+                                  Point(-28.0, 0.0, -20.0),
                                   Vector(40.0, 15.0, 40.0),
                                   string("./resources/floor.png"),
                                   string("./resources/textureWall_400x400.png"),
@@ -1773,17 +1768,17 @@ void createScene13(LCNS::Scene* scene)
     ////////////////
     // BACKGROUND //
     ////////////////
-    scene->setBackgroundColor(Color(0.0f));
+    scene->setBackgroundColor(Color(0.0));
 }
 
-void createScene14(LCNS::Scene* scene)
+void createScene14(shared_ptr<Scene> scene)
 {
     scene->createFromFile("./resources/tableAndStatueAndPyramid3.obj");
 
     // Create BRDF model for the cones
-    Color  diffusion(255, 105, 0);
-    Color  specular(1.0f);
-    Phong* rBRDFCones = new Phong(diffusion, specular, 3);
+    Color            diffusion(255, 105, 0);
+    Color            specular(1.0);
+    shared_ptr<BRDF> rBRDFCones = make_shared<Phong>(diffusion, specular, 3);
 
     // Create a shader for the cones
     auto rShaderCones = make_shared<Shader>(rBRDFCones, 0.8, 1.0, scene, Shader::NONE);
@@ -1808,7 +1803,7 @@ void createScene14(LCNS::Scene* scene)
         it->shader(rShaderCones);
 
     // Create BRDF model for the torus
-    Phong* rBRDFTorus = new Phong(Color(255, 99, 71), Color(1.0), 3);
+    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(Color(255, 99, 71), Color(1.0), 3);
 
     // Create a shader for the torus
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 1.8, 1.0, scene, Shader::NONE);
@@ -1825,10 +1820,10 @@ void createScene14(LCNS::Scene* scene)
         it->shader(rShaderTorus);
 
     // Create a BRDF model for the table
-    Phong* rBRDFPyramid = new Phong(Color(128, 128, 0), Color(1.0f), 10);
+    shared_ptr<BRDF> rBRDFPyramid = make_shared<Phong>(Color(128, 128, 0), Color(1.0), 10);
 
     // Create a shader for the table
-    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0f, 1.0f, scene, Shader::Material::TURBULANCE);
+    auto rShaderPyramid = make_shared<Shader>(rBRDFPyramid, 1.0, 1.0, scene, Shader::Material::TURBULANCE);
 
     scene->add(rBRDFPyramid, "BRDF pyramid ");
     scene->add(rShaderPyramid, "Shader pyramid ");
@@ -1843,10 +1838,10 @@ void createScene14(LCNS::Scene* scene)
         it->shader(rShaderPyramid);
 
 
-    Phong* rBRDFBackPyramid = new Phong(Color(0, 255, 255), Color(1.0f), 10);
+    shared_ptr<BRDF> rBRDFBackPyramid = make_shared<Phong>(Color(0, 255, 255), Color(1.0), 10);
 
     // Create a shader for the table
-    auto rShaderBackPyramid = make_shared<Shader>(rBRDFBackPyramid, 1.0f, 1.0f, scene, Shader::Material::BUMP);
+    auto rShaderBackPyramid = make_shared<Shader>(rBRDFBackPyramid, 1.0, 1.0, scene, Shader::Material::BUMP);
 
     scene->add(rBRDFBackPyramid, "BRDF pyramid in the background ");
     scene->add(rShaderBackPyramid, "Shader pyramid in the background ");
@@ -1857,10 +1852,10 @@ void createScene14(LCNS::Scene* scene)
 
 
     // Create a BRDF model for the table
-    Phong* rBRDFTable = new Phong(Color(1.0f), Color(1.0f), 10);
+    shared_ptr<BRDF> rBRDFTable = make_shared<Phong>(Color(1.0), Color(1.0), 10);
 
     // Create a shader for the table
-    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0f, 1.0f, scene, Shader::Material::MARBLE);
+    auto rShaderTable = make_shared<Shader>(rBRDFTable, 1.0, 1.0, scene, Shader::Material::MARBLE);
 
     scene->add(rBRDFTable, "BRDF table ");
     scene->add(rShaderTable, "Shader table ");
@@ -1888,13 +1883,13 @@ void createScene14(LCNS::Scene* scene)
 
 
     // Sphere with texture
-    LCNS::Point centerSphere(.0, 6.7, 0.0);
-    Sphere*     rSphere1 = new Sphere(centerSphere, 2.0f);
+    Point                  centerSphere(.0, 6.7, 0.0);
+    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere, 2.0);
 
     // Create a BRDF model for the sphere
-    Color  diffusionSphere1(0.1f);
-    Color  specularSphere1(0.1f);
-    Phong* rBRDFSphere1 = new Phong(diffusionSphere1, specularSphere1, 8);
+    Color            diffusionSphere1(0.1);
+    Color            specularSphere1(0.1);
+    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 8);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, 1.0, 2.4, scene);
@@ -1909,36 +1904,36 @@ void createScene14(LCNS::Scene* scene)
     ////////////
     // LIGHTS //
     ////////////
-    LCNS::Point light1Position(0.0, 20.0, 10.0);
-    Color       lightColor(20.0f);
-    Light*      rLight1 = new PunctualLight(light1Position, lightColor);
+    Point  light1Position(0.0, 20.0, 10.0);
+    Color  lightColor(20.0);
+    Light* rLight1 = new PunctualLight(light1Position, lightColor);
     scene->add(rLight1);
 
 
-    LCNS::Point light2Position(-5.0, 10.0, 10.0);
-    Light*      rLight2 = new PunctualLight(light2Position, lightColor);
+    Point  light2Position(-5.0, 10.0, 10.0);
+    Light* rLight2 = new PunctualLight(light2Position, lightColor);
     scene->add(rLight2);
 
-    LCNS::Point light3Position(5.0, 10.0, 10.0);
-    Light*      rLight3 = new PunctualLight(light3Position, lightColor);
+    Point  light3Position(5.0, 10.0, 10.0);
+    Light* rLight3 = new PunctualLight(light3Position, lightColor);
     scene->add(rLight3);
 
 
     ////////////
     // CAMERA //
     ////////////
-    LCNS::Point centreCamera(-2.0, 8.0, 14.0);
-    Vector      directionCamera(0.05, -0.05, -1.0);
-    Vector      cameraUp(0.0, 1.0, 0.0);
-    float       FOV = 80.f * 3.141592 / 180.f;
+    Point  centreCamera(-2.0, 8.0, 14.0);
+    Vector directionCamera(0.05, -0.05, -1.0);
+    Vector cameraUp(0.0, 1.0, 0.0);
+    double FOV = 80. * 3.141592 / 180.;
 
     Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(centerSphere + directionCamera.normalize() * rSphere1->radius() * (-1.0));
+    rCamera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
     rCamera->aperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
     scene->add(rCamera);
 
 
-    auto rCubeMapBckGrd = make_shared<CubeMap>(LCNS::Point(0.0), 260);  // 260
+    auto rCubeMapBckGrd = make_shared<CubeMap>(Point(0.0), 260);  // 260
 
     rCubeMapBckGrd->addImage(CubeMap::Faces::BACK, "./resources/Desert_back.png");
     rCubeMapBckGrd->addImage(CubeMap::Faces::FRONT, "./resources/Desert_front.png");
@@ -1952,31 +1947,32 @@ void createScene14(LCNS::Scene* scene)
     scene->backgroundCubeMap(rCubeMapBckGrd);
 }
 
-void createFloor(Scene* scene, const FloorParameters& param)
+void createFloor(shared_ptr<Scene> scene, const FloorParameters& param)
 {
     double deep = -1.0 * param.deep;
 
-    Triangle* rTriangleZ1 = new Triangle(
-    LCNS::Point(-param.size, deep, -param.size), LCNS::Point(-param.size, deep, param.size), LCNS::Point(param.size, deep, param.size));
-    Triangle* rTriangleZ2 = new Triangle(
-    LCNS::Point(-param.size, deep, -param.size), LCNS::Point(param.size, deep, param.size), LCNS::Point(param.size, deep, -param.size));
+    shared_ptr<Renderable> rTriangleZ1
+    = make_shared<Triangle>(Point(-param.size, deep, -param.size), Point(-param.size, deep, param.size), Point(param.size, deep, param.size));
+    shared_ptr<Renderable> rTriangleZ2
+    = make_shared<Triangle>(Point(-param.size, deep, -param.size), Point(param.size, deep, param.size), Point(param.size, deep, -param.size));
 
-    const auto up                   = Vector(0.0, 1.0, 0.0);
-    rTriangleZ1->vertexNormals()[0] = up;
-    rTriangleZ1->vertexNormals()[1] = up;
-    rTriangleZ1->vertexNormals()[2] = up;
+    const auto up = Vector(0.0, 1.0, 0.0);
 
-    rTriangleZ2->vertexNormals()[0] = up;
-    rTriangleZ2->vertexNormals()[1] = up;
-    rTriangleZ2->vertexNormals()[2] = up;
+    static_pointer_cast<Triangle>(rTriangleZ1)->vertexNormals()[0] = up;
+    static_pointer_cast<Triangle>(rTriangleZ1)->vertexNormals()[1] = up;
+    static_pointer_cast<Triangle>(rTriangleZ1)->vertexNormals()[2] = up;
+
+    static_pointer_cast<Triangle>(rTriangleZ2)->vertexNormals()[0] = up;
+    static_pointer_cast<Triangle>(rTriangleZ2)->vertexNormals()[1] = up;
+    static_pointer_cast<Triangle>(rTriangleZ2)->vertexNormals()[2] = up;
 
     // Create BRDF model for the triangle
-    Phong* bRDFTriangle = new Phong(param.diffusion, param.specular, 3);
-    bRDFTriangle->ambient(Color(0.0f));
+    shared_ptr<BRDF> bRDFTriangle = make_shared<Phong>(param.diffusion, param.specular, 3);
+    bRDFTriangle->ambient(Color(0.0));
 
     if (param.floorTexturePath.compare("no_texture"))
     {
-        auto rCubeMapFloor = make_shared<CubeMap>(LCNS::Point(0.0, -4.0, 0.0), param.size * 2.0);
+        auto rCubeMapFloor = make_shared<CubeMap>(Point(0.0, -4.0, 0.0), param.size * 2.0);
 
         rCubeMapFloor->addImage(CubeMap::Faces::BACK, param.floorTexturePath);
         rCubeMapFloor->setLink(CubeMap::Faces::FRONT, 0);
@@ -2006,36 +2002,36 @@ void createFloor(Scene* scene, const FloorParameters& param)
     scene->add(shaderTriangle, string("shader of the triangles of the floor"));
 }
 
-void createRoom(Scene* scene, const RoomParameters& param)
+void createRoom(shared_ptr<Scene> scene, const RoomParameters& param)
 {
-    LCNS::Point zero(param.lowCorner);
-    LCNS::Point one(zero.x(), zero.y(), zero.z() + param.dimensions.z());
-    LCNS::Point two(zero.x() + param.dimensions.x(), zero.y(), zero.z() + param.dimensions.z());
-    LCNS::Point three(zero.x() + param.dimensions.x(), zero.y(), zero.z());
-    LCNS::Point four(zero.x(), zero.y() + param.dimensions.y(), zero.z());
-    LCNS::Point five(zero.x(), zero.y() + param.dimensions.y(), zero.z() + param.dimensions.z());
-    LCNS::Point six = param.lowCorner + param.dimensions;
-    LCNS::Point seven(zero.x() + param.dimensions.x(), zero.y() + param.dimensions.y(), zero.z());
+    Point zero(param.lowCorner);
+    Point one(zero.x(), zero.y(), zero.z() + param.dimensions.z());
+    Point two(zero.x() + param.dimensions.x(), zero.y(), zero.z() + param.dimensions.z());
+    Point three(zero.x() + param.dimensions.x(), zero.y(), zero.z());
+    Point four(zero.x(), zero.y() + param.dimensions.y(), zero.z());
+    Point five(zero.x(), zero.y() + param.dimensions.y(), zero.z() + param.dimensions.z());
+    Point six = param.lowCorner + param.dimensions;
+    Point seven(zero.x() + param.dimensions.x(), zero.y() + param.dimensions.y(), zero.z());
 
     // Create floor
-    Triangle* rTriFloor1 = new Triangle(zero, one, two);
-    Triangle* rTriFloor2 = new Triangle(zero, two, three);
+    shared_ptr<Renderable> rTriFloor1 = make_shared<Triangle>(zero, one, two);
+    shared_ptr<Renderable> rTriFloor2 = make_shared<Triangle>(zero, two, three);
 
-    const auto up                  = Vector(0.0, 1.0, 0.0);
-    rTriFloor1->vertexNormals()[0] = up;
-    rTriFloor1->vertexNormals()[1] = up;
-    rTriFloor1->vertexNormals()[2] = up;
+    const auto up = Vector(0.0, 1.0, 0.0);
 
-    rTriFloor2->vertexNormals()[0] = up;
-    rTriFloor2->vertexNormals()[1] = up;
-    rTriFloor2->vertexNormals()[2] = up;
+    static_pointer_cast<Triangle>(rTriFloor1)->vertexNormals()[0] = up;
+    static_pointer_cast<Triangle>(rTriFloor1)->vertexNormals()[1] = up;
+    static_pointer_cast<Triangle>(rTriFloor1)->vertexNormals()[2] = up;
 
-    LCNS::Point middleOfFace((zero.x() + one.x() + two.x() + three.x()) * 0.25,
-                             (zero.y() + one.y() + two.y() + three.y()) * 0.25,
-                             (zero.z() + one.z() + two.z() + three.z()) * 0.25);
+    static_pointer_cast<Triangle>(rTriFloor2)->vertexNormals()[0] = up;
+    static_pointer_cast<Triangle>(rTriFloor2)->vertexNormals()[1] = up;
+    static_pointer_cast<Triangle>(rTriFloor2)->vertexNormals()[2] = up;
 
-    Phong* rBRDF_Floor = new Phong(param.diffusion, param.specular, 3);
-    //    rBRDF_Floor->ambient(Color(0.0f));
+    Point middleOfFace((zero.x() + one.x() + two.x() + three.x()) * 0.25,
+                       (zero.y() + one.y() + two.y() + three.y()) * 0.25,
+                       (zero.z() + one.z() + two.z() + three.z()) * 0.25);
+
+    shared_ptr<BRDF> rBRDF_Floor = make_shared<Phong>(param.diffusion, param.specular, 3);
 
     if (param.floorTexturePath.compare("no_texture"))
     {
@@ -2068,24 +2064,25 @@ void createRoom(Scene* scene, const RoomParameters& param)
 
 
     // Create left wall
-    Triangle* rTriLeftWall1 = new Triangle(zero, four, five);
-    Triangle* rTriLeftWall2 = new Triangle(zero, five, one);
+    shared_ptr<Renderable> rTriLeftWall1 = make_shared<Triangle>(zero, four, five);
+    shared_ptr<Renderable> rTriLeftWall2 = make_shared<Triangle>(zero, five, one);
 
-    const auto right                  = Vector(1.0, 0.0, 0.0);
-    rTriLeftWall1->vertexNormals()[0] = right;
-    rTriLeftWall1->vertexNormals()[1] = right;
-    rTriLeftWall1->vertexNormals()[2] = right;
+    const auto right = Vector(1.0, 0.0, 0.0);
 
-    rTriLeftWall2->vertexNormals()[0] = right;
-    rTriLeftWall2->vertexNormals()[1] = right;
-    rTriLeftWall2->vertexNormals()[2] = right;
+    static_pointer_cast<Triangle>(rTriLeftWall1)->vertexNormals()[0] = right;
+    static_pointer_cast<Triangle>(rTriLeftWall1)->vertexNormals()[1] = right;
+    static_pointer_cast<Triangle>(rTriLeftWall1)->vertexNormals()[2] = right;
+
+    static_pointer_cast<Triangle>(rTriLeftWall2)->vertexNormals()[0] = right;
+    static_pointer_cast<Triangle>(rTriLeftWall2)->vertexNormals()[1] = right;
+    static_pointer_cast<Triangle>(rTriLeftWall2)->vertexNormals()[2] = right;
 
     middleOfFace.x((zero.x() + one.x() + four.x() + five.x()) * 0.25);
     middleOfFace.y((zero.y() + one.y() + four.y() + five.y()) * 0.25);
     middleOfFace.z((zero.z() + one.z() + four.z() + five.z()) * 0.25);
 
-    Phong* rBRDFLeftWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFLeftWall->ambient(Color(0.1f));
+    shared_ptr<BRDF> rBRDFLeftWall = make_shared<Phong>(param.diffusion, param.specular, 3);
+    rBRDFLeftWall->ambient(Color(0.1));
 
     if (param.wallLeftTexturePath.compare("no_texture"))
     {
@@ -2116,26 +2113,26 @@ void createRoom(Scene* scene, const RoomParameters& param)
     scene->add(rBRDFLeftWall, string("brdf of the triangles of the left wall"));
     scene->add(rShaderLeftWall, string("shader of the triangles of the left wall"));
 
-
     // Create back wall
-    Triangle* rTriBackWall1 = new Triangle(zero, three, four);
-    Triangle* rTriBackWall2 = new Triangle(four, three, seven);
+    shared_ptr<Renderable> rTriBackWall1 = make_shared<Triangle>(zero, three, four);
+    shared_ptr<Renderable> rTriBackWall2 = make_shared<Triangle>(four, three, seven);
 
-    const auto forward                = Vector(0.0, 0.0, 1.0);
-    rTriBackWall1->vertexNormals()[0] = forward;
-    rTriBackWall1->vertexNormals()[1] = forward;
-    rTriBackWall1->vertexNormals()[2] = forward;
+    const auto forward = Vector(0.0, 0.0, 1.0);
 
-    rTriBackWall2->vertexNormals()[0] = forward;
-    rTriBackWall2->vertexNormals()[1] = forward;
-    rTriBackWall2->vertexNormals()[2] = forward;
+    static_pointer_cast<Triangle>(rTriBackWall1)->vertexNormals()[0] = forward;
+    static_pointer_cast<Triangle>(rTriBackWall1)->vertexNormals()[1] = forward;
+    static_pointer_cast<Triangle>(rTriBackWall1)->vertexNormals()[2] = forward;
+
+    static_pointer_cast<Triangle>(rTriBackWall2)->vertexNormals()[0] = forward;
+    static_pointer_cast<Triangle>(rTriBackWall2)->vertexNormals()[1] = forward;
+    static_pointer_cast<Triangle>(rTriBackWall2)->vertexNormals()[2] = forward;
 
     middleOfFace.x((zero.x() + three.x() + four.x() + seven.x()) * 0.25);
     middleOfFace.y((zero.y() + three.y() + four.y() + seven.y()) * 0.25);
     middleOfFace.z((zero.z() + three.z() + four.z() + seven.z()) * 0.25);
 
-    Phong* rBRDFBackWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFBackWall->ambient(Color(0.1f));
+    shared_ptr<BRDF> rBRDFBackWall = make_shared<Phong>(param.diffusion, param.specular, 3);
+    rBRDFBackWall->ambient(Color(0.1));
 
     if (param.wallBackTexturePath.compare("no_texture"))
     {
@@ -2167,24 +2164,25 @@ void createRoom(Scene* scene, const RoomParameters& param)
     scene->add(rShaderBackWall, string("shader of the triangles of the back wall"));
 
     // Create right wall
-    Triangle* rTriRightWall1 = new Triangle(three, two, six);
-    Triangle* rTriRightWall2 = new Triangle(three, six, seven);
+    shared_ptr<Renderable> rTriRightWall1 = make_shared<Triangle>(three, two, six);
+    shared_ptr<Renderable> rTriRightWall2 = make_shared<Triangle>(three, six, seven);
 
-    const auto left                    = Vector(-1.0, 0.0, 0.0);
-    rTriRightWall1->vertexNormals()[0] = left;
-    rTriRightWall1->vertexNormals()[1] = left;
-    rTriRightWall1->vertexNormals()[2] = left;
+    const auto left = Vector(-1.0, 0.0, 0.0);
 
-    rTriRightWall2->vertexNormals()[0] = left;
-    rTriRightWall2->vertexNormals()[1] = left;
-    rTriRightWall2->vertexNormals()[2] = left;
+    static_pointer_cast<Triangle>(rTriRightWall1)->vertexNormals()[0] = left;
+    static_pointer_cast<Triangle>(rTriRightWall1)->vertexNormals()[1] = left;
+    static_pointer_cast<Triangle>(rTriRightWall1)->vertexNormals()[2] = left;
+
+    static_pointer_cast<Triangle>(rTriRightWall2)->vertexNormals()[0] = left;
+    static_pointer_cast<Triangle>(rTriRightWall2)->vertexNormals()[1] = left;
+    static_pointer_cast<Triangle>(rTriRightWall2)->vertexNormals()[2] = left;
 
     middleOfFace.x((two.x() + three.x() + six.x() + seven.x()) * 0.25);
     middleOfFace.y((two.y() + three.y() + six.y() + seven.y()) * 0.25);
     middleOfFace.z((two.z() + three.z() + six.z() + seven.z()) * 0.25);
 
-    Phong* rBRDFRightWall = new Phong(param.diffusion, param.specular, 3);
-    rBRDFRightWall->ambient(Color(0.1f));
+    shared_ptr<BRDF> rBRDFRightWall = make_shared<Phong>(param.diffusion, param.specular, 3);
+    rBRDFRightWall->ambient(Color(0.1));
 
     if (param.wallRightTexturePath.compare("no_texture"))
     {
@@ -2216,24 +2214,25 @@ void createRoom(Scene* scene, const RoomParameters& param)
     scene->add(rShaderRightWall, string("shader of the triangles of the right wall"));
 
     // Create roof
-    Triangle* rTriCeiling1 = new Triangle(four, five, six);
-    Triangle* rTriCeiling2 = new Triangle(four, six, seven);
+    shared_ptr<Renderable> rTriCeiling1 = make_shared<Triangle>(four, five, six);
+    shared_ptr<Renderable> rTriCeiling2 = make_shared<Triangle>(four, six, seven);
 
-    const auto down                  = Vector(0.0, -1.0, 0.0);
-    rTriCeiling1->vertexNormals()[0] = down;
-    rTriCeiling1->vertexNormals()[1] = down;
-    rTriCeiling1->vertexNormals()[2] = down;
+    const auto down = Vector(0.0, -1.0, 0.0);
 
-    rTriCeiling2->vertexNormals()[0] = down;
-    rTriCeiling2->vertexNormals()[1] = down;
-    rTriCeiling2->vertexNormals()[2] = down;
+    static_pointer_cast<Triangle>(rTriCeiling1)->vertexNormals()[0] = down;
+    static_pointer_cast<Triangle>(rTriCeiling1)->vertexNormals()[1] = down;
+    static_pointer_cast<Triangle>(rTriCeiling1)->vertexNormals()[2] = down;
+
+    static_pointer_cast<Triangle>(rTriCeiling2)->vertexNormals()[0] = down;
+    static_pointer_cast<Triangle>(rTriCeiling2)->vertexNormals()[1] = down;
+    static_pointer_cast<Triangle>(rTriCeiling2)->vertexNormals()[2] = down;
 
     middleOfFace.x((four.x() + five.x() + six.x() + seven.x()) * 0.25);
     middleOfFace.y((four.y() + five.y() + six.y() + seven.y()) * 0.25);
     middleOfFace.z((four.z() + five.z() + six.z() + seven.z()) * 0.25);
 
-    Phong* rBRDFCeiling = new Phong(param.diffusion, param.specular, 13);
-    rBRDFCeiling->ambient(Color(0.1f));
+    shared_ptr<BRDF> rBRDFCeiling = make_shared<Phong>(param.diffusion, param.specular, 13);
+    rBRDFCeiling->ambient(Color(0.1));
 
     if (param.ceilingTexturePath.compare("no_texture"))
     {

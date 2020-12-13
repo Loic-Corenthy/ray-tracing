@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 
 #include "Color.hpp"
 #include "Vector.hpp"
@@ -36,10 +37,14 @@ namespace LCNS
 
     public:
         /// Default constructor
-        Shader(void);
+        Shader(void) = default;
 
         /// Constructor with parameters
-        Shader(BRDF* bRDF, double reflectionCoeff, double refractionCoeff, Scene* scene, unsigned short material = Shader::Material::NONE);
+        Shader(std::shared_ptr<BRDF>  bRDF,
+               double                 reflectionCoeff,
+               double                 refractionCoeff,
+               std::shared_ptr<Scene> scene,
+               unsigned short         material = Shader::Material::NONE);
 
         /// Copy constructor
         Shader(const Shader& shader);
@@ -54,7 +59,7 @@ namespace LCNS
         Color color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount);
 
         /// Get a pointer on the scene
-        Scene* ptrOnScene(void);
+        std::shared_ptr<Scene> ptrOnScene(void);
 
         /// Get the ambient light coefficient
         Color ambientColor(const Ray& ray) const;
@@ -69,7 +74,7 @@ namespace LCNS
         double refractionCoeff(void) const;
 
         /// Get the BRDF
-        BRDF* reflectionModel(void);
+        std::shared_ptr<BRDF> reflectionModel(void);
 
         /// Set how many reflections the object can have at maximum (must be less than 10)
         void setReflectionCountMax(unsigned short value);
@@ -81,56 +86,14 @@ namespace LCNS
         void setRefractionCoeff(double coeff);
 
     private:
-        BRDF*          _bRDF;
-        unsigned short _reflectionCountMax;
-        double         _reflectionCoeff;
-        double         _currentReflectionCoeff;
-        double         _refractionCoeff;
-        unsigned short _material;
-        Scene*         _scene;
+        std::shared_ptr<BRDF>  _bRDF;
+        std::shared_ptr<Scene> _scene;
+        double                 _reflectionCoeff        = 0.0;
+        double                 _currentReflectionCoeff = 0.0;
+        double                 _refractionCoeff        = 0.0;
+        unsigned short         _reflectionCountMax     = 1;
+        unsigned short         _material               = 0;
 
     };  // class Shader
-
-    inline Scene* Shader::ptrOnScene(void)
-    {
-        return _scene;
-    }
-
-    inline unsigned short Shader::reflectionCountMax(void) const
-    {
-        return _reflectionCountMax;
-    }
-
-    inline double Shader::reflectionCoeff(void) const
-    {
-        return _reflectionCoeff;
-    }
-
-    inline double Shader::refractionCoeff(void) const
-    {
-        return _refractionCoeff;
-    }
-
-    inline BRDF* Shader::reflectionModel(void)
-    {
-        return _bRDF;
-    }
-
-    inline void Shader::setReflectionCountMax(unsigned short value)
-    {
-        assert(0 < value && value < 11 && "reflection count max out of range");
-        _reflectionCountMax = value;
-    }
-
-    inline void Shader::setReflectionCoeff(double coeff)
-    {
-        _reflectionCoeff = coeff;
-    }
-
-    inline void Shader::setRefractionCoeff(double coeff)
-    {
-        assert(coeff >= 1 && "Refraction coefficient must be bigger than 1");
-        _refractionCoeff = coeff;
-    }
 
 }  // namespace LCNS

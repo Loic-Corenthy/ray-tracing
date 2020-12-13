@@ -20,7 +20,7 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        DirectionalLight(void);
+        DirectionalLight(void) = default;
 
         /// Constructor with parameters
         DirectionalLight(const Vector& direction, const Color& intensity);
@@ -32,44 +32,23 @@ namespace LCNS
         DirectionalLight operator=(const DirectionalLight& directionalLight);
 
         /// Destructor
-        ~DirectionalLight(void);
+        ~DirectionalLight(void) = default;
 
         /// Set direction of the light
-        void setDirection(const LCNS::Vector& direction);
-
-        /// Set intensity of the light
-        void setIntensity(const Color& intensity);
-
-        /// Get intensity of the light
-        const Vector& direction(void) const;
+        void direction(const LCNS::Vector& direction) noexcept;
 
         /// Get direction of the light
-        const Color& intensity(void) const;
+        const Vector& direction(void) const noexcept;
 
         /// Implementation of virtual funcion from Light
-        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const;
+        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const override;
 
         /// Implementation of virtual funcion from Light
-        Vector directionFrom(const Point& point) const;
+        Vector directionFrom([[maybe_unused]] const Point& point) const override;
 
     private:
         Vector _direction;
 
     };  // class DirectionalLight
-
-    inline void DirectionalLight::setDirection(const Vector& direction)
-    {
-        _direction = direction;
-    }
-
-    inline const Vector& DirectionalLight::direction(void) const
-    {
-        return _direction;
-    }
-
-    inline Vector DirectionalLight::directionFrom(const Point& point) const
-    {
-        return _direction * (-1);
-    }
 
 }  // namespace LCNS

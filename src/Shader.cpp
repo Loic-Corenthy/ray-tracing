@@ -13,6 +13,7 @@
 #include <list>
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 #include "Scene.hpp"
 #include "Light.hpp"
@@ -21,28 +22,18 @@
 #include "Noise.hpp"
 #include "CubeMap.hpp"
 
-using namespace std;
+using std::shared_ptr;
+
 using namespace LCNS;
 
-Shader::Shader(void)
-: _bRDF(nullptr)
-, _reflectionCountMax(1)
-, _reflectionCoeff(0.0f)
-, _currentReflectionCoeff(0.0f)
-, _refractionCoeff(0.0f)
-, _material(0)
-, _scene(nullptr)
-{
-}
 
-Shader::Shader(BRDF* bRDF, double reflectionCoeff, double refractionCoeff, Scene* scene, unsigned short material)
+Shader::Shader(shared_ptr<BRDF> bRDF, double reflectionCoeff, double refractionCoeff, shared_ptr<Scene> scene, unsigned short material)
 : _bRDF(bRDF)
-, _reflectionCountMax(1)
+, _scene(scene)
 , _reflectionCoeff(reflectionCoeff)
 , _currentReflectionCoeff(reflectionCoeff)
 , _refractionCoeff(refractionCoeff)
 , _material(material)
-, _scene(scene)
 {
     assert(refractionCoeff >= 1 && "Refraction coefficient must be bigger than 1");
 }
@@ -77,24 +68,64 @@ Shader::~Shader(void)
 {
 }
 
+shared_ptr<Scene> Shader::ptrOnScene(void)
+{
+    return _scene;
+}
+
+unsigned short Shader::reflectionCountMax(void) const
+{
+    return _reflectionCountMax;
+}
+
+double Shader::reflectionCoeff(void) const
+{
+    return _reflectionCoeff;
+}
+
+double Shader::refractionCoeff(void) const
+{
+    return _refractionCoeff;
+}
+
+shared_ptr<BRDF> Shader::reflectionModel(void)
+{
+    return _bRDF;
+}
+
+void Shader::setReflectionCountMax(unsigned short value)
+{
+    assert(value < 11 && "reflection count max out of range");
+    _reflectionCountMax = value;
+}
+
+void Shader::setReflectionCoeff(double coeff)
+{
+    _reflectionCoeff = coeff;
+}
+
+void Shader::setRefractionCoeff(double coeff)
+{
+    assert(coeff >= 1 && "Refraction coefficient must be bigger than 1");
+    _refractionCoeff = coeff;
+}
+
 Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount)
 {
-    Color myColor(0.0f);
+    Color myColor(0.0);
 
     if (reflectionCount > 0)
     {
-        //        _currentReflectionCoeff = pow(_reflectionCoeff,reflectionCount);
         _currentReflectionCoeff = _reflectionCoeff / static_cast<double>(reflectionCount * reflectionCount);
-        //        _currentReflectionCoeff = _reflectionCoeff/static_cast<double>(reflectionCount);
     }
     else
         _currentReflectionCoeff = 1.0;
 
-    auto it  = _scene->lightList().begin();  //(c++11)
+    auto it  = _scene->lightList().begin();
     auto end = _scene->lightList().end();
 
     Color  lightIntensity(0.0);
-    double noiseCoeff(0.0f);
+    double noiseCoeff = 0.0;
     Noise  noise;
 
     switch (_material)

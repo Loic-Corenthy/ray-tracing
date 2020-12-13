@@ -20,15 +20,21 @@
 // /*! \todo Add includes for Windows */
 #endif
 
+#include <memory>
+
 #include "CreateScenes.hpp"
 #include "Renderer.hpp"
+#include "Scene.hpp"
+
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::make_shared;
+using std::shared_ptr;
 
 using LCNS::Buffer;
 using LCNS::Renderer;
 using LCNS::Scene;
-using std::cerr;
-using std::cout;
-using std::endl;
 
 int main(int argc, char* argv[])
 {
@@ -48,7 +54,7 @@ int main(int argc, char* argv[])
     unsigned int windowXPos   = 0u;
     unsigned int windowYPos   = 0u;
 
-    for (unsigned int i = 1; i < argc; ++i)
+    for (int i = 1; i < argc; ++i)
     {
         if (strcmp(argv[i], "--scene") == 0)
         {
@@ -78,7 +84,7 @@ int main(int argc, char* argv[])
     }
 
 
-    if (sceneIndex < 0 || 15 < sceneIndex)
+    if (15 < sceneIndex)
     {
         cerr << "Error: the parameter to select the scene must be between 0 and 15" << endl;
         return EXIT_FAILURE;
@@ -89,12 +95,12 @@ int main(int argc, char* argv[])
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Init window position and size,
-    glutInitWindowPosition(windowXPos, windowYPos);
-    glutInitWindowSize(windowWidth, windowHeight);
+    glutInitWindowPosition(static_cast<int>(windowXPos), static_cast<int>(windowYPos));
+    glutInitWindowSize(static_cast<int>(windowWidth), static_cast<int>(windowHeight));
 
     glutCreateWindow("Ray tracing window");
 
-    Scene* scene = new Scene;
+    shared_ptr<Scene> scene = make_shared<Scene>();
 
     // Setup the scene
     switch (sceneIndex)
@@ -172,8 +178,6 @@ int main(int argc, char* argv[])
 
     // Display loop
     glutDisplayFunc(display);
-
-    delete scene;
 
     glutMainLoop();
 

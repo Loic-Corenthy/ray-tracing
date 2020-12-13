@@ -42,13 +42,13 @@ Shader::Shader(shared_ptr<BRDF> bRDF, double reflectionCoeff, double refractionC
 }
 
 Shader::Shader(const Shader& shader)
+: _bRDF(shader._bRDF)
+, _scene(shader._scene)
+, _reflectionCoeff(shader._reflectionCoeff)
+, _currentReflectionCoeff(shader._currentReflectionCoeff)
+, _refractionCoeff(shader._refractionCoeff)
+, _material(shader._material)
 {
-    _bRDF                   = shader._bRDF;
-    _reflectionCoeff        = shader._reflectionCoeff;
-    _currentReflectionCoeff = shader._currentReflectionCoeff;
-    _refractionCoeff        = shader._refractionCoeff;
-    _material               = shader._material;
-    _scene                  = shader._scene;
 }
 
 Shader Shader::operator=(const Shader& shader)
@@ -203,8 +203,9 @@ const Vector& vecToViewer, const Vector& normal, const Point& point, shared_ptr<
                     myColor += lightIntensity * _bRDF->diffuse((*it)->directionFrom(point), bumpNormal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
-                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
+                    //                     for (double level = 1.0f; level < 10.0f; level += 1.0f)
+                    //                         noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level *
+                    //                         point.z()));
 
                     // Add specular compoment
                     myColor

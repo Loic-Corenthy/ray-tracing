@@ -243,7 +243,7 @@ void Scene::createFromFile(const string& objFilePath)
         normals.reserve(parameters.normalCount);
 
     // Create a mesh containing all the triangle of a group
-    shared_ptr<Renderable> rCurrentObject;
+    shared_ptr<Renderable> currentObject;
 
     Point minPoint(1000000.0, 1000000.0, 1000000.0);
     Point maxPoint(-1000000.0, -1000000.0, -1000000.0);
@@ -277,13 +277,16 @@ void Scene::createFromFile(const string& objFilePath)
                             firstGDefault = false;
                         else
                         {
-                            /*! \todo: Not sure the following line is needed */
+                            static_pointer_cast<Mesh>(currentObject)->boundingBoxLimits(minPoint, maxPoint);
+                            currentObject = nullptr;
+                            minPoint.set(1000000.0, 1000000.0, 1000000.0);
+                            maxPoint.set(-1000000.0, -1000000.0, -1000000.0);
                             currentObjectIdx++;
                         }
                     }
                     else
                     {
-                        rCurrentObject = make_shared<Mesh>(parameters.faceCount.at(currentObjectIdx));
+                        currentObject = make_shared<Mesh>(parameters.faceCount.at(currentObjectIdx));
 
                         // Read the "g"
                         stringStream >> word;
@@ -291,9 +294,9 @@ void Scene::createFromFile(const string& objFilePath)
                         // Read the name of the object
                         stringStream >> word;
 
-                        rCurrentObject->name(word);
+                        currentObject->name(word);
 
-                        _renderableList.push_back(rCurrentObject);
+                        _renderableList.push_back(currentObject);
                     }
                     break;
 
@@ -442,7 +445,7 @@ void Scene::createFromFile(const string& objFilePath)
                             // Calculate the normal
                             triangle.updateNormal();
 
-                            static_pointer_cast<Mesh>(rCurrentObject)->addTriangle(triangle);
+                            static_pointer_cast<Mesh>(currentObject)->addTriangle(triangle);
 
                             lineNotProcessed = false;
                         }
@@ -455,7 +458,7 @@ void Scene::createFromFile(const string& objFilePath)
         }
 
         // Set the bouning box of the last object
-        static_pointer_cast<Mesh>(rCurrentObject)->boundingBoxLimits(minPoint, maxPoint);
+        static_pointer_cast<Mesh>(currentObject)->boundingBoxLimits(minPoint, maxPoint);
 
         objFile.close();
     }

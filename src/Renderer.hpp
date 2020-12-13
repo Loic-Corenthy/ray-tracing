@@ -53,7 +53,7 @@ namespace LCNS
         Renderer(void);
 
         /// Constructor with parameters
-        Renderer(Scene* scene, int width, int height);
+        Renderer(Scene* scene, unsigned int width, unsigned int height);
 
         /// Get a reference on the instance
         static Renderer& _instance(void);
@@ -66,6 +66,9 @@ namespace LCNS
 
         // Internal method to facilitate multi threading rendering
         void _renderInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
+
+        // Internal method to facilitate multi threading rendering
+        void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
 
         /// Check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;

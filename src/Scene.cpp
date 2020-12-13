@@ -243,29 +243,24 @@ void Scene::createFromFile(const string& objFilePath)
         normals.reserve(parameters.normalCount);
 
     // Create a mesh containing all the triangle of a group
-    unsigned int           currentObjectIdx = 0;
     shared_ptr<Renderable> rCurrentObject;
 
     Point minPoint(1000000.0, 1000000.0, 1000000.0);
     Point maxPoint(-1000000.0, -1000000.0, -1000000.0);
 
-
     Point  tmpPoint(0.0, 0.0, 0.0);
     Vector tmpNormal(0.0, 0.0, 0.0);
-    double tmpDoubleValue(0.0);
-
-    unsigned int vertexIdx        = 0;
-    unsigned int textureIdx       = 0;
-    unsigned int normalIdx        = 0;
-    bool         lineNotProcessed = true;
-    bool         firstGDefault    = true;
 
     // Create the triangles
     ifstream objFile(objFilePath.c_str(), ifstream::in);
 
     if (objFile)
     {
-        string line;
+        string       line;
+        unsigned int currentObjectIdx = 0;
+        bool         lineNotProcessed = true;
+        bool         firstGDefault    = true;
+
         while (getline(objFile, line))
         {
             stringstream stringStream(line);
@@ -282,12 +277,7 @@ void Scene::createFromFile(const string& objFilePath)
                             firstGDefault = false;
                         else
                         {
-                            throw std::runtime_error("This is suspicious code");
-                            static_pointer_cast<Mesh>(rCurrentObject)->boundingBoxLimits(minPoint, maxPoint);
-                            rCurrentObject = nullptr;
-                            minPoint.set(1000000.0, 1000000.0, 1000000.0);
-                            maxPoint.set(-1000000.0, -1000000.0, -1000000.0);
-
+                            /*! \todo: Not sure the following line is needed */
                             currentObjectIdx++;
                         }
                     }
@@ -313,6 +303,8 @@ void Scene::createFromFile(const string& objFilePath)
                     {
                         while (stringStream.good() && lineNotProcessed)
                         {
+                            double tmpDoubleValue = 0.0;
+
                             // Read the "v"
                             stringStream >> word;
 
@@ -335,6 +327,8 @@ void Scene::createFromFile(const string& objFilePath)
                     {
                         while (stringStream.good() && lineNotProcessed)
                         {
+                            double tmpDoubleValue = 0.0;
+
                             // Read the "vn"
                             stringStream >> word;
 
@@ -362,6 +356,8 @@ void Scene::createFromFile(const string& objFilePath)
                         {
                             shared_ptr<Renderable> triangle = make_shared<Triangle>();
 
+                            unsigned int vertexIdx = 0;
+
                             // Read the "f"
                             stringStream >> word;
 
@@ -376,7 +372,6 @@ void Scene::createFromFile(const string& objFilePath)
                             // Read the third vertex index
                             stringStream >> vertexIdx;
                             static_pointer_cast<Triangle>(triangle)->vertexPositions()[2] = vertices[vertexIdx - 1];
-
 
                             // Calculate the normal
                             if (parameters.normalCount > 0)
@@ -408,14 +403,14 @@ void Scene::createFromFile(const string& objFilePath)
                                 char* str = new char[word.size() + 1];
                                 strcpy(str, word.c_str());
 
-                                char* subStr = strtok(str, "/");
-                                vertexIdx    = static_cast<unsigned int>(stoi(subStr));
+                                char*      subStr    = strtok(str, "/");
+                                const auto vertexIdx = static_cast<unsigned int>(stoi(subStr));
 
-                                subStr     = strtok(NULL, "/");
-                                textureIdx = static_cast<unsigned int>(stoi(subStr));
+                                subStr                = strtok(NULL, "/");
+                                const auto textureIdx = static_cast<unsigned int>(stoi(subStr));
 
-                                subStr    = strtok(NULL, "/");
-                                normalIdx = static_cast<unsigned int>(stoi(subStr));
+                                subStr               = strtok(NULL, "/");
+                                const auto normalIdx = static_cast<unsigned int>(stoi(subStr));
 
                                 delete[] str;
 

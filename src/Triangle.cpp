@@ -95,8 +95,8 @@ void Triangle::normal(const Vector& normal)
 
 void Triangle::updateNormal(void)
 {
-    const auto AB = Vector(_vertexPosition[1] - _vertexPosition[0]);
-    const auto AC = Vector(_vertexPosition[2] - _vertexPosition[0]);
+    const auto AB = _vertexPosition[1] - _vertexPosition[0];
+    const auto AC = _vertexPosition[2] - _vertexPosition[0];
 
     _normal = AB ^ AC;
     _normal.normalize();
@@ -169,8 +169,8 @@ optional<Ray> Triangle::refractedRay(const Ray& incomingRay)
 
 Vector Triangle::_barycentricNormal(const LCNS::Point& positionInTriangle) const
 {
-    const auto AB = Vector(_vertexPosition[1] - _vertexPosition[0]);
-    const auto AC = Vector(_vertexPosition[2] - _vertexPosition[0]);
+    const Vector AB = _vertexPosition[1] - _vertexPosition[0];
+    const Vector AC = _vertexPosition[2] - _vertexPosition[0];
 
     const Vector normal          = AB ^ AC;
     const double normalLengthSqr = normal * normal;

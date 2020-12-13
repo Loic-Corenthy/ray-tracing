@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     {
         if (strcmp(argv[i], "--scene") == 0)
         {
-            sceneIndex = atoi(argv[i + 1]);
+            sceneIndex = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
         else if (strcmp(argv[i], "--supersampling") == 0)
         {
@@ -67,19 +67,19 @@ int main(int argc, char* argv[])
         }
         else if (strcmp(argv[i], "--width ") == 0)
         {
-            windowWidth = atoi(argv[i + 1]);
+            windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
         else if (strcmp(argv[i], "--height") == 0)
         {
-            windowHeight = atoi(argv[i + 1]);
+            windowHeight = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
         else if (strcmp(argv[i], "--xpos") == 0)
         {
-            windowXPos = atoi(argv[i + 1]);
+            windowXPos = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
         else if (strcmp(argv[i], "--ypos") == 0)
         {
-            windowYPos = atoi(argv[i + 1]);
+            windowYPos = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
     }
 
@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
         glClear(GL_COLOR_BUFFER_BIT);
 
         const Buffer& buffer = Renderer::getBuffer();
-        glDrawPixels(buffer.width(), buffer.height(), GL_RGB, GL_UNSIGNED_BYTE, buffer.allPixels().get());
+        glDrawPixels(static_cast<GLsizei>(buffer.width()), static_cast<GLsizei>(buffer.height()), GL_RGB, GL_UNSIGNED_BYTE, buffer.allPixels().get());
 
         glutSwapBuffers();
     };

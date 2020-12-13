@@ -134,14 +134,14 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
             {
                 Color lightIntensity = light->intensityAt(point, *_scene, thisShader);
 
-                if (!(lightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0)))
                 {
                     // Calculate diffuse component
                     myColor += lightIntensity * _bRDF->diffuse(light->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
-                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
+                    for (double level = 1.0; level < 10.0; level += 1.0)
+                        noiseCoeff += (1.0 / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
 
                     myColor *= noiseCoeff;
 
@@ -156,16 +156,16 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
             {
                 Color lightIntensity = light->intensityAt(point, *_scene, thisShader);
 
-                if (!(lightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0)))
                 {
                     // Calculate diffuse component
                     myColor += lightIntensity * _bRDF->diffuse(light->directionFrom(point), normal, point);  //*_currentReflectionCoeff;
 
                     // Add turbulance noise to diffuse component
-                    for (double level = 1.0f; level < 10.0f; level += 1.0f)
-                        noiseCoeff += (1.0f / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
+                    for (double level = 1.0; level < 10.0; level += 1.0)
+                        noiseCoeff += (1.0 / level) * fabs(noise.perlinNoise(level * point.x(), level * point.y(), level * point.z()));
 
-                    noiseCoeff = 0.5f * sin((point.x() + point.y()) + noiseCoeff) + 0.5f;
+                    noiseCoeff = 0.5 * sin((point.x() + point.y()) + noiseCoeff) + 0.5;
 
                     myColor *= noiseCoeff;
 
@@ -180,7 +180,7 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
             {
                 Color lightIntensity = light->intensityAt(point, *_scene, thisShader);
 
-                if (!(lightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0)))
                 {
                     const double noiseX = noise.perlinNoise(point.x(), point.y(), point.z());
                     const double noiseY = noise.perlinNoise(point.y(), point.z(), point.x());
@@ -211,7 +211,7 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
             {
                 Color lightIntensity = light->intensityAt(point, *_scene, thisShader);
 
-                if (!(lightIntensity == Color(0.0f)))
+                if (!(lightIntensity == Color(0.0)))
                     myColor
                     += lightIntensity * _bRDF->reflectance(light->directionFrom(point), vecToViewer, normal, point);  //*_currentReflectionCoeff;
             }

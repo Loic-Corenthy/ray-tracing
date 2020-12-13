@@ -15,6 +15,7 @@
 #include <cmath>
 #include <memory>
 
+#include "Color.hpp"
 #include "Scene.hpp"
 #include "Light.hpp"
 #include "Phong.hpp"
@@ -24,8 +25,10 @@
 
 using std::shared_ptr;
 
-using namespace LCNS;
-
+using LCNS::BRDF;
+using LCNS::Color;
+using LCNS::Scene;
+using LCNS::Shader;
 
 Shader::Shader(shared_ptr<BRDF> bRDF, double reflectionCoeff, double refractionCoeff, shared_ptr<Scene> scene, unsigned short material)
 : _bRDF(bRDF)
@@ -110,7 +113,8 @@ void Shader::setRefractionCoeff(double coeff)
     _refractionCoeff = coeff;
 }
 
-Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount)
+Color Shader::color(
+const Vector& vecToViewer, const Vector& normal, const Point& point, shared_ptr<Renderable> thisShader, unsigned int reflectionCount)
 {
     Color myColor(0.0);
 

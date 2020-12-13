@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include "Light.hpp"
 #include "Color.hpp"
 #include "Vector.hpp"
@@ -45,7 +47,7 @@ namespace LCNS
         const Point& position(void) const noexcept;
 
         /// Implementation of virtual function from Light
-        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const override;
+        Color intensityAt(const Point& point, const Scene& scene, std::shared_ptr<Renderable> currentObject) const override;
 
         /// Implementation of virtual function from Light
         Vector directionFrom(const Point& point) const override;

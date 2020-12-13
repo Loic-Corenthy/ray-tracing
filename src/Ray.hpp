@@ -12,6 +12,7 @@
 
 #include <limits>
 #include <cassert>
+#include <memory>
 
 #include "Point.hpp"
 #include "Vector.hpp"
@@ -25,55 +26,53 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Ray(void);
+        Ray(void) = default;
 
         /// Constructor with parameters
         Ray(const Point& origin, const Vector& direction);
 
         /// Copy constructor
-        Ray(const Ray& ray);
+        Ray(const Ray& ray) = default;
 
         /// Copy operator
-        Ray operator=(const Ray& ray);
+        Ray& operator=(const Ray& ray) = default;
 
         /// Destructor
-        ~Ray(void);
-
-        /// Set the origin of the ray
-        void setOrigin(const Point& point);
-
-        /// Set the direction of the ray
-        void setDirection(const Vector& vector);
-
-        /// Set the length of the ray
-        void setLength(double length);
-
-        /// Keep a pointer on the intersected object
-        void setIntersected(Renderable* intersected);
+        ~Ray(void) = default;
 
         /// Get the origin of the ray
         const Point& origin(void) const;
 
+        /// Set the origin of the ray
+        void origin(const Point& point);
+
         /// Get the direction of the ray
         const Vector& direction(void) const;
+
+        /// Set the direction of the ray
+        void direction(const Vector& vector);
 
         /// Get the length of the ray
         double length(void) const;
 
+        /// Set the length of the ray
+        void length(double length);
+
         /// Get a pointer on the intersected object
-        Renderable* intersected(void) const;
+        std::shared_ptr<Renderable> intersected(void);
+
+        /// Keep a pointer on the intersected object
+        void intersected(std::shared_ptr<Renderable> intersected);
 
         /// Get the intersection point
         Point intersection(void) const;
 
-
     private:
-        Point       _origin;
-        Vector      _direction;
-        double      _length;
-        Renderable* _intersected;
+        Point                       _origin;
+        Vector                      _direction;
+        double                      _length = std::numeric_limits<double>::max();
+        std::shared_ptr<Renderable> _intersected;
 
     };  // Class Ray
-
 
 }  // namespace LCNS

@@ -79,7 +79,7 @@ Renderer::Renderer(Scene* scene, int width, int height)
 
 void Renderer::_render(void)
 {
-    Camera* camera = _scene->cameraList().front();
+    auto& camera = _scene->cameraList().front();
 
     if (camera->aperture() == Camera::Aperture::F_SMALL || camera->aperture() == Camera::Aperture::F_MEDIUM
         || camera->aperture() == Camera::Aperture::F_BIG)
@@ -148,15 +148,15 @@ void Renderer::_render(void)
                             {
                                 // Calculate reflected ray
                                 Ray reflection;
-                                reflection.setOrigin(ray.intersection());
+                                reflection.origin(ray.intersection());
 
                                 Vector incidentDirection(ray.direction());
                                 Vector normal(ray.intersected()->normal(ray.intersection()));
                                 double reflet              = (incidentDirection * normal) * (2.0);
                                 Vector reflectionDirection = incidentDirection - normal * reflet;
 
-                                reflection.setDirection(reflectionDirection);
-                                reflection.setIntersected(ray.intersected());
+                                reflection.direction(reflectionDirection);
+                                reflection.intersected(ray.intersected());
 
 
                                 if (_scene->intersect(reflection))
@@ -256,15 +256,15 @@ void Renderer::_render(void)
                             {
                                 // Calculate reflected ray
                                 Ray reflection;
-                                reflection.setOrigin(ray.intersection());
+                                reflection.origin(ray.intersection());
 
-                                Vector incidentDirection(ray.direction());
-                                Vector normal(ray.intersected()->normal(ray.intersection()));
-                                double reflet              = (incidentDirection * normal) * (2.0);
-                                Vector reflectionDirection = incidentDirection - normal * reflet;
+                                const Vector incidentDirection(ray.direction());
+                                const Vector normal(ray.intersected()->normal(ray.intersection()));
+                                const double reflet              = (incidentDirection * normal) * 2.0;
+                                const Vector reflectionDirection = incidentDirection - normal * reflet;
 
-                                reflection.setDirection(reflectionDirection);
-                                reflection.setIntersected(ray.intersected());
+                                reflection.direction(reflectionDirection);
+                                reflection.intersected(ray.intersected());
 
                                 if (_scene->intersect(reflection))
                                     reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
@@ -347,19 +347,19 @@ void Renderer::_render(void)
 
                     // Reflections color
                     Color reflectionColor(0.0f);
-                    while (_reflectionCount < objectMaxReflection && ray.intersected() != nullptr)  //(c++11)
+                    while (_reflectionCount < objectMaxReflection && ray.intersected() != nullptr)
                     {
                         // Calculate reflected ray
                         Ray reflection;
-                        reflection.setOrigin(ray.intersection());
+                        reflection.origin(ray.intersection());
 
-                        Vector incidentDirection(ray.direction());
-                        Vector normal(ray.intersected()->normal(ray.intersection()));
-                        double reflet              = (incidentDirection * normal) * (2.0);
-                        Vector reflectionDirection = incidentDirection - normal * reflet;
+                        const Vector incidentDirection(ray.direction());
+                        const Vector normal(ray.intersected()->normal(ray.intersection()));
+                        const double reflet              = (incidentDirection * normal) * (2.0);
+                        const Vector reflectionDirection = incidentDirection - normal * reflet;
 
-                        reflection.setDirection(reflectionDirection);
-                        reflection.setIntersected(ray.intersected());
+                        reflection.direction(reflectionDirection);
+                        reflection.intersected(ray.intersected());
 
                         if (_scene->intersect(reflection))
                             reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;

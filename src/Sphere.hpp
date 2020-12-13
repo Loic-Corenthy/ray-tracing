@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <optional>
 #include <tuple>
 
@@ -32,7 +33,7 @@ namespace LCNS
         Sphere(const Point& point, double radius);
 
         /// Copy constructor
-        Sphere(const Sphere& sphere) = delete;
+        Sphere(const Sphere& sphere);
 
         /// Copy operator
         Sphere& operator=(const Sphere& sphere) = delete;

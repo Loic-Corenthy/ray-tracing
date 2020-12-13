@@ -29,17 +29,6 @@ namespace LCNS
     class Shader;
     class BRDF;
 
-    struct DeleteObject
-    {
-        template <typename T>
-        void operator()(const T* object) const
-        {
-            delete object;
-            object = nullptr;
-        }
-    };  // struct DeleteObject
-
-
     class Scene
     {
     private:
@@ -61,13 +50,13 @@ namespace LCNS
         Scene operator=(const Scene& scene) = delete;
 
         /// Destructor, the scene is responsable to free ALL the memory allocated to create the scene
-        ~Scene(void);
+        ~Scene(void) = default;
 
         /// Get the list of camera in the scene
-        std::list<Camera*>& cameraList(void);
+        std::list<std::unique_ptr<Camera>>& cameraList(void);
 
         /// Get the list of lights in the scene
-        std::list<Light*>& lightList(void);
+        std::list<std::shared_ptr<Light>>& lightList(void);
 
         /// Get the list of object in the scene
         std::list<std::shared_ptr<Renderable>>& renderableList(void);
@@ -76,10 +65,10 @@ namespace LCNS
         std::shared_ptr<Renderable> objectNamed(const std::string& name);
 
         /// Add a pointer on a camera to the scene
-        void add(Camera* camera);
+        void add(std::unique_ptr<Camera>&& camera);
 
         /// Add a pointer on a light to the scene
-        void add(Light* light);
+        void add(std::shared_ptr<Light> light);
 
         /// Add a pointer on an object to render to the scene
         void add(std::shared_ptr<Renderable> renderable);
@@ -116,15 +105,15 @@ namespace LCNS
         void _countVerticesAndFaces(const std::string& objFilePath, OBJParameters& parameters) const;
 
     private:
-        std::list<Camera*>                             _cameraList;
-        std::list<Light*>                              _lightList;
+        std::list<std::unique_ptr<Camera>>             _cameraList;
+        std::list<std::shared_ptr<Light>>              _lightList;
         std::list<std::shared_ptr<Renderable>>         _renderableList;
         std::list<std::shared_ptr<CubeMap>>            _cubeMapList;
         std::map<std::string, std::shared_ptr<Shader>> _shaderMap;
         std::map<std::string, std::shared_ptr<BRDF>>   _bRDFMap;
+        std::shared_ptr<CubeMap>                       _backgroundCubeMap;
         BackgroundType                                 _backgroundType = BackgroundType::UNDEFINED;
         Color                                          _backgroundColor;
-        std::shared_ptr<CubeMap>                       _backgroundCubeMap;
 
     };  // class Scene
 

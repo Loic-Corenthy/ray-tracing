@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <memory>
 
 #include "Color.hpp"
 #include "Point.hpp"
@@ -19,6 +20,8 @@
 #include "Scene.hpp"
 #include "Renderable.hpp"
 #include "Vector.hpp"
+
+using std::shared_ptr;
 
 using LCNS::Color;
 using LCNS::Point;
@@ -64,14 +67,14 @@ Vector PunctualLight::directionFrom(const LCNS::Point& point) const
     return (_position - point);
 }
 
-Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
+Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, shared_ptr<Renderable> currentObject) const
 {
     // Direction between point on object and current light
     const auto direction = Vector(_position - point);
 
     // Create the corresponding ray
     Ray myRay(point, direction);
-    myRay.setIntersected(currentObject);
+    myRay.intersected(currentObject);
 
     // Check if there is an object between them. Ask for at least 2 intersections points with the scene as the ray will always intersect with the
     // object containing the point point.

@@ -15,6 +15,9 @@
 #include "Ray.hpp"
 #include "Scene.hpp"
 #include "Vector.hpp"
+#include <memory>
+
+using std::shared_ptr;
 
 using LCNS::Color;
 using LCNS::DirectionalLight;
@@ -59,13 +62,13 @@ Vector DirectionalLight::directionFrom([[maybe_unused]] const Point& point) cons
     return _direction * -1.0;
 }
 
-Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, LCNS::Renderable* currentObject) const
+Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, shared_ptr<Renderable> currentObject) const
 {
     Ray myRay;
 
-    myRay.setOrigin(point);
-    myRay.setDirection(_direction * (-1.0));
-    myRay.setIntersected(currentObject);
+    myRay.origin(point);
+    myRay.direction(_direction * (-1.0));
+    myRay.intersected(currentObject);
 
     bool hasIntersection = scene.intersect(myRay);
 

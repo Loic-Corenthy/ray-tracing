@@ -24,7 +24,7 @@ namespace LCNS
     class Vector;
     class Point;
 
-    class Renderable
+    class Renderable : public std::enable_shared_from_this<Renderable>
     {
     public:
         enum class ColorType

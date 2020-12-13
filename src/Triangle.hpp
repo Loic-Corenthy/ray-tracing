@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <array>
+#include <memory>
 #include <type_traits>
 #include <optional>
 

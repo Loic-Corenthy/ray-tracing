@@ -11,13 +11,16 @@
 #include "Sphere.hpp"
 
 #include <cmath>
+#include <memory>
 #include <tuple>
 
 #include "Color.hpp"
 #include "Ray.hpp"
+#include "Renderable.hpp"
 #include "Shader.hpp"
 
 using std::get;
+using std::make_shared;
 using std::make_tuple;
 using std::nullopt;
 using std::optional;
@@ -25,12 +28,19 @@ using std::tuple;
 
 using LCNS::Color;
 using LCNS::Ray;
+using LCNS::Renderable;
 using LCNS::Sphere;
 using LCNS::Vector;
 
 Sphere::Sphere(const Point& point, double radius)
 : _center(point)
 , _radius(radius)
+{
+}
+
+Sphere::Sphere(const Sphere& sphere)
+: _center(sphere._center)
+, _radius(sphere._radius)
 {
 }
 
@@ -52,14 +62,14 @@ bool Sphere::intersect(Ray& ray)
 
     if (root1 > 0.0 && root2 > 0.0)
     {
-        ray.setLength((root1 < root2) ? root1 : root2);
-        ray.setIntersected(this);
+        ray.length((root1 < root2) ? root1 : root2);
+        ray.intersected(shared_from_this());
         return true;
     }
     else if ((root1 > 0.0 && root2 <= 0.0) || (root2 > 0.0 && root1 <= 0.0))
     {
-        ray.setLength((root1 > root2) ? root1 : root2);
-        ray.setIntersected(this);
+        ray.length((root1 > root2) ? root1 : root2);
+        ray.intersected(shared_from_this());
         return true;
     }
     else
@@ -72,7 +82,7 @@ Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
+    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), shared_from_this(), reflectionCount));
 }
 
 optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
@@ -106,7 +116,7 @@ optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
         assert(secondRefraction && "Ray cannot get find its way out of the sphere :p ");
 
         auto refractedRay = Ray(insideSphere.intersection(), outRefractionDirection);
-        refractedRay.setIntersected(this);
+        refractedRay.intersected(make_shared<Sphere>(*this));
 
         return refractedRay;
     }

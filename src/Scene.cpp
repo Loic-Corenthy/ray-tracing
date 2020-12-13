@@ -50,6 +50,7 @@ using std::static_pointer_cast;
 using std::stoi;
 using std::string;
 using std::stringstream;
+using std::unique_ptr;
 using std::vector;
 
 using LCNS::BRDF;
@@ -64,18 +65,12 @@ using LCNS::Scene;
 using LCNS::Shader;
 using LCNS::Triangle;
 
-Scene::~Scene(void)
-{
-    for_each(_cameraList.begin(), _cameraList.end(), DeleteObject());
-    for_each(_lightList.begin(), _lightList.end(), DeleteObject());
-}
-
-list<Camera*>& Scene::cameraList(void)
+list<unique_ptr<Camera>>& Scene::cameraList(void)
 {
     return _cameraList;
 }
 
-list<Light*>& Scene::lightList(void)
+list<shared_ptr<Light>>& Scene::lightList(void)
 {
     return _lightList;
 }
@@ -119,27 +114,43 @@ shared_ptr<Renderable> Scene::objectNamed(const string& name)
     }
 }
 
-void Scene::add(Camera* camera)
+void Scene::add(unique_ptr<Camera>&& camera)
 {
-    assert(camera && "camera added to the scene is not valid");
-    _cameraList.push_back(camera);
+    if (!camera.get())
+    {
+        throw runtime_error("Non initialised camera pointer added to scene");
+    }
+
+    _cameraList.push_back(move(camera));
 }
 
-void Scene::add(Light* light)
+void Scene::add(shared_ptr<Light> light)
 {
-    assert(light && "light added to the scene is not valid");
+    if (!light.get())
+    {
+        throw runtime_error("Non initialised light pointer added to scene");
+    }
+
     _lightList.push_back(light);
 }
 
 void Scene::add(shared_ptr<Renderable> renderable)
 {
-    assert(renderable && "object added to the scene is not valid");
+    if (!renderable.get())
+    {
+        throw runtime_error("Non initialised object pointer added to scene");
+    }
+
     _renderableList.push_back(renderable);
 }
 
 void Scene::add(shared_ptr<Shader> shader, const string& name)
 {
-    assert(shader && "shader added to the scene is not valid");
+    if (!shader.get())
+    {
+        throw runtime_error("Non initialised shader pointer added to scene");
+    }
+
     auto success = _shaderMap.try_emplace(name, move(shader));
 
     if (!success.second)
@@ -154,7 +165,10 @@ void Scene::add(shared_ptr<Shader> shader, const string& name)
 
 void Scene::add(shared_ptr<BRDF> bRDF, const string& name)
 {
-    assert(bRDF && "brdf added to the scene is not valid");
+    if (!bRDF.get())
+    {
+        throw runtime_error("Non initialised BRDF pointer added to scene");
+    }
 
     auto success = _bRDFMap.try_emplace(name, move(bRDF));
 
@@ -170,49 +184,46 @@ void Scene::add(shared_ptr<BRDF> bRDF, const string& name)
 
 void Scene::add(shared_ptr<CubeMap> cubeMap)
 {
-    assert(cubeMap && "cubeMap added to the scene is not valid");
+    if (!cubeMap.get())
+    {
+        throw runtime_error("Non initialised cubeMap pointer added to scene");
+    }
+
     _cubeMapList.push_back(cubeMap);
 }
 
 bool Scene::intersect(Ray& ray) const
 {
-    float       closestDist    = numeric_limits<float>::max();
-    Renderable* rClosestObject = nullptr;
-    Renderable* objectFromRay  = ray.intersected();
+    double                 closestDist = numeric_limits<double>::max();
+    shared_ptr<Renderable> rClosestObject;
+    shared_ptr<Renderable> objectFromRay = ray.intersected();
 
     int i = 0;
 
-    bool hasIntersection(false);
-
     if (!(_renderableList.empty()))
     {
-        auto iterator = _renderableList.begin();  //(c++11)
-        auto end      = _renderableList.end();
-
-        while (iterator != end)
+        for (auto renderable : _renderableList)
         {
-            hasIntersection = (*iterator)->intersect(ray);
+            bool hasIntersection = renderable->intersect(ray);
             if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
                 closestDist    = ray.length();
                 rClosestObject = ray.intersected();
                 i++;
             }
-
-            iterator++;
         }
     }
 
     if (i > 0)
     {
-        ray.setLength(closestDist);
-        ray.setIntersected(rClosestObject);
+        ray.length(closestDist);
+        ray.intersected(rClosestObject);
         return true;
     }
     else
     {
-        ray.setLength(numeric_limits<float>::max());
-        ray.setIntersected(nullptr);
+        ray.length(numeric_limits<float>::max());
+        ray.intersected(nullptr);
         return false;
     }
 }
@@ -464,11 +475,11 @@ Color Scene::meanAmbiantLight(void) const
     Color meanLight(0.0f);
 
     // Calculate mean light value: sum all the light sources intensities
-    for (list<Light*>::const_iterator iterator = _lightList.begin(), end = _lightList.end(); iterator != end; iterator++)
-        meanLight += (*iterator)->intensity();
+    for (auto light : _lightList)
+        meanLight += light->intensity();
 
     // Divide by the number of light sources
-    meanLight *= 1.0f / static_cast<float>(_lightList.size());
+    meanLight *= (1.0f / static_cast<float>(_lightList.size()));
 
     return meanLight;
 }

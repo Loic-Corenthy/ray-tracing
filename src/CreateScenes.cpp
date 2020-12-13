@@ -15,10 +15,12 @@
 #include <memory>
 
 using std::make_shared;
+using std::make_unique;
 using std::max;
 using std::shared_ptr;
 using std::static_pointer_cast;
 using std::string;
+using std::unique_ptr;
 
 using namespace LCNS;
 
@@ -45,13 +47,9 @@ void createTestScene(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Light* rLight1 = new DirectionalLight(Vector(0.0, 0.0, -1.0), Color(22.0));
+    shared_ptr<Light> rLight1 = make_shared<DirectionalLight>(Vector(0.0, 0.0, -1.0), Color(22.0));
     scene->add(rLight1);
 
-
-    //    Point light2Position(0.,1.0,0.0);
-    //	Light* rLight2 = new PunctualLight(light2Position,lLight1Color);
-    //    scene->add(rLight2);
 
     ////////////
     // CAMERA //
@@ -61,8 +59,8 @@ void createTestScene(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    scene->add(move(camera));
 
 
     ////////////////
@@ -140,9 +138,9 @@ void createScene01(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 0.0, 5.0);
-    Color  light1Color(9.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 0.0, 5.0);
+    Color             light1Color(9.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
@@ -153,8 +151,8 @@ void createScene01(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    scene->add(move(camera));
 
     ////////////////
     // BACKGROUND //
@@ -262,24 +260,24 @@ void createScene02(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(50., 130., 150.0);
-    Color  light1Color(18.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(50., 130., 150.0);
+    Color             light1Color(18.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point  light2Position(20., 150., 150.0);
-    Color  light2Color(18.0);
-    Light* rLight2 = new PunctualLight(light2Position, light2Color);
+    Point             light2Position(20., 150., 150.0);
+    Color             light2Color(18.0);
+    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, light2Color);
     scene->add(rLight2);
 
-    Point  light3Position(-70., 50., 110.0);
-    Color  light3Color(15.0);
-    Light* rLight3 = new PunctualLight(light3Position, light3Color);
+    Point             light3Position(-70., 50., 110.0);
+    Color             light3Color(15.0);
+    shared_ptr<Light> rLight3 = make_shared<PunctualLight>(light3Position, light3Color);
     scene->add(rLight3);
 
-    Point  light4Position(-20., 50., 160.0);
-    Color  light4Color(15.0);
-    Light* rLight4 = new PunctualLight(light4Position, light4Color);
+    Point             light4Position(-20., 50., 160.0);
+    Color             light4Color(15.0);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -291,11 +289,11 @@ void createScene02(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(centerSphere3);
-    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->focalPoint(centerSphere3);
+    camera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
 
     ////////////////
@@ -429,7 +427,7 @@ void createScene03(shared_ptr<Scene> scene)
     Point lightPos(0.0, 20.0, 15.0);
     Color lightCol(18.0);
 
-    Light* rLight = new PunctualLight(lightPos, lightCol);
+    shared_ptr<Light> rLight = make_shared<PunctualLight>(lightPos, lightCol);
     scene->add(rLight);
 
 
@@ -441,10 +439,10 @@ void createScene03(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1.0, 0.);
     double FOV = 90. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
     ///////////
     // FLOOR //
@@ -524,26 +522,26 @@ void createScene04(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 0.0, 100.0);
-    Color  lowLightColor(20.0);
-    Light* rLight1 = new PunctualLight(light1Position, lowLightColor);
+    Point             light1Position(0., 0.0, 100.0);
+    Color             lowLightColor(20.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, lowLightColor);
     scene->add(rLight1);
 
-    Point  light2Position(-200., 0.0, 100.0);
-    Light* rLight2 = new PunctualLight(light2Position, lowLightColor);
+    Point             light2Position(-200., 0.0, 100.0);
+    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, lowLightColor);
     scene->add(rLight2);
 
-    Point  light3Position(200., 0.0, 100.0);
-    Light* rLight3 = new PunctualLight(light3Position, lowLightColor);
+    Point             light3Position(200., 0.0, 100.0);
+    shared_ptr<Light> rLight3 = make_shared<PunctualLight>(light3Position, lowLightColor);
     scene->add(rLight3);
 
-    Point  light4Position(90., 300., 200.0);
-    Color  highLightColor(200.0);
-    Light* rLight4 = new PunctualLight(light4Position, highLightColor);
+    Point             light4Position(90., 300., 200.0);
+    Color             highLightColor(200.0);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, highLightColor);
     scene->add(rLight4);
 
-    Point  light5Position(-90., 300., 200.0);
-    Light* rLight5 = new PunctualLight(light5Position, highLightColor);
+    Point             light5Position(-90., 300., 200.0);
+    shared_ptr<Light> rLight5 = make_shared<PunctualLight>(light5Position, highLightColor);
     scene->add(rLight5);
 
     ////////////
@@ -554,10 +552,10 @@ void createScene04(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
     // FLOOR
     FloorParameters floorParameters = { Color(1.0), Color(0.3), 1.0, 1.0, 2, 2000.0, 100.0, string("./resources/rect5130.png") };
@@ -641,13 +639,13 @@ void createScene04bis(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light4Position(1.15, 4., 4.0);
-    Color  lightColor(16.0);
-    Light* rLight4 = new PunctualLight(light4Position, lightColor);
+    Point             light4Position(1.15, 4., 4.0);
+    Color             lightColor(16.0);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, lightColor);
     scene->add(rLight4);
 
-    Point  light5Position(-1.15, 4., 4.0);
-    Light* rLight5 = new PunctualLight(light5Position, lightColor);
+    Point             light5Position(-1.15, 4., 4.0);
+    shared_ptr<Light> rLight5 = make_shared<PunctualLight>(light5Position, lightColor);
     scene->add(rLight5);
 
 
@@ -659,8 +657,8 @@ void createScene04bis(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    scene->add(move(camera));
 
     ///////////
     // FLOOR //
@@ -699,14 +697,14 @@ void createScene05(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 1.0, 10.0);
-    Color  light1Color(10.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 1.0, 10.0);
+    Color             light1Color(10.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point  light4Position(0., 10., 6.0);
-    Color  light4Color(10.0);
-    Light* rLight4 = new PunctualLight(light4Position, light4Color);
+    Point             light4Position(0., 10., 6.0);
+    Color             light4Color(10.0);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -718,10 +716,10 @@ void createScene05(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
 
     // FLOOR
@@ -908,9 +906,9 @@ void createScene06(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  lightPosition(0.0, 0.0, 20.0);
-    Color  lightColor(6.0);
-    Light* rLight1 = new PunctualLight(lightPosition, lightColor);
+    Point             lightPosition(0.0, 0.0, 20.0);
+    Color             lightColor(6.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(lightPosition, lightColor);
     scene->add(rLight1);
 
 
@@ -922,12 +920,12 @@ void createScene06(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 90. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(Point(4.0));
-    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::EXCELLENT);
-    //    rCamera->aperture(Camera::Aperture::ALL_SHARP);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->focalPoint(Point(4.0));
+    camera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::EXCELLENT);
+    //    camera->aperture(Camera::Aperture::ALL_SHARP);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
     // BACKGROUND
     auto rCubeMapBckGrd = make_shared<CubeMap>(Point(0.0), 260);  // 260
@@ -1000,21 +998,21 @@ void createScene07(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  lightPosition(0.0, 90.0, 0.0);
-    Color  lightColor(5.0);
-    Light* rLight1 = new PunctualLight(lightPosition, lightColor);
+    Point             lightPosition(0.0, 90.0, 0.0);
+    Color             lightColor(5.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(lightPosition, lightColor);
     scene->add(rLight1);
 
     //    lightPosition.setPoint(0.0,15.0,37.0);
-    //	Light* rLight2 = new PunctualLight(lightPosition,lLightColor);
+    //	shared_ptr<Light> rLight2 = make_shared<PunctualLight>(lightPosition,lLightColor);
     //    scene->add(rLight2);
 
     lightPosition.set(10.0, 20.0, 37.0);
-    Light* rLight3 = new PunctualLight(lightPosition, lightColor);
+    shared_ptr<Light> rLight3 = make_shared<PunctualLight>(lightPosition, lightColor);
     scene->add(rLight3);
 
     lightPosition.set(-10.0, 20.0, 37.0);
-    Light* rLight4 = new PunctualLight(lightPosition, lightColor);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(lightPosition, lightColor);
     scene->add(rLight4);
 
 
@@ -1026,11 +1024,11 @@ void createScene07(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP);
 
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
     // ROOM
     RoomParameters roomParameters = { Color(1.0, 0.18, 0.17),
@@ -1096,9 +1094,9 @@ void createScene08(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 10., 0.0);
-    Color  light1Color(3.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 10., 0.0);
+    Color             light1Color(3.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
     ////////////
@@ -1109,10 +1107,10 @@ void createScene08(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME, 1.0);
-    rCamera->focalPoint(centerSphere1);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME, 1.0);
+    camera->focalPoint(centerSphere1);
+    scene->add(move(camera));
 
 
     ////////////////
@@ -1194,14 +1192,14 @@ void createScene09(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 1.0, 10.0);
-    Color  light1Color(10.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 1.0, 10.0);
+    Color             light1Color(10.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point  light4Position(0., 10., 6.0);
-    Color  light4Color(10.0);
-    Light* rLight4 = new PunctualLight(light4Position, light4Color);
+    Point             light4Position(0., 10., 6.0);
+    Color             light4Color(10.0);
+    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, light4Color);
     scene->add(rLight4);
 
 
@@ -1213,10 +1211,10 @@ void createScene09(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
     // FLOOR
     //    FloorParameters floorParameters = {Color(0.6), Color(0.7),200.0,50.0, string("no_texture")};
@@ -1283,7 +1281,7 @@ void createScene10(shared_ptr<Scene> scene)
     Color light1Color(212.0, 27.0, 218.0);
     light1Color *= 2.0;
 
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
 
@@ -1292,7 +1290,7 @@ void createScene10(shared_ptr<Scene> scene)
 
     light2Color *= 2.0;
 
-    Light* rLight2 = new PunctualLight(light2Position, light2Color);
+    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, light2Color);
     scene->add(rLight2);
 
     Point light3Position(-190., 150., 90.0);
@@ -1300,7 +1298,7 @@ void createScene10(shared_ptr<Scene> scene)
 
     light3Color *= 200.0;
 
-    Light* rLight3 = new PunctualLight(light3Position, light3Color);
+    shared_ptr<Light> rLight3 = make_shared<PunctualLight>(light3Position, light3Color);
     scene->add(rLight3);
 
 
@@ -1312,10 +1310,10 @@ void createScene10(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->aperture(Camera::Aperture::ALL_SHARP, Camera::Precision::LOW, 10.0);
 
-    scene->add(rCamera);
+    scene->add(move(camera));
 
 
     ///////////
@@ -1408,14 +1406,14 @@ void createScene11(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 1.0, 10.0);
-    Color  light1Color(8.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 1.0, 10.0);
+    Color             light1Color(8.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point  light2Position(0., 1.0, -10.0);
-    Color  light2Color(5.0);
-    Light* rLight2 = new PunctualLight(light2Position, light2Color);
+    Point             light2Position(0., 1.0, -10.0);
+    Color             light2Color(5.0);
+    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, light2Color);
     scene->add(rLight2);
 
 
@@ -1427,8 +1425,8 @@ void createScene11(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    scene->add(move(camera));
 
 
     ////////////////
@@ -1513,14 +1511,14 @@ void createScene12(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0., 25.0, 50.0);
-    Color  light1Color(30.0);
-    Light* rLight1 = new PunctualLight(light1Position, light1Color);
+    Point             light1Position(0., 25.0, 50.0);
+    Color             light1Color(30.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
     //    Point light4Position(0.,20.,6.0);
     //	Color light4Color(10.0);
-    //	Light* rLight4 = new PunctualLight(light4Position,lLight4Color);
+    //	shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position,lLight4Color);
     //    scene->add(rLight4);
 
 
@@ -1532,10 +1530,10 @@ void createScene12(shared_ptr<Scene> scene)
     Vector cameraUp(0., 1., 0.);
     double FOV = 60. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    //    rCamera->aperture(Camera::Aperture::F_SMALL,45.0,Camera::LOW);
-    rCamera->aperture(Camera::Aperture::ALL_SHARP);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    //    camera->aperture(Camera::Aperture::F_SMALL,45.0,Camera::LOW);
+    camera->aperture(Camera::Aperture::ALL_SHARP);
+    scene->add(move(camera));
 
 
     // ROOM
@@ -1730,9 +1728,9 @@ void createScene13(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(-3.0, 10.0, 20.0);
-    Color  lightColor(20.0);
-    Light* rLight1 = new PunctualLight(light1Position, lightColor);
+    Point             light1Position(-3.0, 10.0, 20.0);
+    Color             lightColor(20.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, lightColor);
     scene->add(rLight1);
 
 
@@ -1744,10 +1742,10 @@ void createScene13(shared_ptr<Scene> scene)
     Vector cameraUp(0.0, 1.0, 0.0);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
-    rCamera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
+    camera->aperture(Camera::Aperture::F_SMALL, Camera::Precision::SUPER_AWESOME);
+    scene->add(move(camera));
 
     RoomParameters parameters = { Color(0.8),
                                   Color(0.8),
@@ -1904,18 +1902,18 @@ void createScene14(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point  light1Position(0.0, 20.0, 10.0);
-    Color  lightColor(20.0);
-    Light* rLight1 = new PunctualLight(light1Position, lightColor);
+    Point             light1Position(0.0, 20.0, 10.0);
+    Color             lightColor(20.0);
+    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, lightColor);
     scene->add(rLight1);
 
 
-    Point  light2Position(-5.0, 10.0, 10.0);
-    Light* rLight2 = new PunctualLight(light2Position, lightColor);
+    Point             light2Position(-5.0, 10.0, 10.0);
+    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, lightColor);
     scene->add(rLight2);
 
-    Point  light3Position(5.0, 10.0, 10.0);
-    Light* rLight3 = new PunctualLight(light3Position, lightColor);
+    Point             light3Position(5.0, 10.0, 10.0);
+    shared_ptr<Light> rLight3 = make_shared<PunctualLight>(light3Position, lightColor);
     scene->add(rLight3);
 
 
@@ -1927,10 +1925,10 @@ void createScene14(shared_ptr<Scene> scene)
     Vector cameraUp(0.0, 1.0, 0.0);
     double FOV = 80. * 3.141592 / 180.;
 
-    Camera* rCamera = new Camera(centreCamera, directionCamera, cameraUp, FOV);
-    rCamera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
-    rCamera->aperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
-    scene->add(rCamera);
+    auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
+    camera->focalPoint(centerSphere + directionCamera.normalize() * static_pointer_cast<Sphere>(rSphere1)->radius() * (-1.0));
+    camera->aperture(Camera::Aperture::F_MEDIUM, Camera::Precision::SUPER_AWESOME);
+    scene->add(move(camera));
 
 
     auto rCubeMapBckGrd = make_shared<CubeMap>(Point(0.0), 260);  // 260

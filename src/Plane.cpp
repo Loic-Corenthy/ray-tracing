@@ -64,8 +64,8 @@ bool Plane::intersect(Ray& ray)
         // Calculate the lenght the ray when intersecting the plane
         const double length = (-1.0) * (origin * _normal + _equationCoeffs[3]) / (scalarProd);
 
-        ray.setLength(length);
-        ray.setIntersected(nullptr);
+        ray.length(length);
+        ray.intersected(nullptr);
 
         return true;
     }

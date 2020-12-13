@@ -69,6 +69,9 @@ namespace LCNS
         /// Activate of not the super sampling as an antialiazing method
         void _setSuperSampling(bool activate);
 
+        /// Display a progress bar with ascii characters
+        void _displayProgressBar(double currentProgress);
+
     private:
         std::shared_ptr<Scene> _scene;
         Buffer                 _buffer;

@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cmath>
 #include <memory>
+#include <stdexcept>
 
 #include "Buffer.hpp"
 #include "Scene.hpp"
@@ -28,7 +29,9 @@
 using std::cerr;
 using std::cout;
 using std::endl;
+using std::runtime_error;
 using std::shared_ptr;
+using std::string;
 
 using LCNS::Buffer;
 using LCNS::Renderer;
@@ -193,10 +196,10 @@ void Renderer::_render(void)
                 _buffer.pixel(i, j, colorAfterToneMapping);
             }
             // Display progress in the console
-            cout << "Progress: " << static_cast<float>(i) / static_cast<float>(bufferWidth) * 100.0f << " %" << endl;
+            _displayProgressBar(static_cast<double>(i) / static_cast<double>(bufferWidth));
         }
         // Display a message when the render is finished
-        cout << "Done =)" << endl;
+        cout << "\nDone =)\n";
     }
     else if (_superSampling)
     {
@@ -298,10 +301,10 @@ void Renderer::_render(void)
                 _buffer.pixel(i, j, superSampling);
             }
             // Display progress in the console
-            cout << "Progress: " << static_cast<float>(i) / static_cast<float>(bufferWidth) * 100.0f << " %" << endl;
+            _displayProgressBar(static_cast<double>(i) / static_cast<double>(bufferWidth));
         }
         // Display a message when the render is finished
-        cout << "Done =)" << endl;
+        cout << "\nDone =)\n";
     }
     else
     {
@@ -390,10 +393,10 @@ void Renderer::_render(void)
                 _reflectionCount = 1;
             }
             // Display progress in the console
-            cout << "Progress: " << static_cast<float>(j) / static_cast<float>(bufferHeight) * 100.0f << " %" << endl;
+            _displayProgressBar(static_cast<double>(j) / static_cast<double>(bufferHeight));
         }
         // Display a message when the render is finished
-        cout << "Done =)" << endl;
+        cout << "\nDone =)\n";
     }
 }
 
@@ -412,4 +415,34 @@ void Renderer::_setSuperSampling(bool activate)
 bool Renderer::_isSuperSamplingActive(void) const
 {
     return _superSampling;
+}
+
+void Renderer::_displayProgressBar(double currentProgress)
+{
+    if (!(0.0 <= currentProgress && currentProgress <= 1.0))
+    {
+        throw runtime_error("Current progress for the progress bar must be in the range [0, 1]");
+    }
+
+    // Display 50 signs when complete, i.e.
+    const int  maxSign        = 50;
+    const auto signCount      = (0.99 < currentProgress) ? maxSign : static_cast<int>(currentProgress * 100.0 / 2.0);
+    const auto remainingCount = maxSign - signCount;
+
+    string progressBar("[");
+    for (int i = 0; i < signCount; ++i)
+    {
+        progressBar.append("=");
+    }
+
+    for (int i = 0; i < remainingCount; ++i)
+    {
+        progressBar.append(" ");
+    }
+
+    progressBar.append("]");
+
+    const auto displayedProgress = static_cast<int>(((0.99 < currentProgress) ? 1.0 : currentProgress) * 100.0);
+
+    cout << progressBar << " " << displayedProgress << " % \r";
 }

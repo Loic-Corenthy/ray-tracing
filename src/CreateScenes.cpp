@@ -386,8 +386,8 @@ void createScene03(shared_ptr<Scene> scene)
     rSphere3->shader(rShader3);
 
     scene->add(rSphere3);
-    scene->add(rBRDF3, string("brdf of sphere 2"));
-    scene->add(rShader3, string("shader of sphere 2"));
+    scene->add(rBRDF3, string("brdf of sphere 3"));
+    scene->add(rShader3, string("shader of sphere 3"));
 
     ///////////////////////////
     // SPHERE WITH A TEXTURE //
@@ -1037,7 +1037,7 @@ void createScene07(shared_ptr<Scene> scene)
                                       1.0,
                                       2,
                                       Point(50.0),
-                                      20.0,
+                                      Vector(20.0),
                                       string("./resources/textureLeaves_750x750.png"),
                                       string("./resources/textureWall_400x400.png"),
                                       string("./resources/textureWall_400x400_Right.png"),
@@ -1537,9 +1537,9 @@ void createScene12(shared_ptr<Scene> scene)
 
 
     // ROOM
-    RoomParameters parameters = {
-        Color(0.8), Color(1.0), 0.0, 1.0, 2, Point(35.0), 15.0, string("no_texture"), string("no_texture"), string("no_texture"), string("no_texture")
-    };
+    RoomParameters parameters
+    = { Color(0.8),           Color(1.0),          0.0, 1.0, 2, Point(35.0), Vector(15.0), string("no_texture"), string("no_texture"),
+        string("no_texture"), string("no_texture") };
     createRoom(scene, parameters);
 
 
@@ -1721,8 +1721,8 @@ void createScene13(shared_ptr<Scene> scene)
 
     scene->add(rMirror1);
     scene->add(rMirror2);
-    scene->add(rBRDFMirror, string("brdf of sphere 1"));
-    scene->add(rShaderMirror, string("shader of sphere 1"));
+    scene->add(rBRDFMirror, string("brdf of mirror"));
+    scene->add(rShaderMirror, string("shader of mirror"));
 
 
     ////////////

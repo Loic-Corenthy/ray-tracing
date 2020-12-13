@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cmath>
+#include <array>
 #include <cassert>
 
 namespace LCNS
@@ -19,19 +20,28 @@ namespace LCNS
     {
     public:
         /// Default constructor
-        Vector(void);
+        Vector(void) = default;
 
         /// Constructor with coordinates parameters
         Vector(double x, double y, double z);
 
         /// Constructor with same value for all coordinates
-        Vector(double commonValue);
+        explicit Vector(double commonValue);
 
         /// Copy constructor
-        Vector(const Vector& vector);
+        Vector(const Vector& vector) = default;
+
+        /// Move constructor
+        Vector(Vector&& vector) = default;
+
+        /// Copy the coordinates of a vector to another one
+        Vector& operator=(const Vector& vector) = default;
+
+        /// Move assignment operator
+        Vector& operator=(Vector&& vector) = default;
 
         /// Destructor
-        ~Vector(void);
+        ~Vector(void) = default;
 
         /// Coordinate operator (read only)
         double operator[](unsigned int index) const;
@@ -40,28 +50,25 @@ namespace LCNS
         double& operator[](unsigned int index);
 
         /// Set all coordinates at once
-        void setVector(double x, double y, double z);
+        void setVector(double x, double y, double z) noexcept;
 
         /// Set X coordinate
-        void setX(double x);
+        void setX(double x) noexcept;
 
         /// Set Y coordinate
-        void setY(double y);
+        void setY(double y) noexcept;
 
         /// Set Z coordinate
-        void setZ(double z);
+        void setZ(double z) noexcept;
 
         /// Get X coordinate
-        double x(void) const;
+        double x(void) const noexcept;
 
         /// Get X coordinate
-        double y(void) const;
+        double y(void) const noexcept;
 
         /// Get X coordinate
-        double z(void) const;
-
-        /// Copy the coordinates of a vector to another one
-        Vector operator=(const Vector& vector);
+        double z(void) const noexcept;
 
         /// Return the vector sum of 2 vectors
         Vector operator+(const Vector& vector) const;
@@ -94,72 +101,8 @@ namespace LCNS
         Vector normalize(void);
 
     private:
-        double _coords[3];
+        std::array<double, 3> _coords = { 0.0, 0.0, 0.0 };
 
     };  // class Vector
-
-    inline double Vector::operator[](unsigned int index) const
-    {
-        assert(0 <= index && index <= 2 && "Vector: index out of bounds");
-        return _coords[index];
-    }
-
-    inline double& Vector::operator[](unsigned int index)
-    {
-        assert(0 <= index && index <= 2 && "Vector: index out of bounds");
-        return _coords[index];
-    }
-
-    inline void Vector::setVector(double x, double y, double z)
-    {
-        _coords[0] = x;
-        _coords[1] = y;
-        _coords[2] = z;
-    }
-
-    inline void Vector::setX(double x)
-    {
-        _coords[0] = x;
-    }
-
-    inline void Vector::setY(double y)
-    {
-        _coords[1] = y;
-    }
-
-    inline void Vector::setZ(double z)
-    {
-        _coords[2] = z;
-    }
-
-    inline double Vector::x(void) const
-    {
-        return _coords[0];
-    }
-
-    inline double Vector::y(void) const
-    {
-        return _coords[1];
-    }
-
-    inline double Vector::z(void) const
-    {
-        return _coords[2];
-    }
-
-    inline double Vector::operator*(const Vector& vector) const
-    {
-        return (_coords[0] * vector._coords[0] + _coords[1] * vector._coords[1] + _coords[2] * vector._coords[2]);
-    }
-
-    inline double Vector::length(void) const
-    {
-        return sqrt(_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
-    }
-
-    inline double Vector::lengthSqr(void) const
-    {
-        return (_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
-    }
 
 }  // namespace LCNS

@@ -12,13 +12,6 @@
 
 using namespace LCNS;
 
-Vector::Vector(void)
-{
-    _coords[0] = 0.0;
-    _coords[1] = 0.0;
-    _coords[2] = 0.0;
-}
-
 Vector::Vector(double commonValue)
 {
     _coords[0] = commonValue;
@@ -33,49 +26,78 @@ Vector::Vector(double x, double y, double z)
     _coords[2] = z;
 }
 
-Vector::Vector(const Vector& vector)
+double Vector::operator[](unsigned int index) const
 {
-    _coords[0] = vector._coords[0];
-    _coords[1] = vector._coords[1];
-    _coords[2] = vector._coords[2];
+    assert(index <= 2 && "Vector: index out of bounds");
+    return _coords[index];
 }
 
-Vector::~Vector(void)
+double& Vector::operator[](unsigned int index)
 {
+    assert(index <= 2 && "Vector: index out of bounds");
+    return _coords[index];
 }
 
-Vector Vector::operator=(const Vector& vector)
+void Vector::setVector(double x, double y, double z) noexcept
 {
-    if (this == &vector)
-        return *this;
+    _coords[0] = x;
+    _coords[1] = y;
+    _coords[2] = z;
+}
 
-    _coords[0] = vector._coords[0];
-    _coords[1] = vector._coords[1];
-    _coords[2] = vector._coords[2];
+void Vector::setX(double x) noexcept
+{
+    _coords[0] = x;
+}
 
-    return *this;
+void Vector::setY(double y) noexcept
+{
+    _coords[1] = y;
+}
+
+void Vector::setZ(double z) noexcept
+{
+    _coords[2] = z;
+}
+
+double Vector::x(void) const noexcept
+{
+    return _coords[0];
+}
+
+double Vector::y(void) const noexcept
+{
+    return _coords[1];
+}
+
+double Vector::z(void) const noexcept
+{
+    return _coords[2];
+}
+
+double Vector::operator*(const Vector& vector) const
+{
+    return (_coords[0] * vector._coords[0] + _coords[1] * vector._coords[1] + _coords[2] * vector._coords[2]);
+}
+
+double Vector::length(void) const
+{
+    return sqrt(_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
+}
+
+double Vector::lengthSqr(void) const
+{
+    return (_coords[0] * _coords[0] + _coords[1] * _coords[1] + _coords[2] * _coords[2]);
 }
 
 Vector Vector::operator+(const Vector& vector) const
 {
-    Vector myVector(0.0);
-
-    myVector[0] = _coords[0] + vector._coords[0];
-    myVector[1] = _coords[1] + vector._coords[1];
-    myVector[2] = _coords[2] + vector._coords[2];
-
-    return myVector;
+    return Vector{ _coords[0] + vector._coords[0], _coords[1] + vector._coords[1], _coords[2] + vector._coords[2] };
 }
 
 Vector Vector::operator-(const Vector& vector) const
 {
-    Vector myVector(0.0);
-
-    myVector[0] = _coords[0] - vector._coords[0];
-    myVector[1] = _coords[1] - vector._coords[1];
-    myVector[2] = _coords[2] - vector._coords[2];
-
-    return myVector;
+    return Vector{ _coords[0] - vector._coords[0], _coords[1] - vector._coords[1], _coords[2] - vector._coords[2] };
 }
 
 Vector Vector::operator+=(const Vector& vector)
@@ -98,34 +120,24 @@ Vector Vector::operator-=(const Vector& vector)
 
 Vector Vector::operator*(double scalar) const
 {
-    Vector myVector(0.0);
-
-    myVector[0] = scalar * _coords[0];
-    myVector[1] = scalar * _coords[1];
-    myVector[2] = scalar * _coords[2];
-
-    return myVector;
+    return Vector{ scalar * _coords[0], scalar * _coords[1], scalar * _coords[2] };
 }
 
 Vector Vector::operator^(const Vector& vector) const
 {
-    Vector myVector(0.0);
-
-    myVector[0] = _coords[1] * vector._coords[2] - _coords[2] * vector._coords[1];
-    myVector[1] = _coords[2] * vector._coords[0] - _coords[0] * vector._coords[2];
-    myVector[2] = _coords[0] * vector._coords[1] - _coords[1] * vector._coords[0];
-
-    return myVector;
+    return Vector{ _coords[1] * vector._coords[2] - _coords[2] * vector._coords[1],
+                   _coords[2] * vector._coords[0] - _coords[0] * vector._coords[2],
+                   _coords[0] * vector._coords[1] - _coords[1] * vector._coords[0] };
 }
 
 
 Vector Vector::normalize(void)
 {
-    const double invLengthVector = 1.0 / (this->length());
+    const auto lengthVector = length();
 
-    _coords[0] *= invLengthVector;
-    _coords[1] *= invLengthVector;
-    _coords[2] *= invLengthVector;
+    _coords[0] /= lengthVector;
+    _coords[1] /= lengthVector;
+    _coords[2] /= lengthVector;
 
     return *this;
 }

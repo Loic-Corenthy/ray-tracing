@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "Buffer.hpp"
+#include "Camera.hpp"
 
 namespace LCNS
 {
@@ -62,6 +63,9 @@ namespace LCNS
 
         /// Render the specified scene
         void _render(void);
+
+        // Internal method to facilitate multi threading rendering
+        void _renderInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
 
         /// Check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;

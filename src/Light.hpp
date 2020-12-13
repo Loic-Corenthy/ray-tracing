@@ -39,7 +39,7 @@ namespace LCNS
         virtual ~Light(void) = default;
 
         /// Get the intensity of the light on a point of an object in the scene
-        virtual Color intensityAt(const Point& point, const Scene& scene, std::shared_ptr<Renderable> currentObject) const = 0;
+        virtual Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const = 0;
 
         /// Get the direction of the light from a point of an object in the scene
         virtual Vector directionFrom([[maybe_unused]] const Point& point) const = 0;

@@ -63,13 +63,13 @@ bool Sphere::intersect(Ray& ray)
     if (root1 > 0.0 && root2 > 0.0)
     {
         ray.length((root1 < root2) ? root1 : root2);
-        ray.intersected(shared_from_this());
+        ray.intersected(this);
         return true;
     }
     else if ((root1 > 0.0 && root2 <= 0.0) || (root2 > 0.0 && root1 <= 0.0))
     {
         ray.length((root1 > root2) ? root1 : root2);
-        ray.intersected(shared_from_this());
+        ray.intersected(this);
         return true;
     }
     else
@@ -82,7 +82,7 @@ Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), shared_from_this(), reflectionCount));
+    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
 }
 
 optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
@@ -116,7 +116,7 @@ optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
         assert(secondRefraction && "Ray cannot get find its way out of the sphere :p ");
 
         auto refractedRay = Ray(insideSphere.intersection(), outRefractionDirection);
-        refractedRay.intersected(make_shared<Sphere>(*this));
+        refractedRay.intersected(this);
 
         return refractedRay;
     }

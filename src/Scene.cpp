@@ -194,9 +194,9 @@ void Scene::add(shared_ptr<CubeMap> cubeMap)
 
 bool Scene::intersect(Ray& ray) const
 {
-    double                 closestDist = numeric_limits<double>::max();
-    shared_ptr<Renderable> rClosestObject;
-    shared_ptr<Renderable> objectFromRay = ray.intersected();
+    double      closestDist    = numeric_limits<double>::max();
+    Renderable* rClosestObject = nullptr;
+    Renderable* objectFromRay  = ray.intersected();
 
     int i = 0;
 

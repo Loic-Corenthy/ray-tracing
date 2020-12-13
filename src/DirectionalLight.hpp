@@ -43,7 +43,7 @@ namespace LCNS
         const Vector& direction(void) const noexcept;
 
         /// Implementation of virtual funcion from Light
-        Color intensityAt(const Point& point, const Scene& scene, std::shared_ptr<Renderable> currentObject) const override;
+        Color intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const override;
 
         /// Implementation of virtual funcion from Light
         Vector directionFrom([[maybe_unused]] const Point& point) const override;

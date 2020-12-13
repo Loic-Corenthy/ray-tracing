@@ -56,8 +56,7 @@ namespace LCNS
         ~Shader(void);
 
         /// Get the color at a point in function of the BRDF model
-        Color color(
-        const Vector& vecToViewer, const Vector& normal, const Point& point, std::shared_ptr<Renderable> thisShader, unsigned int reflectionCount);
+        Color color(const Vector& vecToViewer, const Vector& normal, const Point& point, Renderable* thisShader, unsigned int reflectionCount);
 
         /// Get a pointer on the scene
         std::shared_ptr<Scene> ptrOnScene(void);

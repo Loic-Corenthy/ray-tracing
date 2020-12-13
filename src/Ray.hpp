@@ -59,19 +59,19 @@ namespace LCNS
         void length(double length);
 
         /// Get a pointer on the intersected object
-        std::shared_ptr<Renderable> intersected(void);
+        Renderable* intersected(void);
 
         /// Keep a pointer on the intersected object
-        void intersected(std::shared_ptr<Renderable> intersected);
+        void intersected(Renderable* intersected);
 
         /// Get the intersection point
         Point intersection(void) const;
 
     private:
-        Point                       _origin;
-        Vector                      _direction;
-        double                      _length = std::numeric_limits<double>::max();
-        std::shared_ptr<Renderable> _intersected;
+        Point       _origin;
+        Vector      _direction;
+        double      _length      = std::numeric_limits<double>::max();
+        Renderable* _intersected = nullptr;
 
     };  // Class Ray
 

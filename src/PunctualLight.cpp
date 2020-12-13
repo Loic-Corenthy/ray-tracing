@@ -67,7 +67,7 @@ Vector PunctualLight::directionFrom(const LCNS::Point& point) const
     return (_position - point);
 }
 
-Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, shared_ptr<Renderable> currentObject) const
+Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
 {
     // Direction between point on object and current light
     const auto direction = Vector(_position - point);

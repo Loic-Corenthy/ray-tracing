@@ -62,7 +62,7 @@ Vector DirectionalLight::directionFrom([[maybe_unused]] const Point& point) cons
     return _direction * -1.0;
 }
 
-Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, shared_ptr<Renderable> currentObject) const
+Color DirectionalLight::intensityAt(const Point& point, const Scene& scene, Renderable* currentObject) const
 {
     Ray myRay;
 

@@ -133,7 +133,7 @@ bool Triangle::intersect(Ray& ray)
         if ((aB ^ aP) * _normal >= 0.0 && (bC ^ bP) * _normal >= 0.0 && (cA ^ cP) * _normal >= 0.0 && length > 0.0)
         {
             ray.length(length);
-            ray.intersected(shared_from_this());
+            ray.intersected(this);
             return true;
         }
         else
@@ -148,7 +148,7 @@ Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), shared_from_this(), reflectionCount));
+    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
 }
 
 Vector Triangle::normal(const Point& position) const

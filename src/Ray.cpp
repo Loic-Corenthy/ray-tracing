@@ -55,12 +55,12 @@ void Ray::length(double length)
     _length = length;
 }
 
-void Ray::intersected(shared_ptr<Renderable> intersected)
+void Ray::intersected(Renderable* intersected)
 {
-    _intersected.swap(intersected);
+    _intersected = intersected;
 }
 
-shared_ptr<Renderable> Ray::intersected(void)
+Renderable* Ray::intersected(void)
 {
     return _intersected;
 }

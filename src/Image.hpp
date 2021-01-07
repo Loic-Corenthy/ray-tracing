@@ -13,14 +13,8 @@
 #include <string>
 #include <cassert>
 
-#ifdef __linux__
-    #include <OpenImageIO/imageio.h>
-    #include <OpenImageIO/typedesc.h>
-#elif __APPLE__
-/*! \todo Add appropriate includes */
-#elif _WIN32
-/*! \todo Add appropriate includes */
-#endif
+#include <OpenImageIO/imageio.h>
+#include <OpenImageIO/typedesc.h>
 
 #include "Color.hpp"
 
@@ -77,13 +71,7 @@ namespace LCNS
         bool _createImageFromFile(const std::string& path);
 
     private:
-#ifdef __linux__
         std::unique_ptr<OIIO::ImageInput> _image;
-#elif __APPLE__
-        CGImageRef _image;
-#elif _WIN32
-
-#endif
         std::unique_ptr<unsigned char[]> _rawData;
         unsigned int                     _width            = 0u;
         unsigned int                     _height           = 0u;

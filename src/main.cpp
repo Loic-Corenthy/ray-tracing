@@ -13,9 +13,9 @@
     #include <GL/glu.h>
     #include <GL/glut.h>
 #elif __APPLE__
-    #include <OpenGL/gl.hpp>
-    #include <OpenGL/glu.hpp>
-    #include <GLUT/glut.hpp>
+    #include <gl.h>
+    #include <glu.h>
+    #include <glut.h>
 #elif _WIN32
 // /*! \todo Add includes for Windows */
 #endif
@@ -181,6 +181,6 @@ int main(int argc, char* argv[])
 
     glutMainLoop();
 
-    cout << "Application exited succesfully" << endl;
+    cout << "Application exited successfully" << endl;
     return EXIT_SUCCESS;
 }

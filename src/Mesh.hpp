@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <c++/10.2.0/optional>
+#include <optional>
 #include <cassert>
 #include <memory>
 #include <optional>

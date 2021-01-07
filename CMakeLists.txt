@@ -35,13 +35,6 @@ include(cmake/Doxygen.cmake)
 enable_doxygen()
 
 
-# ================================
-# Third party libraries with Conan
-# ================================
-include(cmake/Conan.cmake)
-run_conan("fmt/6.1.2")
-
-
 # ===========================
 # Other third party libraries
 # ===========================
@@ -62,6 +55,7 @@ if(GLUT_FOUND)
     message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
 endif()
 
+
 # =======================
 # Header and source files
 # =======================
@@ -76,13 +70,28 @@ if(UNIX AND NOT APPLE)
     add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
 
     # Set include directories for source code and external libraries
-    target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
-    conan_basic_setup(${CMAKE_PROJECT_NAME})
+    target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
 
     # Specify external libraries needed for this project
-    target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE project_warnings CONAN_PKG::fmt OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} ${GLUT_LIBRARY})
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_warnings OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} ${GLUT_LIBRARY})
 
 	# Copy resources directory
-	ADD_CUSTOM_COMMAND (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
+	add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
 	message (STATUS "Copied resources from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
+
+elseif(APPLE)
+    add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
+
+    # Set include directories for source code and external libraries
+	target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR}/Headers ${GLUT_INCLUDE_DIR})
+
+    # Specify external libraries needed for this project
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_warnings OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} ${GLUT_LIBRARY})
+
+	# Copy resources directory
+	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
+	message(STATUS "Copied resources from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
+
+elseif(MSVC)
+	message(FATAL_ERROR "Not configured yet")
 endif()

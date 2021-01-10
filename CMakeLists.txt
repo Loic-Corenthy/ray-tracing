@@ -35,14 +35,46 @@ include(cmake/Doxygen.cmake)
 enable_doxygen()
 
 
+
+# ===========================
+# Setup vcpkg
+# ===========================
+if(FALSE AND UNIX)
+	message(STATUS "Setting up vcpkg")
+
+	execute_process(COMMAND ./bootstrap-vcpkg.sh -disableMetrics
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                    RESULT_VARIABLE GIT_SUBMOD_RESULT)
+
+    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+		message(FATAL_ERROR "Unable to set up vcpkg")
+    endif()
+
+elseif(MSVC)
+	message(FATAL_ERROR "Not configured yet")
+endif()
+
+
+
 # ===========================
 # Other third party libraries
 # ===========================
 find_package(OpenImageIO REQUIRED)
-if(OpenImageIO_FOUND)
+if(FALSE AND OpenImageIO_FOUND)
     message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
     # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
     # You have to use OpenImageIO::OpenImageIO to link
+else()
+	message(STATUS "Download OpenImageIO")
+
+	execute_process(COMMAND ./vcpkg install openimageio
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+					RESULT_VARIABLE OPEN_IMAGE_IO_FROM_VCPKG)
+
+    if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
+		message(FATAL_ERROR "Unable to download OpenImageIO")
+    endif()
+
 endif()
 
 find_package(OpenGL REQUIRED)

@@ -25,7 +25,7 @@ if(NOT ${VCPKG_INSTALLED})
         message(FATAL_ERROR "Unable to set up vcpkg")
     else()
         message(STATUS "VCPKG configured. Toolchain file set to script in build system.")
-        set(VCPKG_INSTALLED ON CACHE FORCE)
+        set(VCPKG_INSTALLED ON CACHE BOOL "Define if vcpkg is already installed" FORCE)
         set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
     endif()  
 endif()
@@ -99,37 +99,34 @@ if(UNIX AND NOT APPLE)
 elseif(APPLE)
     message(FATAL_ERROR "Not configured yet") 
 else(WIN32)
-
-    find_package(OpenImageIO)
-    if(OpenImageIO_FOUND)
-        message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
-        # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
-        # You have to use OpenImageIO::OpenImageIO to link
-    else()
+    # Configure openimageio
     execute_process(COMMAND cmd /c "vcpkg.exe install openimageio openimageio:x64-windows"
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
                     RESULT_VARIABLE OPEN_IMAGE_IO_FROM_VCPKG)
 
-        if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
-            message(FATAL_ERROR "Unable to download OpenImageIO")
-        endif()
-
-        find_package(OpenImageIO REQUIRED)
+    if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
+        message(FATAL_ERROR "Unable to download OpenImageIO")
     endif()
 
+    find_package(OpenImageIO REQUIRED)
+
+    # Configure OpenGL
     find_package(OpenGL REQUIRED)
     if(OpenGL_FOUND)
         message(STATUS "Found OpenGL: " ${OPENGL_opengl_LIBRARY})
     endif()
 
-    find_package(GLUT REQUIRED)
-    if(GLUT_FOUND)
-        message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
+    # Configure freeglut
+    execute_process(COMMAND cmd /c "vcpkg.exe install freeglut freeglut:x64-windows"
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                    RESULT_VARIABLE FREEGLUT_FROM_VCPKG)
+
+    if(NOT FREEGLUT_FROM_VCPKG EQUAL "0")
+        message(FATAL_ERROR "Unable to download OpenImageIO")
     endif()
-
-
+        
+    find_package(GLUT REQUIRED)                
 endif()
-
 
 
 # =======================
@@ -169,5 +166,15 @@ elseif(APPLE)
 	message(STATUS "Copied resources from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
 
 elseif(WIN32)
-	message(FATAL_ERROR "Not configured yet")
+    add_executable(${CMAKE_PROJECT_NAME} ${LOCAL_SOURCE_FILES})
+
+    # Set include directories for source code and external libraries
+    target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "/usr/include/" ${CMAKE_SOURCE_DIR}/src  ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake ${OpenImageIO_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR} ${GLUT_INCLUDE_DIR})
+
+    # Specify external libraries needed for this project
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE project_warnings OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} GLUT::GLUT)
+
+    # Copy resources directory
+    add_custom_command (TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
+    message (STATUS "Copied resources from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
 endif()

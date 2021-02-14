@@ -1,5 +1,36 @@
 cmake_minimum_required(VERSION 3.15)
 
+
+# ===========================
+# Setup vcpkg
+# ===========================
+message(STATUS "Setting up vcpkg")
+
+set(VCPKG_INSTALLED OFF CACHE BOOL "Define if vcpkg is already installed")
+
+if(NOT ${VCPKG_INSTALLED})
+    if(UNIX AND NOT APPLE)
+        message(FATAL_ERROR "vcpkg is not configured yet")
+    elseif(UNIX)
+        execute_process(COMMAND ./bootstrap-vcpkg.sh -disableMetrics
+                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
+    else(WIN32)
+        execute_process(COMMAND cmd /c "bootstrap-vcpkg.bat -disableMetrics"
+                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                        RESULT_VARIABLE GIT_SUBMOD_RESULT)
+    endif()
+
+    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+        message(FATAL_ERROR "Unable to set up vcpkg")
+    else()
+        message(STATUS "VCPKG configured. Toolchain file set to script in build system.")
+        set(VCPKG_INSTALLED ON CACHE FORCE)
+        set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
+    endif()  
+endif()
+
+
 # ==================================
 # Project name, version and language
 # ==================================
@@ -35,57 +66,70 @@ include(cmake/Doxygen.cmake)
 enable_doxygen()
 
 
-
-# ===========================
-# Setup vcpkg
-# ===========================
-if(FALSE AND UNIX)
-	message(STATUS "Setting up vcpkg")
-
-	execute_process(COMMAND ./bootstrap-vcpkg.sh -disableMetrics
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
-                    RESULT_VARIABLE GIT_SUBMOD_RESULT)
-
-    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
-		message(FATAL_ERROR "Unable to set up vcpkg")
-    endif()
-
-elseif(MSVC)
-	message(FATAL_ERROR "Not configured yet")
-endif()
-
-
-
 # ===========================
 # Other third party libraries
 # ===========================
-find_package(OpenImageIO REQUIRED)
-if(FALSE AND OpenImageIO_FOUND)
-    message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
-    # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
-    # You have to use OpenImageIO::OpenImageIO to link
-else()
-	message(STATUS "Download OpenImageIO")
+if(UNIX AND NOT APPLE)
+    find_package(OpenImageIO)
+    if(OpenImageIO_FOUND)
+        message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
+        # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
+        # You have to use OpenImageIO::OpenImageIO to link
+    else()
+        execute_process(COMMAND ./vcpkg install openimageio
+                        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                        RESULT_VARIABLE OPEN_IMAGE_IO_FROM_VCPKG)
 
-	execute_process(COMMAND ./vcpkg install openimageio
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
-					RESULT_VARIABLE OPEN_IMAGE_IO_FROM_VCPKG)
+        if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
+            message(FATAL_ERROR "Unable to download OpenImageIO")
+        endif()
 
-    if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
-		message(FATAL_ERROR "Unable to download OpenImageIO")
+        find_package(OpenImageIOConfig REQUIRED)
     endif()
 
+    find_package(OpenGL REQUIRED)
+    if(OpenGL_FOUND)
+        message(STATUS "Found OpenGL: " ${OPENGL_opengl_LIBRARY})
+    endif()
+
+    find_package(GLUT REQUIRED)
+    if(GLUT_FOUND)
+        message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
+    endif()
+elseif(APPLE)
+    message(FATAL_ERROR "Not configured yet") 
+else(WIN32)
+
+    find_package(OpenImageIO)
+    if(OpenImageIO_FOUND)
+        message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
+        # For some reason, the following variables are not defined properly: ${OPENIMAGEIO_LIBRARY} ${OPENIMAGEIO_LIBRARIES}
+        # You have to use OpenImageIO::OpenImageIO to link
+    else()
+    execute_process(COMMAND cmd /c "vcpkg.exe install openimageio openimageio:x64-windows"
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
+                    RESULT_VARIABLE OPEN_IMAGE_IO_FROM_VCPKG)
+
+        if(NOT OPEN_IMAGE_IO_FROM_VCPKG EQUAL "0")
+            message(FATAL_ERROR "Unable to download OpenImageIO")
+        endif()
+
+        find_package(OpenImageIO REQUIRED)
+    endif()
+
+    find_package(OpenGL REQUIRED)
+    if(OpenGL_FOUND)
+        message(STATUS "Found OpenGL: " ${OPENGL_opengl_LIBRARY})
+    endif()
+
+    find_package(GLUT REQUIRED)
+    if(GLUT_FOUND)
+        message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
+    endif()
+
+
 endif()
 
-find_package(OpenGL REQUIRED)
-if(OpenGL_FOUND)
-    message(STATUS "Found OpenGL: " ${OPENGL_opengl_LIBRARY})
-endif()
-
-find_package(GLUT REQUIRED)
-if(GLUT_FOUND)
-    message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
-endif()
 
 
 # =======================
@@ -124,6 +168,6 @@ elseif(APPLE)
 	add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
 	message(STATUS "Copied resources from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
 
-elseif(MSVC)
+elseif(WIN32)
 	message(FATAL_ERROR "Not configured yet")
 endif()

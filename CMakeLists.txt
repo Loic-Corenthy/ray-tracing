@@ -129,7 +129,6 @@ else(WIN32)
 endif()
 
 
-
 # =======================
 # Header and source files
 # =======================

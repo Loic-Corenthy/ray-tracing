@@ -167,36 +167,35 @@ int main(int argc, char* argv[])
 }
 
 #ifdef WIN32
-    SceneParameters processArguments(int argc, char** argv)
+SceneParameters processArguments(int argc, char** argv)
+{
+    SceneParameters parameters;
+
+    if (argc != 2)
     {
-        SceneParameters parameters;
+        cerr << "This version of processArguments expect all the arguments provided to the executable to be held in argv[1]" << '\n';
+        return parameters;
+    }
 
-        if (argc != 2)
+    auto allArguments = std::string(argv[1]);
+
+    const unsigned int parameterCount                    = 5u;
+    const std::regex   allParameterRegex[parameterCount] = { std::regex(R"(\s*--scene\s+([0-9]+))"),
+                                                           std::regex(R"(\s*--width\s+([0-9]+))"),
+                                                           std::regex(R"(\s*--height\s+([0-9]+))"),
+                                                           std::regex(R"(\s*--xpos\s+([0-9]+))"),
+                                                           std::regex(R"(\s*--ypos\s+([0-9]+))") };
+
+    for (unsigned int i = 0; i < parameterCount; ++i)
+    {
+        std::smatch baseMatch;
+        if (std::regex_search(allArguments, baseMatch, allParameterRegex[i]))
         {
-            cerr << "This version of processArguments expect all the arguments provided to the executable to be held in argv[1]" << '\n';
-            return parameters;
-        }
-        
-        auto allArguments = std::string(argv[1]);
-
-        const unsigned int parameterCount = 5u;
-        const std::regex allParameterRegex[parameterCount] = {std::regex(R"(\s*--scene\s+([0-9]+))"),
-                                                              std::regex(R"(\s*--width\s+([0-9]+))"),
-                                                              std::regex(R"(\s*--height\s+([0-9]+))"),
-                                                              std::regex(R"(\s*--xpos\s+([0-9]+))"),
-                                                              std::regex(R"(\s*--ypos\s+([0-9]+))")};
-
-        for (unsigned int i = 0; i < parameterCount; ++i)
-        {
-            std::smatch baseMatch;
-            if (std::regex_search(allArguments, baseMatch, allParameterRegex[i]))
+            // The first sub_match is the whole string; the next sub_match is the first parenthesized expression.
+            if (baseMatch.size() == 2)
             {
-                // The first sub_match is the whole string; the next
-                // sub_match is the first parenthesized expression.
-                if (baseMatch.size() == 2)
+                switch (i)
                 {
-                    switch (i)
-                    {
                     case 0:
                         parameters.sceneIndex = static_cast<unsigned int>(stoi(baseMatch[1].str()));
                         break;
@@ -216,54 +215,54 @@ int main(int argc, char* argv[])
                     case 4:
                         parameters.windowYPos = static_cast<unsigned int>(stoi(baseMatch[1].str()));
                         break;
-                    }
                 }
             }
         }
+    }
 
-        if (allArguments.find("--supersampling") != std::string::npos)
+    if (allArguments.find("--supersampling") != std::string::npos)
+    {
+        cout << "Super sampling on" << '\n';
+        Renderer::setSuperSampling(true);
+    }
+
+    return parameters;
+}
+#else
+SceneParameters processArguments(int argc, char** argv)
+{
+    SceneParameters parameters;
+
+    for (int i = 1; i < argc; ++i)
+    {
+        if (strcmp(argv[i], "--scene") == 0)
+        {
+            parameters.sceneIndex = static_cast<unsigned int>(atoi(argv[i + 1]));
+            cout << "Scene index " << parameters.sceneIndex << "\n";
+        }
+        else if (strcmp(argv[i], "--supersampling") == 0)
         {
             cout << "Super sampling on" << '\n';
             Renderer::setSuperSampling(true);
         }
-
-        return parameters;
-    }
-#else
-    SceneParameters processArguments(int argc, char** argv)
-    {
-        SceneParameters parameters;
-
-        for (int i = 1; i < argc; ++i)
+        else if (strcmp(argv[i], "--width ") == 0)
         {
-            if (strcmp(argv[i], "--scene") == 0)
-            {
-                parameters.sceneIndex = static_cast<unsigned int>(atoi(argv[i + 1]));
-                cout << "Scene index " << sceneIndex << "\n";
-            }
-            else if (strcmp(argv[i], "--supersampling") == 0)
-            {
-                cout << "Super sampling on" << '\n';
-                Renderer::setSuperSampling(true);
-            }
-            else if (strcmp(argv[i], "--width ") == 0)
-            {
-                parameters.windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
-            }
-            else if (strcmp(argv[i], "--height") == 0)
-            {
-                parameters.windowHeight = static_cast<unsigned int>(atoi(argv[i + 1]));
-            }
-            else if (strcmp(argv[i], "--xpos") == 0)
-            {
-                parameters.windowXPos = static_cast<unsigned int>(atoi(argv[i + 1]));
-            }
-            else if (strcmp(argv[i], "--ypos") == 0)
-            {
-                parameters.windowYPos = static_cast<unsigned int>(atoi(argv[i + 1]));
-            }
+            parameters.windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
         }
-
-        return parameters;
+        else if (strcmp(argv[i], "--height") == 0)
+        {
+            parameters.windowHeight = static_cast<unsigned int>(atoi(argv[i + 1]));
+        }
+        else if (strcmp(argv[i], "--xpos") == 0)
+        {
+            parameters.windowXPos = static_cast<unsigned int>(atoi(argv[i + 1]));
+        }
+        else if (strcmp(argv[i], "--ypos") == 0)
+        {
+            parameters.windowYPos = static_cast<unsigned int>(atoi(argv[i + 1]));
+        }
     }
+
+    return parameters;
+}
 #endif

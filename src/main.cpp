@@ -17,7 +17,12 @@
     #include <glu.h>
     #include <glut.h>
 #elif _WIN32
-// /*! \todo Add includes for Windows */
+    #include <windows.h>
+    #include <GL\gl.h>
+    #include <GL\glu.h>
+    #include <GL\glut.h>
+    #include <regex>
+    #include <string>
 #endif
 
 #include <memory>
@@ -36,6 +41,17 @@ using LCNS::Buffer;
 using LCNS::Renderer;
 using LCNS::Scene;
 
+struct SceneParameters
+{
+    unsigned int sceneIndex   = 0;
+    unsigned int windowWidth  = 800u;
+    unsigned int windowHeight = 600u;
+    unsigned int windowXPos   = 0u;
+    unsigned int windowYPos   = 0u;
+};
+
+SceneParameters processArguments(int argc, char** argv);
+
 int main(int argc, char* argv[])
 {
     if (argc < 2)
@@ -48,62 +64,27 @@ int main(int argc, char* argv[])
     }
 
     // Parameters to the executable
-    unsigned int sceneIndex   = 0;
-    unsigned int windowWidth  = 800u;
-    unsigned int windowHeight = 600u;
-    unsigned int windowXPos   = 0u;
-    unsigned int windowYPos   = 0u;
+    const auto sceneParemeters = processArguments(argc, argv);
 
-    for (int i = 1; i < argc; ++i)
-    {
-        if (strcmp(argv[i], "--scene") == 0)
-        {
-            sceneIndex = static_cast<unsigned int>(atoi(argv[i + 1]));
-        }
-        else if (strcmp(argv[i], "--supersampling") == 0)
-        {
-            cout << "Super sampling on" << '\n';
-            Renderer::setSuperSampling(true);
-        }
-        else if (strcmp(argv[i], "--width ") == 0)
-        {
-            windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
-        }
-        else if (strcmp(argv[i], "--height") == 0)
-        {
-            windowHeight = static_cast<unsigned int>(atoi(argv[i + 1]));
-        }
-        else if (strcmp(argv[i], "--xpos") == 0)
-        {
-            windowXPos = static_cast<unsigned int>(atoi(argv[i + 1]));
-        }
-        else if (strcmp(argv[i], "--ypos") == 0)
-        {
-            windowYPos = static_cast<unsigned int>(atoi(argv[i + 1]));
-        }
-    }
-
-
-    if (15 < sceneIndex)
+    if (15 < sceneParemeters.sceneIndex)
     {
         cerr << "Error: the parameter to select the scene must be between 0 and 15" << endl;
         return EXIT_FAILURE;
     }
 
-
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Init window position and size,
-    glutInitWindowPosition(static_cast<int>(windowXPos), static_cast<int>(windowYPos));
-    glutInitWindowSize(static_cast<int>(windowWidth), static_cast<int>(windowHeight));
+    glutInitWindowPosition(static_cast<int>(sceneParemeters.windowXPos), static_cast<int>(sceneParemeters.windowYPos));
+    glutInitWindowSize(static_cast<int>(sceneParemeters.windowWidth), static_cast<int>(sceneParemeters.windowHeight));
 
     glutCreateWindow("Ray tracing window");
 
     shared_ptr<Scene> scene = make_shared<Scene>();
 
     // Setup the scene
-    switch (sceneIndex)
+    switch (sceneParemeters.sceneIndex)
     {
         case 0:
             createTestScene(scene);
@@ -159,7 +140,7 @@ int main(int argc, char* argv[])
     }
 
     // Send the scene to the renderer
-    Renderer::setScene(scene, windowWidth, windowHeight);
+    Renderer::setScene(scene, sceneParemeters.windowWidth, sceneParemeters.windowHeight);
 
     // Render the scene
     Renderer::render();
@@ -184,3 +165,105 @@ int main(int argc, char* argv[])
     cout << "Application exited successfully" << endl;
     return EXIT_SUCCESS;
 }
+
+#ifdef WIN32
+    SceneParameters processArguments(int argc, char** argv)
+    {
+        SceneParameters parameters;
+
+        if (argc != 2)
+        {
+            cerr << "This version of processArguments expect all the arguments provided to the executable to be held in argv[1]" << '\n';
+            return parameters;
+        }
+        
+        auto allArguments = std::string(argv[1]);
+
+        const unsigned int parameterCount = 5u;
+        const std::regex allParameterRegex[parameterCount] = {std::regex(R"(\s*--scene\s+([0-9]+))"),
+                                                              std::regex(R"(\s*--width\s+([0-9]+))"),
+                                                              std::regex(R"(\s*--height\s+([0-9]+))"),
+                                                              std::regex(R"(\s*--xpos\s+([0-9]+))"),
+                                                              std::regex(R"(\s*--ypos\s+([0-9]+))")};
+
+        for (unsigned int i = 0; i < parameterCount; ++i)
+        {
+            std::smatch baseMatch;
+            if (std::regex_search(allArguments, baseMatch, allParameterRegex[i]))
+            {
+                // The first sub_match is the whole string; the next
+                // sub_match is the first parenthesized expression.
+                if (baseMatch.size() == 2)
+                {
+                    switch (i)
+                    {
+                    case 0:
+                        parameters.sceneIndex = static_cast<unsigned int>(stoi(baseMatch[1].str()));
+                        break;
+
+                    case 1:
+                        parameters.windowWidth = static_cast<unsigned int>(stoi(baseMatch[1].str()));
+                        break;
+
+                    case 2:
+                        parameters.windowHeight = static_cast<unsigned int>(stoi(baseMatch[1].str()));
+                        break;
+
+                    case 3:
+                        parameters.windowXPos = static_cast<unsigned int>(stoi(baseMatch[1].str()));
+                        break;
+
+                    case 4:
+                        parameters.windowYPos = static_cast<unsigned int>(stoi(baseMatch[1].str()));
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (allArguments.find("--supersampling") != std::string::npos)
+        {
+            cout << "Super sampling on" << '\n';
+            Renderer::setSuperSampling(true);
+        }
+
+        return parameters;
+    }
+#else
+    SceneParameters processArguments(int argc, char** argv)
+    {
+        SceneParameters parameters;
+
+        for (int i = 1; i < argc; ++i)
+        {
+            if (strcmp(argv[i], "--scene") == 0)
+            {
+                parameters.sceneIndex = static_cast<unsigned int>(atoi(argv[i + 1]));
+                cout << "Scene index " << sceneIndex << "\n";
+            }
+            else if (strcmp(argv[i], "--supersampling") == 0)
+            {
+                cout << "Super sampling on" << '\n';
+                Renderer::setSuperSampling(true);
+            }
+            else if (strcmp(argv[i], "--width ") == 0)
+            {
+                parameters.windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
+            }
+            else if (strcmp(argv[i], "--height") == 0)
+            {
+                parameters.windowHeight = static_cast<unsigned int>(atoi(argv[i + 1]));
+            }
+            else if (strcmp(argv[i], "--xpos") == 0)
+            {
+                parameters.windowXPos = static_cast<unsigned int>(atoi(argv[i + 1]));
+            }
+            else if (strcmp(argv[i], "--ypos") == 0)
+            {
+                parameters.windowYPos = static_cast<unsigned int>(atoi(argv[i + 1]));
+            }
+        }
+
+        return parameters;
+    }
+#endif

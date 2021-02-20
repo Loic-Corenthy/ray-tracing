@@ -9,9 +9,7 @@ message(STATUS "Setting up vcpkg")
 set(VCPKG_INSTALLED OFF CACHE BOOL "Define if vcpkg is already installed")
 
 if(NOT ${VCPKG_INSTALLED})
-    if(UNIX AND NOT APPLE)
-        message(FATAL_ERROR "vcpkg is not configured yet")
-    elseif(UNIX)
+    if(UNIX)
         execute_process(COMMAND ./bootstrap-vcpkg.sh -disableMetrics
                         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/vcpkg/
                         RESULT_VARIABLE GIT_SUBMOD_RESULT)

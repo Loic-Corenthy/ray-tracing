@@ -67,7 +67,7 @@ enable_doxygen()
 # ===========================
 # Other third party libraries
 # ===========================
-if(UNIX AND NOT APPLE)
+if(UNIX)
     find_package(OpenImageIO)
     if(OpenImageIO_FOUND)
         message(STATUS "Found Open Image IO " ${OpenImageIO_VERSION})
@@ -94,8 +94,6 @@ if(UNIX AND NOT APPLE)
     if(GLUT_FOUND)
         message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
     endif()
-elseif(APPLE)
-    message(FATAL_ERROR "Not configured yet") 
 else(WIN32)
     # Configure openimageio
     execute_process(COMMAND cmd /c "vcpkg.exe install openimageio openimageio:x64-windows"
@@ -120,10 +118,13 @@ else(WIN32)
                     RESULT_VARIABLE FREEGLUT_FROM_VCPKG)
 
     if(NOT FREEGLUT_FROM_VCPKG EQUAL "0")
-        message(FATAL_ERROR "Unable to download OpenImageIO")
+        message(FATAL_ERROR "Unable to download freeglut")
     endif()
-        
-    find_package(GLUT REQUIRED)                
+
+    find_package(GLUT REQUIRED)
+    if(GLUT_FOUND)
+        message(STATUS "Found GLUT: " ${GLUT_LIBRARY})
+    endif()
 endif()
 
 
@@ -162,8 +163,8 @@ elseif(APPLE)
     target_link_libraries(${OUTPUT_NAME} PRIVATE project_warnings OpenImageIO::OpenImageIO ${OPENGL_opengl_LIBRARY} ${OPENGL_glx_LIBRARY} ${OPENGL_glu_LIBRARY} ${OPENGL_glx_LIBRARY} ${GLUT_LIBRARY})
 
 	# Copy resources directory
-	add_custom_command(TARGET ${OUTPUT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/resources/")
-	message(STATUS "Post build, resources will be copied from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/resources/)
+	add_custom_command(TARGET ${OUTPUT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/resources/")
+	message(STATUS "Post build, resources will be copied from " ${CMAKE_SOURCE_DIR}/resources " to " ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/resources/)
 
 elseif(WIN32)
     add_executable(${OUTPUT_NAME} ${LOCAL_SOURCE_FILES})

@@ -2,7 +2,7 @@
 /*!
  *  \file      Image.hpp
  *  \author    Loïc Corenthy
- *  \version   1.0
+ *  \version   1.1
  *  \date      10/14/2012
  *  \copyright (c) 2019 Loïc Corenthy. All rights reserved.
  */
@@ -72,14 +72,14 @@ namespace LCNS
 
     private:
         std::unique_ptr<OIIO::ImageInput> _image;
-        std::unique_ptr<unsigned char[]> _rawData;
-        unsigned int                     _width            = 0u;
-        unsigned int                     _height           = 0u;
-        unsigned int                     _bytesPerPixel    = 4u;
-        unsigned int                     _bytesPerRow      = 0u;
-        unsigned int                     _bitsPerComponent = 8u;
-        InterpolationMethod              _interpolation    = InterpolationMethod::NEAREST;
-        bool                             _imageLoaded      = false;
+        std::unique_ptr<unsigned char[]>  _rawData;
+        unsigned int                      _width            = 0u;
+        unsigned int                      _height           = 0u;
+        unsigned int                      _bytesPerPixel    = 4u;
+        unsigned int                      _bytesPerRow      = 0u;
+        unsigned int                      _bitsPerComponent = 8u;
+        InterpolationMethod               _interpolation    = InterpolationMethod::NEAREST;
+        bool                              _imageLoaded      = false;
 
     };  // Class Image
 

@@ -2,7 +2,7 @@
 /*!
  *  \file      OBJParameters.hpp
  *  \author    Loïc Corenthy
- *  \version   1.0
+ *  \version   1.1
  *  \date      29/09/2012
  *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
  */

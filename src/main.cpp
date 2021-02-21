@@ -26,6 +26,7 @@
 #endif
 
 #include <memory>
+#include <limits>
 
 #include "CreateScenes.hpp"
 #include "Renderer.hpp"
@@ -35,6 +36,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 using std::make_shared;
+using std::numeric_limits;
 using std::shared_ptr;
 
 using LCNS::Buffer;
@@ -43,7 +45,7 @@ using LCNS::Scene;
 
 struct SceneParameters
 {
-    unsigned int sceneIndex   = 0;
+    unsigned int sceneIndex   = numeric_limits<unsigned int>::max();
     unsigned int windowWidth  = 800u;
     unsigned int windowHeight = 600u;
     unsigned int windowXPos   = 0u;
@@ -54,12 +56,16 @@ SceneParameters processArguments(int argc, char** argv);
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2)
-    {
+    auto errorMessage = [&argv]() {
         cerr << "ERROR: Please call the executable with a number between 0 and 15 as scene parameter. \nFor example: " << argv[0] << " --scene 3\n\n";
         cerr << "Supersampling is optional. \nFor example: " << argv[0] << " --scene 5 --supersampling\n\n";
         cerr << "Window dimensions parameters are optional. \nFor example: " << argv[0] << " --scene 5 --width 800 --height 600\n\n";
         cerr << "Window initial position parameters are optional. \nFor example: " << argv[0] << " --scene 5 --xpos 200 --ypos 100" << endl;
+    };
+
+    if (argc < 2)
+    {
+        errorMessage();
         return EXIT_FAILURE;
     }
 
@@ -68,7 +74,7 @@ int main(int argc, char* argv[])
 
     if (15 < sceneParemeters.sceneIndex)
     {
-        cerr << "Error: the parameter to select the scene must be between 0 and 15" << endl;
+        errorMessage();
         return EXIT_FAILURE;
     }
 

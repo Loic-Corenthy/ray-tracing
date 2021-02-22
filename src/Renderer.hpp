@@ -24,6 +24,15 @@ namespace LCNS
     class Renderer
     {
     public:
+        /// Copy constructor (copy not allowed)
+        Renderer(const Renderer& renderer) = delete;
+
+        /// Copy operator (copy not allowed)
+        Renderer operator=(const Renderer& renderer) = delete;
+
+        /// Destructor
+        ~Renderer(void) = default;
+
         /// Get buffer (read only)
         static const Buffer& getBuffer(void);
 
@@ -39,14 +48,11 @@ namespace LCNS
         /// Activate of not the super sampling as an antialiazing method
         static void setSuperSampling(bool activate);
 
-        /// Copy constructor (copy not allowed)
-        Renderer(const Renderer& renderer) = delete;
+        /// Check if multi threaded rendering is active (function of the number of cores)
+        static bool isMultiThreadingActive(void);
 
-        /// Copy operator (copy not allowed)
-        Renderer operator=(const Renderer& renderer) = delete;
-
-        /// Destructor
-        ~Renderer(void) = default;
+        /// Activate or not multi threaded rendering
+        static void setMultiThreading(bool activate);
 
     private:
         /// Default constructor
@@ -70,11 +76,17 @@ namespace LCNS
         // Internal method to facilitate multi threading rendering
         void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
 
-        /// Check if the super sampling has been activated
+        /// Internal method to check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;
 
-        /// Activate of not the super sampling as an antialiazing method
+        /// Internal method to activate or not the super sampling as an antialiazing method
         void _setSuperSampling(bool activate);
+
+        /// Internal method to check if multi threaded rendering is active (function of the number of cores)
+        bool _isMultiThreadingActive(void) const;
+
+        /// Internal method to activate or not multi threaded rendering
+        void _setMultiThreading(bool activate);
 
         /// Display a progress bar with ascii characters
         void _displayProgressBar(double currentProgress);
@@ -84,6 +96,7 @@ namespace LCNS
         Buffer                 _buffer;
         unsigned short         _reflectionCount;
         bool                   _superSampling = false;
+        bool                   _multiThreaded = false;
 
     };  // class Renderer
 

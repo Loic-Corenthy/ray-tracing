@@ -300,7 +300,7 @@ void Renderer::_render(void)
 
         const auto processorCount = thread::hardware_concurrency();
 
-        if (processorCount > 0)
+        if (_multiThreaded && processorCount > 1)
         {
             cout << "Multi threaded rendering" << endl;
 
@@ -359,7 +359,7 @@ void Renderer::_render(void)
 
         const auto processorCount = thread::hardware_concurrency();
 
-        if (processorCount > 0)
+        if (_multiThreaded && processorCount > 1)
         {
             cout << "Multi threaded rendering" << endl;
 
@@ -516,6 +516,26 @@ void Renderer::_setScene(shared_ptr<Scene> scene, unsigned int width, unsigned i
 void Renderer::_setSuperSampling(bool activate)
 {
     _superSampling = activate;
+}
+
+bool Renderer::isMultiThreadingActive(void)
+{
+    return _instance()._isMultiThreadingActive();
+}
+
+bool Renderer::_isMultiThreadingActive(void) const
+{
+    return _multiThreaded;
+}
+
+void Renderer::setMultiThreading(bool activate)
+{
+    _instance()._setMultiThreading(activate);
+}
+
+void Renderer::_setMultiThreading(bool activate)
+{
+    _multiThreaded = activate;
 }
 
 bool Renderer::_isSuperSamplingActive(void) const

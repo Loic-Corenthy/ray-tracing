@@ -58,9 +58,10 @@ int main(int argc, char* argv[])
 {
     auto errorMessage = [&argv]() {
         cerr << "ERROR: Please call the executable with a number between 0 and 15 as scene parameter. \nFor example: " << argv[0] << " --scene 3\n\n";
-        cerr << "Supersampling is optional. \nFor example: " << argv[0] << " --scene 5 --supersampling\n\n";
+        cerr << "Supersampling is optional.\nFor example: " << argv[0] << " --scene 5 --supersampling\n\n";
         cerr << "Window dimensions parameters are optional. \nFor example: " << argv[0] << " --scene 5 --width 800 --height 600\n\n";
-        cerr << "Window initial position parameters are optional. \nFor example: " << argv[0] << " --scene 5 --xpos 200 --ypos 100" << endl;
+        cerr << "Window initial position parameters are optional. \nFor example: " << argv[0] << " --scene 5 --xpos 200 --ypos 100\n\n";
+        cerr << "Multi-threading is optional.\nFor example: " << argv[0] << " --scene 5 --multithreading" << endl;
     };
 
     if (argc < 2)
@@ -231,6 +232,10 @@ SceneParameters processArguments(int argc, char** argv)
         cout << "Super sampling on" << '\n';
         Renderer::setSuperSampling(true);
     }
+    else if (allArguments.find("--multithreading") != std::string::npos)
+    {
+        Renderer::setMultiThreading(true);
+    }
 
     return parameters;
 }
@@ -250,6 +255,10 @@ SceneParameters processArguments(int argc, char** argv)
         {
             cout << "Super sampling on" << '\n';
             Renderer::setSuperSampling(true);
+        }
+        else if (strcmp(argv[i], "--multithreading") == 0)
+        {
+            Renderer::setMultiThreading(true);
         }
         else if (strcmp(argv[i], "--width ") == 0)
         {

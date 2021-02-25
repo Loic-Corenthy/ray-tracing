@@ -76,6 +76,9 @@ namespace LCNS
         // Internal method to facilitate multi threading rendering
         void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
 
+        // Internal method to facilitate multi threading rendering
+        void _renderNoApertureInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
+
         /// Internal method to check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;
 

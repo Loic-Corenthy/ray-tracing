@@ -150,6 +150,7 @@ int main(int argc, char* argv[])
     Renderer::setScene(scene, sceneParemeters.windowWidth, sceneParemeters.windowHeight);
 
     // Render the scene
+    Renderer::displayRenderTime(true);
     Renderer::render();
 
     auto display = []() {
@@ -260,7 +261,7 @@ SceneParameters processArguments(int argc, char** argv)
         {
             Renderer::setMultiThreading(true);
         }
-        else if (strcmp(argv[i], "--width ") == 0)
+        else if (strcmp(argv[i], "--width") == 0)
         {
             parameters.windowWidth = static_cast<unsigned int>(atoi(argv[i + 1]));
         }

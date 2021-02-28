@@ -54,6 +54,9 @@ namespace LCNS
         /// Activate or not multi threaded rendering
         static void setMultiThreading(bool activate);
 
+        /// Display the time it took to render the image
+        static void displayRenderTime(bool activate);
+
     private:
         /// Default constructor
         Renderer(void);
@@ -94,12 +97,16 @@ namespace LCNS
         /// Display a progress bar with ascii characters
         void _displayProgressBar(double currentProgress);
 
+        /// Internal method to activate/deactivate the render time being displayed
+        void _displayRenderTime(bool activate);
+
     private:
         std::shared_ptr<Scene> _scene;
         Buffer                 _buffer;
         unsigned short         _reflectionCount;
-        bool                   _superSampling = false;
-        bool                   _multiThreaded = false;
+        bool                   _superSampling           = false;
+        bool                   _multiThreaded           = false;
+        bool                   _shouldDisplayRenderTime = false;
 
     };  // class Renderer
 

@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
+#include <chrono>
 
 #include "Buffer.hpp"
 #include "Scene.hpp"
@@ -35,6 +36,10 @@ using std::shared_ptr;
 using std::string;
 using std::thread;
 using std::vector;
+using std::chrono::duration;
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+using std::chrono::steady_clock;
 
 using LCNS::Buffer;
 using LCNS::Renderer;
@@ -292,6 +297,8 @@ void Renderer::_renderMultiSamplingInternal(unsigned int bufferI, unsigned int b
 
 void Renderer::_render(void)
 {
+    const auto renderStarts = steady_clock::now();
+
     auto&      camera         = _scene->cameraList().front();
     const auto processorCount = thread::hardware_concurrency();
 
@@ -467,6 +474,13 @@ void Renderer::_render(void)
         // Display a message when the render is finished
         cout << "\nDone =)\n";
     }
+
+    if (_shouldDisplayRenderTime)
+    {
+        const auto             renderFinished = steady_clock::now();
+        const duration<double> renderDuration = renderFinished - renderStarts;
+        cout << "Render time " << renderDuration.count() << " seconds\n";
+    }
 }
 
 void Renderer::_renderNoApertureInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight)
@@ -579,6 +593,11 @@ void Renderer::setMultiThreading(bool activate)
     _instance()._setMultiThreading(activate);
 }
 
+void Renderer::displayRenderTime(bool activate)
+{
+    _instance()._displayRenderTime(activate);
+}
+
 void Renderer::_setMultiThreading(bool activate)
 {
     _multiThreaded = activate;
@@ -617,4 +636,9 @@ void Renderer::_displayProgressBar(double currentProgress)
     const auto displayedProgress = static_cast<int>(((0.99 < currentProgress) ? 1.0 : currentProgress) * 100.0);
 
     cout << progressBar << " " << displayedProgress << " % \r";
+}
+
+void Renderer::_displayRenderTime(bool activate)
+{
+    _shouldDisplayRenderTime = activate;
 }

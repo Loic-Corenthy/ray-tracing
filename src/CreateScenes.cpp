@@ -54,10 +54,10 @@ void createTestScene(shared_ptr<Scene> scene)
     ////////////
     // CAMERA //
     ////////////
-    Point  centreCamera(0.0, 7.0, 10.0);
-    Vector directionCamera(0.00, -0.4, -1.0);
-    Vector cameraUp(0., 1., 0.);
-    double FOV = 60. * 3.141592 / 180.;
+    Point  centreCamera(0.0, 6.0, 10.0);
+    Vector directionCamera(0.0, -0.5, -1.0);
+    Vector cameraUp(0.0, 1.0, 0.0);
+    double FOV = 60. * 3.141592 / 180.0;
 
     auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(move(camera));
@@ -652,8 +652,8 @@ void createScene04bis(shared_ptr<Scene> scene)
     ////////////
     // CAMERA //
     ////////////
-    Point  centreCamera(-3.5, 2.50, 7.0);
-    Vector directionCamera(0.15, -0.25, -0.5);
+    Point  centreCamera(-3.5, 2.50, 11.0);
+    Vector directionCamera(0.15, -0.20, -0.5);
     Vector cameraUp(0., 1., 0.);
     double FOV = 80. * 3.141592 / 180.;
 
@@ -1041,7 +1041,8 @@ void createScene07(shared_ptr<Scene> scene)
                                       string("./resources/textureLeaves_750x750.png"),
                                       string("./resources/textureWall_400x400.png"),
                                       string("./resources/textureWall_400x400_Right.png"),
-                                      string("./resources/textureWall_400x400.png") };
+                                      string("./resources/textureWall_400x400.png"),
+                                      string("no_texture") };
 
     createRoom(scene, roomParameters);
 
@@ -1126,9 +1127,9 @@ void createScene09(shared_ptr<Scene> scene)
     scene->createFromFile(path);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere(0.76, 0.33, 0.12);
-    Color            specularSphere(1.0);
-    shared_ptr<BRDF> rBRDFShpere = make_shared<Phong>(diffusionSphere, specularSphere, 5);
+    const auto       diffusionSphere = Color{ 0.76, 0.33, 0.12 };
+    const auto       specularSphere  = Color{ 1.0 };
+    shared_ptr<BRDF> rBRDFShpere     = make_shared<Phong>(diffusionSphere, specularSphere, 5);
 
     // Create a shader for the sphere
     auto rShaderSphere = make_shared<Shader>(rBRDFShpere, 0.8, 1.0, scene);
@@ -1143,9 +1144,9 @@ void createScene09(shared_ptr<Scene> scene)
 
 
     // Create a BRDF model for the torus
-    Color            diffusionTorus(0.96, 0.40, 0.40);
-    Color            specularTorus(0.9, 0.8, 0.8);
-    shared_ptr<BRDF> rBRDFTorus = make_shared<Phong>(diffusionTorus, specularTorus, 5);
+    const auto       diffusionTorus = Color{ 0.96, 0.40, 0.40 };
+    const auto       specularTorus  = Color{ 0.9, 0.8, 0.8 };
+    shared_ptr<BRDF> rBRDFTorus     = make_shared<Phong>(diffusionTorus, specularTorus, 5);
 
     // Create a shader for the torus
     auto rShaderTorus = make_shared<Shader>(rBRDFTorus, 0.8, 1.0, scene, Shader::Material::MARBLE);
@@ -1161,9 +1162,9 @@ void createScene09(shared_ptr<Scene> scene)
 
 
     // Create a BRDF model for the pipe
-    Color            diffusionPipe(0.16, 0.89, 0.0);
-    Color            specularPipe(0.4, 0.8, 0.4);
-    shared_ptr<BRDF> rBRDFPipe = make_shared<Phong>(diffusionPipe, specularPipe, 5);
+    const auto       diffusionPipe = Color{ 0.16, 0.89, 0.0 };
+    const auto       specularPipe  = Color{ 0.4, 0.8, 0.4 };
+    shared_ptr<BRDF> rBRDFPipe     = make_shared<Phong>(diffusionPipe, specularPipe, 5);
 
     // Create a shader for the torus
     auto rShaderPipe = make_shared<Shader>(rBRDFPipe, 0.8, 1.0, scene);
@@ -1176,9 +1177,9 @@ void createScene09(shared_ptr<Scene> scene)
 
 
     // Create a BRDF model for the cone
-    Color            diffusionCone(0.06, 0.10, 0.90);
-    Color            specularCone(0.3, 0.2, 0.8);
-    shared_ptr<BRDF> rBRDFCone = make_shared<Phong>(diffusionCone, specularCone, 5);
+    const auto       diffusionCone = Color{ 0.06, 0.10, 0.90 };
+    const auto       specularCone  = Color{ 0.3, 0.2, 0.8 };
+    shared_ptr<BRDF> rBRDFCone     = make_shared<Phong>(diffusionCone, specularCone, 5);
 
     // Create a shader for the torus
     auto rShaderCone = make_shared<Shader>(rBRDFCone, 0.8, 1.0, scene, Shader::TURBULANCE);
@@ -1192,33 +1193,30 @@ void createScene09(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point             light1Position(0., 1.0, 10.0);
-    Color             light1Color(10.0);
-    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
+    const auto        light1Position = Point{ 0., 1.0, 10.0 };
+    const auto        light1Color    = Color{ 10.0 };
+    shared_ptr<Light> rLight1        = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point             light4Position(0., 10., 6.0);
-    Color             light4Color(10.0);
-    shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position, light4Color);
+    const auto        light4Position = Point{ 0., 10., 6.0 };
+    const auto        light4Color    = Color{ 10.0 };
+    shared_ptr<Light> rLight4        = make_shared<PunctualLight>(light4Position, light4Color);
     scene->add(rLight4);
 
 
     ////////////
     // CAMERA //
     ////////////
-    Point  centreCamera(0.0, 2.4, 8.0);
-    Vector directionCamera(0.01, -0.1, -1.0);
-    Vector cameraUp(0., 1., 0.);
-    double FOV = 60. * 3.141592 / 180.;
+    const auto centreCamera    = Point{ 0.0, 2.4, 10.0 };
+    const auto directionCamera = Vector{ 0.01, -0.1, -1.0 };
+    const auto cameraUp        = Vector{ 0.0, 1.0, 0.0 };
+    double     FOV             = 60.0 * 3.141592 / 180.0;
 
     auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
     camera->aperture(Camera::Aperture::ALL_SHARP);
 
     scene->add(move(camera));
 
-    // FLOOR
-    //    FloorParameters floorParameters = {Color(0.6), Color(0.7),200.0,50.0, string("no_texture")};
-    //    createFloor(scene, floorParameters);
 
     ////////////////
     // BACKGROUND //
@@ -1438,17 +1436,17 @@ void createScene11(shared_ptr<Scene> scene)
 void createScene12(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
-    double reflectionCoeff(2.0);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 2.0;
+    const double refractionCoeff = 1.0;
 
     // Create a sphere
-    Point                  centerSphere1(0.0, 5.0, 5.0);
-    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 9.);
+    const auto             centerSphere1 = Point{ 0.0, 5.0, 5.0 };
+    shared_ptr<Renderable> rSphere1      = make_shared<Sphere>(centerSphere1, 9.);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere1(1.0, 0.8, 0.9);
-    Color            specularSphere1(1.0);
-    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
+    const auto       diffusionSphere1 = Color{ 1.0, 0.8, 0.9 };
+    const auto       specularSphere1  = Color{ 1.0 };
+    shared_ptr<BRDF> rBRDFSphere1     = make_shared<Phong>(diffusionSphere1, specularSphere1, 3);
 
     // Create a BRDF model for the sphere
     //    auto rCubeMapSphere = make_shared<CubeMap>(centerSphere1, 720);
@@ -1473,13 +1471,13 @@ void createScene12(shared_ptr<Scene> scene)
     scene->add(rShaderSphere1, string("shader of sphere 1"));
 
     // Create a second sphere
-    Point                  centerSphere2(-21.0, -5.0, 8.0);
-    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 9.);
+    const auto             centerSphere2 = Point{ -21.0, -5.0, 8.0 };
+    shared_ptr<Renderable> rSphere2      = make_shared<Sphere>(centerSphere2, 9.);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere2(0.9, 1.0, 0.8);
-    Color            specularSphere2(1.0);
-    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 3);
+    const auto       diffusionSphere2 = Color{ 0.9, 1.0, 0.8 };
+    const auto       specularSphere2  = Color{ 1.0 };
+    shared_ptr<BRDF> rBRDFSphere2     = make_shared<Phong>(diffusionSphere2, specularSphere2, 3);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene);
@@ -1491,13 +1489,13 @@ void createScene12(shared_ptr<Scene> scene)
     scene->add(rShaderSphere2, string("shader of sphere 2"));
 
     // Create a transparent sphere for refraction
-    Point                  centerSphere3(21.0, -5.0, 8.0);
-    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 9.0);
+    const auto             centerSphere3 = Point{ 21.0, -5.0, 8.0 };
+    shared_ptr<Renderable> rSphere3      = make_shared<Sphere>(centerSphere3, 9.0);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere3(0.95, 0.88, 0.60);
-    Color            specularSphere3(1.0);
-    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 3);
+    const auto       diffusionSphere3 = Color{ 0.95, 0.88, 0.60 };
+    const auto       specularSphere3  = Color{ 1.0 };
+    shared_ptr<BRDF> rBRDFSphere3     = make_shared<Phong>(diffusionSphere3, specularSphere3, 3);
 
     // Create a shader for the third sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, 0.6, 1.0, scene);
@@ -1511,24 +1509,18 @@ void createScene12(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point             light1Position(0., 25.0, 50.0);
-    Color             light1Color(30.0);
-    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
+    const auto        light1Position = Point{ 0., 25.0, 50.0 };
+    const auto        light1Color    = Color{ 30.0 };
+    shared_ptr<Light> rLight1        = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
-
-    //    Point light4Position(0.,20.,6.0);
-    //	Color light4Color(10.0);
-    //	shared_ptr<Light> rLight4 = make_shared<PunctualLight>(light4Position,lLight4Color);
-    //    scene->add(rLight4);
-
 
     ////////////
     // CAMERA //
     ////////////
-    Point  centreCamera(0.0, 15.0, 40.0);
-    Vector directionCamera(0.0, -0.1, -1.0);
-    Vector cameraUp(0., 1., 0.);
-    double FOV = 60. * 3.141592 / 180.;
+    const auto centreCamera    = Point{ 0.0, 15.0, 80.0 };
+    const auto directionCamera = Vector{ 0.0, -0.2, -1.0 };
+    const auto cameraUp        = Vector{ 0.0, 1.0, 0.0 };
+    double     FOV             = 60. * 3.141592 / 180.;
 
     auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
     //    camera->aperture(Camera::Aperture::F_SMALL,45.0,Camera::LOW);
@@ -1537,9 +1529,18 @@ void createScene12(shared_ptr<Scene> scene)
 
 
     // ROOM
-    RoomParameters parameters
-    = { Color(0.8),           Color(1.0),          0.0, 1.0, 2, Point(35.0), Vector(15.0), string("no_texture"), string("no_texture"),
-        string("no_texture"), string("no_texture") };
+    RoomParameters parameters = { Color(0.8),
+                                  Color(1.0),
+                                  0.0,
+                                  1.0,
+                                  2,
+                                  Point(35.0),
+                                  Vector(15.0),
+                                  string("no_texture"),
+                                  string("no_texture"),
+                                  string("no_texture"),
+                                  string("no_texture"),
+                                  string("no_texture") };
     createRoom(scene, parameters);
 
 

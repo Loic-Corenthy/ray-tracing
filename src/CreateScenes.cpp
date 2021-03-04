@@ -72,8 +72,8 @@ void createTestScene(shared_ptr<Scene> scene)
 void createScene01(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for all the spheres
-    double reflectionCoeff(2.0);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 2.0;
+    const double refractionCoeff = 1.0;
 
     ////////////////
     // RED SPHERE //
@@ -164,8 +164,8 @@ void createScene01(shared_ptr<Scene> scene)
 void createScene02(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
-    double reflectionCoeff(5.8);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 5.8;
+    const double refractionCoeff = 1.0;
 
     ////////////////
     // RED SPHERE //
@@ -305,8 +305,8 @@ void createScene02(shared_ptr<Scene> scene)
 void createScene03(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
-    double reflection(1.0);
-    double refraction(1.0);
+    const double reflection = 1.0;
+    const double refraction = 1.0;
 
     //////////////////////////////////////
     // SPHERE WITH A TURBULANCE TEXTURE //
@@ -461,8 +461,8 @@ void createScene03(shared_ptr<Scene> scene)
 void createScene04(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
-    double reflectionCoeff(8.0);
-    double refractionCoeff(1.0);
+    double reflectionCoeff = 8.0;
+    double refractionCoeff = 1.0;
 
     // Create a sphere
     Point                  centerSphere1(-180.0, 0.0, 0.0);
@@ -571,8 +571,8 @@ void createScene04(shared_ptr<Scene> scene)
 void createScene04bis(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
-    double reflectionCoeff(8.0);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 8.0;
+    const double refractionCoeff = 1.0;
 
     ////////////////
     // RED SPHERE //
@@ -736,7 +736,7 @@ void createScene05(shared_ptr<Scene> scene)
 void createScene06(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres
-    double reflectionCoeff(0.8);
+    const double reflectionCoeff = 0.8;
 
     // SPHERE WITH REFRACTION
     Point                  center(0.0, 0.0, 0.0);
@@ -1055,8 +1055,8 @@ void createScene07(shared_ptr<Scene> scene)
 void createScene08(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
-    double reflectionCoeff(0.8);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 0.8;
+    const double refractionCoeff = 1.0;
 
     // Create a red sphere
     Point                  centerSphere1(00.0, 0.0, -5.0);
@@ -1227,8 +1227,8 @@ void createScene09(shared_ptr<Scene> scene)
 void createScene10(shared_ptr<Scene> scene)
 {
     // Same reflection coefficient for the spheres behind
-    double reflectionCoeff(5.0);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 5.0;
+    const double refractionCoeff = 1.0;
 
     ////////////////////////////////
     // Create a first blue sphere //
@@ -1329,19 +1329,19 @@ void createScene10(shared_ptr<Scene> scene)
 
 void createScene11(shared_ptr<Scene> scene)
 {
-    double reflectionCoeff(2.0);
-    double refractionCoeff(1.0);
+    const double reflectionCoeff = 2.0;
+    const double refractionCoeff = 1.0;
 
     //////////////////////////
     // Create a yellow sphere //
     //////////////////////////
-    Point                  centerSphere1(-1.1, 0.0, 0.0);
-    shared_ptr<Renderable> rSphere1 = make_shared<Sphere>(centerSphere1, 1.0);
+    const auto             centerSphere1 = Point{ -1.1, 0.0, 0.0 };
+    shared_ptr<Renderable> rSphere1      = make_shared<Sphere>(centerSphere1, 1.0);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere1(255, 255, 0);
-    Color            specularSphere1(230, 230, 250);
-    shared_ptr<BRDF> rBRDFSphere1 = make_shared<Phong>(diffusionSphere1, specularSphere1, 15);
+    const auto       diffusionSphere1 = Color{ 255, 255, 0 };
+    const auto       specularSphere1  = Color{ 230, 230, 250 };
+    shared_ptr<BRDF> rBRDFSphere1     = make_shared<Phong>(diffusionSphere1, specularSphere1, 15);
 
     // Create a shader for the sphere
     auto rShaderSphere1 = make_shared<Shader>(rBRDFSphere1, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1358,13 +1358,13 @@ void createScene11(shared_ptr<Scene> scene)
     ///////////////////////////
     // Create a cyan sphere //
     ///////////////////////////
-    Point                  centerSphere2(1.1, 0.0, 0.0);
-    shared_ptr<Renderable> rSphere2 = make_shared<Sphere>(centerSphere2, 1.0);
+    const auto             centerSphere2 = Point{ 1.1, 0.0, 0.0 };
+    shared_ptr<Renderable> rSphere2      = make_shared<Sphere>(centerSphere2, 1.0);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere2(0, 255, 255);
-    Color            specularSphere2(255, 160, 122);
-    shared_ptr<BRDF> rBRDFSphere2 = make_shared<Phong>(diffusionSphere2, specularSphere2, 15);
+    const auto       diffusionSphere2 = Color{ 0, 255, 255 };
+    const auto       specularSphere2  = Color{ 255, 160, 122 };
+    shared_ptr<BRDF> rBRDFSphere2     = make_shared<Phong>(diffusionSphere2, specularSphere2, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere2 = make_shared<Shader>(rBRDFSphere2, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1381,13 +1381,13 @@ void createScene11(shared_ptr<Scene> scene)
     //////////////////////////
     // Create a pink sphere //
     //////////////////////////
-    Point                  centerSphere3(0.0, 1.8, 0.0);
-    shared_ptr<Renderable> rSphere3 = make_shared<Sphere>(centerSphere3, 1.0);
+    const auto             centerSphere3 = Point{ 0.0, 1.8, 0.0 };
+    shared_ptr<Renderable> rSphere3      = make_shared<Sphere>(centerSphere3, 1.0);
 
     // Create a BRDF model for the sphere
-    Color            diffusionSphere3(255, 0, 255);
-    Color            specularSphere3(127, 255, 212);
-    shared_ptr<BRDF> rBRDFSphere3 = make_shared<Phong>(diffusionSphere3, specularSphere3, 15);
+    const auto       diffusionSphere3 = Color{ 255, 0, 255 };
+    const auto       specularSphere3  = Color{ 127, 255, 212 };
+    shared_ptr<BRDF> rBRDFSphere3     = make_shared<Phong>(diffusionSphere3, specularSphere3, 15);
 
     // Create a shader for the second sphere
     auto rShaderSphere3 = make_shared<Shader>(rBRDFSphere3, reflectionCoeff, refractionCoeff, scene, Shader::TURBULANCE);
@@ -1404,24 +1404,24 @@ void createScene11(shared_ptr<Scene> scene)
     ////////////
     // LIGHTS //
     ////////////
-    Point             light1Position(0., 1.0, 10.0);
-    Color             light1Color(8.0);
-    shared_ptr<Light> rLight1 = make_shared<PunctualLight>(light1Position, light1Color);
+    const auto        light1Position = Point{ 0., 1.0, 10.0 };
+    const auto        light1Color    = Color{ 8.0 };
+    shared_ptr<Light> rLight1        = make_shared<PunctualLight>(light1Position, light1Color);
     scene->add(rLight1);
 
-    Point             light2Position(0., 1.0, -10.0);
-    Color             light2Color(5.0);
-    shared_ptr<Light> rLight2 = make_shared<PunctualLight>(light2Position, light2Color);
+    const auto        light2Position = Point{ 0., 1.0, -10.0 };
+    const auto        light2Color    = Color{ 5.0 };
+    shared_ptr<Light> rLight2        = make_shared<PunctualLight>(light2Position, light2Color);
     scene->add(rLight2);
 
 
     ////////////
     // CAMERA //
     ////////////
-    Point  centreCamera(0.0, 0.7, 2.0);
-    Vector directionCamera(0.0, 0.0, -1.0);
-    Vector cameraUp(0., 1., 0.);
-    double FOV = 60. * 3.141592 / 180.;
+    const auto centreCamera    = Point{ 0.0, 0.7, 2.0 };
+    const auto directionCamera = Vector{ 0.0, 0.0, -1.0 };
+    const auto cameraUp        = Vector{ 0.0, 1.0, 0.0 };
+    double     FOV             = 60. * 3.141592 / 180.;
 
     auto camera = make_unique<Camera>(centreCamera, directionCamera, cameraUp, FOV);
     scene->add(move(camera));

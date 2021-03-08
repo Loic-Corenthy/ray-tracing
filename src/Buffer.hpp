@@ -57,8 +57,8 @@ namespace LCNS
 
     private:
         std::unique_ptr<unsigned char[]> _pixels;
-        unsigned int                     _height = 0;
-        unsigned int                     _width  = 0;
+        unsigned int                     _height = 0u;
+        unsigned int                     _width  = 0u;
 
     };  // class Buffer
 

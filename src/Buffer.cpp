@@ -83,36 +83,24 @@ Buffer Buffer::operator=(const Buffer& buffer)
 
 void Buffer::pixel(unsigned int i, unsigned int j, const Color& color)
 {
-    Color pixelColor(color);
+    if (_width <= i || _height <= j)
+        return;
 
-    if (pixelColor[0] < 0)
-    {
-        pixelColor[0] = 0;
-    }
-    if (1 < pixelColor[0])
-    {
-        pixelColor[0] = 1;
-    }
+    Color pixelColor{ color };
 
-    if (pixelColor[1] < 0)
+    // Clamp colours in range [0, 1]
+    for (unsigned int k = 0; k < 3; ++k)
     {
-        pixelColor[1] = 0;
-    }
-    if (1 < pixelColor[1])
-    {
-        pixelColor[1] = 1;
+        if (pixelColor[k] < 0.0)
+        {
+            pixelColor[k] = 0.0;
+        }
+        else if (1.0 < pixelColor[k])
+        {
+            pixelColor[k] = 1.0;
+        }
     }
 
-    if (pixelColor[2] < 0)
-    {
-        pixelColor[2] = 0;
-    }
-    if (1 < pixelColor[2])
-    {
-        pixelColor[2] = 1;
-    }
-
-    assert(i <= _width && j <= _height);
     const unsigned int index = 3 * (_width * j + i);
 
     _pixels[index + 0] = static_cast<unsigned char>(pixelColor[0] * 255.0);  // red

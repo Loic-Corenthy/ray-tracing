@@ -204,7 +204,7 @@ bool Scene::intersect(Ray& ray) const
     {
         for (auto renderable : _renderableList)
         {
-            bool hasIntersection = renderable->intersect(ray);
+            const bool hasIntersection = renderable->intersect(ray);
             if (hasIntersection && ray.length() < closestDist && objectFromRay != ray.intersected())
             {
                 closestDist    = ray.length();

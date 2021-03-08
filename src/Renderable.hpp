@@ -72,7 +72,7 @@ namespace LCNS
         /// Copy constructor
         Renderable(const Renderable& renderable) = delete;
 
-        /// Copy operator (to be used by derived classes)
+        /// Copy operator
         void operator=(const Renderable& renderable) = delete;
 
         /// Calculate the refraction on the surface of an object

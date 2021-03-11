@@ -106,7 +106,6 @@ namespace LCNS
     private:
         std::shared_ptr<Scene> _scene;
         Buffer                 _buffer;
-        unsigned short         _reflectionCount;
         bool                   _superSampling           = false;
         bool                   _multiThreaded           = false;
         bool                   _shouldDisplayRenderTime = false;

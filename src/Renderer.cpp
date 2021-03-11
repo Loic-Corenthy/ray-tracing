@@ -80,14 +80,12 @@ Renderer& Renderer::_instance(void)
 
 Renderer::Renderer(void)
 : _buffer()
-, _reflectionCount(0)
 {
 }
 
 Renderer::Renderer(Scene* scene, unsigned int width, unsigned int height)
 : _scene(scene)
 , _buffer(height, width)
-, _reflectionCount(1)
 {
 }
 
@@ -149,8 +147,9 @@ void Renderer::_renderInternal(unsigned int bufferI, unsigned int bufferJ, const
                 }
 
                 // Reflections color
-                Color reflectionColor(0.0f);
-                while (_reflectionCount < objectMaxReflection && ray.intersected() != nullptr)
+                Color          reflectionColor(0.0f);
+                unsigned short reflectionCount = 1u;
+                while (reflectionCount < objectMaxReflection && ray.intersected() != nullptr)
                 {
                     // Calculate reflected ray
                     Ray reflection;
@@ -166,13 +165,13 @@ void Renderer::_renderInternal(unsigned int bufferI, unsigned int bufferJ, const
 
 
                     if (_scene->intersect(reflection))
-                        reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
+                        reflectionColor += reflection.intersected()->color(reflection, reflectionCount);  //*specular;
                     else
                         reflectionColor
-                        += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
+                        += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((reflectionCount + 1) * (reflectionCount + 1)));
 
                     ray = reflection;
-                    _reflectionCount++;
+                    reflectionCount++;
                 }
 
 
@@ -186,8 +185,6 @@ void Renderer::_renderInternal(unsigned int bufferI, unsigned int bufferJ, const
                 Color tmp = _scene->backgroundColor(ray);
                 apertureColor += tmp * camera->apertureColorCoeff(apertureI, apertureJ);
             }
-
-            _reflectionCount = 1;
         }
     }
 
@@ -249,8 +246,9 @@ void Renderer::_renderMultiSamplingInternal(unsigned int bufferI, unsigned int b
                 }
 
                 // Reflections Color
-                Color reflectionColor(0.0f);
-                while (_reflectionCount < objectMaxReflection && ray.intersected() != nullptr)  //(c++11)
+                Color          reflectionColor(0.0f);
+                unsigned short reflectionCount = 1u;
+                while (reflectionCount < objectMaxReflection && ray.intersected() != nullptr)  //(c++11)
                 {
                     // Calculate reflected ray
                     Ray reflection;
@@ -265,13 +263,13 @@ void Renderer::_renderMultiSamplingInternal(unsigned int bufferI, unsigned int b
                     reflection.intersected(ray.intersected());
 
                     if (_scene->intersect(reflection))
-                        reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
+                        reflectionColor += reflection.intersected()->color(reflection, reflectionCount);  //*specular;
                     else
                         reflectionColor
-                        += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
+                        += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((reflectionCount + 1) * (reflectionCount + 1)));
 
                     ray = reflection;
-                    _reflectionCount++;
+                    reflectionCount++;
                 }
 
 
@@ -290,8 +288,6 @@ void Renderer::_renderMultiSamplingInternal(unsigned int bufferI, unsigned int b
             {
                 superSampling += _scene->backgroundColor(ray) * contribution;
             }
-
-            _reflectionCount = 1;
         }
     }
 
@@ -510,8 +506,9 @@ void Renderer::_renderNoApertureInternal(unsigned int startIndex, unsigned int e
             }
 
             // Reflections color
-            Color reflectionColor(0.0f);
-            while (_reflectionCount < objectMaxReflection && ray.intersected() != nullptr)
+            Color          reflectionColor(0.0f);
+            unsigned short reflectionCount = 1;
+            while (reflectionCount < objectMaxReflection && ray.intersected() != nullptr)
             {
                 // Calculate reflected ray
                 Ray reflection;
@@ -527,16 +524,16 @@ void Renderer::_renderNoApertureInternal(unsigned int startIndex, unsigned int e
 
                 if (_scene->intersect(reflection))
                 {
-                    reflectionColor += reflection.intersected()->color(reflection, _reflectionCount);  //*specular;
+                    reflectionColor += reflection.intersected()->color(reflection, reflectionCount);  //*specular;
                 }
                 else
                 {
                     reflectionColor
-                    += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((_reflectionCount + 1) * (_reflectionCount + 1)));
+                    += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((reflectionCount + 1) * (reflectionCount + 1)));
                 }
 
                 ray = reflection;
-                _reflectionCount++;
+                reflectionCount++;
             }
 
 
@@ -555,8 +552,6 @@ void Renderer::_renderNoApertureInternal(unsigned int startIndex, unsigned int e
         {
             _buffer.pixel(bufferI, bufferJ, _scene->backgroundColor(ray));
         }
-
-        _reflectionCount = 1;
     }
 }
 

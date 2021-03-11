@@ -148,7 +148,11 @@ Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
+    _mutex.lock();
+    const auto color = _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
+    _mutex.unlock();
+
+    return color;
 }
 
 Vector Triangle::normal(const Point& position) const

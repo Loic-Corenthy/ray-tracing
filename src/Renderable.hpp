@@ -14,6 +14,7 @@
 #include <string>
 #include <cassert>
 #include <memory>
+#include <mutex>
 
 namespace LCNS
 {
@@ -81,7 +82,7 @@ namespace LCNS
     protected:
         std::shared_ptr<Shader> _shader;
         std::string             _name = "";
-
+        mutable std::mutex      _mutex;
     };  // class Renderable
 
 }  // namespace LCNS

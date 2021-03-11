@@ -82,7 +82,11 @@ Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
+    _mutex.lock();
+    const auto color = _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
+    _mutex.unlock();
+
+    return color;
 }
 
 optional<Ray> Sphere::refractedRay(const Ray& incomingRay)

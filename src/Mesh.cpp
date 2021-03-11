@@ -104,7 +104,11 @@ bool Mesh::intersect(LCNS::Ray& ray)
 
 Color Mesh::color(const Ray& ray, unsigned int reflectionCount)
 {
-    return _triangles[_intersectedTriangle].color(ray, reflectionCount);
+    _mutex.lock();
+    const auto color = _triangles[_intersectedTriangle].color(ray, reflectionCount);
+    _mutex.unlock();
+
+    return color;
 }
 
 Vector Mesh::normal(const Point& position) const

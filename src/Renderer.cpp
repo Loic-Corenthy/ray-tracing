@@ -203,112 +203,116 @@ void Renderer::_renderInternal(unsigned int startIndex, unsigned int endIndex, c
     }
 }
 
-void Renderer::_renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight)
+void Renderer::_renderMultiSamplingInternal(unsigned int startIndex, unsigned int endIndex, const Color& meanLight)
 {
     const auto& camera = _scene->cameraList().front();
 
-    float ii = static_cast<float>(bufferI);
-    float jj = static_cast<float>(bufferJ);
-
-    Color  superSampling(0.0f);
-    double contribution = 0.25;
-
-    for (float fragmentX = ii; fragmentX < ii + 1.0f; fragmentX += 0.5f)
+    for (unsigned int i = startIndex; i < endIndex; ++i)
     {
-        for (float fragmentY = jj; fragmentY < jj + 1.0f; fragmentY += 0.5f)
+        const auto [bufferI, bufferJ] = _2DFrom1D(i, _buffer.width());
+
+        float ii = static_cast<float>(bufferI);
+        float jj = static_cast<float>(bufferJ);
+
+        Color  superSampling(0.0f);
+        double contribution = 0.25;
+
+        for (float fragmentX = ii; fragmentX < ii + 1.0f; fragmentX += 0.5f)
         {
-            // It's possible to use only one camera (front())
-            Vector rayDirection = camera->pixelDirection(fragmentX, fragmentY, _buffer);
-            Point  rayOrigin    = camera->position();
-            Ray    ray(rayOrigin, rayDirection);
-
-            if (_scene->intersect(ray))
+            for (float fragmentY = jj; fragmentY < jj + 1.0f; fragmentY += 0.5f)
             {
-                // Max reflection for the current object
-                unsigned short objectMaxReflection = ray.intersected()->shader()->reflectionCountMax();
+                // It's possible to use only one camera (front())
+                Vector rayDirection = camera->pixelDirection(fragmentX, fragmentY, _buffer);
+                Point  rayOrigin    = camera->position();
+                Ray    ray(rayOrigin, rayDirection);
 
-                // Ambient color
-                Ray   ambiantRay(ray.intersection(), ray.intersected()->normal(ray.intersection()));
-                Color ambientColor = meanLight * ray.intersected()->shader()->ambientColor(ambiantRay) * 0.1f;
-
-                // Diffusion color
-                Color diffusionColor = ray.intersected()->color(ray, 0);
-
-                // Refraction color
-                Color refractionColor(0.0);
-                if (ray.intersected()->shader()->refractionCoeff() > 1.0)
+                if (_scene->intersect(ray))
                 {
-                    auto checkRefractionRay = ray.intersected()->refractedRay(ray);
+                    // Max reflection for the current object
+                    unsigned short objectMaxReflection = ray.intersected()->shader()->reflectionCountMax();
 
-                    if (checkRefractionRay)
+                    // Ambient color
+                    Ray   ambiantRay(ray.intersection(), ray.intersected()->normal(ray.intersection()));
+                    Color ambientColor = meanLight * ray.intersected()->shader()->ambientColor(ambiantRay) * 0.1f;
+
+                    // Diffusion color
+                    Color diffusionColor = ray.intersected()->color(ray, 0);
+
+                    // Refraction color
+                    Color refractionColor(0.0);
+                    if (ray.intersected()->shader()->refractionCoeff() > 1.0)
                     {
-                        auto refractionRay = checkRefractionRay.value();
+                        auto checkRefractionRay = ray.intersected()->refractedRay(ray);
 
-                        if (_scene->intersect(refractionRay))
-                            refractionColor = refractionRay.intersected()->color(refractionRay, 0);
-                        else
-                            refractionColor = _scene->backgroundColor(refractionRay);
+                        if (checkRefractionRay)
+                        {
+                            auto refractionRay = checkRefractionRay.value();
+
+                            if (_scene->intersect(refractionRay))
+                                refractionColor = refractionRay.intersected()->color(refractionRay, 0);
+                            else
+                                refractionColor = _scene->backgroundColor(refractionRay);
+                        }
                     }
-                }
 
-                // Reflections Color
-                Color          reflectionColor(0.0f);
-                unsigned short reflectionCount = 1u;
-                while (reflectionCount < objectMaxReflection && ray.intersected() != nullptr)  //(c++11)
+                    // Reflections Color
+                    Color          reflectionColor(0.0f);
+                    unsigned short reflectionCount = 1u;
+                    while (reflectionCount < objectMaxReflection && ray.intersected() != nullptr)  //(c++11)
+                    {
+                        // Calculate reflected ray
+                        Ray reflection;
+                        reflection.origin(ray.intersection());
+
+                        const Vector incidentDirection(ray.direction());
+                        const Vector normal(ray.intersected()->normal(ray.intersection()));
+                        const double reflet              = (incidentDirection * normal) * 2.0;
+                        const Vector reflectionDirection = incidentDirection - normal * reflet;
+
+                        reflection.direction(reflectionDirection);
+                        reflection.intersected(ray.intersected());
+
+                        if (_scene->intersect(reflection))
+                            reflectionColor += reflection.intersected()->color(reflection, reflectionCount);  //*specular;
+                        else
+                            reflectionColor
+                            += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((reflectionCount + 1) * (reflectionCount + 1)));
+
+                        ray = reflection;
+                        reflectionCount++;
+                    }
+
+
+                    // Final color equals the sum of all the components
+                    Color finalColor(ambientColor + diffusionColor + reflectionColor + refractionColor);
+
+                    // Tone mapping
+                    Color colorAfterToneMapping;
+                    colorAfterToneMapping.red(1.0 - exp2(finalColor.red() * (-1.0)));
+                    colorAfterToneMapping.green(1.0 - exp2(finalColor.green() * (-1.0)));
+                    colorAfterToneMapping.blue(1.0 - exp2(finalColor.blue() * (-1.0)));
+
+                    superSampling += colorAfterToneMapping * contribution;
+                }
+                else
                 {
-                    // Calculate reflected ray
-                    Ray reflection;
-                    reflection.origin(ray.intersection());
-
-                    const Vector incidentDirection(ray.direction());
-                    const Vector normal(ray.intersected()->normal(ray.intersection()));
-                    const double reflet              = (incidentDirection * normal) * 2.0;
-                    const Vector reflectionDirection = incidentDirection - normal * reflet;
-
-                    reflection.direction(reflectionDirection);
-                    reflection.intersected(ray.intersected());
-
-                    if (_scene->intersect(reflection))
-                        reflectionColor += reflection.intersected()->color(reflection, reflectionCount);  //*specular;
-                    else
-                        reflectionColor
-                        += _scene->backgroundColor(reflection) * (1.0 / static_cast<double>((reflectionCount + 1) * (reflectionCount + 1)));
-
-                    ray = reflection;
-                    reflectionCount++;
+                    superSampling += _scene->backgroundColor(ray) * contribution;
                 }
-
-
-                // Final color equals the sum of all the components
-                Color finalColor(ambientColor + diffusionColor + reflectionColor + refractionColor);
-
-                // Tone mapping
-                Color colorAfterToneMapping;
-                colorAfterToneMapping.red(1.0 - exp2(finalColor.red() * (-1.0)));
-                colorAfterToneMapping.green(1.0 - exp2(finalColor.green() * (-1.0)));
-                colorAfterToneMapping.blue(1.0 - exp2(finalColor.blue() * (-1.0)));
-
-                superSampling += colorAfterToneMapping * contribution;
-            }
-            else
-            {
-                superSampling += _scene->backgroundColor(ray) * contribution;
             }
         }
-    }
 
-    _buffer.pixel(bufferI, bufferJ, superSampling);
+        _buffer.pixel(bufferI, bufferJ, superSampling);
+    }
 }
 
 void Renderer::_render(void)
 {
-    const auto renderStarts = steady_clock::now();
-
-    auto&      camera         = _scene->cameraList().front();
+    const auto renderStarts   = steady_clock::now();
     const auto processorCount = thread::hardware_concurrency();
 
-    if (camera->aperture() == Camera::Aperture::F_SMALL || camera->aperture() == Camera::Aperture::F_MEDIUM
-        || camera->aperture() == Camera::Aperture::F_BIG)
+    if (auto& camera = _scene->cameraList().front(); camera->aperture() == Camera::Aperture::F_SMALL
+                                                     || camera->aperture() == Camera::Aperture::F_MEDIUM
+                                                     || camera->aperture() == Camera::Aperture::F_BIG)
     {
         Color meanLight = _scene->meanAmbiantLight();
 
@@ -339,21 +343,8 @@ void Renderer::_render(void)
         else  // no multithreading
         {
             cout << "Single thread rendering" << endl;
-
-            for (unsigned int i = 0, bufferWidth = _buffer.width(); i < bufferWidth; i++)
-            {
-                for (unsigned int j = 0, bufferHeight = _buffer.height(); j < bufferHeight; ++j)
-                {
-                    _renderInternal(i, j, meanLight);
-                }
-
-                // Display progress in the console
-                _displayProgressBar(static_cast<double>(i) / static_cast<double>(bufferWidth));
-            }
+            _renderInternal(0, _buffer.width() * _buffer.height(), meanLight);
         }
-
-        // Display a message when the render is finished
-        cout << "\nDone =)\n";
     }
     else if (_superSampling)
     {
@@ -361,56 +352,33 @@ void Renderer::_render(void)
 
         if (_multiThreaded && processorCount > 1)
         {
-            cout << "Multi threading on. Processor count: " << processorCount << endl;
+            cout << "New Multi threading on. Processor count: " << processorCount << endl;
 
-            for (unsigned int i = 0, bufferWidth = _buffer.width(); i < bufferWidth; i++)
+            const unsigned int allPixelsCount = _buffer.width() * _buffer.height();
+            const auto         batchSize = static_cast<unsigned int>(ceil(static_cast<double>(allPixelsCount) / static_cast<double>(processorCount)));
+
+            vector<thread> allThreads;
+            allThreads.reserve(processorCount);
+
+            for (unsigned int i = 0; i < allPixelsCount; i += batchSize)
             {
-                for (unsigned int j = 0, bufferHeight = _buffer.height(); j < bufferHeight; /* j is incremented below */)
+                allThreads.push_back(thread(&Renderer::_renderMultiSamplingInternal, this, i, i + batchSize, meanLight));
+            }
+
+            cout << "active threads " << allThreads.size() << '\n';
+            for (auto& t : allThreads)
+            {
+                if (t.joinable())
                 {
-                    vector<thread> allThreads;
-                    allThreads.reserve(processorCount);
-
-                    const auto threadToCreateCount = (processorCount < (bufferHeight - j)) ? processorCount : bufferHeight - j;
-
-                    for (unsigned int threadNumber = 0; threadNumber < threadToCreateCount; ++threadNumber)
-                    {
-                        allThreads.push_back(thread(&Renderer::_renderMultiSamplingInternal, this, i, j, meanLight));
-
-                        // Each thread take care of a pixel in the current row
-                        ++j;
-                    }
-
-                    for (auto& t : allThreads)
-                    {
-                        if (t.joinable())
-                        {
-                            t.join();
-                        }
-                    }
+                    t.join();
                 }
-                // Display progress in the console
-                _displayProgressBar(static_cast<double>(i) / static_cast<double>(bufferWidth));
             }
         }
-        else
+        else  // no multithreading
         {
             cout << "Single thread rendering" << endl;
-
-            for (unsigned int i = 0, bufferWidth = _buffer.width(); i < bufferWidth; i++)
-            {
-                for (unsigned int j = 0, bufferHeight = _buffer.height(); j < bufferHeight; ++j)
-                {
-                    _renderMultiSamplingInternal(i, j, meanLight);
-                }
-
-                // Display progress in the console
-                _displayProgressBar(static_cast<double>(i) / static_cast<double>(bufferWidth));
-            }
+            _renderMultiSamplingInternal(0, _buffer.width() * _buffer.height(), meanLight);
         }
-
-
-        // Display a message when the render is finished
-        cout << "\nDone =)\n";
     }
     else
     {
@@ -445,11 +413,10 @@ void Renderer::_render(void)
             cout << "Single thread rendering" << endl;
             _renderNoApertureInternal(0, _buffer.width() * _buffer.height(), meanLight);
         }
-
-        // Display a message when the render is finished
-        cout << "\nDone =)\n";
     }
 
+    // Display a message when the render is finished
+    cout << "\nDone =)\n";
     if (_shouldDisplayRenderTime)
     {
         const auto             renderFinished = steady_clock::now();

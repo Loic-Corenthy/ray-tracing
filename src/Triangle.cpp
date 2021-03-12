@@ -20,7 +20,9 @@
 #include <optional>
 
 using std::array;
+using std::lock_guard;
 using std::make_shared;
+using std::mutex;
 using std::nullopt;
 using std::optional;
 
@@ -148,11 +150,8 @@ Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());
 
-    _mutex.lock();
-    const auto color = _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
-    _mutex.unlock();
-
-    return color;
+    const lock_guard<mutex> lock(_mutex);
+    return _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
 }
 
 Vector Triangle::normal(const Point& position) const

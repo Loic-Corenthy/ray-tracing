@@ -20,8 +20,10 @@
 #include "Shader.hpp"
 
 using std::get;
+using std::lock_guard;
 using std::make_shared;
 using std::make_tuple;
+using std::mutex;
 using std::nullopt;
 using std::optional;
 using std::tuple;
@@ -82,11 +84,8 @@ Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    _mutex.lock();
-    const auto color = _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
-    _mutex.unlock();
-
-    return color;
+    const lock_guard<mutex> lock(_mutex);
+    return _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
 }
 
 optional<Ray> Sphere::refractedRay(const Ray& incomingRay)

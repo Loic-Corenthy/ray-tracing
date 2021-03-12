@@ -17,6 +17,8 @@
 #include "Vector.hpp"
 #include <optional>
 
+using std::lock_guard;
+using std::mutex;
 using std::nullopt;
 using std::optional;
 using std::shared_ptr;
@@ -104,11 +106,8 @@ bool Mesh::intersect(LCNS::Ray& ray)
 
 Color Mesh::color(const Ray& ray, unsigned int reflectionCount)
 {
-    _mutex.lock();
-    const auto color = _triangles[_intersectedTriangle].color(ray, reflectionCount);
-    _mutex.unlock();
-
-    return color;
+    const lock_guard<mutex> lock(_mutex);
+    return _triangles[_intersectedTriangle].color(ray, reflectionCount);
 }
 
 Vector Mesh::normal(const Point& position) const

@@ -2003,14 +2003,14 @@ void createFloor(shared_ptr<Scene> scene, const FloorParameters& param)
 
 void createRoom(shared_ptr<Scene> scene, const RoomParameters& param)
 {
-    Point zero(param.lowCorner);
-    Point one(zero.x(), zero.y(), zero.z() + param.dimensions.z());
-    Point two(zero.x() + param.dimensions.x(), zero.y(), zero.z() + param.dimensions.z());
-    Point three(zero.x() + param.dimensions.x(), zero.y(), zero.z());
-    Point four(zero.x(), zero.y() + param.dimensions.y(), zero.z());
-    Point five(zero.x(), zero.y() + param.dimensions.y(), zero.z() + param.dimensions.z());
-    Point six = param.lowCorner + param.dimensions;
-    Point seven(zero.x() + param.dimensions.x(), zero.y() + param.dimensions.y(), zero.z());
+    const Point zero(param.lowCorner);
+    const Point one(zero.x(), zero.y(), zero.z() + param.dimensions.z());
+    const Point two(zero.x() + param.dimensions.x(), zero.y(), zero.z() + param.dimensions.z());
+    const Point three(zero.x() + param.dimensions.x(), zero.y(), zero.z());
+    const Point four(zero.x(), zero.y() + param.dimensions.y(), zero.z());
+    const Point five(zero.x(), zero.y() + param.dimensions.y(), zero.z() + param.dimensions.z());
+    const Point six = param.lowCorner + param.dimensions;
+    const Point seven(zero.x() + param.dimensions.x(), zero.y() + param.dimensions.y(), zero.z());
 
     // Create floor
     shared_ptr<Renderable> rTriFloor1 = make_shared<Triangle>(zero, one, two);

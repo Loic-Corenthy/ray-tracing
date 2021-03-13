@@ -33,9 +33,9 @@ Noise::Noise(void)
 
 double Noise::perlinNoise(double x, double y, double z) const
 {
-    const auto xx = static_cast<int>(floor(x)) & 255;
-    const auto yy = static_cast<int>(floor(y)) & 255;
-    const auto zz = static_cast<int>(floor(z)) & 255;
+    const auto xx = static_cast<size_t>(floor(x)) & 255;
+    const auto yy = static_cast<size_t>(floor(y)) & 255;
+    const auto zz = static_cast<size_t>(floor(z)) & 255;
 
     x -= floor(x);
     y -= floor(y);

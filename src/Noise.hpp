@@ -55,7 +55,8 @@ namespace LCNS
     private:
         static const int    smPermutations[256];
         static const double _pi;
-        std::vector<int>    _permutations;
+        std::vector<size_t> _permutations;
+
     };  // class Noise
 
 }  // namespace LCNS

@@ -417,6 +417,7 @@ void Renderer::_render(void)
 
     // Display a message when the render is finished
     cout << "\nDone =)\n";
+
     if (_shouldDisplayRenderTime)
     {
         const auto             renderFinished = steady_clock::now();

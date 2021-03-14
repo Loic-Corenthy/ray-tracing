@@ -82,7 +82,8 @@ namespace LCNS
     protected:
         std::shared_ptr<Shader> _shader;
         std::string             _name = "";
-        mutable std::mutex      _mutex;
+
+        mutable std::mutex _m;
     };  // class Renderable
 
 }  // namespace LCNS

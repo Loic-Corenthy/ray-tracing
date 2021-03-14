@@ -20,12 +20,12 @@
 #include "Shader.hpp"
 
 using std::get;
-using std::lock_guard;
 using std::make_shared;
 using std::make_tuple;
 using std::mutex;
 using std::nullopt;
 using std::optional;
+using std::scoped_lock;
 using std::tuple;
 
 using LCNS::Color;
@@ -80,11 +80,12 @@ bool Sphere::intersect(Ray& ray)
 
 Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
 {
+    const scoped_lock lock(_m);
+
     // Calculate normal from vertex normals
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    const lock_guard<mutex> lock(_mutex);
     return _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
 }
 

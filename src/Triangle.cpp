@@ -20,11 +20,11 @@
 #include <optional>
 
 using std::array;
-using std::lock_guard;
 using std::make_shared;
 using std::mutex;
 using std::nullopt;
 using std::optional;
+using std::scoped_lock;
 
 using LCNS::Color;
 using LCNS::Point;
@@ -50,20 +50,18 @@ Triangle::Triangle(const Triangle& triangle)
 
 Triangle& Triangle::operator=(const Triangle& triangle)
 {
-    if (this == &triangle)
+    if (this != &triangle)
     {
-        return *this;
+        _vertexPosition[0] = triangle._vertexPosition[0];
+        _vertexPosition[1] = triangle._vertexPosition[1];
+        _vertexPosition[2] = triangle._vertexPosition[2];
+
+        _vertexNormal[0] = triangle._vertexNormal[0];
+        _vertexNormal[1] = triangle._vertexNormal[1];
+        _vertexNormal[2] = triangle._vertexNormal[2];
+
+        _normal = triangle._normal;
     }
-
-    _vertexPosition[0] = triangle._vertexPosition[0];
-    _vertexPosition[1] = triangle._vertexPosition[1];
-    _vertexPosition[2] = triangle._vertexPosition[2];
-
-    _vertexNormal[0] = triangle._vertexNormal[0];
-    _vertexNormal[1] = triangle._vertexNormal[1];
-    _vertexNormal[2] = triangle._vertexNormal[2];
-
-    _normal = triangle._normal;
 
     return *this;
 }
@@ -106,31 +104,31 @@ void Triangle::updateNormal(void)
 
 bool Triangle::intersect(Ray& ray)
 {
-    double scalarProd = ray.direction() * _normal;
+    const double scalarProd = ray.direction() * _normal;
 
     // Check if ray is not parallel to triangle
     if (scalarProd != 0.0)
     {
-        Vector pointInTriangle(_vertexPosition[0][0], _vertexPosition[0][1], _vertexPosition[0][2]);
-        Vector origin(ray.origin().x(), ray.origin().y(), ray.origin().z());
+        const auto pointInTriangle = Vector{ _vertexPosition[0][0], _vertexPosition[0][1], _vertexPosition[0][2] };
+        const auto origin          = Vector{ ray.origin().x(), ray.origin().y(), ray.origin().z() };
 
         // Calculate coeffient in the equation of the plane containing the triangle
-        double d = (_normal * pointInTriangle) * (-1.0);
+        const double d = (_normal * pointInTriangle) * (-1.0);
 
         // Calculate the lenght the ray when intersecting the plane
-        double length = (-1.0) * (origin * _normal + d) / (scalarProd);
+        const double length = (-1.0) * (origin * _normal + d) / (scalarProd);
 
         // Calculate the coordinates of the intersection point
-        Point p = ray.origin() + ray.direction() * length;
+        const auto p = Point{ ray.origin() + ray.direction() * length };
 
         // Check if the point in the plane is really inside the triangle
-        Vector aB = _vertexPosition[1] - _vertexPosition[0];
-        Vector bC = _vertexPosition[2] - _vertexPosition[1];
-        Vector cA = _vertexPosition[0] - _vertexPosition[2];
+        const auto aB = Vector{ _vertexPosition[1] - _vertexPosition[0] };
+        const auto bC = Vector{ _vertexPosition[2] - _vertexPosition[1] };
+        const auto cA = Vector{ _vertexPosition[0] - _vertexPosition[2] };
 
-        Vector aP = p - _vertexPosition[0];
-        Vector bP = p - _vertexPosition[1];
-        Vector cP = p - _vertexPosition[2];
+        const auto aP = Vector{ p - _vertexPosition[0] };
+        const auto bP = Vector{ p - _vertexPosition[1] };
+        const auto cP = Vector{ p - _vertexPosition[2] };
 
         if ((aB ^ aP) * _normal >= 0.0 && (bC ^ bP) * _normal >= 0.0 && (cA ^ cP) * _normal >= 0.0 && length > 0.0)
         {
@@ -147,10 +145,11 @@ bool Triangle::intersect(Ray& ray)
 
 Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
 {
+    const scoped_lock lock(_m);
+
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());
 
-    const lock_guard<mutex> lock(_mutex);
     return _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
 }
 
@@ -159,7 +158,7 @@ Vector Triangle::normal(const Point& position) const
     return _barycentricNormal(position);
 }
 
-Vector Triangle::interpolatedNormal(const LCNS::Point& position) const
+Vector Triangle::interpolatedNormal(const Point& position) const
 {
     return _barycentricNormal(position);
 }

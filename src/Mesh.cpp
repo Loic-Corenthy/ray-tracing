@@ -9,15 +9,16 @@
 //===============================================================================================//
 
 #include "Mesh.hpp"
+
+#include <optional>
+
 #include "BoundingBox.hpp"
 #include "Color.hpp"
 #include "Ray.hpp"
 #include "Renderable.hpp"
 #include "Triangle.hpp"
 #include "Vector.hpp"
-#include <optional>
 
-using std::lock_guard;
 using std::mutex;
 using std::nullopt;
 using std::optional;
@@ -69,7 +70,7 @@ bool Mesh::intersect(LCNS::Ray& ray)
         Renderable* rClosestObject = nullptr;
         Renderable* objectFromRay  = ray.intersected();
 
-        int i = 0;
+        std::atomic<size_t> i = 0u;
 
         for (auto& triangle : _triangles)
         {
@@ -106,7 +107,6 @@ bool Mesh::intersect(LCNS::Ray& ray)
 
 Color Mesh::color(const Ray& ray, unsigned int reflectionCount)
 {
-    const lock_guard<mutex> lock(_mutex);
     return _triangles[_intersectedTriangle].color(ray, reflectionCount);
 }
 

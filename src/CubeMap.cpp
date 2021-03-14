@@ -61,10 +61,10 @@ Color CubeMap::colorAt(const Ray& ray)
 {
     // Get the face intersecting with the ray (in the cubemap) as well as
     // the coordinates of the intersection
-    auto [face, i, j] = _intersect(ray);
+    const auto [face, i, j] = _intersect(ray);
 
     // Get the index corresponding to the face
-    auto imageIdx = _faceImageIDs[face];
+    const auto imageIdx = _faceImageIDs[face];
 
     return _images[imageIdx]->pixelColor(i, j);
 }
@@ -102,10 +102,10 @@ void CubeMap::interpolationMethod(Image::InterpolationMethod value) noexcept
 
 tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
 {
-    double radius  = _size * 0.5;
-    double invSize = 1.0 / _size;
-    Vector max(_center.x() + radius, _center.y() + radius, _center.z() + radius);
-    Vector min(_center.x() - radius, _center.y() - radius, _center.z() - radius);
+    const double radius  = _size * 0.5;
+    const double invSize = 1.0 / _size;
+    Vector       max(_center.x() + radius, _center.y() + radius, _center.z() + radius);
+    Vector       min(_center.x() - radius, _center.y() - radius, _center.z() - radius);
 
     // Need to add/substract an epsilon value to min and max because of numerical error when comparing them with p coordinate values.
     const Vector epsilon(0.00001);
@@ -117,10 +117,10 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().z() > 0.0)
     {
         // Front plane: Calculate the lenght the ray when intersecting the plane
-        double length = (max.z() - ray.origin().z()) / ray.direction().z();
+        const double length = (max.z() - ray.origin().z()) / ray.direction().z();
 
         // Front plane: Calculate the coordinates of the intersection point
-        Point p = ray.origin() + ray.direction() * length;
+        const Point p = ray.origin() + ray.direction() * length;
 
         // Front plane: Check if the point in the plane is really inside the rectangle
         if (p.x() >= min.x() && p.x() <= max.x() && p.y() >= min.y() && p.y() <= max.y())
@@ -132,8 +132,8 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().z() < 0.0)
     {
         // Same for back plane:
-        double length = (min.z() - ray.origin().z()) / ray.direction().z();
-        Point  p      = ray.origin() + ray.direction() * length;
+        const double length = (min.z() - ray.origin().z()) / ray.direction().z();
+        const Point  p      = ray.origin() + ray.direction() * length;
         if (p.x() >= min.x() && p.x() <= max.x() && p.y() >= min.y() && p.y() <= max.y())
         {
             return make_tuple(Faces::BACK, (p.x() - min.x()) * invSize, (p.y() - min.y()) * invSize);
@@ -143,8 +143,8 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().y() > 0.0)  // Check if the ray is not parallel to the XZ plane
     {
         // Same for up plane:
-        double length = (max.y() - ray.origin().y()) / ray.direction().y();
-        Point  p      = ray.origin() + ray.direction() * length;
+        const double length = (max.y() - ray.origin().y()) / ray.direction().y();
+        const Point  p      = ray.origin() + ray.direction() * length;
 
         if (p.x() >= min.x() && p.x() <= max.x() && p.z() >= min.z() && p.z() <= max.z())
         {
@@ -155,8 +155,8 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().y() < 0.0)
     {
         // Same for down plane:
-        double length = (min.y() - ray.origin().y()) / ray.direction().y();
-        Point  p      = ray.origin() + ray.direction() * length;
+        const double length = (min.y() - ray.origin().y()) / ray.direction().y();
+        const Point  p      = ray.origin() + ray.direction() * length;
         if (p.x() >= min.x() && p.x() <= max.x() && p.z() >= min.z() && p.z() <= max.z())
         {
             return make_tuple(Faces::DOWN, (p.x() - min.x()) * invSize, (p.z() - min.z()) * invSize);
@@ -166,8 +166,8 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().x() > 0.0)  // Check if the ray is not parallel to the YZ plane
     {
         // Same for right plane:
-        double length = (max.x() - ray.origin().x()) / ray.direction().x();
-        Point  p      = ray.origin() + ray.direction() * length;
+        const double length = (max.x() - ray.origin().x()) / ray.direction().x();
+        const Point  p      = ray.origin() + ray.direction() * length;
         if (p.y() >= min.y() && p.y() <= max.y() && p.z() >= min.z() && p.z() <= max.z())
         {
             return make_tuple(Faces::RIGHT, (p.z() - min.z()) * invSize, (p.y() - min.y()) * invSize);
@@ -177,8 +177,8 @@ tuple<CubeMap::Faces, double, double> CubeMap::_intersect(const Ray& ray) const
     if (ray.direction().x() < 0.0)
     {
         // Same for left plane:
-        double length = (min.x() - ray.origin().x()) / ray.direction().x();
-        Point  p      = ray.origin() + ray.direction() * length;
+        const double length = (min.x() - ray.origin().x()) / ray.direction().x();
+        const Point  p      = ray.origin() + ray.direction() * length;
         if (p.y() >= min.y() && p.y() <= max.y() && p.z() >= min.z() && p.z() <= max.z())
         {
             return make_tuple(Faces::LEFT, (p.z() - min.z()) * invSize, (p.y() - min.y()) * invSize);

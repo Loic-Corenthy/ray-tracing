@@ -14,6 +14,7 @@
 #include <string>
 #include <cassert>
 #include <memory>
+#include <mutex>
 
 namespace LCNS
 {
@@ -72,7 +73,7 @@ namespace LCNS
         /// Copy constructor
         Renderable(const Renderable& renderable) = delete;
 
-        /// Copy operator (to be used by derived classes)
+        /// Copy operator
         void operator=(const Renderable& renderable) = delete;
 
         /// Calculate the refraction on the surface of an object
@@ -82,6 +83,7 @@ namespace LCNS
         std::shared_ptr<Shader> _shader;
         std::string             _name = "";
 
+        mutable std::mutex _m;
     };  // class Renderable
 
 }  // namespace LCNS

@@ -59,7 +59,6 @@ bool Renderable::_refraction(const Vector& incomingDirection, const Vector& norm
     {
         const double cosTheta2 = sqrt(1.0 - sqrSinTheta2);
         refractedDirection     = (incomingDirection - normal * minusCosTheta1) * n - normal * cosTheta2;
-
         return true;
     }
 }

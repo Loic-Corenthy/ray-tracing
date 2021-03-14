@@ -30,11 +30,11 @@ using LCNS::Color;
 using LCNS::Scene;
 using LCNS::Shader;
 
+
 Shader::Shader(shared_ptr<BRDF> bRDF, double reflectionCoeff, double refractionCoeff, shared_ptr<Scene> scene, unsigned short material)
 : _bRDF(bRDF)
 , _scene(scene)
 , _reflectionCoeff(reflectionCoeff)
-, _currentReflectionCoeff(reflectionCoeff)
 , _refractionCoeff(refractionCoeff)
 , _material(material)
 {
@@ -45,7 +45,6 @@ Shader::Shader(const Shader& shader)
 : _bRDF(shader._bRDF)
 , _scene(shader._scene)
 , _reflectionCoeff(shader._reflectionCoeff)
-, _currentReflectionCoeff(shader._currentReflectionCoeff)
 , _refractionCoeff(shader._refractionCoeff)
 , _material(shader._material)
 {
@@ -56,13 +55,13 @@ Shader Shader::operator=(const Shader& shader)
     if (this == &shader)
         return *this;
 
-    _bRDF                   = shader._bRDF;
-    _reflectionCountMax     = shader._reflectionCountMax;
-    _reflectionCoeff        = shader._reflectionCoeff;
-    _currentReflectionCoeff = shader._currentReflectionCoeff;
-    _refractionCoeff        = shader._refractionCoeff;
-    _material               = shader._material;
-    _scene                  = shader._scene;
+    _bRDF               = shader._bRDF;
+    _reflectionCountMax = shader._reflectionCountMax;
+    _reflectionCoeff    = shader._reflectionCoeff;
+    _refractionCoeff    = shader._refractionCoeff;
+    _material           = shader._material;
+    _scene              = shader._scene;
+
 
     return *this;
 }
@@ -117,12 +116,12 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
 {
     Color myColor(0.0);
 
+    double currentReflectionCoeff = 1.0;
+
     if (reflectionCount > 0)
     {
-        _currentReflectionCoeff = _reflectionCoeff / static_cast<double>(reflectionCount * reflectionCount);
+        currentReflectionCoeff = _reflectionCoeff / static_cast<double>(reflectionCount * reflectionCount);
     }
-    else
-        _currentReflectionCoeff = 1.0;
 
     double noiseCoeff = 0.0;
     Noise  noise;
@@ -218,7 +217,7 @@ Color Shader::color(const Vector& vecToViewer, const Vector& normal, const Point
             break;
     }
 
-    return (myColor * _currentReflectionCoeff);
+    return (myColor * currentReflectionCoeff);
 }
 
 Color Shader::ambientColor(const Ray& ray) const

@@ -22,8 +22,10 @@
 using std::get;
 using std::make_shared;
 using std::make_tuple;
+using std::mutex;
 using std::nullopt;
 using std::optional;
+using std::scoped_lock;
 using std::tuple;
 
 using LCNS::Color;
@@ -46,14 +48,14 @@ Sphere::Sphere(const Sphere& sphere)
 
 bool Sphere::intersect(Ray& ray)
 {
-    double a = ray.direction()[0] * ray.direction()[0] + ray.direction()[1] * ray.direction()[1] + ray.direction()[2] * ray.direction()[2];
-    double b = 2.0
-               * (ray.direction()[0] * (ray.origin()[0] - _center[0]) + ray.direction()[1] * (ray.origin()[1] - _center[1])
-                  + ray.direction()[2] * (ray.origin()[2] - _center[2]));
-    double c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
-               + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
+    const double a = ray.direction()[0] * ray.direction()[0] + ray.direction()[1] * ray.direction()[1] + ray.direction()[2] * ray.direction()[2];
+    const double b = 2.0
+                     * (ray.direction()[0] * (ray.origin()[0] - _center[0]) + ray.direction()[1] * (ray.origin()[1] - _center[1])
+                        + ray.direction()[2] * (ray.origin()[2] - _center[2]));
+    const double c = (ray.origin()[0] - _center[0]) * (ray.origin()[0] - _center[0]) + (ray.origin()[1] - _center[1]) * (ray.origin()[1] - _center[1])
+                     + (ray.origin()[2] - _center[2]) * (ray.origin()[2] - _center[2]) - _radius * _radius;
 
-    auto roots = _solveSecDeg(a, b, c);
+    const auto roots = _solveSecDeg(a, b, c);
 
     if (!roots)
         return false;
@@ -78,11 +80,13 @@ bool Sphere::intersect(Ray& ray)
 
 Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
 {
+    const scoped_lock lock(_m);
+
     // Calculate normal from vertex normals
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();
 
-    return (_shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount));
+    return _shader->color(ray.direction() * (-1), normalAtPt, ray.intersection(), this, reflectionCount);
 }
 
 optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
@@ -117,7 +121,6 @@ optional<Ray> Sphere::refractedRay(const Ray& incomingRay)
 
         auto refractedRay = Ray(insideSphere.intersection(), outRefractionDirection);
         refractedRay.intersected(this);
-
         return refractedRay;
     }
     else
@@ -136,7 +139,7 @@ Vector Sphere::interpolatedNormal(const Point& position) const
     return ((position - _center).normalize());
 }
 
-optional<tuple<double, double>> Sphere::_solveSecDeg(double a, double b, double c)
+optional<tuple<double, double>> Sphere::_solveSecDeg(double a, double b, double c) const
 {
     if (a == 0.0)
         return nullopt;

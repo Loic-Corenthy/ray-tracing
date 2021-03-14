@@ -70,7 +70,7 @@ namespace LCNS
 
     private:
         /// Calculate roots of a second order polynomial.
-        std::optional<std::tuple<double, double>> _solveSecDeg(double a, double b, double c);
+        std::optional<std::tuple<double, double>> _solveSecDeg(double a, double b, double c) const;
 
     private:
         Point  _center;

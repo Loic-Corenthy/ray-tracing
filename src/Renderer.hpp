@@ -54,6 +54,9 @@ namespace LCNS
         /// Activate or not multi threaded rendering
         static void setMultiThreading(bool activate);
 
+        /// Display the time it took to render the image
+        static void displayRenderTime(bool activate);
+
     private:
         /// Default constructor
         Renderer(void);
@@ -76,6 +79,9 @@ namespace LCNS
         // Internal method to facilitate multi threading rendering
         void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
 
+        // Internal method to facilitate multi threading rendering
+        void _renderNoApertureInternal(unsigned int startIndex, unsigned int endIndex, const Color& meanLight);
+
         /// Internal method to check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;
 
@@ -91,12 +97,18 @@ namespace LCNS
         /// Display a progress bar with ascii characters
         void _displayProgressBar(double currentProgress);
 
+        /// Internal method to activate/deactivate the render time being displayed
+        void _displayRenderTime(bool activate);
+
+        /// Helper method to get the 2D position in a buffer from 1D array
+        std::tuple<unsigned int, unsigned int> _2DFrom1D(unsigned int position, unsigned int width) const;
+
     private:
         std::shared_ptr<Scene> _scene;
         Buffer                 _buffer;
-        unsigned short         _reflectionCount;
-        bool                   _superSampling = false;
-        bool                   _multiThreaded = false;
+        bool                   _superSampling           = false;
+        bool                   _multiThreaded           = false;
+        bool                   _shouldDisplayRenderTime = false;
 
     };  // class Renderer
 

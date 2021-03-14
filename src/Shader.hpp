@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <memory>
+#include <atomic>
 
 #include "Color.hpp"
 #include "Vector.hpp"
@@ -37,7 +38,7 @@ namespace LCNS
 
     public:
         /// Default constructor
-        Shader(void) = default;
+        Shader(void) = delete;
 
         /// Constructor with parameters
         Shader(std::shared_ptr<BRDF>  bRDF,
@@ -88,11 +89,10 @@ namespace LCNS
     private:
         std::shared_ptr<BRDF>  _bRDF;
         std::shared_ptr<Scene> _scene;
-        double                 _reflectionCoeff        = 0.0;
-        double                 _currentReflectionCoeff = 0.0;
-        double                 _refractionCoeff        = 0.0;
-        unsigned short         _reflectionCountMax     = 1;
-        unsigned short         _material               = 0;
+        double                 _reflectionCoeff    = 0.0;
+        double                 _refractionCoeff    = 0.0;
+        unsigned short         _reflectionCountMax = 1;
+        unsigned short         _material           = 0;
 
     };  // class Shader
 

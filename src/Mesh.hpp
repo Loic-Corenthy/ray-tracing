@@ -15,6 +15,8 @@
 #include <memory>
 #include <optional>
 #include <vector>
+#include <limits>
+#include <atomic>
 
 #include "Renderable.hpp"
 #include "Point.hpp"
@@ -73,7 +75,7 @@ namespace LCNS
     private:
         std::vector<Triangle> _triangles;
         BoundingBox           _boundingBox;
-        int                   _intersectedTriangle = -1;
+        std::atomic<size_t>   _intersectedTriangle = std::numeric_limits<size_t>::max();
 
     };  // class Mesh
 

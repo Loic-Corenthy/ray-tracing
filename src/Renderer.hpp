@@ -13,6 +13,7 @@
 #include <cassert>
 #include <memory>
 #include <atomic>
+#include <thread>
 
 #include "Buffer.hpp"
 #include "Camera.hpp"
@@ -94,10 +95,10 @@ namespace LCNS
         void _renderInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
 
         // Internal method to facilitate multi threading rendering
-        void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
+        void _renderMultiSamplingInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
 
         // Internal method to facilitate multi threading rendering
-        void _renderNoApertureInternal(unsigned int startIndex, unsigned int endIndex, const Color& meanLight);
+        void _renderNoApertureInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
 
         /// Internal method to check if the super sampling has been activated
         bool _isSuperSamplingActive(void) const;
@@ -117,6 +118,11 @@ namespace LCNS
         /// Internal method to activate/deactivate the render time being displayed
         void _displayRenderTime(bool activate);
 
+        /// Internal helper method to manage multiple threads and their data batches
+        template <typename T>
+        void _threadHandler(
+        T renderingMethod, unsigned int allPixelsCount, unsigned int processorCount, double reductionCoeff, const Color& meanLight);
+
         /// Helper method to get the 2D position in a buffer from 1D array
         std::tuple<unsigned int, unsigned int> _2DFrom1D(unsigned int position, unsigned int width) const;
 
@@ -128,5 +134,71 @@ namespace LCNS
         bool                   _shouldDisplayRenderTime = false;
 
     };  // class Renderer
+
+    template <typename T>
+    void Renderer::_threadHandler(
+    T renderingMethod, unsigned int allPixelsCount, unsigned int processorCount, double reductionCoeff, const Color& meanLight)
+    {
+        const auto batchSize
+        = static_cast<unsigned int>(ceil(static_cast<double>(allPixelsCount) / static_cast<double>(processorCount)) / reductionCoeff);
+
+        std::vector<std::thread> allThreads;
+        allThreads.reserve(processorCount);
+
+        ThreadData* allRanges = new ThreadData[processorCount];
+
+        // Create threads
+        unsigned int range = 0;
+        for (unsigned int i = 0; i < processorCount; ++i)
+        {
+            allRanges[i].startIndex = range;
+            allRanges[i].endIndex   = range + batchSize;
+            allRanges[i].runState   = RunState::running;
+
+            allThreads.push_back(std::thread(renderingMethod, this, allRanges, i, meanLight));
+            range += batchSize;
+        }
+
+        unsigned int j = 0u;
+        while (range < allPixelsCount)
+        {
+            if (allRanges[j].runState == RunState::done)
+            {
+                allRanges[j].startIndex = range;
+                allRanges[j].endIndex   = range + batchSize;
+                allRanges[j].runState   = RunState::running;
+                range += batchSize;
+
+                if (range > allPixelsCount)
+                {
+                    range = allPixelsCount;
+                }
+                // std::cout << "new data for process " << j << std::endl;
+                _displayProgressBar(static_cast<double>(range) / static_cast<double>(allPixelsCount));
+            }
+
+            ++j;
+
+            if (j >= processorCount)
+            {
+                j = 0;
+            }
+        }
+
+        for (unsigned int i = 0; i < processorCount; ++i)
+        {
+            allRanges[i].runState = RunState::sleeping;
+        }
+
+        for (auto& t : allThreads)
+        {
+            if (t.joinable())
+            {
+                t.join();
+            }
+        }
+
+        delete[] allRanges;
+    }
 
 }  // namespace LCNS

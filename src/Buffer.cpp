@@ -89,17 +89,45 @@ void Buffer::pixel(unsigned int i, unsigned int j, const Color& color)
     Color pixelColor{ color };
 
     // Clamp colours in range [0, 1]
-    for (unsigned int k = 0; k < 3; ++k)
+    if (pixelColor.red() < 0.0)
     {
-        if (pixelColor[k] < 0.0)
-        {
-            pixelColor[k] = 0.0;
-        }
-        else if (1.0 < pixelColor[k])
-        {
-            pixelColor[k] = 1.0;
-        }
+        pixelColor.red(0.0);
     }
+    else if (1.0 < pixelColor.red())
+    {
+        pixelColor.red(1.0);
+    }
+
+    if (pixelColor.green() < 0.0)
+    {
+        pixelColor.green(0.0);
+    }
+    else if (1.0 < pixelColor.green())
+    {
+        pixelColor.green(1.0);
+    }
+
+    if (pixelColor.blue() < 0.0)
+    {
+        pixelColor.blue(0.0);
+    }
+    else if (1.0 < pixelColor.blue())
+    {
+        pixelColor.blue(1.0);
+    }
+
+
+    //     for (unsigned int k = 0; k < 3; ++k)
+    //     {
+    //         if (pixelColor[k] < 0.0)
+    //         {
+    //             pixelColor[k] = 0.0;
+    //         }
+    //         else if (1.0 < pixelColor[k])
+    //         {
+    //             pixelColor[k] = 1.0;
+    //         }
+    //     }
 
     const unsigned int index = 3 * (_width * j + i);
 

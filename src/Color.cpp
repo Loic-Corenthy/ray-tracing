@@ -29,9 +29,12 @@ Color::Color(int red, int green, int blue)
 
 Color::Color(const Color& color)
 {
-    _components[0] = color._components[0];
-    _components[1] = color._components[1];
-    _components[2] = color._components[2];
+    //     _components[0] = color._components[0];
+    //     _components[1] = color._components[1];
+    //     _components[2] = color._components[2];
+
+    for (unsigned int i = 0; i < 3; ++i)
+        _components[i].exchange(color._components[i]);
 }
 
 Color Color::operator=(const Color& color)
@@ -39,25 +42,30 @@ Color Color::operator=(const Color& color)
     if (this == &color)
         return *this;
 
-    _components[0] = color._components[0];
-    _components[1] = color._components[1];
-    _components[2] = color._components[2];
+    //     _components[0] = color._components[0];
+    //     _components[1] = color._components[1];
+    //     _components[2] = color._components[2];
+    for (unsigned int i = 0; i < 3; ++i)
+        _components[i].exchange(color._components[i]);
 
     return *this;
 }
 
-constexpr void Color::_componentsIn0to1Range(int red, int green, int blue)
+void Color::_componentsIn0to1Range(int red, int green, int blue)
 {
-    _components[0] = static_cast<double>(red) / 255.0;
-    _components[1] = static_cast<double>(green) / 255.0;
-    _components[2] = static_cast<double>(blue) / 255.0;
+    //     _components[0] = static_cast<double>(red) / 255.0;
+    //     _components[1] = static_cast<double>(green) / 255.0;
+    //     _components[2] = static_cast<double>(blue) / 255.0;
+    _components[0].exchange(static_cast<double>(red) / 255.0);
+    _components[1].exchange(static_cast<double>(green) / 255.0);
+    _components[2].exchange(static_cast<double>(blue) / 255.0);
 }
 
-double& Color::operator[](unsigned int index)
-{
-    assert(index <= 2 && "error index out of bounds");
-    return _components[index];
-}
+// double& Color::operator[](unsigned int index)
+// {
+//     assert(index <= 2 && "error index out of bounds");
+//     return _components[index];
+// }
 
 double Color::operator[](unsigned int index) const
 {
@@ -72,9 +80,11 @@ Color Color::operator+(const Color& color) const
 
 Color Color::operator+=(const Color& color)
 {
-    _components[0] += color._components[0];
-    _components[1] += color._components[1];
-    _components[2] += color._components[2];
+    //     _components[0] += color._components[0];
+    //     _components[1] += color._components[1];
+    //     _components[2] += color._components[2];
+    for (unsigned int i = 0; i < 3; ++i)
+        _components[i].exchange(_components[i].load() + color._components[i]);
 
     return *this;
 }
@@ -86,9 +96,12 @@ Color Color::operator*(const Color& color) const
 
 Color Color::operator*=(const LCNS::Color& color)
 {
-    _components[0] *= color._components[0];
-    _components[1] *= color._components[1];
-    _components[2] *= color._components[2];
+    //     _components[0] *= color._components[0];
+    //     _components[1] *= color._components[1];
+    //     _components[2] *= color._components[2];
+
+    for (unsigned int i = 0; i < 3; ++i)
+        _components[i].exchange(_components[i].load() * color._components[i]);
 
     return *this;
 }
@@ -100,9 +113,11 @@ Color Color::operator*(double scale) const
 
 void Color::operator*=(double scale)
 {
-    _components[0] *= scale;
-    _components[1] *= scale;
-    _components[2] *= scale;
+    //     _components[0] *= scale;
+    //     _components[1] *= scale;
+    //     _components[2] *= scale;
+    for (unsigned int i = 0; i < 3; ++i)
+        _components[i].exchange(_components[i].load() * scale);
 }
 
 bool Color::operator==(const Color& color) const
@@ -129,32 +144,32 @@ void Color::set(int red, int green, int blue) noexcept
 
 void Color::red(double value) noexcept
 {
-    _components[0] = value;
+    _components[0].exchange(value);
 }
 
 void Color::green(double value) noexcept
 {
-    _components[1] = value;
+    _components[1].exchange(value);
 }
 
 void Color::blue(double value) noexcept
 {
-    _components[2] = value;
+    _components[2].exchange(value);
 }
 
 void Color::red(int value) noexcept
 {
-    _components[0] = static_cast<double>(value) / 255.0;
+    _components[0].exchange(static_cast<double>(value) / 255.0);
 }
 
 void Color::green(int value) noexcept
 {
-    _components[1] = static_cast<double>(value) / 255.0;
+    _components[1].exchange(static_cast<double>(value) / 255.0);
 }
 
 void Color::blue(int value) noexcept
 {
-    _components[2] = static_cast<double>(value) / 255.0;
+    _components[2].exchange(static_cast<double>(value) / 255.0);
 }
 
 double Color::red(void) noexcept

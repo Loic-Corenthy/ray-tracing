@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cassert>
+#include <atomic>
 
 namespace LCNS
 {
@@ -39,7 +40,7 @@ namespace LCNS
         ~Color(void) = default;
 
         /// Component operator (read, write)
-        double& operator[](unsigned int index);
+        // double& operator[](unsigned int index);
 
         /// Component operator (read only)
         double operator[](unsigned int index) const;
@@ -103,10 +104,10 @@ namespace LCNS
 
     private:
         /// Utility method to set the components using parameters in the range [0, 255] as values in the range [0, 1]
-        constexpr void _componentsIn0to1Range(int red, int green, int blue);
+        void _componentsIn0to1Range(int red, int green, int blue);
 
     private:
-        double _components[3] = { 0.0, 0.0, 0.0 };
+        std::atomic<double> _components[3] = { 0.0, 0.0, 0.0 };
 
     };  // Class Color
 

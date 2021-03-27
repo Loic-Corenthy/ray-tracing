@@ -145,7 +145,7 @@ bool Triangle::intersect(Ray& ray)
 
 Color Triangle::color(const Ray& ray, unsigned int reflectionCount)
 {
-    const scoped_lock lock(_m);
+    // const scoped_lock lock(_m);
 
     // Calculate normal from vertex normals
     Vector normalAtPt = _barycentricNormal(ray.intersection());

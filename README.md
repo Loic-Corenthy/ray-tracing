@@ -37,7 +37,7 @@ cmake -G "Xcode" -DCMAKE_BUILD_TYPE=Release ..
 When building the project from Xcode, select "Release" as build configuration to match the above mentioned build type. This is necessary to have the resource directory copied in the correct folder to the executable to have access to it.
 
 ## Windows
-To build the code on Windows for Visual Studio, simply use
+To build the code on Windows for Visual Studio (2019 in this case), simply use
 ```
 mkdir build
 cd build
@@ -45,6 +45,24 @@ cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release ..
 ```
 
 When building the project from Visual Studio, select "Release" as build configuration to match the above mentioned build type. This is necessary to have the resource directory copied in the correct folder to the executable to have access to it.
+
+# Executable
+The executable is expecting some parameters to be able to run. The only **mandatory** parameter is the scene number, between 0 and 15.\
+For example: ```./RayTracing --scene 3```
+
+The other **optional** parameters are:
+- *Supersampling*\
+For example: ```./RayTracing --scene 5 --supersampling```
+
+- *Multi-threading*\
+For example: ```./RayTracing --scene 5 --multithreading```
+
+- *Window dimensions*\
+For example: .```/RayTracing --scene 5 --width 800 --height 600```
+
+- *Window initial position*\
+For example: ```./RayTracing --scene 5 --xpos 200 --ypos 100```
+
 
 # Scenes and speed comparision
 This code is **not** intented to production ready. There are 15 test scenes defined in CreateScenes.cpp to illustrate what the engine can do. Ideally, it should be possible to load a scene from a file, I might add this functionality one day if I have time :)

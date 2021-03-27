@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <memory>
+#include <atomic>
 
 #include "Buffer.hpp"
 #include "Camera.hpp"
@@ -58,6 +59,22 @@ namespace LCNS
         static void displayRenderTime(bool activate);
 
     private:
+        /// Private member used in ThreadData to illustrate the current state of a thread
+        enum class RunState
+        {
+            sleeping = 0,
+            running  = 1,
+            done     = 2
+        };
+
+        struct ThreadData
+        {
+            std::atomic<unsigned int> startIndex = 0;
+            std::atomic<unsigned int> endIndex   = 0;
+            std::atomic<RunState>     runState   = RunState::sleeping;
+        };
+
+    private:
         /// Default constructor
         Renderer(void);
 
@@ -74,7 +91,7 @@ namespace LCNS
         void _render(void);
 
         // Internal method to facilitate multi threading rendering
-        void _renderInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);
+        void _renderInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
 
         // Internal method to facilitate multi threading rendering
         void _renderMultiSamplingInternal(unsigned int bufferI, unsigned int bufferJ, const Color& meanLight);

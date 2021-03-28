@@ -71,10 +71,19 @@ void Renderer::setSuperSampling(bool activate)
     _instance()._setSuperSampling(activate);
 }
 
-Renderer& Renderer::_instance(void)
+bool Renderer::isMultiThreadingActive(void)
 {
-    static Renderer instance;
-    return instance;
+    return _instance()._isMultiThreadingActive();
+}
+
+void Renderer::setMultiThreading(bool activate)
+{
+    _instance()._setMultiThreading(activate);
+}
+
+void Renderer::displayRenderTime(bool activate)
+{
+    _instance()._displayRenderTime(activate);
 }
 
 Renderer::Renderer(void)
@@ -88,7 +97,116 @@ Renderer::Renderer(Scene* scene, unsigned int width, unsigned int height)
 {
 }
 
-void Renderer::_renderInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight)
+Renderer& Renderer::_instance(void)
+{
+    static Renderer instance;
+    return instance;
+}
+
+void Renderer::_render(void)
+{
+    // Start stop watch to measure render duration
+    const auto renderStarts = steady_clock::now();
+
+    // Get the number of processors on the hardware in case multithreading rendering is required
+    const auto processorCount = thread::hardware_concurrency();
+
+    if (auto& camera = _scene->cameraList().front(); camera->aperture() == Camera::Aperture::F_SMALL
+                                                     || camera->aperture() == Camera::Aperture::F_MEDIUM
+                                                     || camera->aperture() == Camera::Aperture::F_BIG)
+    {
+        Color meanLight = _scene->meanAmbiantLight();
+
+        const auto allPixelsCount = _buffer.width() * _buffer.height();
+        const auto reductionCoeff = 10.0;
+
+        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
+        // at least 100 pixels
+        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
+        {
+            cout << "Multi threading on. Processor count: " << processorCount << endl;
+
+            _threadHandler(&Renderer::_renderWithApertureInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
+        }
+        else  // no multithreading
+        {
+            cout << "Single thread rendering" << endl;
+
+            auto* threadData       = new ThreadData;
+            threadData->startIndex = 0;
+            threadData->endIndex   = allPixelsCount;
+            threadData->runState   = RunState::running;
+
+            _renderWithApertureInternal(threadData, 0, meanLight);
+        }
+    }
+    else if (_superSampling)
+    {
+        Color meanLight = _scene->meanAmbiantLight();
+
+        const auto allPixelsCount = _buffer.width() * _buffer.height();
+        const auto reductionCoeff = 10.0;
+
+        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
+        // at least 100 pixels
+        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
+        {
+            cout << "Multi threading on. Processor count: " << processorCount << endl;
+
+            _threadHandler(&Renderer::_renderMultiSamplingInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
+        }
+        else  // no multithreading
+        {
+            cout << "Single thread rendering" << endl;
+
+            auto* threadData       = new ThreadData;
+            threadData->startIndex = 0;
+            threadData->endIndex   = allPixelsCount;
+            threadData->runState   = RunState::running;
+
+            _renderMultiSamplingInternal(threadData, 0, meanLight);
+        }
+    }
+    else
+    {
+        Color meanLight = _scene->meanAmbiantLight();
+
+        const auto allPixelsCount = _buffer.width() * _buffer.height();
+        const auto reductionCoeff = 10.0;
+
+        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
+        // at least 100 pixels
+        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
+        {
+            cout << "Multi threading on. Processor count: " << processorCount << endl;
+
+            _threadHandler(&Renderer::_renderNoApertureInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
+        }
+        else  // no multithreading
+        {
+            cout << "Single thread rendering" << endl;
+
+            auto* threadData       = new ThreadData;
+            threadData->startIndex = 0;
+            threadData->endIndex   = allPixelsCount;
+            threadData->runState   = RunState::running;
+
+            _renderNoApertureInternal(threadData, 0, meanLight);
+        }
+    }
+
+    // Display a message when the render is finished
+    cout << "\nDone =)\n";
+
+    if (_shouldDisplayRenderTime)
+    {
+        const auto             renderFinished = steady_clock::now();
+        const duration<double> renderDuration = renderFinished - renderStarts;
+        cout << "Render time " << renderDuration.count() << " seconds\n";
+    }
+}
+
+void Renderer::_renderWithApertureInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight)
 {
     while ((*(allIndices + index)).runState != RunState::sleeping)
     {
@@ -327,109 +445,6 @@ void Renderer::_renderMultiSamplingInternal(ThreadData* allIndices, unsigned int
 }
 
 
-void Renderer::_render(void)
-{
-    // Start stop watch to measure render duration
-    const auto renderStarts = steady_clock::now();
-
-    // Get the number of processors on the hardware in case multithreading rendering is required
-    const auto processorCount = thread::hardware_concurrency();
-
-    if (auto& camera = _scene->cameraList().front(); camera->aperture() == Camera::Aperture::F_SMALL
-                                                     || camera->aperture() == Camera::Aperture::F_MEDIUM
-                                                     || camera->aperture() == Camera::Aperture::F_BIG)
-    {
-        Color meanLight = _scene->meanAmbiantLight();
-
-        const auto allPixelsCount = _buffer.width() * _buffer.height();
-        const auto reductionCoeff = 10.0;
-
-        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
-        // at least 100 pixels
-        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
-        {
-            cout << "Multi threading on. Processor count: " << processorCount << endl;
-
-            _threadHandler(&Renderer::_renderInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
-        }
-        else  // no multithreading
-        {
-            cout << "Single thread rendering" << endl;
-
-            auto* threadData       = new ThreadData;
-            threadData->startIndex = 0;
-            threadData->endIndex   = allPixelsCount;
-            threadData->runState   = RunState::running;
-
-            _renderInternal(threadData, 0, meanLight);
-        }
-    }
-    else if (_superSampling)
-    {
-        Color meanLight = _scene->meanAmbiantLight();
-
-        const auto allPixelsCount = _buffer.width() * _buffer.height();
-        const auto reductionCoeff = 10.0;
-
-        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
-        // at least 100 pixels
-        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
-        {
-            cout << "Multi threading on. Processor count: " << processorCount << endl;
-
-            _threadHandler(&Renderer::_renderMultiSamplingInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
-        }
-        else  // no multithreading
-        {
-            cout << "Single thread rendering" << endl;
-
-            auto* threadData       = new ThreadData;
-            threadData->startIndex = 0;
-            threadData->endIndex   = allPixelsCount;
-            threadData->runState   = RunState::running;
-
-            _renderMultiSamplingInternal(threadData, 0, meanLight);
-        }
-    }
-    else
-    {
-        Color meanLight = _scene->meanAmbiantLight();
-
-        const auto allPixelsCount = _buffer.width() * _buffer.height();
-        const auto reductionCoeff = 10.0;
-
-        // Multithreading only if it is required, there are more than 1 processor and there are enough pixels in the image for each thread to process
-        // at least 100 pixels
-        if (_multiThreaded && processorCount > 1 && allPixelsCount > processorCount * reductionCoeff * 100)
-        {
-            cout << "Multi threading on. Processor count: " << processorCount << endl;
-
-            _threadHandler(&Renderer::_renderNoApertureInternal, allPixelsCount, processorCount, reductionCoeff, meanLight);
-        }
-        else  // no multithreading
-        {
-            cout << "Single thread rendering" << endl;
-
-            auto* threadData       = new ThreadData;
-            threadData->startIndex = 0;
-            threadData->endIndex   = allPixelsCount;
-            threadData->runState   = RunState::running;
-
-            _renderNoApertureInternal(threadData, 0, meanLight);
-        }
-    }
-
-    // Display a message when the render is finished
-    cout << "\nDone =)\n";
-
-    if (_shouldDisplayRenderTime)
-    {
-        const auto             renderFinished = steady_clock::now();
-        const duration<double> renderDuration = renderFinished - renderStarts;
-        cout << "Render time " << renderDuration.count() << " seconds\n";
-    }
-}
-
 void Renderer::_renderNoApertureInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight)
 {
     while ((*(allIndices + index)).runState != RunState::sleeping)
@@ -546,24 +561,9 @@ void Renderer::_setSuperSampling(bool activate)
     _superSampling = activate;
 }
 
-bool Renderer::isMultiThreadingActive(void)
-{
-    return _instance()._isMultiThreadingActive();
-}
-
 bool Renderer::_isMultiThreadingActive(void) const
 {
     return _multiThreaded;
-}
-
-void Renderer::setMultiThreading(bool activate)
-{
-    _instance()._setMultiThreading(activate);
-}
-
-void Renderer::displayRenderTime(bool activate)
-{
-    _instance()._displayRenderTime(activate);
 }
 
 void Renderer::_setMultiThreading(bool activate)

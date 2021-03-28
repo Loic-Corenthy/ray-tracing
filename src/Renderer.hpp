@@ -92,7 +92,7 @@ namespace LCNS
         void _render(void);
 
         // Internal method to facilitate multi threading rendering
-        void _renderInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
+        void _renderWithApertureInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);
 
         // Internal method to facilitate multi threading rendering
         void _renderMultiSamplingInternal(ThreadData* allIndices, unsigned int index, const Color& meanLight);

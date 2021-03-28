@@ -2,7 +2,7 @@
 /*!
  *  \file      BoundingBox.hpp
  *  \author    Loïc Corenthy
- *  \version   1.1
+ *  \version   1.2
  *  \date      06/09/2012
  *  \copyright (c) 2012 Loïc Corenthy. All rights reserved.
  */

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cassert>
+#include <atomic>
 
 namespace LCNS
 {
@@ -37,9 +38,6 @@ namespace LCNS
 
         /// Destructor
         ~Color(void) = default;
-
-        /// Component operator (read, write)
-        double& operator[](unsigned int index);
 
         /// Component operator (read only)
         double operator[](unsigned int index) const;
@@ -101,12 +99,15 @@ namespace LCNS
         /// Get blue component (read only)
         double blue(void) noexcept;
 
-    private:
-        /// Utility method to set the components using parameters in the range [0, 255] as values in the range [0, 1]
-        constexpr void _componentsIn0to1Range(int red, int green, int blue);
+        /// Ensure all components are in the range [0, 1], clamping values smaller than 0 or higher than 1
+        void clampBetweenZeroAndOne(void) noexcept;
 
     private:
-        double _components[3] = { 0.0, 0.0, 0.0 };
+        /// Utility method to set the components using parameters in the range [0, 255] as values in the range [0, 1]
+        void _componentsIn0to1Range(int red, int green, int blue);
+
+    private:
+        std::atomic<double> _components[3] = { 0.0, 0.0, 0.0 };
 
     };  // Class Color
 

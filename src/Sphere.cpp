@@ -80,8 +80,6 @@ bool Sphere::intersect(Ray& ray)
 
 Color Sphere::color(const Ray& ray, unsigned int reflectionCount)
 {
-    // const scoped_lock lock(_m);
-
     // Calculate normal from vertex normals
     Vector normalAtPt = (ray.intersection() - _center);
     normalAtPt.normalize();

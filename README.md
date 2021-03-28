@@ -65,6 +65,6 @@ For example: ```./RayTracing --scene 5 --xpos 200 --ypos 100```
 
 
 # Scenes and speed comparision
-This code is **not** intented to production ready. There are 15 test scenes defined in CreateScenes.cpp to illustrate what the engine can do. Ideally, it should be possible to load a scene from a file, I might add this functionality one day if I have time :)
+This code is **not** intented to be production ready. There are 15 test scenes defined in CreateScenes.cpp to illustrate what the engine can do. Ideally, it should be possible to load a scene from a file, I might add this functionality one day if I have time :)
 
 I took advantage of uploading this code to github and "modernizing it" to also have a play with multithreading. Please see the wiki pages for more details. 

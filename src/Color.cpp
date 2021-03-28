@@ -186,3 +186,18 @@ double Color::blue(void) noexcept
 {
     return _components[2];
 }
+
+void Color::clampBetweenZeroAndOne(void) noexcept
+{
+    for (unsigned int i = 0; i < 3; ++i)
+    {
+        if (_components[i] < 0.0)
+        {
+            _components[i].exchange(0.0);
+        }
+        else if (1.0 < _components[i])
+        {
+            _components[i].exchange(1.0);
+        }
+    }
+}

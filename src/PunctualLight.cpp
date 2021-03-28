@@ -70,7 +70,7 @@ Vector PunctualLight::directionFrom(const LCNS::Point& point) const
 Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, Renderable* currentObject) const
 {
     // Direction between point on object and current light
-    const auto direction = Vector(_position - point);
+    const auto direction = _position - point;
 
     // Create the corresponding ray
     Ray myRay(point, direction);
@@ -83,7 +83,7 @@ Color PunctualLight::intensityAt(const LCNS::Point& point, const Scene& scene, R
     // If an object is found, or if the light is inside the object, this light does not contribute on that point. Otherwise, calculate the amount of
     // light arriving at the point
     if (hasIntersection || (direction * currentObject->normal(point) <= 0.0))
-        return Color(0.0f);
+        return Color{ 0.0 };
     else
-        return _intensity * (1.0f / (1.0f + direction.length()));
+        return _intensity * (1.0 / (1.0 + direction.length()));
 }

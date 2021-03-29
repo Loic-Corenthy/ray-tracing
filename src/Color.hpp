@@ -91,13 +91,13 @@ namespace LCNS
         void blue(int value) noexcept;
 
         /// Get red component (read only)
-        double red(void) noexcept;
+        double red(void) const noexcept;
 
         /// Get green component (read only)
-        double green(void) noexcept;
+        double green(void) const noexcept;
 
         /// Get blue component (read only)
-        double blue(void) noexcept;
+        double blue(void) const noexcept;
 
         /// Ensure all components are in the range [0, 1], clamping values smaller than 0 or higher than 1
         void clampBetweenZeroAndOne(void) noexcept;
